@@ -1,0 +1,2315 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GameLex — Built for Games. Trained by Humans.</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Tajawal:wght@300;400;500;700;900&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#05060f;
+  --bg2:#080a18;
+  --surface:#0b0e20;
+  --surface2:#10142c;
+  --surface3:#161b3a;
+  --purple:#8b5cf6;
+  --purple2:#7c4dff;
+  --cyan:#22d3ee;
+  --cyan2:#00e5ff;
+  --pink:#f472b6;
+  --gold:#fbbf24;
+  --red:#f87171;
+  --green:#34d399;
+  --text:#e8eaf6;
+  --dim:#8a93b8;
+  --border:rgba(139,92,246,0.18);
+  --border2:rgba(255,255,255,0.07);
+  --grad:linear-gradient(135deg,var(--purple) 0%,var(--cyan) 100%);
+  --glow-p:0 0 40px rgba(139,92,246,0.25);
+  --glow-c:0 0 40px rgba(34,211,238,0.2);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  background:var(--bg);color:var(--text);
+  font-family:'Tajawal',sans-serif;
+  min-height:100vh;overflow-x:hidden;
+}
+[lang="en"] body, .ltr{font-family:'Space Grotesk','Tajawal',sans-serif}
+::selection{background:rgba(139,92,246,0.4)}
+::-webkit-scrollbar{width:8px;height:8px}
+::-webkit-scrollbar-track{background:var(--bg)}
+::-webkit-scrollbar-thumb{background:var(--surface3);border-radius:4px}
+
+/* ═══ STARFIELD ═══ */
+#stars{position:fixed;inset:0;z-index:0;pointer-events:none}
+.float-icons{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden}
+.f-icon{position:absolute;opacity:0.06;font-size:2.4rem;animation:floaty 18s ease-in-out infinite}
+@keyframes floaty{
+  0%,100%{transform:translateY(0) rotate(-6deg)}
+  50%{transform:translateY(-34px) rotate(8deg)}
+}
+@media (prefers-reduced-motion: reduce){
+  *{animation-duration:0.01ms!important;transition-duration:0.01ms!important}
+}
+
+/* ═══ LAYOUT ═══ */
+.view{display:none;position:relative;z-index:1}
+.view.active{display:block}
+.wrap{max-width:1200px;margin:0 auto;padding:0 24px}
+
+/* ═══ NAV ═══ */
+nav{
+  position:sticky;top:0;z-index:90;
+  background:rgba(5,6,15,0.75);backdrop-filter:blur(24px);
+  border-bottom:1px solid var(--border2);
+}
+.nav-inner{max-width:1200px;margin:0 auto;padding:14px 24px;display:flex;align-items:center;justify-content:space-between;gap:14px}
+.logo{display:flex;align-items:center;gap:10px;cursor:pointer}
+.logo-mark{
+  width:34px;height:34px;border-radius:10px;background:var(--grad);
+  display:flex;align-items:center;justify-content:center;font-size:1.05rem;
+  box-shadow:var(--glow-p);
+}
+.logo-name{font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:1.25rem;letter-spacing:-0.5px}
+.logo-name b{background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+.nav-links{display:flex;gap:22px;align-items:center}
+.nav-links a{color:var(--dim);text-decoration:none;font-size:0.88rem;transition:color 0.2s}
+.nav-links a:hover{color:var(--text)}
+.nav-cta{display:flex;gap:10px;align-items:center}
+.btn{
+  border:none;cursor:pointer;font-family:inherit;border-radius:11px;
+  font-weight:700;transition:all 0.22s;text-decoration:none;
+  display:inline-flex;align-items:center;justify-content:center;gap:8px;
+}
+.btn-grad{background:var(--grad);color:#fff;padding:10px 22px;font-size:0.9rem}
+.btn-grad:hover{transform:translateY(-2px);box-shadow:0 10px 32px rgba(139,92,246,0.45)}
+.btn-ghost{background:rgba(255,255,255,0.04);border:1px solid var(--border2);color:var(--text);padding:10px 20px;font-size:0.88rem}
+.btn-ghost:hover{border-color:var(--purple)}
+.btn-sm{padding:7px 14px;font-size:0.8rem;border-radius:9px}
+.hamburger{display:none;background:none;border:1px solid var(--border2);color:var(--text);border-radius:9px;padding:7px 12px;font-size:1.1rem;cursor:pointer}
+
+/* lang picker */
+.lang-pick{position:relative}
+.lang-btn{background:rgba(255,255,255,0.04);border:1px solid var(--border2);color:var(--text);border-radius:10px;padding:8px 14px;font-size:0.82rem;cursor:pointer;display:flex;gap:7px;align-items:center;font-family:inherit}
+.lang-menu{
+  position:absolute;top:110%;inset-inline-end:0;background:var(--surface2);
+  border:1px solid var(--border);border-radius:13px;padding:6px;
+  display:none;flex-direction:column;min-width:160px;z-index:100;
+  box-shadow:0 20px 50px rgba(0,0,0,0.5);max-height:320px;overflow-y:auto;
+}
+.lang-menu.open{display:flex}
+.lang-opt{background:none;border:none;color:var(--text);padding:9px 13px;border-radius:8px;cursor:pointer;text-align:start;font-size:0.85rem;font-family:inherit;display:flex;gap:9px;align-items:center}
+.lang-opt:hover{background:var(--surface3)}
+.lang-opt.on{background:rgba(139,92,246,0.15);color:var(--purple)}
+
+/* ═══ HERO ═══ */
+.hero{padding:90px 24px 60px;max-width:1200px;margin:0 auto;display:grid;grid-template-columns:1.05fr 0.95fr;gap:48px;align-items:center;min-height:82vh}
+.hero-eyebrow{
+  display:inline-flex;align-items:center;gap:8px;
+  border:1px solid var(--border);border-radius:100px;
+  padding:6px 16px;font-size:0.78rem;color:var(--cyan);
+  font-family:'Space Mono',monospace;margin-bottom:26px;
+  background:rgba(34,211,238,0.05);
+}
+.hero-eyebrow .dot{width:7px;height:7px;border-radius:50%;background:var(--cyan);animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:0.3}}
+.hero h1{
+  font-family:'Space Grotesk','Tajawal',sans-serif;
+  font-size:clamp(2.4rem,5.4vw,4.2rem);
+  line-height:1.06;font-weight:700;letter-spacing:-1.5px;margin-bottom:24px;
+}
+.hero h1 .g1{background:linear-gradient(135deg,#a78bfa,#8b5cf6);-webkit-background-clip:text;background-clip:text;color:transparent}
+.hero h1 .g2{background:linear-gradient(135deg,#22d3ee,#67e8f9);-webkit-background-clip:text;background-clip:text;color:transparent}
+.hero p{color:var(--dim);font-size:1.05rem;line-height:1.85;max-width:480px;margin-bottom:34px}
+.hero-actions{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:44px}
+.btn-hero{padding:15px 30px;font-size:1rem;border-radius:13px}
+.hero-stats{display:flex;gap:34px;flex-wrap:wrap}
+.hstat .n{font-family:'Space Mono',monospace;font-size:1.7rem;font-weight:700;background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+.hstat .l{font-size:0.72rem;color:var(--dim);letter-spacing:1.4px;text-transform:uppercase;margin-top:3px;font-family:'Space Mono',monospace}
+
+/* terminal demo */
+.term{
+  background:rgba(11,14,32,0.85);border:1px solid var(--border);
+  border-radius:20px;overflow:hidden;backdrop-filter:blur(16px);
+  box-shadow:0 30px 90px rgba(0,0,0,0.55),var(--glow-p);
+}
+.term-bar{display:flex;align-items:center;gap:10px;padding:15px 20px;border-bottom:1px solid var(--border2)}
+.term-dots{display:flex;gap:6px}
+.term-dots span{width:11px;height:11px;border-radius:50%}
+.term-title{font-family:'Space Mono',monospace;font-size:0.72rem;letter-spacing:2px;color:var(--dim)}
+.term-body{padding:24px 22px}
+.term-label{font-family:'Space Mono',monospace;font-size:0.7rem;letter-spacing:1.6px;margin-bottom:9px}
+.term-box{
+  background:rgba(255,255,255,0.025);border:1px solid var(--border2);
+  border-radius:13px;padding:16px 18px;font-family:'Space Mono',monospace;
+  font-size:0.86rem;line-height:1.75;min-height:76px;
+}
+.term-arrow{
+  width:46px;height:46px;border-radius:50%;background:var(--grad);
+  display:flex;align-items:center;justify-content:center;margin:-2px auto;
+  position:relative;z-index:2;box-shadow:var(--glow-p);font-size:1.1rem;color:#fff;
+}
+.term-status{
+  margin-top:18px;display:flex;justify-content:space-between;gap:12px;
+  background:rgba(52,211,153,0.06);border:1px solid rgba(52,211,153,0.2);
+  border-radius:11px;padding:13px 16px;
+  font-family:'Space Mono',monospace;font-size:0.68rem;color:var(--green);
+  letter-spacing:0.6px;flex-wrap:wrap;
+}
+.type-caret::after{content:'▋';animation:pulse 1s infinite}
+
+/* ═══ SECTIONS ═══ */
+section{padding:84px 24px;position:relative;z-index:1}
+.sec-in{max-width:1200px;margin:0 auto}
+.sec-tag{font-family:'Space Mono',monospace;font-size:0.75rem;letter-spacing:3px;color:var(--cyan);margin-bottom:14px}
+.sec-title{font-family:'Space Grotesk','Tajawal',sans-serif;font-size:clamp(1.7rem,3.4vw,2.6rem);font-weight:700;letter-spacing:-1px;margin-bottom:14px}
+.sec-sub{color:var(--dim);font-size:1rem;max-width:560px;line-height:1.8;margin-bottom:44px}
+
+/* partners strip */
+.partners-strip{display:flex;gap:44px;align-items:center;flex-wrap:wrap;justify-content:center;padding:12px 0}
+.partner-logo{height:44px;opacity:0.55;filter:grayscale(1) brightness(1.6);transition:all 0.3s}
+.partner-logo:hover{opacity:1;filter:none}
+.partner-name{font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:1.05rem;color:var(--dim);opacity:0.7}
+
+/* features */
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.grid2{display:grid;grid-template-columns:repeat(2,1fr);gap:20px}
+.card{
+  background:rgba(11,14,32,0.7);border:1px solid var(--border2);
+  border-radius:18px;padding:30px 26px;backdrop-filter:blur(12px);
+  transition:all 0.28s;position:relative;overflow:hidden;
+}
+.card:hover{border-color:var(--border);transform:translateY(-4px);box-shadow:0 18px 46px rgba(0,0,0,0.4)}
+.card .num{font-family:'Space Mono',monospace;font-size:0.72rem;color:var(--purple);letter-spacing:2px;margin-bottom:16px}
+.card .ic{
+  width:52px;height:52px;border-radius:14px;font-size:1.5rem;
+  background:rgba(139,92,246,0.1);border:1px solid var(--border);
+  display:flex;align-items:center;justify-content:center;margin-bottom:18px;
+}
+.card h3{font-family:'Space Grotesk','Tajawal',sans-serif;font-size:1.15rem;margin-bottom:10px}
+.card p{color:var(--dim);font-size:0.88rem;line-height:1.8}
+
+/* pricing */
+.price-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;align-items:stretch}
+.price-card{
+  background:rgba(11,14,32,0.75);border:1px solid var(--border2);
+  border-radius:22px;padding:34px 28px;display:flex;flex-direction:column;
+  backdrop-filter:blur(12px);transition:all 0.28s;position:relative;
+}
+.price-card:hover{transform:translateY(-5px)}
+.price-card.feat{border:1.5px solid var(--purple);box-shadow:var(--glow-p)}
+.price-badge{
+  position:absolute;top:-13px;inset-inline-start:50%;transform:translateX(50%);
+  background:var(--grad);color:#fff;border-radius:100px;
+  padding:5px 18px;font-size:0.72rem;font-weight:700;white-space:nowrap;
+}
+[dir="ltr"] .price-badge{transform:translateX(-50%)}
+.price-plan{font-family:'Space Mono',monospace;font-size:0.72rem;letter-spacing:2.4px;color:var(--dim);margin-bottom:14px}
+.price-amt{font-family:'Space Grotesk',sans-serif;font-size:2.5rem;font-weight:700;margin-bottom:4px}
+.price-amt .cur{font-size:1.1rem;color:var(--purple);vertical-align:top}
+.price-per{color:var(--dim);font-size:0.8rem;margin-bottom:26px}
+.price-feats{list-style:none;flex:1;margin-bottom:26px}
+.price-feats li{display:flex;gap:10px;padding:9px 0;font-size:0.86rem;color:#c3c9e3;border-bottom:1px solid rgba(255,255,255,0.04)}
+.price-feats li .ck{color:var(--cyan);font-weight:700}
+
+/* workflow */
+.flow{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;counter-reset:step}
+.flow-step{position:relative;padding:26px 20px;background:rgba(11,14,32,0.7);border:1px solid var(--border2);border-radius:16px}
+.flow-step .fnum{
+  font-family:'Space Mono',monospace;width:34px;height:34px;border-radius:10px;
+  background:var(--grad);color:#fff;display:flex;align-items:center;justify-content:center;
+  font-weight:700;font-size:0.85rem;margin-bottom:14px;
+}
+.flow-step h4{font-size:0.98rem;margin-bottom:7px}
+.flow-step p{font-size:0.8rem;color:var(--dim);line-height:1.7}
+
+/* portfolio */
+.pf-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.pf-card{border-radius:18px;overflow:hidden;border:1px solid var(--border2);background:var(--surface);transition:all 0.28s;cursor:pointer}
+.pf-card:hover{transform:translateY(-4px);border-color:var(--border)}
+.pf-img{width:100%;height:190px;object-fit:cover;display:block;background:var(--surface3)}
+.pf-body{padding:18px 20px}
+.pf-cat{font-family:'Space Mono',monospace;font-size:0.68rem;color:var(--cyan);letter-spacing:1.6px;margin-bottom:7px}
+.pf-title{font-weight:700;font-size:1rem}
+
+/* team showcase */
+.tm-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:20px}
+.tm-card{text-align:center;background:rgba(11,14,32,0.7);border:1px solid var(--border2);border-radius:18px;padding:28px 18px;transition:all 0.28s}
+.tm-card:hover{border-color:var(--border);transform:translateY(-4px)}
+.tm-photo{width:92px;height:92px;border-radius:50%;object-fit:cover;margin:0 auto 14px;display:block;border:2px solid var(--purple);background:var(--surface3)}
+.tm-photo-fallback{width:92px;height:92px;border-radius:50%;margin:0 auto 14px;display:flex;align-items:center;justify-content:center;font-size:2rem;font-weight:700;background:var(--grad);color:#fff}
+.tm-name{font-weight:700;margin-bottom:4px}
+.tm-role{font-size:0.78rem;color:var(--dim)}
+
+/* about + contact */
+.about-grid{display:grid;grid-template-columns:1.1fr 0.9fr;gap:44px;align-items:start}
+.about-text{color:#c3c9e3;line-height:2;font-size:0.96rem;white-space:pre-line}
+.contact-card{background:rgba(11,14,32,0.75);border:1px solid var(--border);border-radius:20px;padding:30px}
+.c-row{display:flex;gap:13px;align-items:flex-start;padding:13px 0;border-bottom:1px solid rgba(255,255,255,0.05);font-size:0.9rem}
+.c-row .ci{width:38px;height:38px;border-radius:11px;background:rgba(139,92,246,0.1);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.c-row a{color:var(--cyan);text-decoration:none}
+
+/* footer */
+footer{border-top:1px solid var(--border2);padding:52px 24px 34px;position:relative;z-index:1;background:rgba(5,6,15,0.7)}
+.foot-in{max-width:1200px;margin:0 auto}
+.foot-grid{display:grid;grid-template-columns:1.4fr 1fr 1fr;gap:38px;margin-bottom:38px}
+.foot-col h5{font-family:'Space Mono',monospace;font-size:0.72rem;letter-spacing:2px;color:var(--dim);margin-bottom:16px}
+.foot-col a{display:block;color:#aab2d4;text-decoration:none;font-size:0.86rem;padding:5px 0;transition:color 0.2s}
+.foot-col a:hover{color:var(--cyan)}
+.socials{display:flex;gap:10px;margin-top:18px;flex-wrap:wrap}
+.soc{
+  width:40px;height:40px;border-radius:11px;
+  background:rgba(255,255,255,0.04);border:1px solid var(--border2);
+  display:flex;align-items:center;justify-content:center;
+  color:var(--text);text-decoration:none;font-size:1.05rem;transition:all 0.22s;
+}
+.soc:hover{border-color:var(--purple);transform:translateY(-3px);box-shadow:var(--glow-p)}
+.foot-bottom{display:flex;justify-content:space-between;align-items:center;gap:14px;padding-top:24px;border-top:1px solid rgba(255,255,255,0.05);font-size:0.78rem;color:var(--dim);flex-wrap:wrap}
+.foot-bottom a{color:var(--dim);text-decoration:none}
+.foot-bottom a:hover{color:var(--cyan)}
+
+/* ═══ MODALS ═══ */
+.overlay{
+  position:fixed;inset:0;background:rgba(3,4,10,0.82);backdrop-filter:blur(10px);
+  z-index:200;display:flex;align-items:center;justify-content:center;
+  opacity:0;pointer-events:none;transition:opacity 0.3s;padding:20px;
+}
+.overlay.open{opacity:1;pointer-events:all}
+.panel{
+  background:var(--surface);border:1px solid var(--border);border-radius:22px;
+  width:520px;max-width:96vw;max-height:90vh;overflow-y:auto;
+  transform:scale(0.96);transition:transform 0.3s;
+  box-shadow:0 40px 100px rgba(0,0,0,0.6);
+}
+.overlay.open .panel{transform:scale(1)}
+.panel-head{
+  padding:19px 24px;border-bottom:1px solid var(--border2);
+  display:flex;align-items:center;justify-content:space-between;
+  position:sticky;top:0;background:var(--surface);z-index:2;border-radius:22px 22px 0 0;
+}
+.panel-title{font-weight:700;font-size:1rem}
+.x-btn{background:none;border:none;color:var(--dim);font-size:1.15rem;cursor:pointer;padding:4px 9px;border-radius:8px}
+.x-btn:hover{color:var(--text);background:var(--surface3)}
+.panel-body{padding:24px}
+
+/* forms */
+.fg{margin-bottom:16px}
+.fl{display:block;font-family:'Space Mono',monospace;font-size:0.68rem;letter-spacing:1.2px;color:var(--dim);margin-bottom:7px}
+.fi{
+  width:100%;background:var(--surface2);border:1px solid var(--border2);
+  border-radius:11px;padding:12px 15px;color:var(--text);font-size:0.92rem;
+  font-family:'Tajawal',sans-serif;outline:none;transition:all 0.2s;
+}
+.fi:focus{border-color:var(--purple);box-shadow:0 0 0 3px rgba(139,92,246,0.12)}
+.fi::placeholder{color:#5a6285}
+select.fi{cursor:pointer}
+textarea.fi{resize:vertical;min-height:80px}
+.f2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.fmsg{display:none;margin-top:12px;padding:11px 15px;border-radius:10px;font-size:0.83rem}
+.fmsg.err{display:block;background:rgba(248,113,113,0.09);border:1px solid rgba(248,113,113,0.3);color:var(--red)}
+.fmsg.ok{display:block;background:rgba(52,211,153,0.09);border:1px solid rgba(52,211,153,0.3);color:var(--green)}
+.fmsg.info{display:block;background:rgba(34,211,238,0.08);border:1px solid rgba(34,211,238,0.25);color:var(--cyan)}
+
+/* auth tabs */
+.atabs{display:flex;background:var(--surface2);border-radius:12px;padding:4px;gap:4px;margin-bottom:22px}
+.atab{flex:1;padding:10px;border:none;background:transparent;color:var(--dim);border-radius:9px;cursor:pointer;font-family:inherit;font-size:0.9rem;font-weight:600;transition:all 0.2s}
+.atab.on{background:var(--surface3);color:var(--text);box-shadow:0 2px 10px rgba(0,0,0,0.3)}
+
+/* ═══ DASHBOARDS ═══ */
+.dash{display:none;min-height:100vh;position:relative;z-index:1}
+.dash.active{display:flex;flex-direction:column}
+.dash-top{
+  position:sticky;top:0;z-index:80;
+  background:rgba(5,6,15,0.85);backdrop-filter:blur(20px);
+  border-bottom:1px solid var(--border2);
+  padding:13px 22px;display:flex;align-items:center;justify-content:space-between;gap:12px;
+}
+.dash-title{font-weight:700;font-size:0.95rem;display:flex;gap:9px;align-items:center}
+.role-chip{font-family:'Space Mono',monospace;font-size:0.62rem;letter-spacing:1.4px;padding:4px 11px;border-radius:100px}
+.role-client{background:rgba(34,211,238,0.12);color:var(--cyan);border:1px solid rgba(34,211,238,0.3)}
+.role-team{background:rgba(139,92,246,0.12);color:var(--purple);border:1px solid rgba(139,92,246,0.35)}
+.role-vendor{background:rgba(251,191,36,0.1);color:var(--gold);border:1px solid rgba(251,191,36,0.3)}
+.role-admin{background:rgba(248,113,113,0.1);color:var(--red);border:1px solid rgba(248,113,113,0.3)}
+.dash-body{flex:1;display:flex;max-width:1400px;width:100%;margin:0 auto}
+.dash-side{
+  width:230px;flex-shrink:0;border-inline-end:1px solid var(--border2);
+  padding:20px 14px;display:flex;flex-direction:column;gap:4px;
+}
+.side-item{
+  display:flex;align-items:center;gap:11px;padding:11px 15px;border-radius:11px;
+  color:var(--dim);cursor:pointer;font-size:0.88rem;transition:all 0.2s;border:1px solid transparent;
+  background:none;font-family:inherit;text-align:start;width:100%;
+}
+.side-item:hover{color:var(--text);background:rgba(255,255,255,0.03)}
+.side-item.on{background:rgba(139,92,246,0.1);color:var(--text);border-color:var(--border)}
+.side-lbl{font-family:'Space Mono',monospace;font-size:0.62rem;letter-spacing:2px;color:#4a5378;padding:14px 15px 5px}
+.dash-main{flex:1;padding:26px 26px 60px;min-width:0}
+.dpage{display:none}
+.dpage.active{display:block}
+
+/* stat cards */
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:15px;margin-bottom:26px}
+.stat{
+  background:rgba(11,14,32,0.75);border:1px solid var(--border2);
+  border-radius:15px;padding:19px 20px;position:relative;overflow:hidden;
+}
+.stat::after{content:'';position:absolute;top:0;inset-inline-start:0;width:3px;height:100%;background:var(--grad)}
+.stat .sl{font-family:'Space Mono',monospace;font-size:0.62rem;letter-spacing:1.6px;color:var(--dim);margin-bottom:9px}
+.stat .sv{font-family:'Space Mono',monospace;font-size:1.65rem;font-weight:700}
+.stat .ss{font-size:0.72rem;color:var(--dim);margin-top:4px}
+
+/* data cards / rows */
+.dcard{background:rgba(11,14,32,0.75);border:1px solid var(--border2);border-radius:17px;margin-bottom:20px;overflow:hidden}
+.dcard-head{padding:16px 20px;border-bottom:1px solid var(--border2);display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap}
+.dcard-title{font-weight:700;font-size:0.92rem}
+.dcard-body{padding:18px 20px}
+.row-item{
+  display:flex;align-items:center;justify-content:space-between;gap:12px;
+  background:var(--surface2);border:1px solid var(--border2);
+  border-radius:13px;padding:15px 17px;margin-bottom:11px;transition:all 0.2s;
+}
+.row-item:hover{border-color:var(--border)}
+.badge{display:inline-flex;align-items:center;gap:5px;padding:4px 11px;border-radius:7px;font-size:0.68rem;font-family:'Space Mono',monospace;font-weight:700;white-space:nowrap}
+.b-purple{background:rgba(139,92,246,0.13);color:#b79cff}
+.b-cyan{background:rgba(34,211,238,0.12);color:var(--cyan)}
+.b-gold{background:rgba(251,191,36,0.12);color:var(--gold)}
+.b-green{background:rgba(52,211,153,0.12);color:var(--green)}
+.b-red{background:rgba(248,113,113,0.12);color:var(--red)}
+.b-dim{background:rgba(255,255,255,0.06);color:var(--dim)}
+.mini-btn{
+  background:var(--surface3);border:1px solid var(--border2);color:#c3c9e3;
+  padding:7px 13px;border-radius:9px;font-size:0.76rem;cursor:pointer;
+  font-family:'Tajawal',sans-serif;transition:all 0.2s;white-space:nowrap;
+}
+.mini-btn:hover{border-color:var(--purple);color:var(--text)}
+.mini-btn.mm{background:var(--grad);color:#fff;border:none;font-weight:700}
+.mini-btn.dg:hover{border-color:var(--red);color:var(--red)}
+.prog{height:5px;background:rgba(255,255,255,0.07);border-radius:3px;overflow:hidden;margin:10px 0}
+.prog i{display:block;height:100%;background:var(--grad);border-radius:3px;transition:width 0.7s}
+.empty{text-align:center;padding:46px 18px;color:var(--dim)}
+.empty .ei{font-size:2.4rem;margin-bottom:12px;opacity:0.5}
+
+/* toast */
+.toast{
+  position:fixed;bottom:26px;left:50%;transform:translateX(-50%) translateY(80px);
+  background:var(--surface3);border:1px solid var(--purple);color:#d9ccff;
+  padding:12px 26px;border-radius:12px;font-size:0.85rem;z-index:999;
+  transition:transform 0.32s;box-shadow:var(--glow-p);white-space:nowrap;max-width:92vw;
+  overflow:hidden;text-overflow:ellipsis;
+}
+.toast.show{transform:translateX(-50%) translateY(0)}
+
+/* toggles */
+.tgl{position:relative;width:44px;height:24px;flex-shrink:0;cursor:pointer}
+.tgl input{opacity:0;width:0;height:0}
+.tgl .tr{position:absolute;inset:0;background:var(--surface3);border:1px solid var(--border2);border-radius:100px;transition:all 0.25s}
+.tgl .tr::after{content:'';position:absolute;top:2px;inset-inline-start:3px;width:17px;height:17px;border-radius:50%;background:#6b7399;transition:all 0.25s}
+.tgl input:checked + .tr{background:rgba(139,92,246,0.3);border-color:var(--purple)}
+.tgl input:checked + .tr::after{transform:translateX(-19px);background:var(--purple)}
+[dir="ltr"] .tgl input:checked + .tr::after{transform:translateX(19px)}
+
+/* kanban-ish status select */
+.st-sel{
+  background:var(--surface3);border:1px solid var(--border2);color:var(--text);
+  border-radius:9px;padding:7px 11px;font-size:0.76rem;font-family:'Space Mono',monospace;
+  cursor:pointer;outline:none;
+}
+
+/* upload zone */
+.up-zone{
+  border:2px dashed rgba(139,92,246,0.35);border-radius:15px;
+  padding:34px 18px;text-align:center;position:relative;overflow:hidden;
+  background:rgba(139,92,246,0.03);margin-bottom:14px;transition:all 0.25s;
+}
+.up-zone input{opacity:0;position:absolute;inset:0;width:100%;height:100%;cursor:pointer;z-index:2}
+.up-zone:hover{border-color:var(--purple)}
+
+/* ═══ RESPONSIVE ═══ */
+@media(max-width:1024px){
+  .hero{grid-template-columns:1fr;min-height:auto;padding-top:60px}
+  .grid3{grid-template-columns:repeat(2,1fr)}
+  .price-grid{grid-template-columns:1fr;max-width:460px;margin:0 auto}
+  .flow{grid-template-columns:repeat(2,1fr)}
+  .pf-grid{grid-template-columns:repeat(2,1fr)}
+  .tm-grid{grid-template-columns:repeat(2,1fr)}
+  .about-grid{grid-template-columns:1fr}
+  .stats{grid-template-columns:repeat(2,1fr)}
+  .foot-grid{grid-template-columns:1fr 1fr}
+}
+@media(max-width:760px){
+  .nav-links{display:none}
+  .hamburger{display:block}
+  .nav-links.mob-open{
+    display:flex;position:fixed;top:62px;inset-inline:0;
+    background:rgba(5,6,15,0.97);backdrop-filter:blur(24px);
+    flex-direction:column;padding:22px;gap:6px;z-index:95;
+    border-bottom:1px solid var(--border);
+  }
+  .nav-links.mob-open a{padding:13px;border-radius:11px;font-size:1rem}
+  .nav-links.mob-open a:hover{background:var(--surface2)}
+  .grid3,.grid2,.pf-grid{grid-template-columns:1fr}
+  .flow{grid-template-columns:1fr}
+  .tm-grid{grid-template-columns:1fr 1fr}
+  section{padding:56px 18px}
+  .hero{padding:44px 18px 40px;gap:34px}
+  .hero-actions .btn-hero{width:100%}
+  .dash-side{
+    position:fixed;inset-block:0;inset-inline-end:0;z-index:120;width:250px;
+    background:var(--surface);transform:translateX(-105%);transition:transform 0.3s;
+    border-inline-start:1px solid var(--border);
+  }
+  [dir="rtl"] .dash-side{transform:translateX(105%)}
+  .dash-side.open{transform:translateX(0)!important}
+  .dash-main{padding:18px 14px 50px}
+  .stats{grid-template-columns:1fr 1fr;gap:11px}
+  .stat .sv{font-size:1.3rem}
+  .f2{grid-template-columns:1fr}
+  .foot-grid{grid-template-columns:1fr}
+  .row-item{flex-direction:column;align-items:stretch;gap:10px}
+  .row-actions{display:flex;gap:7px;flex-wrap:wrap}
+}
+.side-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.6);z-index:115}
+.side-overlay.open{display:block}
+</style>
+</head>
+<body>
+
+<canvas id="stars"></canvas>
+<div class="float-icons" id="floatIcons"></div>
+
+<!-- ═══════════ LANDING VIEW ═══════════ -->
+<div class="view active" id="view-landing">
+
+<nav>
+  <div class="nav-inner">
+    <div class="logo" onclick="scrollTo({top:0,behavior:'smooth'})">
+      <div class="logo-mark">🎮</div>
+      <div class="logo-name">Game<b>Lex</b></div>
+    </div>
+    <div class="nav-links" id="navLinks">
+      <a href="#tech" data-i18n="nav_engine">التقنية</a>
+      <a href="#packages" data-i18n="nav_packages">الباقات</a>
+      <a href="#workflow" data-i18n="nav_workflow">آلية العمل</a>
+      <a href="#portfolio" id="nav-portfolio" style="display:none" data-i18n="nav_portfolio">أعمالنا</a>
+      <a href="#about" data-i18n="nav_about">من نحن</a>
+      <a href="#contact" data-i18n="nav_contact">تواصل</a>
+    </div>
+    <div class="nav-cta">
+      <div class="lang-pick">
+        <button class="lang-btn" onclick="toggleLangMenu(event)"><span id="langFlag">🇸🇦</span> <span id="langName">العربية</span> ▾</button>
+        <div class="lang-menu" id="langMenu"></div>
+      </div>
+      <button class="btn btn-grad btn-sm" onclick="openAuth()" data-i18n="nav_login">🔐 دخول</button>
+      <button class="hamburger" onclick="document.getElementById('navLinks').classList.toggle('mob-open')">☰</button>
+    </div>
+  </div>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div>
+    <div class="hero-eyebrow"><span class="dot"></span> AI-POWERED LOCALIZATION</div>
+    <h1><span data-i18n="hero_1">صُنعت للألعاب.</span><br><span class="g1" data-i18n="hero_2">دُرّبت</span> <span class="g2" data-i18n="hero_3">بالبشر.</span></h1>
+    <p data-i18n="hero_sub">منصة توطين ذكية تدمج قوة الذكاء الاصطناعي مع الدقة الثقافية السعودية — لتجعل العربية لغةً أصيلة في كل عالم افتراضي.</p>
+    <div class="hero-actions">
+      <button class="btn btn-grad btn-hero" onclick="openAuth('signup')" data-i18n="hero_cta1">🚀 أطلق حزمة جديدة</button>
+      <a href="#tech" class="btn btn-ghost btn-hero" data-i18n="hero_cta2">شاهد التقنية ›_</a>
+    </div>
+    <div class="hero-stats">
+      <div class="hstat"><div class="n">99.8%</div><div class="l" data-i18n="hs1">Context Accuracy</div></div>
+      <div class="hstat"><div class="n">450M+</div><div class="l" data-i18n="hs2">Words Trained</div></div>
+      <div class="hstat"><div class="n">14ms</div><div class="l" data-i18n="hs3">Engine Latency</div></div>
+    </div>
+  </div>
+
+  <div class="term">
+    <div class="term-bar">
+      <span style="color:var(--cyan);font-size:1.1rem;">⛶</span>
+      <span class="term-title">GAMELEX_LOCALIZATION_V2</span>
+      <div class="term-dots" style="margin-inline-start:auto;">
+        <span style="background:#f87171"></span><span style="background:#fbbf24"></span><span style="background:#34d399"></span>
+      </div>
+    </div>
+    <div class="term-body">
+      <div class="term-label" style="color:var(--purple);">// SOURCE_EN</div>
+      <div class="term-box" dir="ltr" id="demoSrc">Critical biological failure detected. Re-initiating neural link...</div>
+      <div class="term-arrow">↓</div>
+      <div class="term-label" style="color:var(--cyan);margin-top:9px;">// AI_PROPOSAL_AR</div>
+      <div class="term-box" dir="rtl"><span id="demoOut" class="type-caret" style="color:#a5f3fc;"></span></div>
+      <div class="term-status">
+        <span>● HUMAN_IN_THE_LOOP: ENABLED</span>
+        <span>ENGINE_STATUS: READY</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- PARTNERS -->
+<section id="partners-sec" style="padding:34px 24px;display:none;">
+  <div class="sec-in">
+    <div style="text-align:center;font-family:'Space Mono',monospace;font-size:0.7rem;letter-spacing:3px;color:var(--dim);margin-bottom:26px;" data-i18n="partners_title">شركاء النجاح — TRUSTED BY</div>
+    <div class="partners-strip" id="partnersStrip"></div>
+  </div>
+</section>
+
+<!-- TECH / ENGINE -->
+<section id="tech">
+  <div class="sec-in">
+    <div class="sec-tag">// THE ENGINE</div>
+    <h2 class="sec-title" data-i18n="tech_title">ثلاثة محاور، قوة واحدة</h2>
+    <p class="sec-sub" data-i18n="tech_sub">بنية توطين متكاملة تضمن أعلى جودة للألعاب العربية.</p>
+    <div class="grid3">
+      <div class="card">
+        <div class="num">01</div><div class="ic">🧠</div>
+        <h3>GameLex-AI</h3>
+        <p data-i18n="tech_1">نموذج مخصص لعالم الألعاب يتعلم من كل مشروع ويحسّن دقته أسبوعياً — بفهم عميق لسياق وثقافة اللعب العربي.</p>
+      </div>
+      <div class="card">
+        <div class="num">02</div><div class="ic">🎭</div>
+        <h3>Multimodal AI</h3>
+        <p data-i18n="tech_2">معالجة متكاملة للنصوص والصوت والصور — استخراج النصوص من الصور مع الحفاظ على التصميم الأصلي تماماً.</p>
+      </div>
+      <div class="card">
+        <div class="num">03</div><div class="ic">🔄</div>
+        <h3>Human-in-the-Loop</h3>
+        <p data-i18n="tech_3">بيئة عمل موحدة تُمكّن المترجم من المراجعة والتعديل وإعادة التدريب — الآلة تقترح والإنسان يقرر.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PACKAGES -->
+<section id="packages" style="background:rgba(11,14,32,0.4);">
+  <div class="sec-in">
+    <div class="sec-tag">// PACKAGES</div>
+    <h2 class="sec-title" data-i18n="pk_title">باقة لكل طموح</h2>
+    <p class="sec-sub" data-i18n="pk_sub">من التوطين الآلي السريع إلى حملات الإطلاق الكاملة.</p>
+    <div class="price-grid" id="priceGrid">
+      <div class="empty" style="grid-column:1/-1;">⟳</div>
+    </div>
+  </div>
+</section>
+
+<!-- WORKFLOW -->
+<section id="workflow">
+  <div class="sec-in">
+    <div class="sec-tag">// WORKFLOW</div>
+    <h2 class="sec-title" data-i18n="wf_title">من الرفع إلى الإطلاق</h2>
+    <p class="sec-sub" data-i18n="wf_sub">رحلة حزمتك عبر منظومة GameLex.</p>
+    <div class="flow">
+      <div class="flow-step"><div class="fnum">1</div><h4 data-i18n="wf_1">أرسل حزمتك</h4><p data-i18n="wf_1s">ارفع ملفات لعبتك وحدد اللغات المستهدفة والموعد.</p></div>
+      <div class="flow-step"><div class="fnum">2</div><h4 data-i18n="wf_2">معالجة AI</h4><p data-i18n="wf_2s">محرك GameLex يترجم مع الحفاظ على السياق والمصطلحات.</p></div>
+      <div class="flow-step"><div class="fnum">3</div><h4 data-i18n="wf_3">مراجعة بشرية</h4><p data-i18n="wf_3s">خبراء لغويون يدققون الدقة الثقافية وجودة التجربة.</p></div>
+      <div class="flow-step"><div class="fnum">4</div><h4 data-i18n="wf_4">تسليم وإطلاق</h4><p data-i18n="wf_4s">حزمة جاهزة للدمج — مع دعم تسويقي في باقة PLUS.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- PORTFOLIO -->
+<section id="portfolio" style="display:none;background:rgba(11,14,32,0.4);">
+  <div class="sec-in">
+    <div class="sec-tag">// PORTFOLIO</div>
+    <h2 class="sec-title" data-i18n="pf_title">سابقة الأعمال</h2>
+    <p class="sec-sub" data-i18n="pf_sub">مشاريع وطّناها بفخر.</p>
+    <div class="pf-grid" id="pfGrid"></div>
+  </div>
+</section>
+
+<!-- TEAM SHOWCASE -->
+<section id="teamshow" style="display:none;">
+  <div class="sec-in">
+    <div class="sec-tag">// OUR PEOPLE</div>
+    <h2 class="sec-title" data-i18n="ts_title">أبرز كوادرنا</h2>
+    <p class="sec-sub" data-i18n="ts_sub">العقول خلف كل حزمة ناجحة.</p>
+    <div class="tm-grid" id="tsGrid"></div>
+  </div>
+</section>
+
+<!-- ABOUT + CONTACT -->
+<section id="about" style="background:rgba(11,14,32,0.4);">
+  <div class="sec-in">
+    <div class="about-grid">
+      <div>
+        <div class="sec-tag">// ABOUT US</div>
+        <h2 class="sec-title" data-i18n="ab_title">من نحن</h2>
+        <div class="about-text" id="aboutText" data-i18n="ab_default">GameLex منصة سعودية متخصصة في توطين ألعاب الفيديو، تجمع بين قوة الذكاء الاصطناعي والخبرة البشرية لتقديم تجربة عربية أصيلة لكل لاعب.</div>
+      </div>
+      <div class="contact-card" id="contact">
+        <h3 style="margin-bottom:16px;font-size:1.05rem;" data-i18n="ct_title">📡 تواصل معنا</h3>
+        <div class="c-row"><div class="ci">✉️</div><div><div style="font-size:0.7rem;color:var(--dim);font-family:'Space Mono',monospace;margin-bottom:3px;">EMAIL</div><a id="ctEmail" href="#">—</a></div></div>
+        <div class="c-row"><div class="ci">📞</div><div><div style="font-size:0.7rem;color:var(--dim);font-family:'Space Mono',monospace;margin-bottom:3px;">PHONE</div><a id="ctPhone" href="#">—</a></div></div>
+        <div class="c-row" style="border-bottom:none;"><div class="ci">📍</div><div><div style="font-size:0.7rem;color:var(--dim);font-family:'Space Mono',monospace;margin-bottom:3px;">ADDRESS</div><span id="ctAddress" style="color:#c3c9e3;">—</span></div></div>
+        <div class="socials" id="socialIcons"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="foot-in">
+    <div class="foot-grid">
+      <div class="foot-col">
+        <div class="logo" style="margin-bottom:14px;">
+          <div class="logo-mark">🎮</div>
+          <div class="logo-name">Game<b>Lex</b></div>
+        </div>
+        <p style="color:var(--dim);font-size:0.85rem;line-height:1.8;max-width:300px;" data-i18n="foot_tag">Built for Games. Trained by Humans.<br>توطين ألعاب بروح سعودية.</p>
+        <div class="socials" id="socialIconsFoot"></div>
+      </div>
+      <div class="foot-col">
+        <h5>PLATFORM</h5>
+        <a href="#packages" data-i18n="nav_packages">الباقات</a>
+        <a href="#workflow" data-i18n="nav_workflow">آلية العمل</a>
+        <a href="#" onclick="openAuth();return false;" data-i18n="nav_login">دخول</a>
+        <a href="#" onclick="openAdminGate();return false;" style="opacity:0.5;">Admin</a>
+      </div>
+      <div class="foot-col">
+        <h5>COMPANY</h5>
+        <a href="#about" data-i18n="nav_about">من نحن</a>
+        <a href="#contact" data-i18n="nav_contact">تواصل</a>
+        <a href="#" onclick="openPolicy();return false;" data-i18n="foot_policy">سياسة الخصوصية</a>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <span>© 2026 GameLex — All rights reserved</span>
+      <span style="font-family:'Space Mono',monospace;font-size:0.68rem;">ENGINE_STATUS: <span style="color:var(--green);">ONLINE ●</span></span>
+    </div>
+  </div>
+</footer>
+
+</div><!-- /landing -->
+
+<!-- ═══════════ CLIENT DASHBOARD ═══════════ -->
+<div class="dash" id="dash-client">
+  <div class="dash-top">
+    <div class="dash-title"><button class="hamburger" style="display:block;" onclick="toggleSide('client')">☰</button> <span>GameLex</span> <span class="role-chip role-client">CLIENT</span></div>
+    <div style="display:flex;gap:9px;align-items:center;">
+      <span id="cl-name" style="font-size:0.82rem;color:var(--dim);"></span>
+      <button class="mini-btn dg" onclick="doLogout()">خروج ↩</button>
+    </div>
+  </div>
+  <div class="dash-body">
+    <div class="dash-side" id="side-client">
+      <div class="side-lbl">MAIN</div>
+      <button class="side-item on" onclick="dPage('client','overview',this)">📊 <span>لوحتي</span></button>
+      <button class="side-item" onclick="dPage('client','packages',this)">📦 <span>حزمي</span></button>
+      <button class="side-item" onclick="openCreatePkg()">➕ <span>حزمة جديدة</span></button>
+      <div class="side-lbl">TOOLS</div>
+      <button class="side-item" onclick="dPage('client','glossary',this)">📖 <span>المصطلحات</span></button>
+      <button class="side-item" onclick="dPage('client','profile',this)">👤 <span>ملفي</span></button>
+    </div>
+    <div class="side-overlay" id="sideov-client" onclick="toggleSide('client')"></div>
+    <div class="dash-main">
+      <!-- overview -->
+      <div class="dpage active" id="client-overview">
+        <div class="stats">
+          <div class="stat"><div class="sl">PACKAGES</div><div class="sv" style="color:var(--purple);" id="cs-total">0</div><div class="ss">إجمالي الحزم</div></div>
+          <div class="stat"><div class="sl">IN PROGRESS</div><div class="sv" style="color:var(--cyan);" id="cs-proc">0</div><div class="ss">قيد التنفيذ</div></div>
+          <div class="stat"><div class="sl">COMPLETED</div><div class="sv" style="color:var(--green);" id="cs-done">0</div><div class="ss">مكتملة</div></div>
+          <div class="stat"><div class="sl">WORDS</div><div class="sv" style="color:var(--gold);" id="cs-words">0</div><div class="ss">كلمة مقدرة</div></div>
+        </div>
+        <div class="dcard">
+          <div class="dcard-head"><div class="dcard-title">📦 أحدث الحزم</div>
+            <button class="mini-btn mm" onclick="openCreatePkg()">➕ حزمة جديدة</button></div>
+          <div class="dcard-body" id="cl-recent"></div>
+        </div>
+      </div>
+      <!-- packages -->
+      <div class="dpage" id="client-packages">
+        <div class="dcard">
+          <div class="dcard-head"><div class="dcard-title">📦 كل حزمي</div>
+            <button class="mini-btn" onclick="loadClientPackages()">↻ تحديث</button></div>
+          <div class="dcard-body" id="cl-pkg-list"></div>
+        </div>
+      </div>
+      <!-- glossary -->
+      <div class="dpage" id="client-glossary">
+        <div class="dcard">
+          <div class="dcard-head"><div class="dcard-title">📖 مصطلحاتي المخصصة</div></div>
+          <div class="dcard-body">
+            <div class="f2" style="margin-bottom:12px;">
+              <input class="fi" id="g-src" placeholder="المصطلح الأصلي" style="direction:auto;">
+              <input class="fi" id="g-tr" placeholder="الترجمة المعتمدة">
+            </div>
+            <button class="mini-btn mm" style="width:100%;padding:11px;" onclick="addTerm()">+ إضافة مصطلح</button>
+            <div id="g-list" style="margin-top:18px;"></div>
+          </div>
+        </div>
+      </div>
+      <!-- profile -->
+      <div class="dpage" id="client-profile">
+        <div class="dcard"><div class="dcard-head"><div class="dcard-title">👤 ملفي</div></div>
+          <div class="dcard-body" id="cl-profile-body"></div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════ TEAM DASHBOARD ═══════════ -->
+<div class="dash" id="dash-team">
+  <div class="dash-top">
+    <div class="dash-title"><span>GameLex</span> <span class="role-chip role-team">TEAM</span></div>
+    <div style="display:flex;gap:9px;align-items:center;">
+      <span id="tm-hello" style="font-size:0.82rem;color:var(--dim);"></span>
+      <button class="mini-btn dg" onclick="doLogout()">خروج ↩</button>
+    </div>
+  </div>
+  <div class="dash-body">
+    <div class="dash-main" style="max-width:860px;margin:0 auto;">
+      <div class="stats" style="grid-template-columns:repeat(3,1fr);">
+        <div class="stat"><div class="sl">MY TASKS</div><div class="sv" style="color:var(--purple);" id="ts-total">0</div><div class="ss">مهامي</div></div>
+        <div class="stat"><div class="sl">ACTIVE</div><div class="sv" style="color:var(--cyan);" id="ts-active">0</div><div class="ss">نشطة</div></div>
+        <div class="stat"><div class="sl">DONE</div><div class="sv" style="color:var(--green);" id="ts-done">0</div><div class="ss">مكتملة</div></div>
+      </div>
+      <div class="dcard">
+        <div class="dcard-head"><div class="dcard-title">⚡ مهامي</div>
+          <button class="mini-btn" onclick="loadTeamTasks()">↻</button></div>
+        <div class="dcard-body" id="team-tasks"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════ VENDOR DASHBOARD ═══════════ -->
+<div class="dash" id="dash-vendor">
+  <div class="dash-top">
+    <div class="dash-title"><span>GameLex</span> <span class="role-chip role-vendor">PROVIDER</span></div>
+    <div style="display:flex;gap:9px;align-items:center;">
+      <span id="vn-hello" style="font-size:0.82rem;color:var(--dim);"></span>
+      <button class="mini-btn dg" onclick="doLogout()">خروج ↩</button>
+    </div>
+  </div>
+  <div class="dash-body">
+    <div class="dash-main" style="max-width:860px;margin:0 auto;">
+      <div class="stats" style="grid-template-columns:repeat(3,1fr);">
+        <div class="stat"><div class="sl">OPEN RFQs</div><div class="sv" style="color:var(--gold);" id="vs-open">0</div><div class="ss">طلبات مفتوحة</div></div>
+        <div class="stat"><div class="sl">MY QUOTES</div><div class="sv" style="color:var(--cyan);" id="vs-quotes">0</div><div class="ss">عروضي</div></div>
+        <div class="stat"><div class="sl">AWARDED</div><div class="sv" style="color:var(--green);" id="vs-won">0</div><div class="ss">فائزة</div></div>
+      </div>
+      <div class="dcard">
+        <div class="dcard-head"><div class="dcard-title">📨 طلبات التسعير (RFQ)</div>
+          <button class="mini-btn" onclick="loadVendorRfqs()">↻</button></div>
+        <div class="dcard-body" id="vendor-rfqs"></div>
+      </div>
+      <div class="dcard">
+        <div class="dcard-head"><div class="dcard-title">🎯 مهامي المسندة</div></div>
+        <div class="dcard-body" id="vendor-tasks"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════ ADMIN DASHBOARD ═══════════ -->
+<div class="dash" id="dash-admin">
+  <div class="dash-top">
+    <div class="dash-title"><button class="hamburger" style="display:block;" onclick="toggleSide('admin')">☰</button> <span>GameLex</span> <span class="role-chip role-admin">ADMIN</span></div>
+    <div style="display:flex;gap:9px;align-items:center;">
+      <span class="badge b-green">● LIVE</span>
+      <button class="mini-btn dg" onclick="adminLogout()">خروج ↩</button>
+    </div>
+  </div>
+  <div class="dash-body">
+    <div class="dash-side" id="side-admin">
+      <div class="side-lbl">MAIN</div>
+      <button class="side-item on" onclick="dPage('admin','overview',this)">📊 <span>نظرة عامة</span></button>
+      <button class="side-item" onclick="dPage('admin','packages',this)">📦 <span>الحزم</span></button>
+      <button class="side-item" onclick="dPage('admin','clients',this)">👤 <span>العملاء</span></button>
+      <button class="side-item" onclick="dPage('admin','team',this)">👥 <span>الفريق</span></button>
+      <button class="side-item" onclick="dPage('admin','vendors',this)">🤝 <span>المتعهدون</span></button>
+      <button class="side-item" onclick="dPage('admin','rfqs',this)">📨 <span>طلبات RFQ</span></button>
+      <div class="side-lbl">SITE</div>
+      <button class="side-item" onclick="dPage('admin','pricing',this)">💰 <span>الباقات</span></button>
+      <button class="side-item" onclick="dPage('admin','partners',this)">🏆 <span>شركاء النجاح</span></button>
+      <button class="side-item" onclick="dPage('admin','portfolio',this)">🖼 <span>سابقة الأعمال</span></button>
+      <button class="side-item" onclick="dPage('admin','showcase',this)">⭐ <span>أبرز الكوادر</span></button>
+      <button class="side-item" onclick="dPage('admin','social',this)">🌐 <span>سوشيال + معلومات</span></button>
+      <div class="side-lbl">TOOLS</div>
+      <button class="side-item" onclick="dPage('admin','telegram',this)">📲 <span>تيليغرام</span></button>
+      <button class="side-item" onclick="dPage('admin','settings',this)">⚙️ <span>الإعدادات</span></button>
+    </div>
+    <div class="side-overlay" id="sideov-admin" onclick="toggleSide('admin')"></div>
+    <div class="dash-main">
+
+      <div class="dpage active" id="admin-overview">
+        <div class="stats">
+          <div class="stat"><div class="sl">PACKAGES</div><div class="sv" style="color:var(--purple);" id="as-pkgs">0</div><div class="ss" id="as-pkgs-s">—</div></div>
+          <div class="stat"><div class="sl">CLIENTS</div><div class="sv" style="color:var(--cyan);" id="as-clients">0</div><div class="ss">عملاء</div></div>
+          <div class="stat"><div class="sl">PENDING</div><div class="sv" style="color:var(--gold);" id="as-pending">0</div><div class="ss">تحتاج توجيه</div></div>
+          <div class="stat"><div class="sl">OPEN RFQs</div><div class="sv" style="color:var(--red);" id="as-rfqs">0</div><div class="ss">تسعيرات مفتوحة</div></div>
+        </div>
+        <div class="dcard">
+          <div class="dcard-head"><div class="dcard-title">📦 أحدث الحزم</div>
+            <button class="mini-btn" onclick="adminLoadAll()">↻ تحديث</button></div>
+          <div class="dcard-body" id="ad-recent"></div>
+        </div>
+      </div>
+
+      <div class="dpage" id="admin-packages">
+        <div class="dcard">
+          <div class="dcard-head"><div class="dcard-title">📦 كل الحزم</div>
+            <button class="mini-btn" onclick="adminLoadAll()">↻</button></div>
+          <div class="dcard-body" id="ad-pkgs"></div>
+        </div>
+      </div>
+
+      <div class="dpage" id="admin-clients">
+        <div class="dcard">
+          <div class="dcard-head"><div class="dcard-title">👤 العملاء</div></div>
+          <div class="dcard-body" id="ad-clients"></div>
+        </div>
+      </div>
+
+      <div class="dpage" id="admin-team">
+        <div class="dcard">
+          <div class="dcard-head"><div class="dcard-title">➕ إضافة عضو فريق داخلي</div></div>
+          <div class="dcard-body">
+            <div class="f2">
+              <div class="fg"><label class="fl">NAME</label><input class="fi" id="atm-name"></div>
+              <div class="fg"><label class="fl">ROLE</label>
+                <select class="fi" id="atm-role">
+                  <option value="translator">مترجم</option><option value="reviewer">مراجع</option>
+                  <option value="qa">جودة</option><option value="manager">مدير</option>
+                </select></div>
+              <div class="fg"><label class="fl">EMAIL (للربط التلقائي)</label><input class="fi" id="atm-email" style="direction:ltr;"></div>
+              <div class="fg"><label class="fl">TELEGRAM CHAT ID</label><input class="fi" id="atm-tg" style="direction:ltr;"></div>
+            </div>
+            <button class="mini-btn mm" style="width:100%;padding:11px;" onclick="addTeamMember()">➕ إضافة</button>
+          </div>
+        </div>
+        <div class="dcard">
+          <div class="dcard-head"><div class="dcard-title">👥 أعضاء الفريق</div></div>
+          <div class="dcard-body" id="ad-team"></div>
+        </div>
+      </div>
+
+      <div class="dpage" id="admin-vendors">
+        <div class="dcard">
+          <div class="dcard-head"><div class="dcard-title">➕ إضافة متعهد / Provider</div></div>
+          <div class="dcard-body">
+            <div class="f2">
+              <div class="fg"><label class="fl">NAME</label><input class="fi" id="av-name"></div>
+              <div class="fg"><label class="fl">COMPANY / OFFICE</label><input class="fi" id="av-company"></div>
+              <div class="fg"><label class="fl">EMAIL (للربط التلقائي)</label><input class="fi" id="av-email" style="direction:ltr;"></div>
+              <div class="fg"><label class="fl">SPECIALTIES</label><input class="fi" id="av-spec" placeholder="ترجمة يابانية، دبلجة..."></div>
+            </div>
+            <button class="mini-btn mm" style="width:100%;padding:11px;" onclick="addVendor()">➕ إضافة</button>
+          </div>
+        </div>
+        <div class="dcard">
+          <div class="dcard-head"><div class="dcard-title">🤝 المتعهدون المؤهلون</div></div>
+          <div class="dcard-body" id="ad-vendors"></div>
+        </div>
+      </div>
+
+      <div class="dpage" id="admin-rfqs">
+        <div class="dcard">
+          <div class="dcard-head"><div class="dcard-title">📨 طلبات التسعير</div></div>
+          <div class="dcard-body" id="ad-rfqs"></div>
+        </div>
+      </div>
+
+      <div class="dpage" id="admin-pricing">
+        <div class="dcard">
+          <div class="dcard-head"><div class="dcard-title">💰 إدارة الباقات</div>
+            <button class="mini-btn mm" onclick="editPlan(null)">➕ باقة جديدة</button></div>
+          <div class="dcard-body" id="ad-pricing"></div>
+        </div>
+      </div>
+
+      <div class="dpage" id="admin-partners">
+        <div class="dcard">
+          <div class="dcard-head"><div class="dcard-title">🏆 شركاء النجاح</div>
+            <label class="tgl" title="إظهار القسم"><input type="checkbox" id="tgl-partners" onchange="setSiteToggle('show_partners',this.checked)"><span class="tr"></span></label>
+          </div>
+          <div class="dcard-body">
+            <div class="f2">
+              <div class="fg"><label class="fl">PARTNER NAME</label><input class="fi" id="pt-name"></div>
+              <div class="fg"><label class="fl">LOGO URL (اختياري)</label><input class="fi" id="pt-logo" style="direction:ltr;" placeholder="https://..."></div>
+            </div>
+            <button class="mini-btn mm" style="width:100%;padding:10px;" onclick="addPartner()">➕ إضافة شريك</button>
+            <div id="ad-partners" style="margin-top:16px;"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="dpage" id="admin-portfolio">
+        <div class="dcard">
+          <div class="dcard-head"><div class="dcard-title">🖼 سابقة الأعمال</div>
+            <label class="tgl" title="إظهار القسم"><input type="checkbox" id="tgl-portfolio" onchange="setSiteToggle('show_portfolio',this.checked)"><span class="tr"></span></label>
+          </div>
+          <div class="dcard-body">
+            <div class="f2">
+              <div class="fg"><label class="fl">TITLE</label><input class="fi" id="pf-title"></div>
+              <div class="fg"><label class="fl">CATEGORY</label><input class="fi" id="pf-cat" placeholder="RPG • توطين كامل"></div>
+              <div class="fg" style="grid-column:span 2;"><label class="fl">IMAGE URL</label><input class="fi" id="pf-img" style="direction:ltr;" placeholder="https://..."></div>
+            </div>
+            <button class="mini-btn mm" style="width:100%;padding:10px;" onclick="addPortfolio()">➕ إضافة عمل</button>
+            <div id="ad-portfolio" style="margin-top:16px;"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="dpage" id="admin-showcase">
+        <div class="dcard">
+          <div class="dcard-head"><div class="dcard-title">⭐ أبرز الكوادر</div>
+            <label class="tgl" title="إظهار القسم"><input type="checkbox" id="tgl-teamshow" onchange="setSiteToggle('show_team_showcase',this.checked)"><span class="tr"></span></label>
+          </div>
+          <div class="dcard-body">
+            <div class="f2">
+              <div class="fg"><label class="fl">NAME</label><input class="fi" id="ts-name"></div>
+              <div class="fg"><label class="fl">ROLE</label><input class="fi" id="ts-role" placeholder="رئيس قسم التوطين"></div>
+              <div class="fg" style="grid-column:span 2;"><label class="fl">PHOTO URL (اختياري)</label><input class="fi" id="ts-photo" style="direction:ltr;" placeholder="https://..."></div>
+            </div>
+            <button class="mini-btn mm" style="width:100%;padding:10px;" onclick="addShowcase()">➕ إضافة</button>
+            <div id="ad-showcase" style="margin-top:16px;"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="dpage" id="admin-social">
+        <div class="dcard" style="max-width:600px;">
+          <div class="dcard-head"><div class="dcard-title">🌐 روابط السوشيال + معلومات الموقع</div></div>
+          <div class="dcard-body">
+            <div class="f2">
+              <div class="fg"><label class="fl">💼 LINKEDIN</label><input class="fi ss-in" data-key="social_linkedin" style="direction:ltr;" placeholder="https://linkedin.com/..."></div>
+              <div class="fg"><label class="fl">𝕏 TWITTER/X</label><input class="fi ss-in" data-key="social_twitter" style="direction:ltr;"></div>
+              <div class="fg"><label class="fl">📷 INSTAGRAM</label><input class="fi ss-in" data-key="social_instagram" style="direction:ltr;"></div>
+              <div class="fg"><label class="fl">📘 FACEBOOK</label><input class="fi ss-in" data-key="social_facebook" style="direction:ltr;"></div>
+              <div class="fg"><label class="fl">🎵 TIKTOK</label><input class="fi ss-in" data-key="social_tiktok" style="direction:ltr;"></div>
+              <div class="fg"><label class="fl">▶️ YOUTUBE</label><input class="fi ss-in" data-key="social_youtube" style="direction:ltr;"></div>
+              <div class="fg"><label class="fl">✉️ CONTACT EMAIL</label><input class="fi ss-in" data-key="contact_email" style="direction:ltr;"></div>
+              <div class="fg"><label class="fl">📞 PHONE</label><input class="fi ss-in" data-key="contact_phone" style="direction:ltr;"></div>
+            </div>
+            <div class="fg"><label class="fl">📍 ADDRESS</label><input class="fi ss-in" data-key="address_text"></div>
+            <div class="fg"><label class="fl">ABOUT US TEXT</label><textarea class="fi ss-in" data-key="about_text" rows="4"></textarea></div>
+            <div class="fg"><label class="fl">PRIVACY POLICY TEXT</label><textarea class="fi ss-in" data-key="policy_text" rows="4"></textarea></div>
+            <button class="mini-btn mm" style="width:100%;padding:12px;" onclick="saveSiteSettings()">💾 حفظ الكل</button>
+            <div class="fmsg" id="ss-msg"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="dpage" id="admin-telegram">
+        <div class="dcard" style="max-width:560px;">
+          <div class="dcard-head"><div class="dcard-title">📲 إعدادات تيليغرام</div></div>
+          <div class="dcard-body">
+            <div class="fmsg info" style="display:block;margin:0 0 18px;line-height:1.9;">
+              <b>خطوات التفعيل:</b><br>
+              ١. افتح تيليغرام وابحث عن <code>@BotFather</code><br>
+              ٢. أرسل <code>/newbot</code> وأعطه اسم<br>
+              ٣. انسخ الـ Token وضعه أدناه<br>
+              ٤. لمعرفة Chat ID: راسل <code>@userinfobot</code>
+            </div>
+            <div class="fg"><label class="fl">BOT TOKEN</label><input class="fi" id="tg-token" style="direction:ltr;"></div>
+            <div class="fg"><label class="fl">ADMIN CHAT ID</label><input class="fi" id="tg-admin" style="direction:ltr;"></div>
+            <button class="mini-btn mm" style="width:100%;padding:11px;" onclick="saveTelegram()">💾 حفظ</button>
+            <button class="mini-btn" style="width:100%;padding:11px;margin-top:9px;" onclick="testTelegram()">🧪 رسالة تجريبية</button>
+            <div class="fmsg" id="tg-msg"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="dpage" id="admin-settings">
+        <div class="dcard" style="max-width:520px;">
+          <div class="dcard-head"><div class="dcard-title">🛡️ كلمة سر الأدمن</div></div>
+          <div class="dcard-body">
+            <div class="fg"><label class="fl">NEW PASSWORD</label><input class="fi" type="password" id="new-secret"></div>
+            <div class="fg"><label class="fl">CONFIRM</label><input class="fi" type="password" id="conf-secret"></div>
+            <button class="mini-btn mm" style="width:100%;padding:11px;" onclick="updateSecret()">💾 تغيير كلمة السر</button>
+            <div class="fmsg" id="secret-msg"></div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════ MODALS ═══════════ -->
+
+<!-- AUTH -->
+<div class="overlay" id="authModal">
+  <div class="panel" style="width:460px;">
+    <div class="panel-head"><div class="panel-title">🔐 <span data-i18n="auth_title">الدخول إلى GameLex</span></div>
+      <button class="x-btn" onclick="closeM('authModal')">✕</button></div>
+    <div class="panel-body">
+      <div class="atabs">
+        <button class="atab on" id="at-login" onclick="authTab('login')" data-i18n="tab_login">دخول</button>
+        <button class="atab" id="at-signup" onclick="authTab('signup')" data-i18n="tab_signup">حساب جديد</button>
+      </div>
+      <div id="f-login">
+        <div class="fg"><label class="fl">EMAIL</label><input class="fi" type="email" id="li-email" style="direction:ltr;" placeholder="you@studio.com"></div>
+        <div class="fg"><label class="fl">PASSWORD</label><input class="fi" type="password" id="li-pass" onkeydown="if(event.key==='Enter')doLogin()"></div>
+        <button class="btn btn-grad" style="width:100%;padding:13px;" id="li-btn" onclick="doLogin()" data-i18n="tab_login">🔐 دخول</button>
+      </div>
+      <div id="f-signup" style="display:none;">
+        <div class="f2">
+          <div class="fg"><label class="fl">FULL NAME</label><input class="fi" id="su-name"></div>
+          <div class="fg"><label class="fl">COMPANY / STUDIO</label><input class="fi" id="su-company"></div>
+        </div>
+        <div class="fg"><label class="fl">EMAIL</label><input class="fi" type="email" id="su-email" style="direction:ltr;"></div>
+        <div class="f2">
+          <div class="fg"><label class="fl">COUNTRY</label><input class="fi" id="su-country" placeholder="Saudi Arabia"></div>
+          <div class="fg"><label class="fl">PASSWORD</label><input class="fi" type="password" id="su-pass" placeholder="6+"></div>
+        </div>
+        <button class="btn btn-grad" style="width:100%;padding:13px;" id="su-btn" onclick="doSignup()" data-i18n="signup_btn">🚀 إنشاء حساب</button>
+      </div>
+      <div class="fmsg" id="auth-msg"></div>
+    </div>
+  </div>
+</div>
+
+<!-- CREATE PACKAGE WIZARD -->
+<div class="overlay" id="pkgModal">
+  <div class="panel" style="width:600px;">
+    <div class="panel-head"><div class="panel-title">📦 حزمة توطين جديدة</div>
+      <button class="x-btn" onclick="closeM('pkgModal')">✕</button></div>
+    <div class="panel-body">
+      <div class="fg"><label class="fl">PACKAGE PLAN</label>
+        <select class="fi" id="np-plan"></select></div>
+      <div class="f2">
+        <div class="fg"><label class="fl">GAME NAME *</label><input class="fi" id="np-name" style="direction:auto;"></div>
+        <div class="fg"><label class="fl">GAME ENGINE</label>
+          <select class="fi" id="np-engine">
+            <option value="">—</option><option>Unity</option><option>Unreal</option>
+            <option>Godot</option><option>GameMaker</option><option>Custom</option>
+          </select></div>
+      </div>
+      <div class="fg"><label class="fl">GAME DESCRIPTION</label><textarea class="fi" id="np-desc" rows="2"></textarea></div>
+      <div class="fg"><label class="fl">LINKS (Steam / Google Play / App Store / Website)</label><textarea class="fi" id="np-links" rows="2" style="direction:ltr;" placeholder="https://store.steampowered.com/..."></textarea></div>
+      <div class="f2">
+        <div class="fg"><label class="fl">PLATFORMS</label><input class="fi" id="np-platforms" placeholder="PC, PS5, Mobile"></div>
+        <div class="fg"><label class="fl">TARGET LANGUAGES</label><input class="fi" id="np-langs" placeholder="العربية، اليابانية"></div>
+      </div>
+      <div class="f2">
+        <div class="fg"><label class="fl">ESTIMATED WORDS</label><input class="fi" type="number" id="np-words" style="direction:ltr;"></div>
+        <div class="fg"><label class="fl">DEADLINE</label><input class="fi" type="date" id="np-deadline" style="direction:ltr;"></div>
+      </div>
+      <div class="fg"><label class="fl">UPLOAD FILES (PDF / ZIP / PO / JSON / صور / صوت)</label>
+        <div class="up-zone">
+          <input type="file" id="np-files" multiple accept="image/*,audio/*,.pdf,.zip,.po,.xliff,.json,.csv,.txt,.xlsx,.docx">
+          <div style="font-size:1.7rem;margin-bottom:7px;">📁</div>
+          <div style="font-size:0.88rem;">اسحب ملفاتك أو اضغط للاختيار</div>
+          <div style="font-size:0.72rem;color:var(--dim);margin-top:5px;">تُرفع بأمان إلى تخزين GameLex السحابي</div>
+        </div>
+        <div id="np-filelist" style="font-size:0.78rem;color:var(--cyan);"></div>
+      </div>
+      <div class="fg"><label class="fl">NOTES</label><textarea class="fi" id="np-notes" rows="2"></textarea></div>
+      <button class="btn btn-grad" style="width:100%;padding:14px;" id="np-btn" onclick="submitPackage()">🚀 إرسال الحزمة</button>
+      <div class="fmsg" id="np-msg"></div>
+    </div>
+  </div>
+</div>
+
+<!-- PKG DETAIL / GENERIC -->
+<div class="overlay" id="detailModal">
+  <div class="panel" style="width:620px;">
+    <div class="panel-head"><div class="panel-title" id="dm-title">تفاصيل</div>
+      <button class="x-btn" onclick="closeM('detailModal')">✕</button></div>
+    <div class="panel-body" id="dm-body"></div>
+  </div>
+</div>
+
+<!-- ADMIN GATE -->
+<div class="overlay" id="adminGate">
+  <div class="panel" style="width:400px;">
+    <div class="panel-head"><div class="panel-title">🛡️ دخول الإدارة</div>
+      <button class="x-btn" onclick="closeM('adminGate')">✕</button></div>
+    <div class="panel-body">
+      <div class="fg"><label class="fl">ADMIN PASSWORD</label>
+        <input class="fi" type="password" id="gate-pass" onkeydown="if(event.key==='Enter')checkAdminGate()"></div>
+      <button class="btn btn-grad" style="width:100%;padding:13px;" onclick="checkAdminGate()">دخول ←</button>
+      <div class="fmsg" id="gate-msg"></div>
+    </div>
+  </div>
+</div>
+
+<!-- POLICY -->
+<div class="overlay" id="policyModal">
+  <div class="panel" style="width:600px;">
+    <div class="panel-head"><div class="panel-title">📜 سياسة الخصوصية</div>
+      <button class="x-btn" onclick="closeM('policyModal')">✕</button></div>
+    <div class="panel-body"><div class="about-text" id="policyText">—</div></div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+/* ═══ SUPABASE ═══ */
+const SUPA_URL = 'https://ntecfdtkwyijhvdilyqn.supabase.co';
+const SUPA_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im50ZWNmZHRrd3lpamh2ZGlseXFuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODAxNTczNTIsImV4cCI6MjA5NTczMzM1Mn0.lnhooFQfkBpFM8JijWAwxFtJT4gWegq7V7KwF0lsIm4';
+const sb = supabase.createClient(SUPA_URL, SUPA_KEY);
+
+let me = null;          // auth user
+let myRole = 'guest';   // client / team / vendor / admin
+let myMember = null;    // team_members row
+let myVendor = null;    // vendors row
+let siteCfg = {};       // site_settings map
+let adminSecret = 'Gamelex@2026';
+let A = { pkgs:[], team:[], vendors:[], rfqs:[], quotes:[], pricing:[] };
+let C = { pkgs:[], gloss:[] };
+
+/* ═══ STARFIELD ═══ */
+(function(){
+  const cv = document.getElementById('stars'), cx = cv.getContext('2d');
+  let W,H,stars=[];
+  function size(){ W=cv.width=innerWidth; H=cv.height=innerHeight;
+    stars = Array.from({length: Math.min(160, W/8)}, () => ({
+      x:Math.random()*W, y:Math.random()*H, z:Math.random()*1+0.2,
+      r:Math.random()*1.4+0.3, tw:Math.random()*Math.PI*2
+    }));
+  }
+  size(); addEventListener('resize', size);
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  function draw(t){
+    cx.clearRect(0,0,W,H);
+    for(const s of stars){
+      const a = 0.25 + 0.55*Math.abs(Math.sin(t/1400 + s.tw));
+      cx.beginPath(); cx.arc(s.x, s.y, s.r, 0, 7);
+      cx.fillStyle = s.tw % 2 > 1 ? `rgba(139,92,246,${a})` : `rgba(160,190,255,${a})`;
+      cx.fill();
+      if(!reduce){ s.y += s.z*0.12; if(s.y>H){s.y=-4; s.x=Math.random()*W;} }
+    }
+    requestAnimationFrame(draw);
+  }
+  requestAnimationFrame(draw);
+  // floating game icons
+  const icons = ['🎮','🕹️','👾','⚔️','🏆','🚀','💎','🛡️'];
+  const fc = document.getElementById('floatIcons');
+  icons.forEach((ic,i)=>{
+    const d = document.createElement('div'); d.className='f-icon'; d.textContent=ic;
+    d.style.left = (5+i*12)+'%'; d.style.top = (10+((i*23)%70))+'%';
+    d.style.animationDelay = (i*1.7)+'s'; fc.appendChild(d);
+  });
+})();
+
+/* typing demo */
+(function(){
+  const out = document.getElementById('demoOut');
+  const pairs = [
+    ['Critical biological failure detected. Re-initiating neural link...','عُطل حيوي حرج. جارٍ إعادة تهيئة الوصلة العصبية...'],
+    ['Enemy squad approaching from the east flank!','فرقة معادية تقترب من الجناح الشرقي!'],
+    ['Legendary loot acquired. Inventory updated.','حصلتَ على غنيمة أسطورية. تم تحديث المخزون.'],
+  ];
+  let pi=0, ci=0, phase='type';
+  const src = document.getElementById('demoSrc');
+  function tick(){
+    const [en, ar] = pairs[pi];
+    src.textContent = en;
+    if(phase==='type'){
+      ci++; out.textContent = ar.slice(0,ci);
+      if(ci>=ar.length){ phase='hold'; setTimeout(()=>{phase='erase';}, 2600); }
+      setTimeout(tick, 46);
+    } else if(phase==='erase'){
+      ci-=3; out.textContent = ar.slice(0,Math.max(0,ci));
+      if(ci<=0){ ci=0; pi=(pi+1)%pairs.length; phase='type'; }
+      setTimeout(tick, 22);
+    } else setTimeout(tick, 220);
+  }
+  tick();
+})();
+
+/* ═══ i18n — 12 LANGS ═══ */
+const LANGS = {
+  ar:{n:'العربية',f:'🇸🇦',d:'rtl'}, en:{n:'English',f:'🇺🇸',d:'ltr'},
+  zh:{n:'中文',f:'🇨🇳',d:'ltr'}, ja:{n:'日本語',f:'🇯🇵',d:'ltr'},
+  ko:{n:'한국어',f:'🇰🇷',d:'ltr'}, ur:{n:'اردو',f:'🇵🇰',d:'rtl'},
+  fr:{n:'Français',f:'🇫🇷',d:'ltr'}, it:{n:'Italiano',f:'🇮🇹',d:'ltr'},
+  es:{n:'Español',f:'🇪🇸',d:'ltr'}, pt:{n:'Português',f:'🇧🇷',d:'ltr'},
+  ru:{n:'Русский',f:'🇷🇺',d:'ltr'}, de:{n:'Deutsch',f:'🇩🇪',d:'ltr'}
+};
+const T = {
+  nav_engine:{ar:'التقنية',en:'Engine',zh:'技术引擎',ja:'エンジン',ko:'엔진',ur:'ٹیکنالوجی',fr:'Technologie',it:'Tecnologia',es:'Tecnología',pt:'Tecnologia',ru:'Технология',de:'Engine'},
+  nav_packages:{ar:'الباقات',en:'Packages',zh:'套餐',ja:'パッケージ',ko:'패키지',ur:'پیکجز',fr:'Offres',it:'Pacchetti',es:'Paquetes',pt:'Pacotes',ru:'Пакеты',de:'Pakete'},
+  nav_workflow:{ar:'آلية العمل',en:'Workflow',zh:'工作流程',ja:'ワークフロー',ko:'워크플로우',ur:'ورک فلو',fr:'Processus',it:'Processo',es:'Proceso',pt:'Processo',ru:'Процесс',de:'Ablauf'},
+  nav_portfolio:{ar:'أعمالنا',en:'Portfolio',zh:'作品集',ja:'実績',ko:'포트폴리오',ur:'پورٹ فولیو',fr:'Portfolio',it:'Portfolio',es:'Portafolio',pt:'Portfólio',ru:'Портфолио',de:'Portfolio'},
+  nav_about:{ar:'من نحن',en:'About',zh:'关于我们',ja:'会社概要',ko:'소개',ur:'ہمارے بارے',fr:'À propos',it:'Chi siamo',es:'Nosotros',pt:'Sobre',ru:'О нас',de:'Über uns'},
+  nav_contact:{ar:'تواصل',en:'Contact',zh:'联系',ja:'お問い合わせ',ko:'문의',ur:'رابطہ',fr:'Contact',it:'Contatti',es:'Contacto',pt:'Contato',ru:'Контакты',de:'Kontakt'},
+  nav_login:{ar:'🔐 دخول',en:'🔐 Login',zh:'🔐 登录',ja:'🔐 ログイン',ko:'🔐 로그인',ur:'🔐 لاگ ان',fr:'🔐 Connexion',it:'🔐 Accedi',es:'🔐 Entrar',pt:'🔐 Entrar',ru:'🔐 Войти',de:'🔐 Anmelden'},
+  hero_1:{ar:'صُنعت للألعاب.',en:'Built for Games.',zh:'为游戏而生。',ja:'ゲームのために。',ko:'게임을 위해.',ur:'گیمز کے لیے۔',fr:'Conçu pour les jeux.',it:'Nato per i giochi.',es:'Hecho para juegos.',pt:'Feito para jogos.',ru:'Создано для игр.',de:'Für Spiele gebaut.'},
+  hero_2:{ar:'دُرّبت',en:'Trained',zh:'由人类',ja:'人間が',ko:'인간이',ur:'انسانوں کی',fr:'Entraîné',it:'Addestrato',es:'Entrenado',pt:'Treinado',ru:'Обучено',de:'Trainiert'},
+  hero_3:{ar:'بالبشر.',en:'by Humans.',zh:'训练。',ja:'訓練。',ko:'훈련.',ur:'تربیت۔',fr:'par des humains.',it:'da umani.',es:'por humanos.',pt:'por humanos.',ru:'людьми.',de:'von Menschen.'},
+  hero_sub:{ar:'منصة توطين ذكية تدمج قوة الذكاء الاصطناعي مع الدقة الثقافية السعودية — لتجعل العربية لغةً أصيلة في كل عالم افتراضي.',en:'An intelligent localization platform combining AI power with Saudi cultural precision — making Arabic feel native to every virtual world.',zh:'智能本地化平台，将AI力量与沙特文化精准度相结合。',ja:'AIの力とサウジ文化の精度を組み合わせたローカライズプラットフォーム。',ko:'AI 파워와 사우디 문화적 정밀함을 결합한 로컬라이제이션 플랫폼.',ur:'ذہین لوکلائزیشن پلیٹ فارم جو AI طاقت کو ثقافتی درستگی سے جوڑتا ہے۔',fr:'Une plateforme de localisation intelligente combinant IA et précision culturelle saoudienne.',it:'Una piattaforma di localizzazione che unisce IA e precisione culturale saudita.',es:'Plataforma de localización que combina IA con precisión cultural saudí.',pt:'Plataforma de localização que combina IA com precisão cultural saudita.',ru:'Интеллектуальная платформа локализации, сочетающая ИИ и культурную точность.',de:'Eine intelligente Lokalisierungsplattform mit KI und kultureller Präzision.'},
+  hero_cta1:{ar:'🚀 أطلق حزمة جديدة',en:'🚀 Launch New Package',zh:'🚀 启动新包',ja:'🚀 新規パッケージ',ko:'🚀 새 패키지',ur:'🚀 نیا پیکج',fr:'🚀 Lancer un package',it:'🚀 Nuovo pacchetto',es:'🚀 Lanzar paquete',pt:'🚀 Novo pacote',ru:'🚀 Новый пакет',de:'🚀 Neues Paket'},
+  hero_cta2:{ar:'شاهد التقنية ›_',en:'View Live Demo ›_',zh:'观看演示 ›_',ja:'デモを見る ›_',ko:'데모 보기 ›_',ur:'ڈیمو دیکھیں ›_',fr:'Voir la démo ›_',it:'Guarda la demo ›_',es:'Ver demo ›_',pt:'Ver demo ›_',ru:'Демо ›_',de:'Demo ansehen ›_'},
+  tech_title:{ar:'ثلاثة محاور، قوة واحدة',en:'Three pillars, one power',zh:'三大支柱，一种力量',ja:'3つの柱、1つの力',ko:'세 개의 기둥, 하나의 힘',ur:'تین ستون، ایک طاقت',fr:'Trois piliers, une force',it:'Tre pilastri, una forza',es:'Tres pilares, una fuerza',pt:'Três pilares, uma força',ru:'Три столпа, одна сила',de:'Drei Säulen, eine Kraft'},
+  pk_title:{ar:'باقة لكل طموح',en:'A package for every ambition',zh:'满足每个雄心的套餐',ja:'あらゆる目標に対応',ko:'모든 야망을 위한 패키지',ur:'ہر عزم کے لیے پیکج',fr:'Une offre pour chaque ambition',it:'Un pacchetto per ogni ambizione',es:'Un paquete para cada ambición',pt:'Um pacote para cada ambição',ru:'Пакет для любых амбиций',de:'Ein Paket für jede Ambition'},
+  wf_title:{ar:'من الرفع إلى الإطلاق',en:'From upload to launch',zh:'从上传到发布',ja:'アップロードからリリースまで',ko:'업로드에서 출시까지',ur:'اپ لوڈ سے لانچ تک',fr:'Du dépôt au lancement',it:'Dal caricamento al lancio',es:'De la carga al lanzamiento',pt:'Do upload ao lançamento',ru:'От загрузки до запуска',de:'Vom Upload zum Launch'},
+  pf_title:{ar:'سابقة الأعمال',en:'Portfolio',zh:'作品集',ja:'実績',ko:'포트폴리오',ur:'پورٹ فولیو',fr:'Réalisations',it:'Portfolio',es:'Portafolio',pt:'Portfólio',ru:'Портфолио',de:'Referenzen'},
+  ts_title:{ar:'أبرز كوادرنا',en:'Meet the team',zh:'团队精英',ja:'チーム紹介',ko:'팀 소개',ur:'ہماری ٹیم',fr:'Notre équipe',it:'Il nostro team',es:'Nuestro equipo',pt:'Nossa equipe',ru:'Наша команда',de:'Unser Team'},
+  ab_title:{ar:'من نحن',en:'About us',zh:'关于我们',ja:'会社概要',ko:'소개',ur:'ہمارے بارے میں',fr:'À propos',it:'Chi siamo',es:'Nosotros',pt:'Sobre nós',ru:'О нас',de:'Über uns'},
+  ct_title:{ar:'📡 تواصل معنا',en:'📡 Contact us',zh:'📡 联系我们',ja:'📡 お問い合わせ',ko:'📡 문의하기',ur:'📡 رابطہ کریں',fr:'📡 Contactez-nous',it:'📡 Contattaci',es:'📡 Contáctanos',pt:'📡 Fale conosco',ru:'📡 Связаться',de:'📡 Kontakt'},
+  tab_login:{ar:'دخول',en:'Login',zh:'登录',ja:'ログイン',ko:'로그인',ur:'لاگ ان',fr:'Connexion',it:'Accedi',es:'Entrar',pt:'Entrar',ru:'Войти',de:'Anmelden'},
+  tab_signup:{ar:'حساب جديد',en:'Sign Up',zh:'注册',ja:'登録',ko:'가입',ur:'رجسٹر',fr:'Inscription',it:'Registrati',es:'Registro',pt:'Cadastro',ru:'Регистрация',de:'Registrieren'},
+  signup_btn:{ar:'🚀 إنشاء حساب',en:'🚀 Create Account',zh:'🚀 创建账户',ja:'🚀 アカウント作成',ko:'🚀 계정 만들기',ur:'🚀 اکاؤنٹ بنائیں',fr:'🚀 Créer un compte',it:'🚀 Crea account',es:'🚀 Crear cuenta',pt:'🚀 Criar conta',ru:'🚀 Создать аккаунт',de:'🚀 Konto erstellen'},
+  foot_policy:{ar:'سياسة الخصوصية',en:'Privacy Policy',zh:'隐私政策',ja:'プライバシー',ko:'개인정보',ur:'پرائیویسی',fr:'Confidentialité',it:'Privacy',es:'Privacidad',pt:'Privacidade',ru:'Конфиденциальность',de:'Datenschutz'},
+  partners_title:{ar:'شركاء النجاح — TRUSTED BY',en:'TRUSTED BY',zh:'合作伙伴',ja:'パートナー',ko:'파트너',ur:'شراکت دار',fr:'ILS NOUS FONT CONFIANCE',it:'PARTNER',es:'CONFÍAN EN NOSOTROS',pt:'PARCEIROS',ru:'ПАРТНЁРЫ',de:'PARTNER'},
+};
+let lang = localStorage.getItem('gl_lang') || 'ar';
+function t(k){ return (T[k]?.[lang]) || (T[k]?.en) || (T[k]?.ar) || ''; }
+function applyLang(){
+  const cfg = LANGS[lang];
+  document.documentElement.lang = lang;
+  document.documentElement.dir = cfg.d;
+  document.getElementById('langFlag').textContent = cfg.f;
+  document.getElementById('langName').textContent = cfg.n;
+  document.querySelectorAll('[data-i18n]').forEach(el => {
+    const v = t(el.getAttribute('data-i18n'));
+    if (v) el.innerHTML = v;
+  });
+  localStorage.setItem('gl_lang', lang);
+}
+function buildLangMenu(){
+  const m = document.getElementById('langMenu');
+  m.innerHTML = Object.entries(LANGS).map(([k,v]) =>
+    `<button class="lang-opt ${k===lang?'on':''}" onclick="setLang('${k}')">${v.f} ${v.n}</button>`).join('');
+}
+function setLang(k){ lang = k; applyLang(); buildLangMenu(); document.getElementById('langMenu').classList.remove('open'); }
+function toggleLangMenu(e){ e.stopPropagation(); document.getElementById('langMenu').classList.toggle('open'); }
+document.addEventListener('click', ()=> document.getElementById('langMenu').classList.remove('open'));
+
+/* ═══ VIEW ROUTER ═══ */
+function showView(id){
+  document.querySelectorAll('.view,.dash').forEach(v=>v.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  window.scrollTo(0,0);
+}
+function dPage(dash, page, el){
+  document.querySelectorAll(`#dash-${dash} .dpage`).forEach(p=>p.classList.remove('active'));
+  document.getElementById(`${dash}-${page}`)?.classList.add('active');
+  document.querySelectorAll(`#dash-${dash} .side-item`).forEach(i=>i.classList.remove('on'));
+  if(el) el.classList.add('on');
+  document.getElementById(`side-${dash}`)?.classList.remove('open');
+  document.getElementById(`sideov-${dash}`)?.classList.remove('open');
+  if(dash==='admin'){
+    if(page==='pricing') adminLoadPricing();
+    if(page==='partners') adminLoadPartners();
+    if(page==='portfolio') adminLoadPortfolio();
+    if(page==='showcase') adminLoadShowcase();
+    if(page==='social') fillSocialInputs();
+    if(page==='telegram') loadTelegram();
+    if(page==='vendors') adminLoadVendors();
+    if(page==='rfqs') adminLoadRfqs();
+    if(page==='team') adminLoadTeam();
+    if(page==='clients') adminLoadClients();
+  }
+  if(dash==='client' && page==='glossary') loadGlossary();
+  if(dash==='client' && page==='profile') renderProfile();
+}
+function toggleSide(dash){
+  document.getElementById(`side-${dash}`).classList.toggle('open');
+  document.getElementById(`sideov-${dash}`).classList.toggle('open');
+}
+function closeM(id){ document.getElementById(id).classList.remove('open'); }
+function openM(id){ document.getElementById(id).classList.add('open'); }
+document.querySelectorAll('.overlay').forEach(o=>o.addEventListener('click',e=>{ if(e.target===o) o.classList.remove('open'); }));
+
+let toastT;
+function toast(m){
+  const el = document.getElementById('toast'); el.textContent = m; el.classList.add('show');
+  clearTimeout(toastT); toastT = setTimeout(()=>el.classList.remove('show'), 3000);
+}
+function fmsg(id, txt, cls){
+  const el = document.getElementById(id); el.className = 'fmsg '+cls; el.textContent = txt;
+  if(cls==='ok') setTimeout(()=>{el.className='fmsg';}, 3500);
+}
+function fdate(iso){ if(!iso) return '—'; const d = new Date(iso);
+  return d.toLocaleDateString('ar-SA',{day:'numeric',month:'numeric',year:'numeric'}); }
+function esc(s){ return String(s??'').replace(/[&<>"']/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+
+const ST = {
+  submitted:{l:'📥 مُستلمة', c:'b-dim'}, queue:{l:'◷ انتظار', c:'b-dim'},
+  reviewing:{l:'👀 مراجعة أولية', c:'b-cyan'}, quoted:{l:'💰 تسعير', c:'b-gold'},
+  processing:{l:'⟳ توطين', c:'b-purple'}, review:{l:'⏳ مراجعة بشرية', c:'b-gold'},
+  marketing:{l:'📣 تسويق', c:'b-cyan'}, done:{l:'✓ مكتملة', c:'b-green'},
+  cancelled:{l:'✕ ملغاة', c:'b-red'}
+};
+function stBadge(s){ const x = ST[s]||ST.queue; return `<span class="badge ${x.c}">${x.l}</span>`; }
+function stPct(s){ return ({queue:8,submitted:8,reviewing:22,quoted:34,processing:55,review:78,marketing:90,done:100}[s]||10); }
+
+/* ═══ AUTH ═══ */
+function openAuth(tab){ openM('authModal'); if(tab) authTab(tab); }
+function authTab(t){
+  document.getElementById('at-login').classList.toggle('on', t==='login');
+  document.getElementById('at-signup').classList.toggle('on', t==='signup');
+  document.getElementById('f-login').style.display = t==='login'?'block':'none';
+  document.getElementById('f-signup').style.display = t==='signup'?'block':'none';
+}
+async function doLogin(){
+  const email = document.getElementById('li-email').value.trim();
+  const pass  = document.getElementById('li-pass').value;
+  if(!email||!pass){ fmsg('auth-msg','يرجى تعبئة الحقول','err'); return; }
+  const b = document.getElementById('li-btn'); b.disabled=true; b.textContent='...';
+  const { error } = await sb.auth.signInWithPassword({ email, password: pass });
+  b.disabled=false; b.textContent = t('tab_login');
+  if(error) fmsg('auth-msg', error.message, 'err');
+  else closeM('authModal');
+}
+async function doSignup(){
+  const name = document.getElementById('su-name').value.trim();
+  const company = document.getElementById('su-company').value.trim();
+  const country = document.getElementById('su-country').value.trim();
+  const email = document.getElementById('su-email').value.trim();
+  const pass  = document.getElementById('su-pass').value;
+  if(!email||!pass||!name){ fmsg('auth-msg','الاسم والبريد وكلمة المرور مطلوبة','err'); return; }
+  const b = document.getElementById('su-btn'); b.disabled=true; b.textContent='...';
+  const { error } = await sb.auth.signUp({ email, password: pass,
+    options:{ data:{ full_name:name, company, country } } });
+  b.disabled=false; b.textContent = t('signup_btn');
+  if(error) fmsg('auth-msg', error.message, 'err');
+  else fmsg('auth-msg','✓ تم إنشاء الحساب! تحقق من بريدك ثم سجل دخول.','ok');
+}
+async function doLogout(){ await sb.auth.signOut(); myRole='guest'; myMember=null; myVendor=null; showView('view-landing'); }
+
+sb.auth.onAuthStateChange((ev, session)=>{
+  me = session?.user || null;
+  if(me) routeByRole();
+});
+
+async function routeByRole(){
+  // team?
+  let { data: tm } = await sb.from('team_members').select('*').eq('user_id', me.id).maybeSingle();
+  if(!tm){
+    const r = await sb.from('team_members').select('*').eq('email', me.email).maybeSingle();
+    if(r.data){ await sb.from('team_members').update({user_id: me.id}).eq('id', r.data.id); tm = {...r.data, user_id: me.id}; }
+  }
+  if(tm && tm.is_active){ myMember = tm; myRole='team'; enterTeam(); return; }
+  // vendor?
+  let { data: vn } = await sb.from('vendors').select('*').eq('user_id', me.id).maybeSingle();
+  if(!vn){
+    const r = await sb.from('vendors').select('*').eq('email', me.email).maybeSingle();
+    if(r.data){ await sb.from('vendors').update({user_id: me.id}).eq('id', r.data.id); vn = {...r.data, user_id: me.id}; }
+  }
+  if(vn && vn.is_active){ myVendor = vn; myRole='vendor'; enterVendor(); return; }
+  // default: client
+  myRole='client'; enterClient();
+}
+
+/* ═══ ADMIN GATE ═══ */
+function openAdminGate(){ openM('adminGate'); setTimeout(()=>document.getElementById('gate-pass').focus(),200); }
+async function checkAdminGate(){
+  const v = document.getElementById('gate-pass').value;
+  const { data } = await sb.from('settings').select('value').eq('key','admin_secret').single();
+  if(data?.value) adminSecret = data.value;
+  if(v === adminSecret){
+    closeM('adminGate'); myRole='admin'; showView('dash-admin'); adminLoadAll();
+    document.getElementById('gate-pass').value='';
+  } else fmsg('gate-msg','✕ كلمة السر غير صحيحة','err');
+}
+function adminLogout(){ showView('view-landing'); }
+async function updateSecret(){
+  const n = document.getElementById('new-secret').value.trim();
+  const c = document.getElementById('conf-secret').value.trim();
+  if(!n||n.length<6){ fmsg('secret-msg','⚠️ 6 أحرف على الأقل','err'); return; }
+  if(n!==c){ fmsg('secret-msg','✕ غير متطابقتين','err'); return; }
+  await sb.from('settings').upsert({key:'admin_secret', value:n});
+  adminSecret = n; fmsg('secret-msg','✓ تم التغيير','ok');
+  document.getElementById('new-secret').value=''; document.getElementById('conf-secret').value='';
+}
+
+/* ═══ TELEGRAM ═══ */
+async function tgCfg(){
+  const { data } = await sb.from('telegram_settings').select('*');
+  const c={}; (data||[]).forEach(r=>c[r.key]=r.value); return c;
+}
+async function tgSend(chatId, text){
+  const c = await tgCfg(); if(!c.bot_token||!chatId) return false;
+  try{ const r = await fetch(`https://api.telegram.org/bot${c.bot_token}/sendMessage`,{
+    method:'POST',headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({chat_id:chatId,text,parse_mode:'HTML'})});
+    return (await r.json()).ok; }catch{return false;}
+}
+async function tgAdmin(text){ const c = await tgCfg(); if(c.admin_chat_id) tgSend(c.admin_chat_id, text); }
+async function loadTelegram(){
+  const c = await tgCfg();
+  document.getElementById('tg-token').value = c.bot_token||'';
+  document.getElementById('tg-admin').value = c.admin_chat_id||'';
+}
+async function saveTelegram(){
+  await sb.from('telegram_settings').upsert([
+    {key:'bot_token', value:document.getElementById('tg-token').value.trim()},
+    {key:'admin_chat_id', value:document.getElementById('tg-admin').value.trim()},
+  ]);
+  fmsg('tg-msg','✓ تم الحفظ','ok');
+}
+async function testTelegram(){
+  const ok = await tgSend(document.getElementById('tg-admin').value.trim(), '✅ GameLex — الاتصال يعمل!');
+  fmsg('tg-msg', ok?'✓ وصلت الرسالة!':'✕ تحقق من البيانات', ok?'ok':'err');
+}
+
+/* ═══ SITE SETTINGS (public landing) ═══ */
+async function loadSiteCfg(){
+  const { data } = await sb.from('site_settings').select('*');
+  siteCfg = {}; (data||[]).forEach(r=>siteCfg[r.key]=r.value);
+  // about / contact
+  if(siteCfg.about_text) document.getElementById('aboutText').textContent = siteCfg.about_text;
+  document.getElementById('ctEmail').textContent = siteCfg.contact_email||'—';
+  document.getElementById('ctEmail').href = 'mailto:'+(siteCfg.contact_email||'');
+  document.getElementById('ctPhone').textContent = siteCfg.contact_phone||'—';
+  document.getElementById('ctPhone').href = 'tel:'+(siteCfg.contact_phone||'');
+  document.getElementById('ctAddress').textContent = siteCfg.address_text||'—';
+  // socials
+  const socs = [
+    ['social_linkedin','💼'],['social_twitter','𝕏'],['social_instagram','📷'],
+    ['social_facebook','📘'],['social_tiktok','🎵'],['social_youtube','▶️']
+  ];
+  const html = socs.filter(([k])=>siteCfg[k]).map(([k,ic])=>
+    `<a class="soc" href="${esc(siteCfg[k])}" target="_blank" rel="noopener">${ic}</a>`).join('');
+  document.getElementById('socialIcons').innerHTML = html;
+  document.getElementById('socialIconsFoot').innerHTML = html;
+  // toggles
+  loadPartnersPublic();
+  loadPortfolioPublic();
+  loadShowcasePublic();
+}
+function openPolicy(){
+  document.getElementById('policyText').textContent = siteCfg.policy_text || 'لم تُضف سياسة الخصوصية بعد.';
+  openM('policyModal');
+}
+async function setSiteToggle(key, val){
+  await sb.from('site_settings').upsert({key, value: String(val)});
+  siteCfg[key] = String(val); toast('✓ تم التحديث'); loadSiteCfg();
+}
+
+async function loadPartnersPublic(){
+  if(siteCfg.show_partners !== 'true'){ document.getElementById('partners-sec').style.display='none'; return; }
+  const { data } = await sb.from('partners').select('*').eq('is_visible',true).order('sort_order');
+  const sec = document.getElementById('partners-sec');
+  if(!data?.length){ sec.style.display='none'; return; }
+  sec.style.display='block';
+  document.getElementById('partnersStrip').innerHTML = data.map(p=>{
+    const inner = p.logo_url
+      ? `<img class="partner-logo" src="${esc(p.logo_url)}" alt="${esc(p.name)}" onerror="this.outerHTML='<span class=partner-name>${esc(p.name)}</span>'">`
+      : `<span class="partner-name">${esc(p.name)}</span>`;
+    return p.link ? `<a href="${esc(p.link)}" target="_blank" rel="noopener">${inner}</a>` : inner;
+  }).join('');
+}
+async function loadPortfolioPublic(){
+  const sec = document.getElementById('portfolio'), nav = document.getElementById('nav-portfolio');
+  if(siteCfg.show_portfolio !== 'true'){ sec.style.display='none'; nav.style.display='none'; return; }
+  const { data } = await sb.from('portfolio').select('*').eq('is_visible',true).order('sort_order');
+  if(!data?.length){ sec.style.display='none'; nav.style.display='none'; return; }
+  sec.style.display='block'; nav.style.display='inline';
+  document.getElementById('pfGrid').innerHTML = data.map(p=>`
+    <div class="pf-card" ${p.link?`onclick="window.open('${esc(p.link)}','_blank')"`:''}>
+      ${p.image_url?`<img class="pf-img" src="${esc(p.image_url)}" alt="" onerror="this.style.display='none'">`:`<div class="pf-img" style="display:flex;align-items:center;justify-content:center;font-size:2.4rem;">🎮</div>`}
+      <div class="pf-body"><div class="pf-cat">${esc(p.category||'PROJECT')}</div><div class="pf-title">${esc(p.title)}</div></div>
+    </div>`).join('');
+}
+async function loadShowcasePublic(){
+  const sec = document.getElementById('teamshow');
+  if(siteCfg.show_team_showcase !== 'true'){ sec.style.display='none'; return; }
+  const { data } = await sb.from('team_showcase').select('*').eq('is_visible',true).order('sort_order');
+  if(!data?.length){ sec.style.display='none'; return; }
+  sec.style.display='block';
+  document.getElementById('tsGrid').innerHTML = data.map(m=>`
+    <div class="tm-card">
+      ${m.photo_url
+        ? `<img class="tm-photo" src="${esc(m.photo_url)}" alt="" onerror="this.outerHTML='<div class=tm-photo-fallback>${esc(m.name?.[0]||'?')}</div>'">`
+        : `<div class="tm-photo-fallback">${esc(m.name?.[0]||'?')}</div>`}
+      <div class="tm-name">${esc(m.name)}</div>
+      <div class="tm-role">${esc(m.role||'')}</div>
+    </div>`).join('');
+}
+
+/* ═══ PUBLIC PRICING ═══ */
+async function loadPricingPublic(){
+  const { data } = await sb.from('pricing').select('*').order('sort_order');
+  A.pricing = data||[];
+  const g = document.getElementById('priceGrid');
+  if(!data?.length){ g.innerHTML = '<div class="empty" style="grid-column:1/-1;">لا توجد باقات بعد</div>'; return; }
+  g.innerHTML = data.map(p=>{
+    const feats = Array.isArray(p.features)?p.features:JSON.parse(p.features||'[]');
+    const showPrice = p.price && p.price.toLowerCase?.() !== 'hidden';
+    return `<div class="price-card ${p.is_featured?'feat':''}">
+      ${p.is_featured?`<div class="price-badge">⭐ الأكثر طلباً</div>`:''}
+      <div class="price-plan">${esc(p.name)}</div>
+      <div class="price-amt">${showPrice ? (p.price?.startsWith('$')?`<span class="cur">$</span>${esc(p.price.slice(1))}`:esc(p.price)) : '<span style="font-size:1.4rem;">Request Quote</span>'}</div>
+      <div class="price-per">${esc(p.period||'')}</div>
+      <ul class="price-feats">${feats.map(f=>`<li><span class="ck">✓</span>${esc(f)}</li>`).join('')}</ul>
+      <button class="btn ${p.is_featured?'btn-grad':'btn-ghost'}" style="padding:13px;" onclick="planCTA('${esc(p.btn_action||'')}')">${esc(p.btn_label||'ابدأ')}</button>
+    </div>`;
+  }).join('');
+  // fill wizard select
+  const sel = document.getElementById('np-plan');
+  sel.innerHTML = data.map(p=>`<option value="${esc(p.name)}">${esc(p.name)}</option>`).join('');
+}
+function planCTA(action){
+  if(action?.startsWith('http')||action?.startsWith('mailto:')) window.open(action,'_blank');
+  else if(me) { showView('dash-client'); openCreatePkg(); }
+  else openAuth('signup');
+}
+
+/* ═══ CLIENT ═══ */
+function enterClient(){
+  showView('dash-client');
+  document.getElementById('cl-name').textContent = me.user_metadata?.full_name || me.email;
+  loadClientPackages();
+}
+async function loadClientPackages(){
+  const { data } = await sb.from('packages').select('*').eq('user_id', me.id).order('created_at',{ascending:false});
+  C.pkgs = data||[];
+  document.getElementById('cs-total').textContent = C.pkgs.length;
+  document.getElementById('cs-proc').textContent = C.pkgs.filter(p=>['processing','review','reviewing','marketing'].includes(p.status)).length;
+  document.getElementById('cs-done').textContent = C.pkgs.filter(p=>p.status==='done').length;
+  document.getElementById('cs-words').textContent = C.pkgs.reduce((s,p)=>s+(p.est_words||0),0).toLocaleString();
+  const render = list => list.length ? list.map(p=>`
+    <div class="row-item">
+      <div style="min-width:0;flex:1;">
+        <div style="font-weight:700;">${esc(p.game_name)}</div>
+        <div style="font-size:0.74rem;color:var(--dim);margin-top:3px;">${esc(p.plan||'—')} • ${fdate(p.created_at)}${p.deadline?` • ⏰ ${fdate(p.deadline)}`:''}</div>
+        <div class="prog"><i style="width:${stPct(p.status)}%"></i></div>
+      </div>
+      <div class="row-actions" style="display:flex;gap:7px;align-items:center;flex-wrap:wrap;">
+        ${stBadge(p.status)}
+        <button class="mini-btn" onclick="clientPkgDetail('${p.id}')">📋 تفاصيل</button>
+      </div>
+    </div>`).join('') : `<div class="empty"><div class="ei">📦</div>لا توجد حزم — أطلق أول حزمة!<br><br><button class="mini-btn mm" onclick="openCreatePkg()">➕ حزمة جديدة</button></div>`;
+  document.getElementById('cl-recent').innerHTML = render(C.pkgs.slice(0,4));
+  document.getElementById('cl-pkg-list').innerHTML = render(C.pkgs);
+}
+async function clientPkgDetail(id){
+  const p = C.pkgs.find(x=>x.id===id); if(!p) return;
+  document.getElementById('dm-title').textContent = '📦 '+p.game_name;
+  openM('detailModal');
+  const { data: ups } = await sb.from('package_updates').select('*').eq('package_id', id).order('created_at',{ascending:false});
+  const files = await listPkgFiles(p.user_id, p.id);
+  document.getElementById('dm-body').innerHTML = `
+    <div style="display:flex;gap:8px;align-items:center;margin-bottom:16px;flex-wrap:wrap;">
+      ${stBadge(p.status)}
+      <span class="badge b-dim">${esc(p.plan||'—')}</span>
+      ${p.deadline?`<span class="badge b-gold">⏰ ${fdate(p.deadline)}</span>`:''}
+    </div>
+    <div class="prog" style="height:7px;"><i style="width:${stPct(p.status)}%"></i></div>
+    ${p.description?`<p style="color:var(--dim);font-size:0.86rem;line-height:1.8;margin:14px 0;">${esc(p.description)}</p>`:''}
+    <div class="f2" style="margin:16px 0;font-size:0.82rem;">
+      ${p.target_langs?`<div><span style="color:var(--dim);">اللغات:</span> ${esc(p.target_langs)}</div>`:''}
+      ${p.platforms?`<div><span style="color:var(--dim);">المنصات:</span> ${esc(p.platforms)}</div>`:''}
+      ${p.engine?`<div><span style="color:var(--dim);">المحرك:</span> ${esc(p.engine)}</div>`:''}
+      ${p.est_words?`<div><span style="color:var(--dim);">الكلمات:</span> ${Number(p.est_words).toLocaleString()}</div>`:''}
+    </div>
+    ${files.html}
+    ${ups?.length?`<div style="margin-top:18px;">
+      <div class="fl">TIMELINE</div>
+      ${ups.map(u=>`<div style="display:flex;gap:10px;padding:9px 0;border-bottom:1px solid rgba(255,255,255,0.05);">
+        <div style="width:7px;height:7px;border-radius:50%;background:var(--purple);margin-top:6px;flex-shrink:0;"></div>
+        <div><div style="font-size:0.82rem;">${esc(u.note||u.new_status)}</div>
+        <div style="font-size:0.66rem;color:var(--dim);">${fdate(u.created_at)}</div></div>
+      </div>`).join('')}</div>`:''}`;
+}
+
+/* create pkg wizard */
+let npFiles = [];
+function openCreatePkg(){
+  if(!me){ openAuth('signup'); return; }
+  npFiles = []; document.getElementById('np-filelist').textContent='';
+  document.getElementById('np-msg').className='fmsg';
+  openM('pkgModal');
+}
+document.getElementById('np-files').addEventListener('change', e=>{
+  npFiles = Array.from(e.target.files);
+  document.getElementById('np-filelist').textContent = npFiles.length ? `✓ ${npFiles.length} ملف: ${npFiles.map(f=>f.name).join('، ')}` : '';
+});
+async function submitPackage(){
+  const name = document.getElementById('np-name').value.trim();
+  if(!name){ fmsg('np-msg','⚠️ اسم اللعبة مطلوب','err'); return; }
+  const b = document.getElementById('np-btn'); b.disabled=true; b.textContent='⟳ جاري الإرسال...';
+  const deadline = document.getElementById('np-deadline').value;
+  const payload = {
+    user_id: me.id, game_name: name, status:'submitted',
+    plan: document.getElementById('np-plan').value,
+    type: document.getElementById('np-plan').value,
+    description: document.getElementById('np-desc').value.trim()||null,
+    links: document.getElementById('np-links').value.trim()||null,
+    platforms: document.getElementById('np-platforms').value.trim()||null,
+    target_langs: document.getElementById('np-langs').value.trim()||null,
+    engine: document.getElementById('np-engine').value||null,
+    est_words: Number(document.getElementById('np-words').value)||null,
+    deadline: deadline ? new Date(deadline).toISOString() : null,
+    notes: document.getElementById('np-notes').value.trim()||null,
+    assets_count: npFiles.length
+  };
+  const { data, error } = await sb.from('packages').insert([payload]).select().single();
+  if(error){ fmsg('np-msg','✕ '+error.message,'err'); b.disabled=false; b.textContent='🚀 إرسال الحزمة'; return; }
+  // upload files
+  for(let i=0;i<npFiles.length;i++){
+    const f = npFiles[i];
+    fmsg('np-msg',`⟳ رفع الملفات ${i+1}/${npFiles.length}...`,'info');
+    await sb.storage.from('packages').upload(`${me.id}/${data.id}/${Date.now()}_${f.name}`, f);
+  }
+  await sb.from('package_updates').insert([{package_id:data.id, new_status:'submitted', note:'📥 تم استلام الحزمة'}]);
+  tgAdmin(`📦 <b>GameLex — حزمة جديدة!</b>\n\n🎮 ${name}\n📋 ${payload.plan}\n📁 ${npFiles.length} ملف${payload.est_words?`\n📝 ${payload.est_words} كلمة`:''}`);
+  fmsg('np-msg','✓ تم إرسال الحزمة بنجاح! 🎉','ok');
+  b.disabled=false; b.textContent='🚀 إرسال الحزمة';
+  ['np-name','np-desc','np-links','np-platforms','np-langs','np-words','np-deadline','np-notes'].forEach(i=>document.getElementById(i).value='');
+  npFiles=[]; document.getElementById('np-filelist').textContent='';
+  loadClientPackages();
+  setTimeout(()=>closeM('pkgModal'), 1800);
+}
+
+/* files helper */
+async function listPkgFiles(userId, pkgId){
+  const { data } = await sb.storage.from('packages').list(`${userId}/${pkgId}`, {limit:100});
+  const files = (data||[]).filter(f=>f.name && f.name!=='.emptyFolderPlaceholder');
+  if(!files.length) return { html:'', files:[] };
+  const icons = {pdf:'📄',zip:'📦',png:'🖼️',jpg:'🖼️',jpeg:'🖼️',mp3:'🎵',wav:'🎵',json:'📋',csv:'📊',po:'📝',xliff:'📝',txt:'📄',xlsx:'📊',docx:'📄'};
+  const html = `<div style="margin-top:14px;"><div class="fl">FILES (${files.length})</div>
+    ${files.map(f=>{
+      const ext = f.name.split('.').pop().toLowerCase();
+      const path = `${userId}/${pkgId}/${f.name}`;
+      const url = sb.storage.from('packages').getPublicUrl(path).data?.publicUrl;
+      const sz = f.metadata?.size||0;
+      const size = sz>1048576?(sz/1048576).toFixed(1)+' MB':sz>1024?Math.round(sz/1024)+' KB':sz+' B';
+      return `<div style="display:flex;align-items:center;justify-content:space-between;gap:9px;background:var(--surface2);border:1px solid var(--border2);border-radius:10px;padding:10px 13px;margin-bottom:7px;">
+        <div style="min-width:0;display:flex;gap:8px;align-items:center;">
+          <span>${icons[ext]||'📄'}</span>
+          <div style="min-width:0;"><div style="font-size:0.8rem;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:280px;">${esc(f.name)}</div>
+          <div style="font-size:0.66rem;color:var(--dim);">${size}</div></div>
+        </div>
+        <a href="${url}" target="_blank" download style="background:var(--grad);color:#fff;padding:6px 13px;border-radius:8px;font-size:0.74rem;font-weight:700;text-decoration:none;white-space:nowrap;">⬇️ تحميل</a>
+      </div>`;
+    }).join('')}</div>`;
+  return { html, files };
+}
+
+/* glossary */
+async function loadGlossary(){
+  const { data } = await sb.from('glossary').select('*').eq('user_id', me.id).order('created_at',{ascending:false});
+  C.gloss = data||[];
+  document.getElementById('g-list').innerHTML = C.gloss.length ? C.gloss.map(g=>`
+    <div class="row-item" style="padding:11px 15px;">
+      <div style="display:flex;gap:14px;align-items:center;min-width:0;">
+        <b style="font-size:0.86rem;">${esc(g.source_term)}</b>
+        <span style="color:var(--cyan);font-size:0.86rem;">← ${esc(g.translated_term)}</span>
+      </div>
+      <button class="mini-btn dg" onclick="delTerm('${g.id}')">حذف</button>
+    </div>`).join('') : '<div class="empty">لا مصطلحات بعد</div>';
+}
+async function addTerm(){
+  const s = document.getElementById('g-src').value.trim();
+  const tr = document.getElementById('g-tr').value.trim();
+  if(!s||!tr){ toast('⚠️ عبّي الحقلين'); return; }
+  await sb.from('glossary').insert([{user_id:me.id, source_term:s, translated_term:tr, language:'ar'}]);
+  document.getElementById('g-src').value=''; document.getElementById('g-tr').value='';
+  toast('✓ أُضيف المصطلح'); loadGlossary();
+}
+async function delTerm(id){ await sb.from('glossary').delete().eq('id',id); loadGlossary(); }
+function renderProfile(){
+  const m = me.user_metadata||{};
+  document.getElementById('cl-profile-body').innerHTML = `
+    <div class="f2" style="font-size:0.88rem;">
+      <div><div class="fl">FULL NAME</div>${esc(m.full_name||'—')}</div>
+      <div><div class="fl">EMAIL</div><span style="direction:ltr;display:inline-block;">${esc(me.email)}</span></div>
+      <div><div class="fl">COMPANY</div>${esc(m.company||'—')}</div>
+      <div><div class="fl">COUNTRY</div>${esc(m.country||'—')}</div>
+    </div>`;
+}
+
+/* ═══ TEAM ═══ */
+function enterTeam(){
+  showView('dash-team');
+  document.getElementById('tm-hello').textContent = myMember.name;
+  loadTeamTasks();
+}
+async function loadTeamTasks(){
+  const { data } = await sb.from('packages').select('*').eq('assigned_to', myMember.id).order('created_at',{ascending:false});
+  const tasks = data||[];
+  document.getElementById('ts-total').textContent = tasks.length;
+  document.getElementById('ts-active').textContent = tasks.filter(t=>['processing','review'].includes(t.status)).length;
+  document.getElementById('ts-done').textContent = tasks.filter(t=>t.status==='done').length;
+  document.getElementById('team-tasks').innerHTML = tasks.length ? tasks.map(p=>{
+    const urgent = p.deadline && new Date(p.deadline) < new Date(Date.now()+86400000*2) && p.status!=='done';
+    return `<div class="row-item" style="${urgent?'border-color:rgba(248,113,113,0.35);':''}">
+      <div style="min-width:0;flex:1;">
+        <div style="font-weight:700;">${esc(p.game_name)} ${urgent?'<span class="badge b-red">🔴 عاجل</span>':''}</div>
+        <div style="font-size:0.74rem;color:var(--dim);margin-top:3px;">${p.deadline?`⏰ ${fdate(p.deadline)} • `:''}${esc(p.target_langs||'')}</div>
+        ${p.notes?`<div style="font-size:0.76rem;color:var(--cyan);margin-top:6px;">📝 ${esc(p.notes)}</div>`:''}
+        <div class="prog"><i style="width:${stPct(p.status)}%"></i></div>
+      </div>
+      <div class="row-actions" style="display:flex;gap:7px;flex-wrap:wrap;align-items:center;">
+        ${stBadge(p.status)}
+        <select class="st-sel" onchange="teamStatus('${p.id}',this.value)">
+          <option value="">تغيير ▾</option>
+          <option value="processing">⟳ توطين</option>
+          <option value="review">⏳ مراجعة</option>
+          <option value="done">✓ مكتملة</option>
+        </select>
+        <button class="mini-btn" onclick="teamFiles('${p.id}','${esc(p.game_name)}','${p.user_id}')">📁</button>
+      </div>
+    </div>`;
+  }).join('') : '<div class="empty"><div class="ei">📋</div>لا مهام مسندة لك حالياً</div>';
+}
+async function teamStatus(id, st){
+  if(!st) return;
+  await sb.from('packages').update({status:st}).eq('id',id);
+  await sb.from('package_updates').insert([{package_id:id, new_status:st, note:`🔄 ${myMember.name}: ${ST[st]?.l||st}`}]);
+  tgAdmin(`🔄 <b>تحديث من الفريق</b>\n👤 ${myMember.name}\n📊 ${ST[st]?.l||st}`);
+  toast('✓ تم التحديث'); loadTeamTasks();
+}
+async function teamFiles(id, name, uid){
+  document.getElementById('dm-title').textContent = '📁 '+name;
+  openM('detailModal');
+  const f = await listPkgFiles(uid, id);
+  document.getElementById('dm-body').innerHTML = f.html || '<div class="empty">لا ملفات</div>';
+}
+
+/* ═══ VENDOR ═══ */
+function enterVendor(){
+  showView('dash-vendor');
+  document.getElementById('vn-hello').textContent = myVendor.name;
+  loadVendorRfqs();
+}
+async function loadVendorRfqs(){
+  // invites for me
+  const { data: inv } = await sb.from('rfq_invites').select('rfq_id').eq('vendor_id', myVendor.id);
+  const rfqIds = (inv||[]).map(i=>i.rfq_id);
+  let rfqs = [];
+  if(rfqIds.length){
+    const r = await sb.from('rfqs').select('*').in('id', rfqIds).order('created_at',{ascending:false});
+    rfqs = r.data||[];
+  }
+  const { data: myQuotes } = await sb.from('rfq_quotes').select('*').eq('vendor_id', myVendor.id);
+  const quotes = myQuotes||[];
+  document.getElementById('vs-open').textContent = rfqs.filter(r=>r.status==='open').length;
+  document.getElementById('vs-quotes').textContent = quotes.length;
+  document.getElementById('vs-won').textContent = quotes.filter(q=>q.status==='accepted').length;
+
+  document.getElementById('vendor-rfqs').innerHTML = rfqs.length ? rfqs.map(r=>{
+    const myQ = quotes.find(q=>q.rfq_id===r.id);
+    return `<div class="row-item">
+      <div style="min-width:0;flex:1;">
+        <div style="font-weight:700;">${esc(r.title||'طلب تسعير')}</div>
+        <div style="font-size:0.76rem;color:var(--dim);margin-top:4px;line-height:1.7;">${esc(r.details||'')}</div>
+        ${r.deadline?`<div style="font-size:0.72rem;color:var(--gold);margin-top:4px;">⏰ آخر موعد: ${fdate(r.deadline)}</div>`:''}
+      </div>
+      <div class="row-actions" style="display:flex;gap:7px;align-items:center;flex-wrap:wrap;">
+        ${r.status==='open'
+          ? (myQ ? `<span class="badge b-cyan">✓ قدمت عرضك: ${myQ.price} ${myQ.currency}</span>`
+                 : `<button class="mini-btn mm" onclick="openQuote('${r.id}')">💰 قدّم عرضك</button>`)
+          : (myQ?.status==='accepted' ? '<span class="badge b-green">🏆 فزت بالعرض!</span>' : '<span class="badge b-dim">مغلق</span>')}
+      </div>
+    </div>`;
+  }).join('') : '<div class="empty"><div class="ei">📨</div>لا طلبات تسعير موجهة لك</div>';
+
+  // awarded tasks
+  const { data: myTasks } = await sb.from('packages').select('*').eq('vendor_id', myVendor.id).order('created_at',{ascending:false});
+  document.getElementById('vendor-tasks').innerHTML = (myTasks||[]).length ? myTasks.map(p=>`
+    <div class="row-item">
+      <div style="min-width:0;flex:1;">
+        <div style="font-weight:700;">${esc(p.game_name)}</div>
+        ${p.notes?`<div style="font-size:0.76rem;color:var(--cyan);margin-top:4px;">📝 ${esc(p.notes)}</div>`:''}
+        <div class="prog"><i style="width:${stPct(p.status)}%"></i></div>
+      </div>
+      <div class="row-actions" style="display:flex;gap:7px;align-items:center;flex-wrap:wrap;">
+        ${stBadge(p.status)}
+        <select class="st-sel" onchange="vendorStatus('${p.id}',this.value)">
+          <option value="">تغيير ▾</option>
+          <option value="processing">⟳ توطين</option>
+          <option value="review">⏳ مراجعة</option>
+          <option value="done">✓ مكتملة</option>
+        </select>
+        <button class="mini-btn" onclick="teamFiles('${p.id}','${esc(p.game_name)}','${p.user_id}')">📁</button>
+      </div>
+    </div>`).join('') : '<div class="empty">لا مهام مسندة</div>';
+}
+async function vendorStatus(id, st){
+  if(!st) return;
+  await sb.from('packages').update({status:st}).eq('id',id);
+  await sb.from('package_updates').insert([{package_id:id, new_status:st, note:`🤝 ${myVendor.name}: ${ST[st]?.l||st}`}]);
+  tgAdmin(`🤝 <b>تحديث من متعهد</b>\n👤 ${myVendor.name}\n📊 ${ST[st]?.l||st}`);
+  toast('✓ تم التحديث'); loadVendorRfqs();
+}
+function openQuote(rfqId){
+  document.getElementById('dm-title').textContent = '💰 تقديم عرض سعر';
+  document.getElementById('dm-body').innerHTML = `
+    <div class="f2">
+      <div class="fg"><label class="fl">PRICE</label><input class="fi" type="number" id="q-price" style="direction:ltr;"></div>
+      <div class="fg"><label class="fl">CURRENCY</label>
+        <select class="fi" id="q-cur"><option>SAR</option><option>USD</option><option>EUR</option></select></div>
+    </div>
+    <div class="fg"><label class="fl">DELIVERY (DAYS)</label><input class="fi" type="number" id="q-days" style="direction:ltr;"></div>
+    <div class="fg"><label class="fl">PROPOSAL / ملاحظات العرض</label><textarea class="fi" id="q-prop" rows="4"></textarea></div>
+    <button class="btn btn-grad" style="width:100%;padding:13px;" onclick="submitQuote('${rfqId}')">📨 إرسال العرض</button>
+    <div class="fmsg" id="q-msg"></div>`;
+  openM('detailModal');
+}
+async function submitQuote(rfqId){
+  const price = Number(document.getElementById('q-price').value);
+  if(!price){ fmsg('q-msg','⚠️ أدخل السعر','err'); return; }
+  await sb.from('rfq_quotes').insert([{
+    rfq_id: rfqId, vendor_id: myVendor.id, price,
+    currency: document.getElementById('q-cur').value,
+    days: Number(document.getElementById('q-days').value)||null,
+    proposal: document.getElementById('q-prop').value.trim()||null
+  }]);
+  tgAdmin(`💰 <b>عرض سعر جديد!</b>\n👤 ${myVendor.name}\n💵 ${price} ${document.getElementById('q-cur').value}`);
+  fmsg('q-msg','✓ تم إرسال عرضك بنجاح','ok');
+  setTimeout(()=>{ closeM('detailModal'); loadVendorRfqs(); }, 1400);
+}
+
+/* ═══ ADMIN ═══ */
+async function adminLoadAll(){
+  const [pk, tm, vn, rf] = await Promise.all([
+    sb.from('packages').select('*').order('created_at',{ascending:false}),
+    sb.from('team_members').select('*').order('created_at'),
+    sb.from('vendors').select('*').order('created_at'),
+    sb.from('rfqs').select('*').order('created_at',{ascending:false}),
+  ]);
+  A.pkgs = pk.data||[]; A.team = tm.data||[]; A.vendors = vn.data||[]; A.rfqs = rf.data||[];
+  document.getElementById('as-pkgs').textContent = A.pkgs.length;
+  document.getElementById('as-pkgs-s').textContent = A.pkgs.filter(p=>p.status==='done').length + ' مكتملة';
+  document.getElementById('as-clients').textContent = new Set(A.pkgs.map(p=>p.user_id)).size;
+  document.getElementById('as-pending').textContent = A.pkgs.filter(p=>['submitted','queue'].includes(p.status) && !p.assigned_to && !p.vendor_id).length;
+  document.getElementById('as-rfqs').textContent = A.rfqs.filter(r=>r.status==='open').length;
+  document.getElementById('ad-recent').innerHTML = renderAdminPkgs(A.pkgs.slice(0,5));
+  document.getElementById('ad-pkgs').innerHTML = renderAdminPkgs(A.pkgs);
+}
+function renderAdminPkgs(list){
+  if(!list.length) return '<div class="empty"><div class="ei">📦</div>لا حزم بعد</div>';
+  return list.map(p=>{
+    const tm = A.team.find(m=>m.id===p.assigned_to);
+    const vn = A.vendors.find(v=>v.id===p.vendor_id);
+    return `<div class="row-item">
+      <div style="min-width:0;flex:1;">
+        <div style="font-weight:700;">${esc(p.game_name)}</div>
+        <div style="font-size:0.72rem;color:var(--dim);margin-top:3px;">
+          ${esc(p.plan||p.type||'—')} • ${fdate(p.created_at)}
+          ${tm?` • 👥 ${esc(tm.name)}`:''}${vn?` • 🤝 ${esc(vn.name)}`:''}
+        </div>
+        <div class="prog"><i style="width:${stPct(p.status)}%"></i></div>
+      </div>
+      <div class="row-actions" style="display:flex;gap:6px;flex-wrap:wrap;align-items:center;">
+        ${stBadge(p.status)}
+        <select class="st-sel" onchange="adminStatus('${p.id}',this.value)">
+          <option value="">حالة ▾</option>
+          ${Object.entries(ST).map(([k,v])=>`<option value="${k}">${v.l}</option>`).join('')}
+        </select>
+        <button class="mini-btn" onclick="adminAssign('${p.id}')">👥 توجيه</button>
+        <button class="mini-btn" onclick="adminRfq('${p.id}','${esc(p.game_name)}')">📨 RFQ</button>
+        <button class="mini-btn" onclick="adminPkgDetail('${p.id}')">📋</button>
+        <button class="mini-btn dg" onclick="adminDelPkg('${p.id}')">🗑</button>
+      </div>
+    </div>`;
+  }).join('');
+}
+async function adminStatus(id, st){
+  if(!st) return;
+  await sb.from('packages').update({status:st}).eq('id',id);
+  await sb.from('package_updates').insert([{package_id:id, new_status:st, note:`⚙️ الإدارة: ${ST[st]?.l||st}`}]);
+  toast('✓ تم التحديث'); adminLoadAll();
+}
+async function adminDelPkg(id){
+  if(!confirm('حذف هذه الحزمة نهائياً؟')) return;
+  await sb.from('packages').delete().eq('id',id);
+  toast('🗑 حُذفت'); adminLoadAll();
+}
+async function adminPkgDetail(id){
+  const p = A.pkgs.find(x=>x.id===id); if(!p) return;
+  document.getElementById('dm-title').textContent = '📦 '+p.game_name;
+  openM('detailModal');
+  const files = await listPkgFiles(p.user_id, p.id);
+  const { data: ups } = await sb.from('package_updates').select('*').eq('package_id',id).order('created_at',{ascending:false});
+  document.getElementById('dm-body').innerHTML = `
+    <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px;">${stBadge(p.status)}
+      <span class="badge b-dim">${esc(p.plan||'—')}</span>
+      ${p.deadline?`<span class="badge b-gold">⏰ ${fdate(p.deadline)}</span>`:''}</div>
+    ${p.description?`<p style="color:var(--dim);font-size:0.85rem;line-height:1.8;margin-bottom:12px;">${esc(p.description)}</p>`:''}
+    <div class="f2" style="font-size:0.8rem;margin-bottom:12px;">
+      ${p.links?`<div style="grid-column:span 2;"><span style="color:var(--dim);">روابط:</span> <span style="direction:ltr;display:inline-block;color:var(--cyan);word-break:break-all;">${esc(p.links)}</span></div>`:''}
+      ${p.target_langs?`<div><span style="color:var(--dim);">اللغات:</span> ${esc(p.target_langs)}</div>`:''}
+      ${p.platforms?`<div><span style="color:var(--dim);">المنصات:</span> ${esc(p.platforms)}</div>`:''}
+      ${p.engine?`<div><span style="color:var(--dim);">المحرك:</span> ${esc(p.engine)}</div>`:''}
+      ${p.est_words?`<div><span style="color:var(--dim);">الكلمات:</span> ${Number(p.est_words).toLocaleString()}</div>`:''}
+      ${p.notes?`<div style="grid-column:span 2;"><span style="color:var(--dim);">ملاحظات:</span> ${esc(p.notes)}</div>`:''}
+    </div>
+    ${files.html || '<div style="color:var(--dim);font-size:0.82rem;">لا ملفات مرفوعة</div>'}
+    ${ups?.length?`<div style="margin-top:16px;"><div class="fl">TIMELINE</div>
+      ${ups.map(u=>`<div style="display:flex;gap:10px;padding:8px 0;border-bottom:1px solid rgba(255,255,255,0.05);">
+        <div style="width:7px;height:7px;border-radius:50%;background:var(--purple);margin-top:6px;flex-shrink:0;"></div>
+        <div><div style="font-size:0.8rem;">${esc(u.note||u.new_status)}</div>
+        <div style="font-size:0.64rem;color:var(--dim);">${fdate(u.created_at)}</div></div></div>`).join('')}</div>`:''}`;
+}
+
+/* assign: internal team OR vendor */
+function adminAssign(id){
+  const p = A.pkgs.find(x=>x.id===id); if(!p) return;
+  document.getElementById('dm-title').textContent = '👥 توجيه: '+p.game_name;
+  document.getElementById('dm-body').innerHTML = `
+    <div class="atabs">
+      <button class="atab on" id="as-t1" onclick="assignTab(1)">👥 فريق داخلي</button>
+      <button class="atab" id="as-t2" onclick="assignTab(2)">🤝 متعهد خارجي</button>
+    </div>
+    <div id="as-f1">
+      <div class="fg"><label class="fl">TEAM MEMBER</label>
+        <select class="fi" id="asg-member">
+          <option value="">— اختر —</option>
+          ${A.team.filter(m=>m.is_active).map(m=>`<option value="${m.id}">${esc(m.name)} (${esc(m.role)})</option>`).join('')}
+        </select></div>
+    </div>
+    <div id="as-f2" style="display:none;">
+      <div class="fg"><label class="fl">VENDOR / PROVIDER</label>
+        <select class="fi" id="asg-vendor">
+          <option value="">— اختر —</option>
+          ${A.vendors.filter(v=>v.is_active).map(v=>`<option value="${v.id}">${esc(v.name)}${v.company?` — ${esc(v.company)}`:''}</option>`).join('')}
+        </select></div>
+    </div>
+    <div class="fg"><label class="fl">NOTES / تعليمات</label><textarea class="fi" id="asg-notes" rows="3">${esc(p.notes||'')}</textarea></div>
+    <div class="fg"><label class="fl">DEADLINE</label><input class="fi" type="date" id="asg-deadline" style="direction:ltr;" value="${p.deadline?p.deadline.split('T')[0]:''}"></div>
+    <button class="btn btn-grad" style="width:100%;padding:13px;" onclick="confirmAssign('${id}')">✅ توجيه + إشعار</button>
+    <div class="fmsg" id="asg-msg"></div>`;
+  openM('detailModal');
+}
+function assignTab(n){
+  document.getElementById('as-t1').classList.toggle('on', n===1);
+  document.getElementById('as-t2').classList.toggle('on', n===2);
+  document.getElementById('as-f1').style.display = n===1?'block':'none';
+  document.getElementById('as-f2').style.display = n===2?'block':'none';
+}
+async function confirmAssign(id){
+  const memberId = document.getElementById('asg-member')?.value;
+  const vendorId = document.getElementById('asg-vendor')?.value;
+  const isTeam = document.getElementById('as-f1').style.display !== 'none';
+  if(isTeam && !memberId){ fmsg('asg-msg','⚠️ اختر عضو الفريق','err'); return; }
+  if(!isTeam && !vendorId){ fmsg('asg-msg','⚠️ اختر المتعهد','err'); return; }
+  const notes = document.getElementById('asg-notes').value.trim();
+  const dl = document.getElementById('asg-deadline').value;
+  const upd = { notes: notes||null, deadline: dl?new Date(dl).toISOString():null, status:'processing' };
+  if(isTeam){ upd.assigned_to = memberId; upd.vendor_id = null; }
+  else { upd.vendor_id = vendorId; upd.assigned_to = null; }
+  await sb.from('packages').update(upd).eq('id',id);
+  const target = isTeam ? A.team.find(m=>m.id===memberId) : A.vendors.find(v=>v.id===vendorId);
+  await sb.from('package_updates').insert([{package_id:id, new_status:'processing', note:`👥 وُجّهت إلى ${target?.name}${notes?': '+notes:''}`}]);
+  if(target?.telegram_chat_id) tgSend(target.telegram_chat_id, `🎮 <b>GameLex — مهمة جديدة</b>\n\nوُجّهت لك حزمة${notes?`\n📝 ${notes}`:''}\n\nافتح المنصة للبدء.`);
+  tgAdmin(`👥 <b>توجيه حزمة</b>\n← ${target?.name} ${isTeam?'(فريق)':'(متعهد)'}`);
+  fmsg('asg-msg','✓ تم التوجيه بنجاح','ok');
+  setTimeout(()=>{ closeM('detailModal'); adminLoadAll(); }, 1300);
+}
+
+/* RFQ from admin */
+function adminRfq(pkgId, gameName){
+  if(!A.vendors.filter(v=>v.is_active).length){ toast('⚠️ أضف متعهدين أولاً'); return; }
+  document.getElementById('dm-title').textContent = '📨 طلب تسعير: '+gameName;
+  document.getElementById('dm-body').innerHTML = `
+    <div class="fg"><label class="fl">RFQ TITLE</label><input class="fi" id="rq-title" value="RFQ — ${esc(gameName)}"></div>
+    <div class="fg"><label class="fl">DETAILS / نطاق العمل</label><textarea class="fi" id="rq-details" rows="4" placeholder="عدد الكلمات، اللغات، متطلبات خاصة..."></textarea></div>
+    <div class="fg"><label class="fl">QUOTE DEADLINE</label><input class="fi" type="date" id="rq-deadline" style="direction:ltr;"></div>
+    <div class="fg"><label class="fl">SEND TO — اختر المتعهدين</label>
+      <div style="display:flex;flex-direction:column;gap:8px;max-height:180px;overflow-y:auto;">
+        ${A.vendors.filter(v=>v.is_active).map(v=>`
+          <label style="display:flex;gap:10px;align-items:center;background:var(--surface2);border:1px solid var(--border2);border-radius:10px;padding:10px 13px;cursor:pointer;font-size:0.85rem;">
+            <input type="checkbox" class="rq-vendor" value="${v.id}" style="accent-color:var(--purple);width:16px;height:16px;">
+            ${esc(v.name)}${v.company?` <span style="color:var(--dim);font-size:0.74rem;">— ${esc(v.company)}</span>`:''}
+          </label>`).join('')}
+      </div></div>
+    <button class="btn btn-grad" style="width:100%;padding:13px;" onclick="sendRfq('${pkgId}')">📨 إرسال RFQ</button>
+    <div class="fmsg" id="rq-msg"></div>`;
+  openM('detailModal');
+}
+async function sendRfq(pkgId){
+  const vendorIds = Array.from(document.querySelectorAll('.rq-vendor:checked')).map(c=>c.value);
+  if(!vendorIds.length){ fmsg('rq-msg','⚠️ اختر متعهد واحد على الأقل','err'); return; }
+  const dl = document.getElementById('rq-deadline').value;
+  const { data: rfq, error } = await sb.from('rfqs').insert([{
+    package_id: pkgId,
+    title: document.getElementById('rq-title').value.trim(),
+    details: document.getElementById('rq-details').value.trim()||null,
+    deadline: dl?new Date(dl).toISOString():null
+  }]).select().single();
+  if(error){ fmsg('rq-msg','✕ '+error.message,'err'); return; }
+  await sb.from('rfq_invites').insert(vendorIds.map(v=>({rfq_id:rfq.id, vendor_id:v})));
+  // notify vendors
+  for(const vid of vendorIds){
+    const v = A.vendors.find(x=>x.id===vid);
+    if(v?.telegram_chat_id) tgSend(v.telegram_chat_id, `📨 <b>GameLex — طلب تسعير جديد</b>\n\n${rfq.title}\n\nادخل المنصة وقدّم عرضك.`);
+  }
+  await sb.from('packages').update({status:'quoted'}).eq('id',pkgId);
+  fmsg('rq-msg',`✓ أُرسل الـ RFQ إلى ${vendorIds.length} متعهد`,'ok');
+  setTimeout(()=>{ closeM('detailModal'); adminLoadAll(); }, 1400);
+}
+async function adminLoadRfqs(){
+  const { data: quotes } = await sb.from('rfq_quotes').select('*').order('created_at',{ascending:false});
+  A.quotes = quotes||[];
+  document.getElementById('ad-rfqs').innerHTML = A.rfqs.length ? A.rfqs.map(r=>{
+    const pkg = A.pkgs.find(p=>p.id===r.package_id);
+    const qs = A.quotes.filter(q=>q.rfq_id===r.id);
+    return `<div class="row-item" style="flex-direction:column;align-items:stretch;">
+      <div style="display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;align-items:center;">
+        <div>
+          <div style="font-weight:700;">${esc(r.title||'RFQ')}</div>
+          <div style="font-size:0.72rem;color:var(--dim);">${pkg?esc(pkg.game_name)+' • ':''}${fdate(r.created_at)} • ${qs.length} عرض</div>
+        </div>
+        <span class="badge ${r.status==='open'?'b-gold':'b-green'}">${r.status==='open'?'⏳ مفتوح':'✓ مُرسى'}</span>
+      </div>
+      ${qs.length?`<div style="margin-top:12px;display:flex;flex-direction:column;gap:8px;">
+        ${qs.map(q=>{
+          const v = A.vendors.find(x=>x.id===q.vendor_id);
+          return `<div style="display:flex;justify-content:space-between;gap:9px;align-items:center;background:var(--surface3);border-radius:10px;padding:10px 14px;flex-wrap:wrap;">
+            <div style="font-size:0.83rem;">
+              <b>${esc(v?.name||'—')}</b> — <span style="color:var(--gold);font-family:'Space Mono',monospace;">${q.price} ${q.currency}</span>
+              ${q.days?` • ${q.days} يوم`:''}
+              ${q.proposal?`<div style="font-size:0.74rem;color:var(--dim);margin-top:3px;">${esc(q.proposal)}</div>`:''}
+            </div>
+            ${q.status==='accepted' ? '<span class="badge b-green">🏆 فائز</span>' :
+              r.status==='open' ? `<button class="mini-btn mm" onclick="awardQuote('${r.id}','${q.id}','${q.vendor_id}','${r.package_id}')">🏆 ترسية</button>` : ''}
+          </div>`;
+        }).join('')}</div>`:'<div style="font-size:0.78rem;color:var(--dim);margin-top:8px;">بانتظار العروض...</div>'}
+    </div>`;
+  }).join('') : '<div class="empty"><div class="ei">📨</div>لا طلبات تسعير — أنشئها من زر RFQ في الحزم</div>';
+}
+async function awardQuote(rfqId, quoteId, vendorId, pkgId){
+  if(!confirm('ترسية العرض على هذا المتعهد؟')) return;
+  await sb.from('rfq_quotes').update({status:'accepted'}).eq('id',quoteId);
+  await sb.from('rfq_quotes').update({status:'rejected'}).eq('rfq_id',rfqId).neq('id',quoteId);
+  await sb.from('rfqs').update({status:'awarded', awarded_quote:quoteId}).eq('id',rfqId);
+  await sb.from('packages').update({vendor_id:vendorId, assigned_to:null, status:'processing'}).eq('id',pkgId);
+  const v = A.vendors.find(x=>x.id===vendorId);
+  await sb.from('package_updates').insert([{package_id:pkgId, new_status:'processing', note:`🏆 رُسّي العمل على ${v?.name}`}]);
+  if(v?.telegram_chat_id) tgSend(v.telegram_chat_id, '🏆 <b>مبروك!</b>\n\nفزت بالعرض — ادخل المنصة لبدء العمل.');
+  toast('🏆 تمت الترسية'); adminLoadAll(); adminLoadRfqs();
+}
+
+/* clients */
+function adminLoadClients(){
+  const map = {};
+  A.pkgs.forEach(p=>{ (map[p.user_id] = map[p.user_id]||[]).push(p); });
+  const entries = Object.entries(map);
+  document.getElementById('ad-clients').innerHTML = entries.length ? entries.map(([uid, pkgs], i)=>`
+    <div class="row-item">
+      <div style="display:flex;gap:12px;align-items:center;min-width:0;">
+        <div style="width:38px;height:38px;border-radius:11px;background:var(--grad);display:flex;align-items:center;justify-content:center;font-weight:700;color:#fff;flex-shrink:0;">${i+1}</div>
+        <div style="min-width:0;">
+          <div style="font-weight:700;">عميل ${i+1}</div>
+          <div style="font-size:0.68rem;color:var(--dim);font-family:'Space Mono',monospace;">${uid.slice(0,14)}...</div>
+        </div>
+      </div>
+      <div class="row-actions" style="display:flex;gap:7px;align-items:center;">
+        <span class="badge b-cyan">${pkgs.length} حزمة</span>
+        <button class="mini-btn" onclick="adminClientPkgs('${uid}',${i+1})">📦 عرض</button>
+      </div>
+    </div>`).join('') : '<div class="empty">لا عملاء بعد</div>';
+}
+function adminClientPkgs(uid, n){
+  document.getElementById('dm-title').textContent = `📦 حزم عميل ${n}`;
+  document.getElementById('dm-body').innerHTML = renderAdminPkgs(A.pkgs.filter(p=>p.user_id===uid));
+  openM('detailModal');
+}
+
+/* team CRUD */
+async function adminLoadTeam(){
+  const roleL = {translator:'مترجم',reviewer:'مراجع',qa:'جودة',manager:'مدير'};
+  document.getElementById('ad-team').innerHTML = A.team.length ? A.team.map(m=>`
+    <div class="row-item">
+      <div style="display:flex;gap:11px;align-items:center;min-width:0;">
+        <div style="width:36px;height:36px;border-radius:10px;background:var(--grad);display:flex;align-items:center;justify-content:center;font-weight:700;color:#fff;flex-shrink:0;">${esc(m.name?.[0]||'?')}</div>
+        <div style="min-width:0;">
+          <div style="font-weight:700;font-size:0.88rem;">${esc(m.name)} ${m.user_id?'<span class="badge b-green" style="font-size:0.58rem;">🔗</span>':''}</div>
+          <div style="font-size:0.7rem;color:var(--dim);">${roleL[m.role]||m.role}${m.email?` • ${esc(m.email)}`:''}</div>
+        </div>
+      </div>
+      <div class="row-actions" style="display:flex;gap:6px;align-items:center;">
+        <span class="badge ${m.is_active?'b-green':'b-dim'}">${m.is_active?'نشط':'معطل'}</span>
+        <button class="mini-btn" onclick="toggleActive('team_members','${m.id}',${!m.is_active});adminLoadAll().then(adminLoadTeam)">${m.is_active?'تعطيل':'تفعيل'}</button>
+        <button class="mini-btn dg" onclick="delRow('team_members','${m.id}');setTimeout(()=>adminLoadAll().then(adminLoadTeam),400)">🗑</button>
+      </div>
+    </div>`).join('') : '<div class="empty">لا أعضاء بعد</div>';
+}
+async function addTeamMember(){
+  const name = document.getElementById('atm-name').value.trim();
+  if(!name){ toast('⚠️ أدخل الاسم'); return; }
+  await sb.from('team_members').insert([{
+    name, role: document.getElementById('atm-role').value,
+    email: document.getElementById('atm-email').value.trim()||null,
+    telegram_chat_id: document.getElementById('atm-tg').value.trim()||null
+  }]);
+  ['atm-name','atm-email','atm-tg'].forEach(i=>document.getElementById(i).value='');
+  toast('✓ أُضيف العضو — أرسل له رابط الموقع ليسجل بنفس البريد');
+  await adminLoadAll(); adminLoadTeam();
+}
+async function toggleActive(table, id, val){ await sb.from(table).update({is_active:val}).eq('id',id); toast('✓'); }
+async function delRow(table, id){ if(confirm('تأكيد الحذف؟')) await sb.from(table).delete().eq('id',id); }
+
+/* vendors CRUD */
+async function adminLoadVendors(){
+  document.getElementById('ad-vendors').innerHTML = A.vendors.length ? A.vendors.map(v=>`
+    <div class="row-item">
+      <div style="min-width:0;">
+        <div style="font-weight:700;font-size:0.88rem;">${esc(v.name)} ${v.user_id?'<span class="badge b-green" style="font-size:0.58rem;">🔗</span>':''}</div>
+        <div style="font-size:0.7rem;color:var(--dim);">${esc(v.company||'')}${v.email?` • ${esc(v.email)}`:''}${v.specialties?` • ${esc(v.specialties)}`:''}</div>
+      </div>
+      <div class="row-actions" style="display:flex;gap:6px;align-items:center;">
+        <span class="badge ${v.is_active?'b-green':'b-dim'}">${v.is_active?'مؤهل':'معطل'}</span>
+        <button class="mini-btn" onclick="toggleActive('vendors','${v.id}',${!v.is_active});adminLoadAll().then(adminLoadVendors)">${v.is_active?'تعطيل':'تفعيل'}</button>
+        <button class="mini-btn dg" onclick="delRow('vendors','${v.id}');setTimeout(()=>adminLoadAll().then(adminLoadVendors),400)">🗑</button>
+      </div>
+    </div>`).join('') : '<div class="empty">لا متعهدين — أضف أول provider</div>';
+}
+async function addVendor(){
+  const name = document.getElementById('av-name').value.trim();
+  if(!name){ toast('⚠️ أدخل الاسم'); return; }
+  await sb.from('vendors').insert([{
+    name, company: document.getElementById('av-company').value.trim()||null,
+    email: document.getElementById('av-email').value.trim()||null,
+    specialties: document.getElementById('av-spec').value.trim()||null
+  }]);
+  ['av-name','av-company','av-email','av-spec'].forEach(i=>document.getElementById(i).value='');
+  toast('✓ أُضيف المتعهد — أرسل له رابط الموقع ليسجل بنفس البريد');
+  await adminLoadAll(); adminLoadVendors();
+}
+
+/* pricing CRUD */
+async function adminLoadPricing(){
+  const { data } = await sb.from('pricing').select('*').order('sort_order');
+  A.pricing = data||[];
+  document.getElementById('ad-pricing').innerHTML = A.pricing.length ? A.pricing.map(p=>`
+    <div class="row-item" style="flex-direction:column;align-items:stretch;">
+      <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;">
+        <div><b>${esc(p.name)}</b> ${p.is_featured?'⭐':''} — <span style="color:var(--gold);font-family:'Space Mono',monospace;">${esc(p.price)}</span></div>
+        <div style="display:flex;gap:6px;">
+          <button class="mini-btn" onclick="editPlan('${p.id}')">✏️ تعديل</button>
+          <button class="mini-btn" onclick="featPlan('${p.id}',${!p.is_featured})">${p.is_featured?'★':'☆'}</button>
+          <button class="mini-btn dg" onclick="delRow('pricing','${p.id}');setTimeout(adminLoadPricing,400);setTimeout(loadPricingPublic,600)">🗑</button>
+        </div>
+      </div>
+      <div style="display:flex;gap:6px;flex-wrap:wrap;margin-top:8px;">
+        ${(Array.isArray(p.features)?p.features:JSON.parse(p.features||'[]')).map(f=>`<span class="badge b-purple" style="font-family:'Tajawal';font-weight:400;">${esc(f)}</span>`).join('')}
+      </div>
+    </div>`).join('') : '<div class="empty">لا باقات</div>';
+}
+function editPlan(id){
+  const p = id ? A.pricing.find(x=>x.id===id) : {name:'',price:'',period:'',btn_label:'ابدأ الآن',btn_action:'',features:[]};
+  const feats = Array.isArray(p.features)?p.features:JSON.parse(p.features||'[]');
+  document.getElementById('dm-title').textContent = id ? '✏️ تعديل: '+p.name : '➕ باقة جديدة';
+  document.getElementById('dm-body').innerHTML = `
+    <div class="f2">
+      <div class="fg"><label class="fl">NAME</label><input class="fi" id="ep-name" value="${esc(p.name)}"></div>
+      <div class="fg"><label class="fl">PRICE ($899 أو Custom أو hidden لإخفائه)</label><input class="fi" id="ep-price" value="${esc(p.price)}" style="direction:ltr;"></div>
+      <div class="fg"><label class="fl">PERIOD</label><input class="fi" id="ep-period" value="${esc(p.period||'')}"></div>
+      <div class="fg"><label class="fl">BTN LABEL</label><input class="fi" id="ep-btn" value="${esc(p.btn_label||'')}"></div>
+    </div>
+    <div class="fg"><label class="fl">BTN ACTION (فارغ = تسجيل، أو https:// أو mailto:)</label><input class="fi" id="ep-action" value="${esc(p.btn_action||'')}" style="direction:ltr;"></div>
+    <div class="fg"><label class="fl">FEATURES (سطر لكل ميزة)</label><textarea class="fi" id="ep-feats" rows="6">${feats.map(esc).join('\n')}</textarea></div>
+    <button class="btn btn-grad" style="width:100%;padding:13px;" onclick="savePlan('${id||''}')">💾 حفظ</button>
+    <div class="fmsg" id="ep-msg"></div>`;
+  openM('detailModal');
+}
+async function savePlan(id){
+  const payload = {
+    name: document.getElementById('ep-name').value.trim(),
+    price: document.getElementById('ep-price').value.trim(),
+    period: document.getElementById('ep-period').value.trim(),
+    btn_label: document.getElementById('ep-btn').value.trim(),
+    btn_action: document.getElementById('ep-action').value.trim(),
+    features: JSON.stringify(document.getElementById('ep-feats').value.split('\n').map(f=>f.trim()).filter(Boolean))
+  };
+  if(!payload.name){ fmsg('ep-msg','⚠️ الاسم مطلوب','err'); return; }
+  const { error } = id
+    ? await sb.from('pricing').update(payload).eq('id',id)
+    : await sb.from('pricing').insert([{...payload, plan_key: payload.name.toLowerCase().replace(/\s+/g,'_'), sort_order: A.pricing.length+1}]);
+  if(error){ fmsg('ep-msg','✕ '+error.message,'err'); return; }
+  fmsg('ep-msg','✓ تم الحفظ','ok');
+  adminLoadPricing(); loadPricingPublic();
+  setTimeout(()=>closeM('detailModal'), 1100);
+}
+async function featPlan(id, val){
+  await sb.from('pricing').update({is_featured:val}).eq('id',id);
+  if(val) await sb.from('pricing').update({is_featured:false}).neq('id',id);
+  adminLoadPricing(); loadPricingPublic();
+}
+
+/* partners / portfolio / showcase CRUD */
+async function adminLoadPartners(){
+  document.getElementById('tgl-partners').checked = siteCfg.show_partners==='true';
+  const { data } = await sb.from('partners').select('*').order('sort_order');
+  document.getElementById('ad-partners').innerHTML = (data||[]).map(p=>`
+    <div class="row-item" style="padding:11px 15px;">
+      <div style="display:flex;gap:10px;align-items:center;min-width:0;">
+        ${p.logo_url?`<img src="${esc(p.logo_url)}" style="height:28px;border-radius:5px;" onerror="this.style.display='none'">`:''}
+        <b style="font-size:0.86rem;">${esc(p.name)}</b>
+      </div>
+      <div style="display:flex;gap:6px;align-items:center;">
+        <button class="mini-btn" onclick="togVis('partners','${p.id}',${!p.is_visible});setTimeout(adminLoadPartners,400)">${p.is_visible?'👁':'🙈'}</button>
+        <button class="mini-btn dg" onclick="delRow('partners','${p.id}');setTimeout(adminLoadPartners,400);setTimeout(loadPartnersPublic,600)">🗑</button>
+      </div>
+    </div>`).join('') || '<div class="empty">لا شركاء بعد</div>';
+}
+async function addPartner(){
+  const name = document.getElementById('pt-name').value.trim();
+  if(!name){ toast('⚠️ الاسم مطلوب'); return; }
+  await sb.from('partners').insert([{name, logo_url: document.getElementById('pt-logo').value.trim()||null}]);
+  document.getElementById('pt-name').value=''; document.getElementById('pt-logo').value='';
+  toast('✓ أُضيف'); adminLoadPartners(); loadPartnersPublic();
+}
+async function togVis(table, id, val){ await sb.from(table).update({is_visible:val}).eq('id',id); loadSiteCfg(); }
+
+async function adminLoadPortfolio(){
+  document.getElementById('tgl-portfolio').checked = siteCfg.show_portfolio==='true';
+  const { data } = await sb.from('portfolio').select('*').order('sort_order');
+  document.getElementById('ad-portfolio').innerHTML = (data||[]).map(p=>`
+    <div class="row-item" style="padding:11px 15px;">
+      <div style="min-width:0;"><b style="font-size:0.86rem;">${esc(p.title)}</b>
+        <span style="font-size:0.7rem;color:var(--dim);"> — ${esc(p.category||'')}</span></div>
+      <div style="display:flex;gap:6px;align-items:center;">
+        <button class="mini-btn" onclick="togVis('portfolio','${p.id}',${!p.is_visible});setTimeout(adminLoadPortfolio,400)">${p.is_visible?'👁':'🙈'}</button>
+        <button class="mini-btn dg" onclick="delRow('portfolio','${p.id}');setTimeout(adminLoadPortfolio,400);setTimeout(loadPortfolioPublic,600)">🗑</button>
+      </div>
+    </div>`).join('') || '<div class="empty">لا أعمال بعد</div>';
+}
+async function addPortfolio(){
+  const title = document.getElementById('pf-title').value.trim();
+  if(!title){ toast('⚠️ العنوان مطلوب'); return; }
+  await sb.from('portfolio').insert([{title,
+    category: document.getElementById('pf-cat').value.trim()||null,
+    image_url: document.getElementById('pf-img').value.trim()||null}]);
+  ['pf-title','pf-cat','pf-img'].forEach(i=>document.getElementById(i).value='');
+  toast('✓ أُضيف'); adminLoadPortfolio(); loadPortfolioPublic();
+}
+
+async function adminLoadShowcase(){
+  document.getElementById('tgl-teamshow').checked = siteCfg.show_team_showcase==='true';
+  const { data } = await sb.from('team_showcase').select('*').order('sort_order');
+  document.getElementById('ad-showcase').innerHTML = (data||[]).map(m=>`
+    <div class="row-item" style="padding:11px 15px;">
+      <div style="display:flex;gap:10px;align-items:center;min-width:0;">
+        ${m.photo_url?`<img src="${esc(m.photo_url)}" style="width:32px;height:32px;border-radius:50%;object-fit:cover;" onerror="this.style.display='none'">`:''}
+        <div><b style="font-size:0.86rem;">${esc(m.name)}</b>
+        <span style="font-size:0.7rem;color:var(--dim);"> — ${esc(m.role||'')}</span></div>
+      </div>
+      <div style="display:flex;gap:6px;align-items:center;">
+        <button class="mini-btn" onclick="togVis('team_showcase','${m.id}',${!m.is_visible});setTimeout(adminLoadShowcase,400)">${m.is_visible?'👁':'🙈'}</button>
+        <button class="mini-btn dg" onclick="delRow('team_showcase','${m.id}');setTimeout(adminLoadShowcase,400);setTimeout(loadShowcasePublic,600)">🗑</button>
+      </div>
+    </div>`).join('') || '<div class="empty">لا كوادر بعد</div>';
+}
+async function addShowcase(){
+  const name = document.getElementById('ts-name').value.trim();
+  if(!name){ toast('⚠️ الاسم مطلوب'); return; }
+  await sb.from('team_showcase').insert([{name,
+    role: document.getElementById('ts-role').value.trim()||null,
+    photo_url: document.getElementById('ts-photo').value.trim()||null}]);
+  ['ts-name','ts-role','ts-photo'].forEach(i=>document.getElementById(i).value='');
+  toast('✓ أُضيف'); adminLoadShowcase(); loadShowcasePublic();
+}
+
+/* social + site info */
+function fillSocialInputs(){
+  document.querySelectorAll('.ss-in').forEach(i=>{ i.value = siteCfg[i.dataset.key]||''; });
+}
+async function saveSiteSettings(){
+  const ups = Array.from(document.querySelectorAll('.ss-in')).map(i=>({key:i.dataset.key, value:i.value.trim()}));
+  for(const u of ups) await sb.from('site_settings').upsert(u);
+  fmsg('ss-msg','✓ حُفظت كل الإعدادات','ok');
+  loadSiteCfg();
+}
+
+/* ═══ INIT ═══ */
+applyLang(); buildLangMenu();
+loadSiteCfg(); loadPricingPublic();
+sb.from('settings').select('value').eq('key','admin_secret').single().then(({data})=>{ if(data?.value) adminSecret=data.value; });
+sb.auth.getSession().then(({data:{session}})=>{ if(session){ me=session.user; routeByRole(); } });
+</script>
+</body>
+</html>
