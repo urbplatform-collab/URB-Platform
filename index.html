@@ -29,7 +29,7 @@
   --glow-p:0 0 40px rgba(139,92,246,0.25);
   --glow-c:0 0 40px rgba(34,211,238,0.2);
 }
-*{margin:0;padding:0;box-sizing:border-box}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 html{scroll-behavior:smooth}
 body{
   background:var(--bg);color:var(--text);
@@ -89,6 +89,7 @@ nav{
 .btn-ghost:hover{border-color:var(--purple)}
 .btn-sm{padding:7px 14px;font-size:0.8rem;border-radius:9px}
 .dash-burger{display:none}
+.side-close{display:none}
 @media(max-width:760px){.dash-burger{display:block!important}}
 .hamburger{display:none;background:none;border:1px solid var(--border2);color:var(--text);border-radius:9px;padding:7px 12px;font-size:1.1rem;cursor:pointer}
 
@@ -464,22 +465,51 @@ textarea.fi{resize:vertical;min-height:80px}
   .hero{padding:44px 18px 40px;gap:34px}
   .hero-actions .btn-hero{width:100%}
   .dash-side{
-    position:fixed;inset-block:0;inset-inline-end:0;z-index:130;width:262px;
-    background:var(--surface);transform:translateX(-105%);transition:transform 0.3s;
-    border-inline-start:1px solid var(--border);overflow-y:auto;
-    box-shadow:-10px 0 40px rgba(0,0,0,0.5);padding-bottom:40px;
+    display:none;
+    position:fixed;top:0;right:0;bottom:0;z-index:400;
+    width:min(280px,82vw);
+    background:var(--surface);
+    border-left:1px solid var(--border);
+    overflow-y:auto;-webkit-overflow-scrolling:touch;
+    box-shadow:-14px 0 46px rgba(0,0,0,0.65);
+    padding:16px 14px 50px;
   }
-  [dir="rtl"] .dash-side{transform:translateX(105%)}
-  .dash-side.open{transform:translateX(0)!important}
-  .dash-main{padding:18px 14px 50px}
+  .dash-side.open{display:flex!important;flex-direction:column}
+  .dash-side .side-close{
+    display:flex!important;align-items:center;justify-content:space-between;
+    padding:4px 6px 14px;border-bottom:1px solid var(--border2);margin-bottom:10px;
+  }
+  .dash-main{padding:18px 14px 50px;overflow-x:hidden}
   .stats{grid-template-columns:1fr 1fr;gap:11px}
   .stat .sv{font-size:1.3rem}
+  .fi, select.fi, textarea.fi{font-size:16px!important;padding:13px 15px}
+  .mini-btn{padding:10px 15px;font-size:0.84rem;min-height:40px}
+  .st-sel{padding:10px 12px;font-size:16px}
+  .btn{min-height:44px}
+  .x-btn{padding:8px 13px;font-size:1.25rem}
+  .dash-top{padding:11px 13px;flex-wrap:wrap}
+  .dash-title{font-size:0.86rem}
+  .panel{max-height:86vh;border-radius:18px}
+  .panel-body{padding:18px 15px}
+  .overlay{padding:12px;align-items:flex-end}
+  .panel{width:100%!important}
+  @supports(padding:max(0px)){.overlay{padding-bottom:max(12px,env(safe-area-inset-bottom))}}
+  .dcard-head{padding:13px 14px}
+  .dcard-body{padding:14px}
+  .row-item{padding:13px 14px}
+  .term-body{padding:18px 14px}
+  .term-box{font-size:0.78rem;padding:13px 14px}
+  .sec-title{font-size:1.55rem}
+  .marquee-track{font-size:0.68rem}
+  .price-card{padding:26px 20px}
+  .hero-stats{gap:22px}
+  .hstat .n{font-size:1.35rem}
   .f2{grid-template-columns:1fr}
   .foot-grid{grid-template-columns:1fr}
   .row-item{flex-direction:column;align-items:stretch;gap:10px}
   .row-actions{display:flex;gap:7px;flex-wrap:wrap}
 }
-.side-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.65);z-index:125}
+.side-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.7);z-index:390}
 .side-overlay.open{display:block}
 </style>
 </head>
@@ -497,7 +527,7 @@ textarea.fi{resize:vertical;min-height:80px}
       <div class="logo-mark">🎮</div>
       <div class="logo-name">عُرب <b>URB</b></div>
     </div>
-    <div class="nav-links" id="navLinks">
+    <div class="nav-links" id="navLinks" onclick="if(event.target.tagName==='A')this.classList.remove('mob-open')">
       <a href="#tech" data-i18n="nav_engine">التقنية</a>
       <a href="#packages" data-i18n="nav_packages">الباقات</a>
       <a href="#workflow" data-i18n="nav_workflow">آلية العمل</a>
@@ -710,6 +740,7 @@ textarea.fi{resize:vertical;min-height:80px}
   </div>
   <div class="dash-body">
     <div class="dash-side" id="side-client">
+      <div class="side-close"><b style="font-size:0.9rem;">عُرب URB</b><button class="x-btn" onclick="toggleSide('client')">✕</button></div>
       <div class="side-lbl">MAIN</div>
       <button class="side-item on" onclick="dPage('client','overview',this)">📊 <span>لوحتي</span></button>
       <button class="side-item" onclick="dPage('client','packages',this)">📦 <span>حزمي</span></button>
@@ -830,6 +861,7 @@ textarea.fi{resize:vertical;min-height:80px}
   </div>
   <div class="dash-body">
     <div class="dash-side" id="side-admin">
+      <div class="side-close"><b style="font-size:0.9rem;">⚙️ الإدارة</b><button class="x-btn" onclick="toggleSide('admin')">✕</button></div>
       <div class="side-lbl">MAIN</div>
       <button class="side-item on" onclick="dPage('admin','overview',this)">📊 <span>نظرة عامة</span></button>
       <button class="side-item" onclick="dPage('admin','packages',this)">📦 <span>الحزم</span></button>
@@ -1343,6 +1375,7 @@ function dPage(dash, page, el){
   if(el) el.classList.add('on');
   document.getElementById(`side-${dash}`)?.classList.remove('open');
   document.getElementById(`sideov-${dash}`)?.classList.remove('open');
+  document.body.style.overflow = '';
   if(dash==='admin'){
     if(page==='pricing') adminLoadPricing();
     if(page==='partners') adminLoadPartners();
@@ -1361,8 +1394,12 @@ function dPage(dash, page, el){
   if(dash==='client' && page==='profile') renderProfile();
 }
 function toggleSide(dash){
-  document.getElementById(`side-${dash}`).classList.toggle('open');
-  document.getElementById(`sideov-${dash}`).classList.toggle('open');
+  const s = document.getElementById(`side-${dash}`);
+  const o = document.getElementById(`sideov-${dash}`);
+  const opening = !s.classList.contains('open');
+  s.classList.toggle('open', opening);
+  o.classList.toggle('open', opening);
+  document.body.style.overflow = opening ? 'hidden' : '';
 }
 function closeM(id){ document.getElementById(id).classList.remove('open'); }
 function openM(id){ document.getElementById(id).classList.add('open'); }
@@ -1423,7 +1460,7 @@ async function doSignup(){
   if(error) fmsg('auth-msg', error.message, 'err');
   else fmsg('auth-msg','✓ تم! سوّينا حسابك — افحص بريدك وبعدها سجّل دخول.','ok');
 }
-async function doLogout(){ await sb.auth.signOut(); myRole='guest'; myMember=null; myVendor=null; showView('view-landing'); }
+async function doLogout(){ await sb.auth.signOut(); myRole='guest'; myMember=null; myVendor=null; document.body.style.overflow=''; showView('view-landing'); }
 
 sb.auth.onAuthStateChange((ev, session)=>{
   me = session?.user || null;
@@ -1460,7 +1497,7 @@ async function checkAdminGate(){
     document.getElementById('gate-pass').value='';
   } else fmsg('gate-msg','✕ كلمة السر غير صحيحة','err');
 }
-function adminLogout(){ showView('view-landing'); }
+function adminLogout(){ document.body.style.overflow=''; showView('view-landing'); }
 async function updateSecret(){
   const n = document.getElementById('new-secret').value.trim();
   const c = document.getElementById('conf-secret').value.trim();
