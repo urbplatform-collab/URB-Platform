@@ -88,6 +88,8 @@ nav{
 .btn-ghost{background:rgba(255,255,255,0.04);border:1px solid var(--border2);color:var(--text);padding:10px 20px;font-size:0.88rem}
 .btn-ghost:hover{border-color:var(--purple)}
 .btn-sm{padding:7px 14px;font-size:0.8rem;border-radius:9px}
+.dash-burger{display:none}
+@media(max-width:760px){.dash-burger{display:block!important}}
 .hamburger{display:none;background:none;border:1px solid var(--border2);color:var(--text);border-radius:9px;padding:7px 12px;font-size:1.1rem;cursor:pointer}
 
 /* lang picker */
@@ -462,9 +464,10 @@ textarea.fi{resize:vertical;min-height:80px}
   .hero{padding:44px 18px 40px;gap:34px}
   .hero-actions .btn-hero{width:100%}
   .dash-side{
-    position:fixed;inset-block:0;inset-inline-end:0;z-index:120;width:250px;
+    position:fixed;inset-block:0;inset-inline-end:0;z-index:130;width:262px;
     background:var(--surface);transform:translateX(-105%);transition:transform 0.3s;
-    border-inline-start:1px solid var(--border);
+    border-inline-start:1px solid var(--border);overflow-y:auto;
+    box-shadow:-10px 0 40px rgba(0,0,0,0.5);padding-bottom:40px;
   }
   [dir="rtl"] .dash-side{transform:translateX(105%)}
   .dash-side.open{transform:translateX(0)!important}
@@ -476,7 +479,7 @@ textarea.fi{resize:vertical;min-height:80px}
   .row-item{flex-direction:column;align-items:stretch;gap:10px}
   .row-actions{display:flex;gap:7px;flex-wrap:wrap}
 }
-.side-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.6);z-index:115}
+.side-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.65);z-index:125}
 .side-overlay.open{display:block}
 </style>
 </head>
@@ -512,6 +515,11 @@ textarea.fi{resize:vertical;min-height:80px}
     </div>
   </div>
 </nav>
+
+<!-- NEWS BAR -->
+<div class="marquee" id="newsBar" style="display:none;background:rgba(34,211,238,0.05);border-block-color:rgba(34,211,238,0.15);">
+  <div class="marquee-track" id="newsTrack" style="color:var(--cyan);"></div>
+</div>
 
 <!-- HERO -->
 <div class="hero">
@@ -569,7 +577,7 @@ textarea.fi{resize:vertical;min-height:80px}
     <div class="sec-tag">// THE ENGINE</div>
     <h2 class="sec-title" data-i18n="tech_title">ثلاثة محاور، قوة واحدة</h2>
     <p class="sec-sub" data-i18n="tech_sub">بنية توطين متكاملة تضمن أعلى جودة للألعاب العربية.</p>
-    <div class="grid3">
+    <div class="grid3" id="pillarsGrid">
       <div class="card">
         <div class="num">01</div><div class="ic">🧠</div>
         <h3>URB-AI</h3>
@@ -694,7 +702,7 @@ textarea.fi{resize:vertical;min-height:80px}
 <!-- ═══════════ CLIENT DASHBOARD ═══════════ -->
 <div class="dash" id="dash-client">
   <div class="dash-top">
-    <div class="dash-title"><button class="hamburger" style="display:block;" onclick="toggleSide('client')">☰</button> <span>URB</span> <span class="role-chip role-client">CLIENT</span></div>
+    <div class="dash-title"><button class="hamburger dash-burger" onclick="toggleSide('client')">☰</button> <span>URB</span> <span class="role-chip role-client">CLIENT</span></div>
     <div style="display:flex;gap:9px;align-items:center;">
       <span id="cl-name" style="font-size:0.82rem;color:var(--dim);"></span>
       <button class="mini-btn dg" onclick="doLogout()"><span data-i18n="btn_logout">خروج ↩</span></button>
@@ -814,7 +822,7 @@ textarea.fi{resize:vertical;min-height:80px}
 <!-- ═══════════ ADMIN DASHBOARD ═══════════ -->
 <div class="dash" id="dash-admin">
   <div class="dash-top">
-    <div class="dash-title"><button class="hamburger" style="display:block;" onclick="toggleSide('admin')">☰</button> <span>URB</span> <span class="role-chip role-admin">ADMIN</span></div>
+    <div class="dash-title"><button class="hamburger dash-burger" onclick="toggleSide('admin')">☰</button> <span>URB</span> <span class="role-chip role-admin">ADMIN</span></div>
     <div style="display:flex;gap:9px;align-items:center;">
       <span class="badge b-green">● LIVE</span>
       <button class="mini-btn dg" onclick="adminLogout()"><span data-i18n="btn_logout">خروج ↩</span></button>
@@ -834,6 +842,8 @@ textarea.fi{resize:vertical;min-height:80px}
       <button class="side-item" onclick="dPage('admin','partners',this)">🏆 <span>شركاء النجاح</span></button>
       <button class="side-item" onclick="dPage('admin','portfolio',this)">🖼 <span>سابقة الأعمال</span></button>
       <button class="side-item" onclick="dPage('admin','showcase',this)">⭐ <span>أبرز الكوادر</span></button>
+      <button class="side-item" onclick="dPage('admin','pillars',this)">🧠 <span>المحاور</span></button>
+      <button class="side-item" onclick="dPage('admin','news',this)">📢 <span>شريط الأخبار</span></button>
       <button class="side-item" onclick="dPage('admin','social',this)">🌐 <span>سوشيال + معلومات</span></button>
       <div class="side-lbl">TOOLS</div>
       <button class="side-item" onclick="dPage('admin','telegram',this)">📲 <span>تيليغرام</span></button>
@@ -920,7 +930,8 @@ textarea.fi{resize:vertical;min-height:80px}
 
       <div class="dpage" id="admin-rfqs">
         <div class="dcard">
-          <div class="dcard-head"><div class="dcard-title">📨 طلبات التسعير</div></div>
+          <div class="dcard-head"><div class="dcard-title">📨 طلبات التسعير</div>
+            <button class="mini-btn mm" onclick="adminRfq(null,'')">➕ RFQ جديد</button></div>
           <div class="dcard-body" id="ad-rfqs"></div>
         </div>
       </div>
@@ -942,6 +953,8 @@ textarea.fi{resize:vertical;min-height:80px}
             <div class="f2">
               <div class="fg"><label class="fl">PARTNER NAME</label><input class="fi" id="pt-name"></div>
               <div class="fg"><label class="fl">LOGO URL (اختياري)</label><input class="fi" id="pt-logo" style="direction:ltr;" placeholder="https://..."></div>
+              <div class="fg"><label class="fl">WEBSITE LINK (اختياري)</label><input class="fi" id="pt-link" style="direction:ltr;" placeholder="https://..."></div>
+              <div class="fg" style="grid-column:span 2;"><label class="fl">DESCRIPTION — تعريف عن الجهة (يظهر عند الضغط على الشعار)</label><textarea class="fi" id="pt-desc" rows="2"></textarea></div>
             </div>
             <button class="mini-btn mm" style="width:100%;padding:10px;" onclick="addPartner()">➕ إضافة شريك</button>
             <div id="ad-partners" style="margin-top:16px;"></div>
@@ -979,6 +992,34 @@ textarea.fi{resize:vertical;min-height:80px}
             </div>
             <button class="mini-btn mm" style="width:100%;padding:10px;" onclick="addShowcase()">➕ إضافة</button>
             <div id="ad-showcase" style="margin-top:16px;"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="dpage" id="admin-pillars">
+        <div class="dcard">
+          <div class="dcard-head"><div class="dcard-title">🧠 محاور التقنية (الصفحة الرئيسية)</div></div>
+          <div class="dcard-body">
+            <div class="fmsg info" style="display:block;margin:0 0 14px;">إذا ما أضفت محاور هنا، تظهر المحاور الافتراضية الثلاثة. أول ما تضيف واحد — تظهر محاورك أنت فقط.</div>
+            <div class="f2">
+              <div class="fg"><label class="fl">ICON (إيموجي)</label><input class="fi" id="pl-icon" placeholder="🧠"></div>
+              <div class="fg"><label class="fl">TITLE</label><input class="fi" id="pl-title" placeholder="URB-AI"></div>
+              <div class="fg" style="grid-column:span 2;"><label class="fl">DESCRIPTION</label><textarea class="fi" id="pl-desc" rows="3"></textarea></div>
+            </div>
+            <button class="mini-btn mm" style="width:100%;padding:10px;" onclick="addPillar()">➕ إضافة محور</button>
+            <div id="ad-pillars" style="margin-top:16px;"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="dpage" id="admin-news">
+        <div class="dcard">
+          <div class="dcard-head"><div class="dcard-title">📢 شريط الأخبار / الإعلانات</div></div>
+          <div class="dcard-body">
+            <div class="fmsg info" style="display:block;margin:0 0 14px;">أي إعلان نشط يظهر بشريط متحرك أعلى الصفحة الرئيسية. عطّلهم كلهم والشريط يختفي.</div>
+            <div class="fg"><label class="fl">ANNOUNCEMENT TEXT</label><input class="fi" id="nw-text" placeholder="🎉 عرض الإطلاق: خصم 20% على باقة URB PLUS حتى نهاية الشهر!"></div>
+            <button class="mini-btn mm" style="width:100%;padding:10px;" onclick="addNews()">➕ نشر الإعلان</button>
+            <div id="ad-news" style="margin-top:16px;"></div>
           </div>
         </div>
       </div>
@@ -1305,6 +1346,8 @@ function dPage(dash, page, el){
   if(dash==='admin'){
     if(page==='pricing') adminLoadPricing();
     if(page==='partners') adminLoadPartners();
+    if(page==='pillars') adminLoadPillars();
+    if(page==='news') adminLoadNews();
     if(page==='portfolio') adminLoadPortfolio();
     if(page==='showcase') adminLoadShowcase();
     if(page==='social') fillSocialInputs();
@@ -1497,12 +1540,13 @@ async function loadPartnersPublic(){
   const { data } = await sb.from('partners').select('*').eq('is_visible',true).order('sort_order');
   const sec = document.getElementById('partners-sec');
   if(!data?.length){ sec.style.display='none'; return; }
+  _partners = data;
   sec.style.display='block';
   document.getElementById('partnersStrip').innerHTML = data.map(p=>{
     const inner = p.logo_url
       ? `<img class="partner-logo" src="${esc(p.logo_url)}" alt="${esc(p.name)}" onerror="this.outerHTML='<span class=partner-name>${esc(p.name)}</span>'">`
       : `<span class="partner-name">${esc(p.name)}</span>`;
-    return p.link ? `<a href="${esc(p.link)}" target="_blank" rel="noopener">${inner}</a>` : inner;
+    return `<span style="cursor:pointer;" onclick="openPartnerInfo('${p.id}')" title="${esc(p.name)}">${inner}</span>`;
   }).join('');
 }
 async function loadPortfolioPublic(){
@@ -2008,10 +2052,17 @@ async function confirmAssign(id){
 
 /* RFQ from admin */
 function adminRfq(pkgId, gameName){
-  if(!A.vendors.filter(v=>v.is_active).length){ toast('⚠️ أضف متعهدين أولاً'); return; }
-  document.getElementById('dm-title').textContent = '📨 طلب تسعير: '+gameName;
+  if(!A.vendors.filter(v=>v.is_active).length){ toast('⚠️ أضف متعهدين أول'); return; }
+  document.getElementById('dm-title').textContent = pkgId ? '📨 طلب تسعير: '+gameName : '📨 RFQ جديد';
+  const pkgSelect = `
+    <div class="fg"><label class="fl">PACKAGE — اربطه بحزمة (اختياري)</label>
+      <select class="fi" id="rq-pkg">
+        <option value="">— بدون حزمة (RFQ عام) —</option>
+        ${A.pkgs.map(p=>`<option value="${p.id}" ${p.id===pkgId?'selected':''}>${esc(p.game_name)}</option>`).join('')}
+      </select></div>`;
   document.getElementById('dm-body').innerHTML = `
-    <div class="fg"><label class="fl">RFQ TITLE</label><input class="fi" id="rq-title" value="RFQ — ${esc(gameName)}"></div>
+    ${pkgSelect}
+    <div class="fg"><label class="fl">RFQ TITLE</label><input class="fi" id="rq-title" value="${pkgId?('RFQ — '+esc(gameName)):''}" placeholder="RFQ — ترجمة يابانية 50 ألف كلمة"></div>
     <div class="fg"><label class="fl">DETAILS / نطاق العمل</label><textarea class="fi" id="rq-details" rows="4" placeholder="عدد الكلمات، اللغات، متطلبات خاصة..."></textarea></div>
     <div class="fg"><label class="fl">QUOTE DEADLINE</label><input class="fi" type="date" id="rq-deadline" style="direction:ltr;"></div>
     <div class="fg"><label class="fl">SEND TO — اختر المتعهدين</label>
@@ -2022,30 +2073,31 @@ function adminRfq(pkgId, gameName){
             ${esc(v.name)}${v.company?` <span style="color:var(--dim);font-size:0.74rem;">— ${esc(v.company)}</span>`:''}
           </label>`).join('')}
       </div></div>
-    <button class="btn btn-grad" style="width:100%;padding:13px;" onclick="sendRfq('${pkgId}')">📨 إرسال RFQ</button>
+    <button class="btn btn-grad" style="width:100%;padding:13px;" onclick="sendRfq()">📨 إرسال RFQ</button>
     <div class="fmsg" id="rq-msg"></div>`;
   openM('detailModal');
 }
-async function sendRfq(pkgId){
-  const vendorIds = Array.from(document.querySelectorAll('.rq-vendor:checked')).map(c=>c.value);
+async function sendRfq(){
+  const pkgId = document.getElementById('rq-pkg').value || null;
+  const title = document.getElementById('rq-title').value.trim();
+  if(!title){ fmsg('rq-msg','⚠️ اكتب عنوان الطلب','err'); return; }
+  const vendorIds = Array.from(document.querySelectorAll('.rq-vendor:checked')).map(x=>x.value);
   if(!vendorIds.length){ fmsg('rq-msg','⚠️ اختر متعهد واحد على الأقل','err'); return; }
   const dl = document.getElementById('rq-deadline').value;
   const { data: rfq, error } = await sb.from('rfqs').insert([{
-    package_id: pkgId,
-    title: document.getElementById('rq-title').value.trim(),
+    package_id: pkgId, title,
     details: document.getElementById('rq-details').value.trim()||null,
     deadline: dl?new Date(dl).toISOString():null
   }]).select().single();
   if(error){ fmsg('rq-msg','✕ '+error.message,'err'); return; }
   await sb.from('rfq_invites').insert(vendorIds.map(v=>({rfq_id:rfq.id, vendor_id:v})));
-  // notify vendors
   for(const vid of vendorIds){
     const v = A.vendors.find(x=>x.id===vid);
-    if(v?.telegram_chat_id) tgSend(v.telegram_chat_id, `📨 <b>URB — طلب تسعير جديد</b>\n\n${rfq.title}\n\nادخل المنصة وقدّم عرضك.`);
+    if(v?.telegram_chat_id) tgSend(v.telegram_chat_id, `📨 <b>URB — طلب تسعير جديد</b>\n\n${title}\n\nادخل المنصة وقدّم عرضك.`);
   }
-  await sb.from('packages').update({status:'quoted'}).eq('id',pkgId);
-  fmsg('rq-msg',`✓ أُرسل الـ RFQ إلى ${vendorIds.length} متعهد`,'ok');
-  setTimeout(()=>{ closeM('detailModal'); adminLoadAll(); }, 1400);
+  if(pkgId) await sb.from('packages').update({status:'quoted'}).eq('id',pkgId);
+  fmsg('rq-msg',`✓ انرسل الـ RFQ لـ ${vendorIds.length} متعهد`,'ok');
+  setTimeout(()=>{ closeM('detailModal'); adminLoadAll().then(adminLoadRfqs); }, 1400);
 }
 async function adminLoadRfqs(){
   const { data: quotes } = await sb.from('rfq_quotes').select('*').order('created_at',{ascending:false});
@@ -2258,9 +2310,12 @@ async function adminLoadPartners(){
 async function addPartner(){
   const name = document.getElementById('pt-name').value.trim();
   if(!name){ toast('⚠️ الاسم مطلوب'); return; }
-  await sb.from('partners').insert([{name, logo_url: document.getElementById('pt-logo').value.trim()||null}]);
-  document.getElementById('pt-name').value=''; document.getElementById('pt-logo').value='';
-  toast('✓ أُضيف'); adminLoadPartners(); loadPartnersPublic();
+  await sb.from('partners').insert([{name,
+    logo_url: document.getElementById('pt-logo').value.trim()||null,
+    link: document.getElementById('pt-link').value.trim()||null,
+    description: document.getElementById('pt-desc').value.trim()||null}]);
+  ['pt-name','pt-logo','pt-link','pt-desc'].forEach(i=>document.getElementById(i).value='');
+  toast('✓ انضاف الشريك'); adminLoadPartners(); loadPartnersPublic();
 }
 async function togVis(table, id, val){ await sb.from(table).update({is_visible:val}).eq('id',id); loadSiteCfg(); }
 
@@ -2389,6 +2444,114 @@ async function rejectApp(id){
   toast('✕ رُفض الطلب'); adminLoadApplications();
 }
 
+/* ═══ TECH PILLARS ═══ */
+async function loadPillarsPublic(){
+  const { data } = await sb.from('tech_pillars').select('*').eq('is_visible',true).order('sort_order');
+  if(!data?.length) return; // keep defaults
+  document.getElementById('pillarsGrid').innerHTML = data.map((p,i)=>`
+    <div class="card">
+      <div class="num">${String(i+1).padStart(2,'0')}</div>
+      <div class="ic">${esc(p.icon||'🧠')}</div>
+      <h3>${esc(p.title)}</h3>
+      <p>${esc(p.description||'')}</p>
+    </div>`).join('');
+}
+async function adminLoadPillars(){
+  const { data } = await sb.from('tech_pillars').select('*').order('sort_order');
+  document.getElementById('ad-pillars').innerHTML = (data||[]).map(p=>`
+    <div class="row-item" style="padding:11px 15px;">
+      <div style="display:flex;gap:10px;align-items:center;min-width:0;">
+        <span style="font-size:1.3rem;">${esc(p.icon||'🧠')}</span>
+        <div style="min-width:0;"><b style="font-size:0.86rem;">${esc(p.title)}</b>
+        <div style="font-size:0.7rem;color:var(--dim);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:300px;">${esc(p.description||'')}</div></div>
+      </div>
+      <div style="display:flex;gap:6px;align-items:center;">
+        <button class="mini-btn" onclick="editPillar('${p.id}')">✏️</button>
+        <button class="mini-btn" onclick="togVis('tech_pillars','${p.id}',${!p.is_visible});setTimeout(adminLoadPillars,400);setTimeout(loadPillarsPublic,600)">${p.is_visible?'👁':'🙈'}</button>
+        <button class="mini-btn dg" onclick="delRow('tech_pillars','${p.id}');setTimeout(adminLoadPillars,400);setTimeout(loadPillarsPublic,600)">🗑</button>
+      </div>
+    </div>`).join('') || '<div class="empty">ما أضفت محاور — المحاور الافتراضية شغالة</div>';
+}
+async function addPillar(){
+  const title = document.getElementById('pl-title').value.trim();
+  if(!title){ toast('⚠️ العنوان مطلوب'); return; }
+  await sb.from('tech_pillars').insert([{
+    title, icon: document.getElementById('pl-icon').value.trim()||'🧠',
+    description: document.getElementById('pl-desc').value.trim()||null
+  }]);
+  ['pl-icon','pl-title','pl-desc'].forEach(i=>document.getElementById(i).value='');
+  toast('✓ انضاف'); adminLoadPillars(); loadPillarsPublic();
+}
+let _pillars = [];
+async function editPillar(id){
+  const { data: p } = await sb.from('tech_pillars').select('*').eq('id',id).single();
+  if(!p) return;
+  document.getElementById('dm-title').textContent = '✏️ تعديل محور';
+  document.getElementById('dm-body').innerHTML = `
+    <div class="f2">
+      <div class="fg"><label class="fl">ICON</label><input class="fi" id="ep-icon" value="${esc(p.icon||'')}"></div>
+      <div class="fg"><label class="fl">TITLE</label><input class="fi" id="ep-ptitle" value="${esc(p.title)}"></div>
+    </div>
+    <div class="fg"><label class="fl">DESCRIPTION</label><textarea class="fi" id="ep-pdesc" rows="4">${esc(p.description||'')}</textarea></div>
+    <button class="btn btn-grad" style="width:100%;padding:13px;" onclick="savePillar('${id}')">💾 حفظ</button>`;
+  openM('detailModal');
+}
+async function savePillar(id){
+  await sb.from('tech_pillars').update({
+    icon: document.getElementById('ep-icon').value.trim()||'🧠',
+    title: document.getElementById('ep-ptitle').value.trim(),
+    description: document.getElementById('ep-pdesc').value.trim()||null
+  }).eq('id',id);
+  toast('✓ اتحفظ'); closeM('detailModal'); adminLoadPillars(); loadPillarsPublic();
+}
+
+/* ═══ NEWS TICKER ═══ */
+async function loadNewsPublic(){
+  const { data } = await sb.from('announcements').select('*').eq('is_active',true).order('created_at',{ascending:false});
+  const bar = document.getElementById('newsBar');
+  if(!data?.length){ bar.style.display='none'; return; }
+  bar.style.display='block';
+  const items = data.map(n=>`📢 ${esc(n.text)}`).join(' &nbsp;★&nbsp; ') + ' &nbsp;★&nbsp; ';
+  document.getElementById('newsTrack').innerHTML = `<span>${items}</span><span>${items}</span>`;
+}
+async function adminLoadNews(){
+  const { data } = await sb.from('announcements').select('*').order('created_at',{ascending:false});
+  document.getElementById('ad-news').innerHTML = (data||[]).map(n=>`
+    <div class="row-item" style="padding:11px 15px;">
+      <div style="min-width:0;font-size:0.85rem;">${esc(n.text)}</div>
+      <div style="display:flex;gap:6px;align-items:center;">
+        <span class="badge ${n.is_active?'b-green':'b-dim'}">${n.is_active?'ظاهر':'مخفي'}</span>
+        <button class="mini-btn" onclick="togNews('${n.id}',${!n.is_active})">${n.is_active?'إخفاء':'إظهار'}</button>
+        <button class="mini-btn dg" onclick="delRow('announcements','${n.id}');setTimeout(adminLoadNews,400);setTimeout(loadNewsPublic,600)">🗑</button>
+      </div>
+    </div>`).join('') || '<div class="empty">ما فيه إعلانات للحين</div>';
+}
+async function addNews(){
+  const txt = document.getElementById('nw-text').value.trim();
+  if(!txt){ toast('⚠️ اكتب الإعلان'); return; }
+  await sb.from('announcements').insert([{text:txt}]);
+  document.getElementById('nw-text').value='';
+  toast('✓ انشر الإعلان'); adminLoadNews(); loadNewsPublic();
+}
+async function togNews(id,val){
+  await sb.from('announcements').update({is_active:val}).eq('id',id);
+  adminLoadNews(); loadNewsPublic();
+}
+
+/* ═══ PARTNER INFO MODAL ═══ */
+let _partners = [];
+function openPartnerInfo(id){
+  const p = _partners.find(x=>x.id===id); if(!p) return;
+  document.getElementById('dm-title').textContent = '🏆 '+p.name;
+  document.getElementById('dm-body').innerHTML = `
+    <div style="text-align:center;margin-bottom:18px;">
+      ${p.logo_url?`<img src="${esc(p.logo_url)}" style="max-height:80px;max-width:220px;border-radius:12px;" onerror="this.style.display='none'">`:`<div style="font-size:3rem;">🏆</div>`}
+    </div>
+    <div class="about-text" style="text-align:center;">${esc(p.description||'شريك نجاح لمنصة عُرب URB.')}</div>
+    ${p.link?`<a href="${esc(p.link)}" target="_blank" rel="noopener" class="btn btn-grad" style="width:100%;padding:12px;margin-top:20px;">🌐 زيارة الموقع</a>`:''}`;
+  openM('detailModal');
+}
+
 /* ═══ PASSWORD RESET (admin sends email link) ═══ */
 async function resetPass(email){
   if(!confirm(`إرسال رابط تغيير كلمة السر إلى:\n${email}؟`)) return;
@@ -2398,7 +2561,7 @@ async function resetPass(email){
 
 /* ═══ INIT ═══ */
 applyLang(); buildLangMenu();
-loadSiteCfg(); loadPricingPublic();
+loadSiteCfg(); loadPricingPublic(); loadPillarsPublic(); loadNewsPublic();
 sb.from('settings').select('value').eq('key','admin_secret').single().then(({data})=>{ if(data?.value) adminSecret=data.value; });
 sb.auth.getSession().then(({data:{session}})=>{ if(session){ me=session.user; routeByRole(); } });
 </script>
