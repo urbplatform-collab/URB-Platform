@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>GameLex — Built for Games. Trained by Humans.</title>
+<title>عُرب URB — Built for Games. Trained by Humans.</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Tajawal:wght@300;400;500;700;900&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
 <style>
@@ -159,6 +159,12 @@ nav{
   letter-spacing:0.6px;flex-wrap:wrap;
 }
 .type-caret::after{content:'▋';animation:pulse 1s infinite}
+
+/* marquee */
+.marquee{overflow:hidden;border-block:1px solid var(--border2);padding:13px 0;position:relative;z-index:1;background:rgba(11,14,32,0.5)}
+.marquee-track{display:inline-flex;gap:52px;white-space:nowrap;animation:mq 28s linear infinite;font-family:'Space Mono',monospace;font-size:0.78rem;letter-spacing:2px;color:var(--dim)}
+.marquee-track b{color:var(--purple)}
+@keyframes mq{from{transform:translateX(0)}to{transform:translateX(50%)}}
 
 /* ═══ SECTIONS ═══ */
 section{padding:84px 24px;position:relative;z-index:1}
@@ -486,7 +492,7 @@ textarea.fi{resize:vertical;min-height:80px}
   <div class="nav-inner">
     <div class="logo" onclick="scrollTo({top:0,behavior:'smooth'})">
       <div class="logo-mark">🎮</div>
-      <div class="logo-name">Game<b>Lex</b></div>
+      <div class="logo-name">عُرب <b>URB</b></div>
     </div>
     <div class="nav-links" id="navLinks">
       <a href="#tech" data-i18n="nav_engine">التقنية</a>
@@ -527,7 +533,7 @@ textarea.fi{resize:vertical;min-height:80px}
   <div class="term">
     <div class="term-bar">
       <span style="color:var(--cyan);font-size:1.1rem;">⛶</span>
-      <span class="term-title">GAMELEX_LOCALIZATION_V2</span>
+      <span class="term-title">URB_LOCALIZATION</span>
       <div class="term-dots" style="margin-inline-start:auto;">
         <span style="background:#f87171"></span><span style="background:#fbbf24"></span><span style="background:#34d399"></span>
       </div>
@@ -536,7 +542,7 @@ textarea.fi{resize:vertical;min-height:80px}
       <div class="term-label" style="color:var(--purple);">// SOURCE_EN</div>
       <div class="term-box" dir="ltr" id="demoSrc">Critical biological failure detected. Re-initiating neural link...</div>
       <div class="term-arrow">↓</div>
-      <div class="term-label" style="color:var(--cyan);margin-top:9px;">// AI_PROPOSAL_AR</div>
+      <div class="term-label" style="color:var(--cyan);margin-top:9px;" id="demoLabel">// URB PROPOSAL_AR (Saudi dialect)</div>
       <div class="term-box" dir="rtl"><span id="demoOut" class="type-caret" style="color:#a5f3fc;"></span></div>
       <div class="term-status">
         <span>● HUMAN_IN_THE_LOOP: ENABLED</span>
@@ -545,6 +551,9 @@ textarea.fi{resize:vertical;min-height:80px}
     </div>
   </div>
 </div>
+
+<!-- MARQUEE -->
+<div class="marquee"><div class="marquee-track"><span>عُرب <b>URB</b> ★ BUILT FOR GAMES ★ TRAINED BY HUMANS ★ توطين بروح عربية ★ AI + HUMAN REVIEW ★ 12 LANGUAGES ★ SAUDI • EGYPTIAN • ALGERIAN DIALECTS ★&nbsp;</span><span>عُرب <b>URB</b> ★ BUILT FOR GAMES ★ TRAINED BY HUMANS ★ توطين بروح عربية ★ AI + HUMAN REVIEW ★ 12 LANGUAGES ★ SAUDI • EGYPTIAN • ALGERIAN DIALECTS ★&nbsp;</span></div></div>
 
 <!-- PARTNERS -->
 <section id="partners-sec" style="padding:34px 24px;display:none;">
@@ -563,7 +572,7 @@ textarea.fi{resize:vertical;min-height:80px}
     <div class="grid3">
       <div class="card">
         <div class="num">01</div><div class="ic">🧠</div>
-        <h3>GameLex-AI</h3>
+        <h3>URB-AI</h3>
         <p data-i18n="tech_1">نموذج مخصص لعالم الألعاب يتعلم من كل مشروع ويحسّن دقته أسبوعياً — بفهم عميق لسياق وثقافة اللعب العربي.</p>
       </div>
       <div class="card">
@@ -597,10 +606,10 @@ textarea.fi{resize:vertical;min-height:80px}
   <div class="sec-in">
     <div class="sec-tag">// WORKFLOW</div>
     <h2 class="sec-title" data-i18n="wf_title">من الرفع إلى الإطلاق</h2>
-    <p class="sec-sub" data-i18n="wf_sub">رحلة حزمتك عبر منظومة GameLex.</p>
+    <p class="sec-sub" data-i18n="wf_sub">رحلة حزمتك عبر منظومة عُرب.</p>
     <div class="flow">
       <div class="flow-step"><div class="fnum">1</div><h4 data-i18n="wf_1">أرسل حزمتك</h4><p data-i18n="wf_1s">ارفع ملفات لعبتك وحدد اللغات المستهدفة والموعد.</p></div>
-      <div class="flow-step"><div class="fnum">2</div><h4 data-i18n="wf_2">معالجة AI</h4><p data-i18n="wf_2s">محرك GameLex يترجم مع الحفاظ على السياق والمصطلحات.</p></div>
+      <div class="flow-step"><div class="fnum">2</div><h4 data-i18n="wf_2">معالجة AI</h4><p data-i18n="wf_2s">محرك URB يترجم مع الحفاظ على السياق والمصطلحات.</p></div>
       <div class="flow-step"><div class="fnum">3</div><h4 data-i18n="wf_3">مراجعة بشرية</h4><p data-i18n="wf_3s">خبراء لغويون يدققون الدقة الثقافية وجودة التجربة.</p></div>
       <div class="flow-step"><div class="fnum">4</div><h4 data-i18n="wf_4">تسليم وإطلاق</h4><p data-i18n="wf_4s">حزمة جاهزة للدمج — مع دعم تسويقي في باقة PLUS.</p></div>
     </div>
@@ -634,7 +643,7 @@ textarea.fi{resize:vertical;min-height:80px}
       <div>
         <div class="sec-tag">// ABOUT US</div>
         <h2 class="sec-title" data-i18n="ab_title">من نحن</h2>
-        <div class="about-text" id="aboutText" data-i18n="ab_default">GameLex منصة سعودية متخصصة في توطين ألعاب الفيديو، تجمع بين قوة الذكاء الاصطناعي والخبرة البشرية لتقديم تجربة عربية أصيلة لكل لاعب.</div>
+        <div class="about-text" id="aboutText" data-i18n="ab_default">عُرب URB منصة سعودية متخصصة في توطين ألعاب الفيديو، تجمع بين قوة الذكاء الاصطناعي والخبرة البشرية عشان توصلك تجربة عربية أصيلة لكل لاعب.</div>
       </div>
       <div class="contact-card" id="contact">
         <h3 style="margin-bottom:16px;font-size:1.05rem;" data-i18n="ct_title">📡 تواصل معنا</h3>
@@ -653,7 +662,7 @@ textarea.fi{resize:vertical;min-height:80px}
       <div class="foot-col">
         <div class="logo" style="margin-bottom:14px;">
           <div class="logo-mark">🎮</div>
-          <div class="logo-name">Game<b>Lex</b></div>
+          <div class="logo-name">عُرب <b>URB</b></div>
         </div>
         <p style="color:var(--dim);font-size:0.85rem;line-height:1.8;max-width:300px;" data-i18n="foot_tag">Built for Games. Trained by Humans.<br>توطين ألعاب بروح سعودية.</p>
         <div class="socials" id="socialIconsFoot"></div>
@@ -669,11 +678,12 @@ textarea.fi{resize:vertical;min-height:80px}
         <h5>COMPANY</h5>
         <a href="#about" data-i18n="nav_about">من نحن</a>
         <a href="#contact" data-i18n="nav_contact">تواصل</a>
+        <a href="#" onclick="openVendorApply();return false;" style="color:var(--gold);" data-i18n="foot_apply">🤝 قدّم كمتعهد / Freelancer</a>
         <a href="#" onclick="openPolicy();return false;" data-i18n="foot_policy">سياسة الخصوصية</a>
       </div>
     </div>
     <div class="foot-bottom">
-      <span>© 2026 GameLex — All rights reserved</span>
+      <span>© 2026 عُرب URB — All rights reserved</span>
       <span style="font-family:'Space Mono',monospace;font-size:0.68rem;">ENGINE_STATUS: <span style="color:var(--green);">ONLINE ●</span></span>
     </div>
   </div>
@@ -684,10 +694,10 @@ textarea.fi{resize:vertical;min-height:80px}
 <!-- ═══════════ CLIENT DASHBOARD ═══════════ -->
 <div class="dash" id="dash-client">
   <div class="dash-top">
-    <div class="dash-title"><button class="hamburger" style="display:block;" onclick="toggleSide('client')">☰</button> <span>GameLex</span> <span class="role-chip role-client">CLIENT</span></div>
+    <div class="dash-title"><button class="hamburger" style="display:block;" onclick="toggleSide('client')">☰</button> <span>URB</span> <span class="role-chip role-client">CLIENT</span></div>
     <div style="display:flex;gap:9px;align-items:center;">
       <span id="cl-name" style="font-size:0.82rem;color:var(--dim);"></span>
-      <button class="mini-btn dg" onclick="doLogout()">خروج ↩</button>
+      <button class="mini-btn dg" onclick="doLogout()"><span data-i18n="btn_logout">خروج ↩</span></button>
     </div>
   </div>
   <div class="dash-body">
@@ -750,10 +760,10 @@ textarea.fi{resize:vertical;min-height:80px}
 <!-- ═══════════ TEAM DASHBOARD ═══════════ -->
 <div class="dash" id="dash-team">
   <div class="dash-top">
-    <div class="dash-title"><span>GameLex</span> <span class="role-chip role-team">TEAM</span></div>
+    <div class="dash-title"><span>URB</span> <span class="role-chip role-team">TEAM</span></div>
     <div style="display:flex;gap:9px;align-items:center;">
       <span id="tm-hello" style="font-size:0.82rem;color:var(--dim);"></span>
-      <button class="mini-btn dg" onclick="doLogout()">خروج ↩</button>
+      <button class="mini-btn dg" onclick="doLogout()"><span data-i18n="btn_logout">خروج ↩</span></button>
     </div>
   </div>
   <div class="dash-body">
@@ -775,10 +785,10 @@ textarea.fi{resize:vertical;min-height:80px}
 <!-- ═══════════ VENDOR DASHBOARD ═══════════ -->
 <div class="dash" id="dash-vendor">
   <div class="dash-top">
-    <div class="dash-title"><span>GameLex</span> <span class="role-chip role-vendor">PROVIDER</span></div>
+    <div class="dash-title"><span>URB</span> <span class="role-chip role-vendor">PROVIDER</span></div>
     <div style="display:flex;gap:9px;align-items:center;">
       <span id="vn-hello" style="font-size:0.82rem;color:var(--dim);"></span>
-      <button class="mini-btn dg" onclick="doLogout()">خروج ↩</button>
+      <button class="mini-btn dg" onclick="doLogout()"><span data-i18n="btn_logout">خروج ↩</span></button>
     </div>
   </div>
   <div class="dash-body">
@@ -804,10 +814,10 @@ textarea.fi{resize:vertical;min-height:80px}
 <!-- ═══════════ ADMIN DASHBOARD ═══════════ -->
 <div class="dash" id="dash-admin">
   <div class="dash-top">
-    <div class="dash-title"><button class="hamburger" style="display:block;" onclick="toggleSide('admin')">☰</button> <span>GameLex</span> <span class="role-chip role-admin">ADMIN</span></div>
+    <div class="dash-title"><button class="hamburger" style="display:block;" onclick="toggleSide('admin')">☰</button> <span>URB</span> <span class="role-chip role-admin">ADMIN</span></div>
     <div style="display:flex;gap:9px;align-items:center;">
       <span class="badge b-green">● LIVE</span>
-      <button class="mini-btn dg" onclick="adminLogout()">خروج ↩</button>
+      <button class="mini-btn dg" onclick="adminLogout()"><span data-i18n="btn_logout">خروج ↩</span></button>
     </div>
   </div>
   <div class="dash-body">
@@ -885,6 +895,11 @@ textarea.fi{resize:vertical;min-height:80px}
       </div>
 
       <div class="dpage" id="admin-vendors">
+        <div class="dcard">
+          <div class="dcard-head"><div class="dcard-title">📥 طلبات التقديم الجديدة</div>
+            <button class="mini-btn" onclick="adminLoadApplications()">↻</button></div>
+          <div class="dcard-body" id="ad-vendor-apps"></div>
+        </div>
         <div class="dcard">
           <div class="dcard-head"><div class="dcard-title">➕ إضافة متعهد / Provider</div></div>
           <div class="dcard-body">
@@ -1032,7 +1047,7 @@ textarea.fi{resize:vertical;min-height:80px}
 <!-- AUTH -->
 <div class="overlay" id="authModal">
   <div class="panel" style="width:460px;">
-    <div class="panel-head"><div class="panel-title">🔐 <span data-i18n="auth_title">الدخول إلى GameLex</span></div>
+    <div class="panel-head"><div class="panel-title">🔐 <span data-i18n="auth_title">الدخول إلى عُرب URB</span></div>
       <button class="x-btn" onclick="closeM('authModal')">✕</button></div>
     <div class="panel-body">
       <div class="atabs">
@@ -1092,7 +1107,7 @@ textarea.fi{resize:vertical;min-height:80px}
           <input type="file" id="np-files" multiple accept="image/*,audio/*,.pdf,.zip,.po,.xliff,.json,.csv,.txt,.xlsx,.docx">
           <div style="font-size:1.7rem;margin-bottom:7px;">📁</div>
           <div style="font-size:0.88rem;">اسحب ملفاتك أو اضغط للاختيار</div>
-          <div style="font-size:0.72rem;color:var(--dim);margin-top:5px;">تُرفع بأمان إلى تخزين GameLex السحابي</div>
+          <div style="font-size:0.72rem;color:var(--dim);margin-top:5px;">تُرفع بأمان إلى تخزين عُرب السحابي</div>
         </div>
         <div id="np-filelist" style="font-size:0.78rem;color:var(--cyan);"></div>
       </div>
@@ -1135,13 +1150,38 @@ textarea.fi{resize:vertical;min-height:80px}
   </div>
 </div>
 
+<!-- VENDOR APPLY -->
+<div class="overlay" id="vendorApplyModal">
+  <div class="panel" style="width:560px;">
+    <div class="panel-head"><div class="panel-title">🤝 التقديم كمتعهد / Freelancer</div>
+      <button class="x-btn" onclick="closeM('vendorApplyModal')">✕</button></div>
+    <div class="panel-body">
+      <div class="fmsg info" style="display:block;margin:0 0 18px;line-height:1.8;">
+        انضم لشبكة عُرب من المترجمين والمكاتب المؤهلة — عبّي النموذج وسيتواصل معك فريقنا بعد المراجعة.
+      </div>
+      <div class="f2">
+        <div class="fg"><label class="fl">FULL NAME *</label><input class="fi" id="va-name"></div>
+        <div class="fg"><label class="fl">COMPANY / OFFICE</label><input class="fi" id="va-company" placeholder="فرد أو اسم المكتب"></div>
+        <div class="fg"><label class="fl">EMAIL *</label><input class="fi" id="va-email" style="direction:ltr;"></div>
+        <div class="fg"><label class="fl">PHONE / WHATSAPP</label><input class="fi" id="va-phone" style="direction:ltr;"></div>
+      </div>
+      <div class="fg"><label class="fl">SPECIALTIES — التخصصات</label><input class="fi" id="va-spec" placeholder="ترجمة ألعاب، دبلجة، QA لغوي..."></div>
+      <div class="fg"><label class="fl">LANGUAGE PAIRS — أزواج اللغات</label><input class="fi" id="va-langs" placeholder="EN→AR, JA→AR..."></div>
+      <div class="fg"><label class="fl">EXPERIENCE — نبذة عن خبرتك</label><textarea class="fi" id="va-exp" rows="3"></textarea></div>
+      <div class="fg"><label class="fl">PORTFOLIO / CV LINK</label><input class="fi" id="va-link" style="direction:ltr;" placeholder="https://..."></div>
+      <button class="btn btn-grad" style="width:100%;padding:14px;" id="va-btn" onclick="submitVendorApply()">📨 إرسال الطلب</button>
+      <div class="fmsg" id="va-msg"></div>
+    </div>
+  </div>
+</div>
+
 <div class="toast" id="toast"></div>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
 /* ═══ SUPABASE ═══ */
-const SUPA_URL = 'https://ntecfdtkwyijhvdilyqn.supabase.co';
-const SUPA_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im50ZWNmZHRrd3lpamh2ZGlseXFuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODAxNTczNTIsImV4cCI6MjA5NTczMzM1Mn0.lnhooFQfkBpFM8JijWAwxFtJT4gWegq7V7KwF0lsIm4';
+const SUPA_URL = 'https://sagmdtrjlmarwrrbsqbi.supabase.co';
+const SUPA_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InNhZ21kdHJqbG1hcndycmJzcWJpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODM1NDY2OTQsImV4cCI6MjA5OTEyMjY5NH0.fssvhFVqzz5RvUz4nnMk6mBZlCpTkwyunLkhl8aEZVk';
 const sb = supabase.createClient(SUPA_URL, SUPA_KEY);
 
 let me = null;          // auth user
@@ -1187,28 +1227,31 @@ let C = { pkgs:[], gloss:[] };
   });
 })();
 
-/* typing demo */
+/* typing demo — dialect rotation */
 (function(){
   const out = document.getElementById('demoOut');
-  const pairs = [
-    ['Critical biological failure detected. Re-initiating neural link...','عُطل حيوي حرج. جارٍ إعادة تهيئة الوصلة العصبية...'],
-    ['Enemy squad approaching from the east flank!','فرقة معادية تقترب من الجناح الشرقي!'],
-    ['Legendary loot acquired. Inventory updated.','حصلتَ على غنيمة أسطورية. تم تحديث المخزون.'],
-  ];
-  let pi=0, ci=0, phase='type';
+  const lbl = document.getElementById('demoLabel');
   const src = document.getElementById('demoSrc');
+  const EN = 'Legendary loot acquired. Inventory updated.';
+  const rounds = [
+    ['Saudi dialect',   'ابشرك صار عندك غنيمة جباااارة… حدثنا لك المخزون'],
+    ['Egyptian dialect','غنيمة جامدة جدًا! اتضافت للشنطة بتاعتك'],
+    ['Algerian dialect','غنيمة خرافية! تزادت للساك تاعك'],
+  ];
+  let ri=0, ci=0, phase='type';
   function tick(){
-    const [en, ar] = pairs[pi];
-    src.textContent = en;
+    const [dial, ar] = rounds[ri];
+    src.textContent = EN;
+    lbl.textContent = `// URB PROPOSAL_AR (${dial})`;
     if(phase==='type'){
       ci++; out.textContent = ar.slice(0,ci);
-      if(ci>=ar.length){ phase='hold'; setTimeout(()=>{phase='erase';}, 2600); }
-      setTimeout(tick, 46);
+      if(ci>=ar.length){ phase='hold'; setTimeout(()=>{phase='erase';}, 2800); }
+      setTimeout(tick, 48);
     } else if(phase==='erase'){
       ci-=3; out.textContent = ar.slice(0,Math.max(0,ci));
-      if(ci<=0){ ci=0; pi=(pi+1)%pairs.length; phase='type'; }
-      setTimeout(tick, 22);
-    } else setTimeout(tick, 220);
+      if(ci<=0){ ci=0; ri=(ri+1)%rounds.length; phase='type'; }
+      setTimeout(tick, 20);
+    } else setTimeout(tick, 240);
   }
   tick();
 })();
@@ -1222,33 +1265,7 @@ const LANGS = {
   es:{n:'Español',f:'🇪🇸',d:'ltr'}, pt:{n:'Português',f:'🇧🇷',d:'ltr'},
   ru:{n:'Русский',f:'🇷🇺',d:'ltr'}, de:{n:'Deutsch',f:'🇩🇪',d:'ltr'}
 };
-const T = {
-  nav_engine:{ar:'التقنية',en:'Engine',zh:'技术引擎',ja:'エンジン',ko:'엔진',ur:'ٹیکنالوجی',fr:'Technologie',it:'Tecnologia',es:'Tecnología',pt:'Tecnologia',ru:'Технология',de:'Engine'},
-  nav_packages:{ar:'الباقات',en:'Packages',zh:'套餐',ja:'パッケージ',ko:'패키지',ur:'پیکجز',fr:'Offres',it:'Pacchetti',es:'Paquetes',pt:'Pacotes',ru:'Пакеты',de:'Pakete'},
-  nav_workflow:{ar:'آلية العمل',en:'Workflow',zh:'工作流程',ja:'ワークフロー',ko:'워크플로우',ur:'ورک فلو',fr:'Processus',it:'Processo',es:'Proceso',pt:'Processo',ru:'Процесс',de:'Ablauf'},
-  nav_portfolio:{ar:'أعمالنا',en:'Portfolio',zh:'作品集',ja:'実績',ko:'포트폴리오',ur:'پورٹ فولیو',fr:'Portfolio',it:'Portfolio',es:'Portafolio',pt:'Portfólio',ru:'Портфолио',de:'Portfolio'},
-  nav_about:{ar:'من نحن',en:'About',zh:'关于我们',ja:'会社概要',ko:'소개',ur:'ہمارے بارے',fr:'À propos',it:'Chi siamo',es:'Nosotros',pt:'Sobre',ru:'О нас',de:'Über uns'},
-  nav_contact:{ar:'تواصل',en:'Contact',zh:'联系',ja:'お問い合わせ',ko:'문의',ur:'رابطہ',fr:'Contact',it:'Contatti',es:'Contacto',pt:'Contato',ru:'Контакты',de:'Kontakt'},
-  nav_login:{ar:'🔐 دخول',en:'🔐 Login',zh:'🔐 登录',ja:'🔐 ログイン',ko:'🔐 로그인',ur:'🔐 لاگ ان',fr:'🔐 Connexion',it:'🔐 Accedi',es:'🔐 Entrar',pt:'🔐 Entrar',ru:'🔐 Войти',de:'🔐 Anmelden'},
-  hero_1:{ar:'صُنعت للألعاب.',en:'Built for Games.',zh:'为游戏而生。',ja:'ゲームのために。',ko:'게임을 위해.',ur:'گیمز کے لیے۔',fr:'Conçu pour les jeux.',it:'Nato per i giochi.',es:'Hecho para juegos.',pt:'Feito para jogos.',ru:'Создано для игр.',de:'Für Spiele gebaut.'},
-  hero_2:{ar:'دُرّبت',en:'Trained',zh:'由人类',ja:'人間が',ko:'인간이',ur:'انسانوں کی',fr:'Entraîné',it:'Addestrato',es:'Entrenado',pt:'Treinado',ru:'Обучено',de:'Trainiert'},
-  hero_3:{ar:'بالبشر.',en:'by Humans.',zh:'训练。',ja:'訓練。',ko:'훈련.',ur:'تربیت۔',fr:'par des humains.',it:'da umani.',es:'por humanos.',pt:'por humanos.',ru:'людьми.',de:'von Menschen.'},
-  hero_sub:{ar:'منصة توطين ذكية تدمج قوة الذكاء الاصطناعي مع الدقة الثقافية السعودية — لتجعل العربية لغةً أصيلة في كل عالم افتراضي.',en:'An intelligent localization platform combining AI power with Saudi cultural precision — making Arabic feel native to every virtual world.',zh:'智能本地化平台，将AI力量与沙特文化精准度相结合。',ja:'AIの力とサウジ文化の精度を組み合わせたローカライズプラットフォーム。',ko:'AI 파워와 사우디 문화적 정밀함을 결합한 로컬라이제이션 플랫폼.',ur:'ذہین لوکلائزیشن پلیٹ فارم جو AI طاقت کو ثقافتی درستگی سے جوڑتا ہے۔',fr:'Une plateforme de localisation intelligente combinant IA et précision culturelle saoudienne.',it:'Una piattaforma di localizzazione che unisce IA e precisione culturale saudita.',es:'Plataforma de localización que combina IA con precisión cultural saudí.',pt:'Plataforma de localização que combina IA com precisão cultural saudita.',ru:'Интеллектуальная платформа локализации, сочетающая ИИ и культурную точность.',de:'Eine intelligente Lokalisierungsplattform mit KI und kultureller Präzision.'},
-  hero_cta1:{ar:'🚀 أطلق حزمة جديدة',en:'🚀 Launch New Package',zh:'🚀 启动新包',ja:'🚀 新規パッケージ',ko:'🚀 새 패키지',ur:'🚀 نیا پیکج',fr:'🚀 Lancer un package',it:'🚀 Nuovo pacchetto',es:'🚀 Lanzar paquete',pt:'🚀 Novo pacote',ru:'🚀 Новый пакет',de:'🚀 Neues Paket'},
-  hero_cta2:{ar:'شاهد التقنية ›_',en:'View Live Demo ›_',zh:'观看演示 ›_',ja:'デモを見る ›_',ko:'데모 보기 ›_',ur:'ڈیمو دیکھیں ›_',fr:'Voir la démo ›_',it:'Guarda la demo ›_',es:'Ver demo ›_',pt:'Ver demo ›_',ru:'Демо ›_',de:'Demo ansehen ›_'},
-  tech_title:{ar:'ثلاثة محاور، قوة واحدة',en:'Three pillars, one power',zh:'三大支柱，一种力量',ja:'3つの柱、1つの力',ko:'세 개의 기둥, 하나의 힘',ur:'تین ستون، ایک طاقت',fr:'Trois piliers, une force',it:'Tre pilastri, una forza',es:'Tres pilares, una fuerza',pt:'Três pilares, uma força',ru:'Три столпа, одна сила',de:'Drei Säulen, eine Kraft'},
-  pk_title:{ar:'باقة لكل طموح',en:'A package for every ambition',zh:'满足每个雄心的套餐',ja:'あらゆる目標に対応',ko:'모든 야망을 위한 패키지',ur:'ہر عزم کے لیے پیکج',fr:'Une offre pour chaque ambition',it:'Un pacchetto per ogni ambizione',es:'Un paquete para cada ambición',pt:'Um pacote para cada ambição',ru:'Пакет для любых амбиций',de:'Ein Paket für jede Ambition'},
-  wf_title:{ar:'من الرفع إلى الإطلاق',en:'From upload to launch',zh:'从上传到发布',ja:'アップロードからリリースまで',ko:'업로드에서 출시까지',ur:'اپ لوڈ سے لانچ تک',fr:'Du dépôt au lancement',it:'Dal caricamento al lancio',es:'De la carga al lanzamiento',pt:'Do upload ao lançamento',ru:'От загрузки до запуска',de:'Vom Upload zum Launch'},
-  pf_title:{ar:'سابقة الأعمال',en:'Portfolio',zh:'作品集',ja:'実績',ko:'포트폴리오',ur:'پورٹ فولیو',fr:'Réalisations',it:'Portfolio',es:'Portafolio',pt:'Portfólio',ru:'Портфолио',de:'Referenzen'},
-  ts_title:{ar:'أبرز كوادرنا',en:'Meet the team',zh:'团队精英',ja:'チーム紹介',ko:'팀 소개',ur:'ہماری ٹیم',fr:'Notre équipe',it:'Il nostro team',es:'Nuestro equipo',pt:'Nossa equipe',ru:'Наша команда',de:'Unser Team'},
-  ab_title:{ar:'من نحن',en:'About us',zh:'关于我们',ja:'会社概要',ko:'소개',ur:'ہمارے بارے میں',fr:'À propos',it:'Chi siamo',es:'Nosotros',pt:'Sobre nós',ru:'О нас',de:'Über uns'},
-  ct_title:{ar:'📡 تواصل معنا',en:'📡 Contact us',zh:'📡 联系我们',ja:'📡 お問い合わせ',ko:'📡 문의하기',ur:'📡 رابطہ کریں',fr:'📡 Contactez-nous',it:'📡 Contattaci',es:'📡 Contáctanos',pt:'📡 Fale conosco',ru:'📡 Связаться',de:'📡 Kontakt'},
-  tab_login:{ar:'دخول',en:'Login',zh:'登录',ja:'ログイン',ko:'로그인',ur:'لاگ ان',fr:'Connexion',it:'Accedi',es:'Entrar',pt:'Entrar',ru:'Войти',de:'Anmelden'},
-  tab_signup:{ar:'حساب جديد',en:'Sign Up',zh:'注册',ja:'登録',ko:'가입',ur:'رجسٹر',fr:'Inscription',it:'Registrati',es:'Registro',pt:'Cadastro',ru:'Регистрация',de:'Registrieren'},
-  signup_btn:{ar:'🚀 إنشاء حساب',en:'🚀 Create Account',zh:'🚀 创建账户',ja:'🚀 アカウント作成',ko:'🚀 계정 만들기',ur:'🚀 اکاؤنٹ بنائیں',fr:'🚀 Créer un compte',it:'🚀 Crea account',es:'🚀 Crear cuenta',pt:'🚀 Criar conta',ru:'🚀 Создать аккаунт',de:'🚀 Konto erstellen'},
-  foot_policy:{ar:'سياسة الخصوصية',en:'Privacy Policy',zh:'隐私政策',ja:'プライバシー',ko:'개인정보',ur:'پرائیویسی',fr:'Confidentialité',it:'Privacy',es:'Privacidad',pt:'Privacidade',ru:'Конфиденциальность',de:'Datenschutz'},
-  partners_title:{ar:'شركاء النجاح — TRUSTED BY',en:'TRUSTED BY',zh:'合作伙伴',ja:'パートナー',ko:'파트너',ur:'شراکت دار',fr:'ILS NOUS FONT CONFIANCE',it:'PARTNER',es:'CONFÍAN EN NOSOTROS',pt:'PARCEIROS',ru:'ПАРТНЁРЫ',de:'PARTNER'},
-};
+const T = {"nav_engine": {"ar": "التقنية", "en": "Engine", "zh": "技术引擎", "ja": "エンジン", "ko": "엔진", "ur": "ٹیکنالوجی", "fr": "Technologie", "it": "Tecnologia", "es": "Tecnología", "pt": "Tecnologia", "ru": "Технология", "de": "Engine"}, "nav_packages": {"ar": "الباقات", "en": "Packages", "zh": "套餐", "ja": "パッケージ", "ko": "패키지", "ur": "پیکجز", "fr": "Offres", "it": "Pacchetti", "es": "Paquetes", "pt": "Pacotes", "ru": "Пакеты", "de": "Pakete"}, "nav_workflow": {"ar": "آلية العمل", "en": "Workflow", "zh": "工作流程", "ja": "ワークフロー", "ko": "워크플로우", "ur": "ورک فلو", "fr": "Processus", "it": "Processo", "es": "Proceso", "pt": "Processo", "ru": "Процесс", "de": "Ablauf"}, "nav_portfolio": {"ar": "أعمالنا", "en": "Portfolio", "zh": "作品集", "ja": "実績", "ko": "포트폴리오", "ur": "پورٹ فولیو", "fr": "Portfolio", "it": "Portfolio", "es": "Portafolio", "pt": "Portfólio", "ru": "Портфолио", "de": "Portfolio"}, "nav_about": {"ar": "من إحنا", "en": "About", "zh": "关于我们", "ja": "会社概要", "ko": "소개", "ur": "ہمارے بارے", "fr": "À propos", "it": "Chi siamo", "es": "Nosotros", "pt": "Sobre", "ru": "О нас", "de": "Über uns"}, "nav_contact": {"ar": "تواصل", "en": "Contact", "zh": "联系", "ja": "お問い合わせ", "ko": "문의", "ur": "رابطہ", "fr": "Contact", "it": "Contatti", "es": "Contacto", "pt": "Contato", "ru": "Контакты", "de": "Kontakt"}, "nav_login": {"ar": "🔐 دخول", "en": "🔐 Login", "zh": "🔐 登录", "ja": "🔐 ログイン", "ko": "🔐 로그인", "ur": "🔐 لاگ ان", "fr": "🔐 Connexion", "it": "🔐 Accedi", "es": "🔐 Entrar", "pt": "🔐 Entrar", "ru": "🔐 Войти", "de": "🔐 Anmelden"}, "hero_1": {"ar": "صُنعت للألعاب.", "en": "Built for Games.", "zh": "为游戏而生。", "ja": "ゲームのために。", "ko": "게임을 위해.", "ur": "گیمز کے لیے۔", "fr": "Conçu pour les jeux.", "it": "Nato per i giochi.", "es": "Hecho para juegos.", "pt": "Feito para jogos.", "ru": "Создано для игр.", "de": "Für Spiele gebaut."}, "hero_2": {"ar": "دُرّبت", "en": "Trained", "zh": "由人类", "ja": "人間が", "ko": "인간이", "ur": "انسانوں کی", "fr": "Entraîné", "it": "Addestrato", "es": "Entrenado", "pt": "Treinado", "ru": "Обучено", "de": "Trainiert"}, "hero_3": {"ar": "بالبشر.", "en": "by Humans.", "zh": "训练。", "ja": "訓練。", "ko": "훈련.", "ur": "تربیت۔", "fr": "par des humains.", "it": "da umani.", "es": "por humanos.", "pt": "por humanos.", "ru": "людьми.", "de": "von Menschen."}, "hero_sub": {"ar": "منصة توطين ذكية تجمع قوة الذكاء الاصطناعي مع الدقة الثقافية السعودية — عشان تخلي العربية لغة أصيلة بكل عالم افتراضي.", "en": "An intelligent localization platform combining AI power with Saudi cultural precision — making Arabic feel native to every virtual world.", "zh": "智能本地化平台，将AI力量与沙特文化精准度相结合，让阿拉伯语成为每个虚拟世界的母语。", "ja": "AIの力とサウジ文化の精度を組み合わせ、アラビア語をあらゆる仮想世界のネイティブ言語にするプラットフォーム。", "ko": "AI 파워와 사우디 문화적 정밀함을 결합해 아랍어를 모든 가상 세계의 모국어로 만드는 플랫폼.", "ur": "ذہین لوکلائزیشن پلیٹ فارم جو AI طاقت کو سعودی ثقافتی درستگی سے جوڑتا ہے۔", "fr": "Une plateforme de localisation intelligente combinant IA et précision culturelle saoudienne.", "it": "Una piattaforma di localizzazione che unisce IA e precisione culturale saudita.", "es": "Plataforma de localización que combina IA con precisión cultural saudí.", "pt": "Plataforma de localização que combina IA com precisão cultural saudita.", "ru": "Интеллектуальная платформа локализации, сочетающая ИИ и культурную точность.", "de": "Eine intelligente Lokalisierungsplattform mit KI und kultureller Präzision."}, "hero_cta1": {"ar": "🚀 يلا أطلق حزمتك", "en": "🚀 Launch New Package", "zh": "🚀 启动新包", "ja": "🚀 新規パッケージ", "ko": "🚀 새 패키지", "ur": "🚀 نیا پیکج", "fr": "🚀 Lancer un package", "it": "🚀 Nuovo pacchetto", "es": "🚀 Lanzar paquete", "pt": "🚀 Novo pacote", "ru": "🚀 Новый пакет", "de": "🚀 Neues Paket"}, "hero_cta2": {"ar": "شوف التقنية ›_", "en": "View Live Demo ›_", "zh": "观看演示 ›_", "ja": "デモを見る ›_", "ko": "데모 보기 ›_", "ur": "ڈیمو دیکھیں ›_", "fr": "Voir la démo ›_", "it": "Guarda la demo ›_", "es": "Ver demo ›_", "pt": "Ver demo ›_", "ru": "Демо ›_", "de": "Demo ansehen ›_"}, "hs1": {"ar": "Context Accuracy", "en": "Context Accuracy", "zh": "上下文准确率", "ja": "文脈精度", "ko": "문맥 정확도", "ur": "سیاق درستگی", "fr": "Précision contexte", "it": "Precisione contesto", "es": "Precisión contexto", "pt": "Precisão contexto", "ru": "Точность контекста", "de": "Kontextgenauigkeit"}, "hs2": {"ar": "Words Trained", "en": "Words Trained", "zh": "训练词汇", "ja": "学習語数", "ko": "학습 단어", "ur": "تربیت شدہ الفاظ", "fr": "Mots entraînés", "it": "Parole addestrate", "es": "Palabras entrenadas", "pt": "Palavras treinadas", "ru": "Обучено слов", "de": "Trainierte Wörter"}, "hs3": {"ar": "Engine Latency", "en": "Engine Latency", "zh": "引擎延迟", "ja": "エンジン遅延", "ko": "엔진 지연", "ur": "انجن تاخیر", "fr": "Latence moteur", "it": "Latenza motore", "es": "Latencia motor", "pt": "Latência motor", "ru": "Задержка движка", "de": "Engine-Latenz"}, "tech_title": {"ar": "ثلاثة محاور، قوة وحدة", "en": "Three pillars, one power", "zh": "三大支柱，一种力量", "ja": "3つの柱、1つの力", "ko": "세 개의 기둥, 하나의 힘", "ur": "تین ستون، ایک طاقت", "fr": "Trois piliers, une force", "it": "Tre pilastri, una forza", "es": "Tres pilares, una fuerza", "pt": "Três pilares, uma força", "ru": "Три столпа, одна сила", "de": "Drei Säulen, eine Kraft"}, "tech_sub": {"ar": "بنية توطين متكاملة تضمن لك أعلى جودة للألعاب العربية.", "en": "An integrated localization architecture ensuring top quality for Arabic games.", "zh": "确保阿拉伯游戏最高质量的一体化本地化架构。", "ja": "アラビア語ゲームの最高品質を保証する統合ローカライズ基盤。", "ko": "아랍어 게임의 최고 품질을 보장하는 통합 아키텍처.", "ur": "عربی گیمز کے اعلیٰ معیار کی ضمانت دینے والا مربوط ڈھانچہ۔", "fr": "Une architecture intégrée garantissant la meilleure qualité pour les jeux arabes.", "it": "Un'architettura integrata che garantisce la massima qualità.", "es": "Arquitectura integrada que garantiza la máxima calidad.", "pt": "Arquitetura integrada que garante a máxima qualidade.", "ru": "Интегрированная архитектура, гарантирующая высшее качество.", "de": "Integrierte Architektur für höchste Qualität arabischer Spiele."}, "tech_1": {"ar": "نموذج مخصص لعالم الألعاب يتعلم من كل مشروع ويحسّن دقته أسبوعياً — بفهم عميق لسياق وثقافة اللعب العربي.", "en": "A gaming-native model that learns from every project and improves weekly — with deep understanding of Arabic gaming culture.", "zh": "专为游戏打造的模型，从每个项目中学习，每周提升精度。", "ja": "ゲーム特化モデルが毎週精度を向上させます。", "ko": "매주 정확도가 향상되는 게임 특화 모델.", "ur": "گیمنگ کے لیے مخصوص ماڈل جو ہر پروجیکٹ سے سیکھتا ہے۔", "fr": "Un modèle dédié au gaming qui apprend de chaque projet.", "it": "Un modello nativo per il gaming che migliora ogni settimana.", "es": "Un modelo nativo de gaming que mejora cada semana.", "pt": "Um modelo nativo de games que melhora semanalmente.", "ru": "Игровая модель, которая учится на каждом проекте.", "de": "Ein Gaming-Modell, das wöchentlich besser wird."}, "tech_2": {"ar": "معالجة متكاملة للنصوص والصوت والصور — استخراج النصوص من الصور مع المحافظة على التصميم الأصلي.", "en": "Integrated processing of text, audio and images — extracting text from images while preserving the original design.", "zh": "文本、音频和图像的集成处理。", "ja": "テキスト・音声・画像の統合処理。", "ko": "텍스트, 오디오, 이미지 통합 처리.", "ur": "متن، آواز اور تصاویر کی مربوط پروسیسنگ۔", "fr": "Traitement intégré du texte, de l'audio et des images.", "it": "Elaborazione integrata di testo, audio e immagini.", "es": "Procesamiento integrado de texto, audio e imágenes.", "pt": "Processamento integrado de texto, áudio e imagens.", "ru": "Комплексная обработка текста, аудио и изображений.", "de": "Integrierte Verarbeitung von Text, Audio und Bild."}, "tech_3": {"ar": "بيئة عمل موحدة تمكّن المترجم يراجع ويعدّل ويعيد التدريب — الآلة تقترح والإنسان يقرر.", "en": "A unified workspace where translators review, edit and retrain — the machine proposes, the human decides.", "zh": "翻译员审校、编辑和再训练的统一工作台。", "ja": "翻訳者がレビュー・編集・再学習する統一環境。", "ko": "번역가가 검토·편집·재학습하는 통합 환경.", "ur": "مترجم کے لیے یکجا ورک اسپیس۔", "fr": "Un espace unifié où le traducteur révise et décide.", "it": "Uno spazio unificato dove il traduttore decide.", "es": "Un espacio unificado donde el traductor decide.", "pt": "Um espaço unificado onde o tradutor decide.", "ru": "Единая среда, где решает человек.", "de": "Ein einheitlicher Arbeitsbereich — der Mensch entscheidet."}, "pk_title": {"ar": "باقة لكل طموح", "en": "A package for every ambition", "zh": "满足每个雄心的套餐", "ja": "あらゆる目標に対応", "ko": "모든 야망을 위한 패키지", "ur": "ہر عزم کے لیے پیکج", "fr": "Une offre pour chaque ambition", "it": "Un pacchetto per ogni ambizione", "es": "Un paquete para cada ambición", "pt": "Um pacote para cada ambição", "ru": "Пакет для любых амбиций", "de": "Ein Paket für jede Ambition"}, "pk_sub": {"ar": "من التوطين الآلي السريع إلى حملات الإطلاق الكاملة.", "en": "From fast AI localization to full launch campaigns.", "zh": "从快速AI本地化到完整发布活动。", "ja": "高速AIローカライズからフルローンチまで。", "ko": "빠른 AI 로컬라이제이션부터 풀 런칭까지.", "ur": "تیز AI لوکلائزیشن سے مکمل لانچ تک۔", "fr": "De la localisation IA rapide aux campagnes complètes.", "it": "Dalla localizzazione IA rapida alle campagne complete.", "es": "De la localización IA rápida a campañas completas.", "pt": "Da localização IA rápida a campanhas completas.", "ru": "От быстрой ИИ-локализации до полных кампаний.", "de": "Von schneller KI-Lokalisierung bis zur Launch-Kampagne."}, "no_plans": {"ar": "ما فيه باقات للحين", "en": "No plans yet", "zh": "暂无套餐", "ja": "プランはまだありません", "ko": "아직 플랜 없음", "ur": "ابھی کوئی پلان نہیں", "fr": "Pas encore d'offres", "it": "Nessun piano", "es": "Sin planes aún", "pt": "Sem planos ainda", "ru": "Пока нет пакетов", "de": "Noch keine Pakete"}, "wf_title": {"ar": "من الرفع إلى الإطلاق", "en": "From upload to launch", "zh": "从上传到发布", "ja": "アップロードからリリースまで", "ko": "업로드에서 출시까지", "ur": "اپ لوڈ سے لانچ تک", "fr": "Du dépôt au lancement", "it": "Dal caricamento al lancio", "es": "De la carga al lanzamiento", "pt": "Do upload ao lançamento", "ru": "От загрузки до запуска", "de": "Vom Upload zum Launch"}, "wf_sub": {"ar": "رحلة حزمتك عبر منظومة عُرب.", "en": "Your package journey through the URB pipeline.", "zh": "您的包在URB系统中的旅程。", "ja": "URBパイプラインでのパッケージの旅。", "ko": "URB 파이프라인을 통한 패키지 여정.", "ur": "URB پائپ لائن میں آپ کے پیکج کا سفر۔", "fr": "Le parcours de votre package dans URB.", "it": "Il viaggio del tuo pacchetto in URB.", "es": "El viaje de tu paquete por URB.", "pt": "A jornada do seu pacote na URB.", "ru": "Путь вашего пакета через URB.", "de": "Die Reise Ihres Pakets durch URB."}, "wf_1": {"ar": "أرسل حزمتك", "en": "Submit your package", "zh": "提交您的包", "ja": "パッケージを送信", "ko": "패키지 제출", "ur": "اپنا پیکج بھیجیں", "fr": "Envoyez votre package", "it": "Invia il pacchetto", "es": "Envía tu paquete", "pt": "Envie seu pacote", "ru": "Отправьте пакет", "de": "Paket einreichen"}, "wf_1s": {"ar": "ارفع ملفات لعبتك وحدد اللغات والموعد.", "en": "Upload your game files, pick languages and deadline.", "zh": "上传游戏文件，选择语言和截止日期。", "ja": "ファイルをアップロードし言語と期限を選択。", "ko": "파일 업로드, 언어와 기한 선택.", "ur": "فائلیں اپ لوڈ کریں، زبانیں منتخب کریں۔", "fr": "Téléchargez vos fichiers, choisissez langues et délai.", "it": "Carica i file, scegli lingue e scadenza.", "es": "Sube archivos, elige idiomas y fecha.", "pt": "Envie arquivos, escolha idiomas e prazo.", "ru": "Загрузите файлы, выберите языки и срок.", "de": "Dateien hochladen, Sprachen und Frist wählen."}, "wf_2": {"ar": "معالجة AI", "en": "AI processing", "zh": "AI处理", "ja": "AI処理", "ko": "AI 처리", "ur": "AI پروسیسنگ", "fr": "Traitement IA", "it": "Elaborazione IA", "es": "Procesamiento IA", "pt": "Processamento IA", "ru": "ИИ-обработка", "de": "KI-Verarbeitung"}, "wf_2s": {"ar": "محرك عُرب يترجم مع المحافظة على السياق والمصطلحات.", "en": "The URB engine translates while preserving context and glossary.", "zh": "URB引擎在保留上下文的同时进行翻译。", "ja": "URBエンジンが文脈を保ちながら翻訳。", "ko": "URB 엔진이 문맥을 보존하며 번역.", "ur": "URB انجن سیاق برقرار رکھتے ہوئے ترجمہ کرتا ہے۔", "fr": "Le moteur URB traduit en préservant le contexte.", "it": "Il motore URB traduce preservando il contesto.", "es": "El motor URB traduce preservando el contexto.", "pt": "O motor URB traduz preservando o contexto.", "ru": "Движок URB переводит с сохранением контекста.", "de": "Die URB-Engine übersetzt kontexttreu."}, "wf_3": {"ar": "مراجعة بشرية", "en": "Human review", "zh": "人工审校", "ja": "人間によるレビュー", "ko": "휴먼 리뷰", "ur": "انسانی جائزہ", "fr": "Révision humaine", "it": "Revisione umana", "es": "Revisión humana", "pt": "Revisão humana", "ru": "Проверка человеком", "de": "Menschliche Prüfung"}, "wf_3s": {"ar": "خبراء لغويون يدققون الدقة الثقافية وجودة التجربة.", "en": "Linguistic experts verify cultural accuracy and experience quality.", "zh": "语言专家验证文化准确性。", "ja": "言語専門家が文化的正確性を検証。", "ko": "언어 전문가가 문화적 정확성을 검증.", "ur": "ماہرین لسانیات ثقافتی درستگی جانچتے ہیں۔", "fr": "Des experts vérifient la précision culturelle.", "it": "Esperti verificano l'accuratezza culturale.", "es": "Expertos verifican la precisión cultural.", "pt": "Especialistas verificam a precisão cultural.", "ru": "Эксперты проверяют культурную точность.", "de": "Experten prüfen kulturelle Genauigkeit."}, "wf_4": {"ar": "تسليم وإطلاق", "en": "Deliver & launch", "zh": "交付与发布", "ja": "納品とリリース", "ko": "전달 및 출시", "ur": "ڈیلیوری اور لانچ", "fr": "Livraison & lancement", "it": "Consegna e lancio", "es": "Entrega y lanzamiento", "pt": "Entrega e lançamento", "ru": "Доставка и запуск", "de": "Lieferung & Launch"}, "wf_4s": {"ar": "حزمة جاهزة للدمج — مع دعم تسويقي بباقة PLUS.", "en": "A package ready to integrate — with marketing support in PLUS.", "zh": "可直接集成的包，PLUS套餐含营销支持。", "ja": "統合準備完了 — PLUSはマーケ支援付き。", "ko": "통합 준비 완료 — PLUS는 마케팅 지원 포함.", "ur": "انضمام کے لیے تیار پیکج۔", "fr": "Prêt à intégrer — avec support marketing en PLUS.", "it": "Pronto da integrare — con marketing in PLUS.", "es": "Listo para integrar — con marketing en PLUS.", "pt": "Pronto para integrar — com marketing no PLUS.", "ru": "Готов к интеграции — с маркетингом в PLUS.", "de": "Integrationsbereit — mit Marketing in PLUS."}, "pf_title": {"ar": "سابقة الأعمال", "en": "Portfolio", "zh": "作品集", "ja": "実績", "ko": "포트폴리오", "ur": "پورٹ فولیو", "fr": "Réalisations", "it": "Portfolio", "es": "Portafolio", "pt": "Portfólio", "ru": "Портфолио", "de": "Referenzen"}, "pf_sub": {"ar": "مشاريع وطّناها بكل فخر.", "en": "Projects we proudly localized.", "zh": "我们自豪地本地化的项目。", "ja": "誇りを持ってローカライズした作品。", "ko": "자랑스럽게 로컬라이즈한 프로젝트.", "ur": "فخر سے مقامی بنائے گئے منصوبے۔", "fr": "Des projets localisés avec fierté.", "it": "Progetti localizzati con orgoglio.", "es": "Proyectos localizados con orgullo.", "pt": "Projetos localizados com orgulho.", "ru": "Проекты, которыми мы гордимся.", "de": "Projekte, auf die wir stolz sind."}, "ts_title": {"ar": "أبرز كوادرنا", "en": "Meet the team", "zh": "团队精英", "ja": "チーム紹介", "ko": "팀 소개", "ur": "ہماری ٹیم", "fr": "Notre équipe", "it": "Il nostro team", "es": "Nuestro equipo", "pt": "Nossa equipe", "ru": "Наша команда", "de": "Unser Team"}, "ts_sub": {"ar": "العقول اللي وراء كل حزمة ناجحة.", "en": "The minds behind every successful package.", "zh": "每个成功包背后的智囊。", "ja": "成功の裏にいる頭脳たち。", "ko": "성공적인 패키지 뒤의 두뇌들.", "ur": "ہر کامیاب پیکج کے پیچھے ذہن۔", "fr": "Les cerveaux derrière chaque succès.", "it": "Le menti dietro ogni successo.", "es": "Las mentes detrás de cada éxito.", "pt": "As mentes por trás de cada sucesso.", "ru": "Умы за каждым успешным пакетом.", "de": "Die Köpfe hinter jedem Erfolg."}, "ab_title": {"ar": "من إحنا", "en": "About us", "zh": "关于我们", "ja": "会社概要", "ko": "소개", "ur": "ہمارے بارے میں", "fr": "À propos", "it": "Chi siamo", "es": "Nosotros", "pt": "Sobre nós", "ru": "О нас", "de": "Über uns"}, "ab_default": {"ar": "عُرب URB منصة سعودية متخصصة بتوطين ألعاب الفيديو، تجمع قوة الذكاء الاصطناعي مع الخبرة البشرية عشان توصلك تجربة عربية أصيلة لكل لاعب.", "en": "URB is a Saudi platform specialized in video game localization, combining AI power with human expertise to deliver an authentic Arabic experience for every player.", "zh": "URB是一家专注于游戏本地化的沙特平台。", "ja": "URBはゲームローカライズに特化したサウジのプラットフォームです。", "ko": "URB는 게임 로컬라이제이션 전문 사우디 플랫폼입니다.", "ur": "URB گیم لوکلائزیشن میں مہارت رکھنے والا سعودی پلیٹ فارم ہے۔", "fr": "URB est une plateforme saoudienne spécialisée en localisation de jeux.", "it": "URB è una piattaforma saudita per la localizzazione di giochi.", "es": "URB es una plataforma saudí de localización de videojuegos.", "pt": "URB é uma plataforma saudita de localização de jogos.", "ru": "URB — саудовская платформа локализации игр.", "de": "URB ist eine saudische Plattform für Spielelokalisierung."}, "ct_title": {"ar": "📡 كلمنا", "en": "📡 Contact us", "zh": "📡 联系我们", "ja": "📡 お問い合わせ", "ko": "📡 문의하기", "ur": "📡 رابطہ کریں", "fr": "📡 Contactez-nous", "it": "📡 Contattaci", "es": "📡 Contáctanos", "pt": "📡 Fale conosco", "ru": "📡 Связаться", "de": "📡 Kontakt"}, "tab_login": {"ar": "دخول", "en": "Login", "zh": "登录", "ja": "ログイン", "ko": "로그인", "ur": "لاگ ان", "fr": "Connexion", "it": "Accedi", "es": "Entrar", "pt": "Entrar", "ru": "Войти", "de": "Anmelden"}, "tab_signup": {"ar": "حساب جديد", "en": "Sign Up", "zh": "注册", "ja": "登録", "ko": "가입", "ur": "رجسٹر", "fr": "Inscription", "it": "Registrati", "es": "Registro", "pt": "Cadastro", "ru": "Регистрация", "de": "Registrieren"}, "signup_btn": {"ar": "🚀 سوّ حسابك", "en": "🚀 Create Account", "zh": "🚀 创建账户", "ja": "🚀 アカウント作成", "ko": "🚀 계정 만들기", "ur": "🚀 اکاؤنٹ بنائیں", "fr": "🚀 Créer un compte", "it": "🚀 Crea account", "es": "🚀 Crear cuenta", "pt": "🚀 Criar conta", "ru": "🚀 Создать аккаунт", "de": "🚀 Konto erstellen"}, "auth_title": {"ar": "الدخول إلى عُرب URB", "en": "Sign in to URB", "zh": "登录URB", "ja": "URBにサインイン", "ko": "URB 로그인", "ur": "URB میں سائن ان", "fr": "Connexion à URB", "it": "Accedi a URB", "es": "Entrar a URB", "pt": "Entrar na URB", "ru": "Вход в URB", "de": "Bei URB anmelden"}, "foot_policy": {"ar": "سياسة الخصوصية", "en": "Privacy Policy", "zh": "隐私政策", "ja": "プライバシー", "ko": "개인정보", "ur": "پرائیویسی", "fr": "Confidentialité", "it": "Privacy", "es": "Privacidad", "pt": "Privacidade", "ru": "Конфиденциальность", "de": "Datenschutz"}, "foot_apply": {"ar": "🤝 قدّم كمتعهد / Freelancer", "en": "🤝 Apply as Provider", "zh": "🤝 申请成为供应商", "ja": "🤝 プロバイダー応募", "ko": "🤝 프리랜서 지원", "ur": "🤝 فری لانسر بنیں", "fr": "🤝 Devenir prestataire", "it": "🤝 Candidati", "es": "🤝 Aplica como proveedor", "pt": "🤝 Candidate-se", "ru": "🤝 Стать подрядчиком", "de": "🤝 Als Anbieter bewerben"}, "foot_tag": {"ar": "Built for Games. Trained by Humans.<br>توطين ألعاب بروح سعودية.", "en": "Built for Games. Trained by Humans.", "zh": "为游戏而生，由人类训练。", "ja": "ゲームのために作られ、人間が訓練。", "ko": "게임을 위해 만들어지고, 인간이 훈련.", "ur": "گیمز کے لیے بنایا گیا۔", "fr": "Conçu pour les jeux. Entraîné par des humains.", "it": "Nato per i giochi. Addestrato da umani.", "es": "Hecho para juegos. Entrenado por humanos.", "pt": "Feito para jogos. Treinado por humanos.", "ru": "Создано для игр. Обучено людьми.", "de": "Für Spiele gebaut. Von Menschen trainiert."}, "partners_title": {"ar": "شركاء النجاح — TRUSTED BY", "en": "TRUSTED BY", "zh": "合作伙伴", "ja": "パートナー", "ko": "파트너", "ur": "شراکت دار", "fr": "ILS NOUS FONT CONFIANCE", "it": "PARTNER", "es": "CONFÍAN EN NOSOTROS", "pt": "PARCEIROS", "ru": "ПАРТНЁРЫ", "de": "PARTNER"}, "btn_logout": {"ar": "خروج ↩", "en": "Logout ↩", "zh": "退出 ↩", "ja": "ログアウト ↩", "ko": "로그아웃 ↩", "ur": "لاگ آؤٹ ↩", "fr": "Déconnexion ↩", "it": "Esci ↩", "es": "Salir ↩", "pt": "Sair ↩", "ru": "Выйти ↩", "de": "Abmelden ↩"}, "no_pkgs": {"ar": "ما عندك حزم للحين — يلا أطلق أول وحدة!", "en": "No packages yet — launch your first!", "zh": "还没有包，快启动第一个！", "ja": "パッケージがありません！", "ko": "아직 패키지 없음!", "ur": "ابھی کوئی پیکج نہیں!", "fr": "Pas encore de packages !", "it": "Nessun pacchetto!", "es": "¡Aún sin paquetes!", "pt": "Ainda sem pacotes!", "ru": "Пока нет пакетов!", "de": "Noch keine Pakete!"}};
 let lang = localStorage.getItem('gl_lang') || 'ar';
 function t(k){ return (T[k]?.[lang]) || (T[k]?.en) || (T[k]?.ar) || ''; }
 function applyLang(){
@@ -1292,7 +1309,7 @@ function dPage(dash, page, el){
     if(page==='showcase') adminLoadShowcase();
     if(page==='social') fillSocialInputs();
     if(page==='telegram') loadTelegram();
-    if(page==='vendors') adminLoadVendors();
+    if(page==='vendors'){ adminLoadVendors(); adminLoadApplications(); }
     if(page==='rfqs') adminLoadRfqs();
     if(page==='team') adminLoadTeam();
     if(page==='clients') adminLoadClients();
@@ -1342,7 +1359,7 @@ function authTab(t){
 async function doLogin(){
   const email = document.getElementById('li-email').value.trim();
   const pass  = document.getElementById('li-pass').value;
-  if(!email||!pass){ fmsg('auth-msg','يرجى تعبئة الحقول','err'); return; }
+  if(!email||!pass){ fmsg('auth-msg','عبّي الخانات أول','err'); return; }
   const b = document.getElementById('li-btn'); b.disabled=true; b.textContent='...';
   const { error } = await sb.auth.signInWithPassword({ email, password: pass });
   b.disabled=false; b.textContent = t('tab_login');
@@ -1361,7 +1378,7 @@ async function doSignup(){
     options:{ data:{ full_name:name, company, country } } });
   b.disabled=false; b.textContent = t('signup_btn');
   if(error) fmsg('auth-msg', error.message, 'err');
-  else fmsg('auth-msg','✓ تم إنشاء الحساب! تحقق من بريدك ثم سجل دخول.','ok');
+  else fmsg('auth-msg','✓ تم! سوّينا حسابك — افحص بريدك وبعدها سجّل دخول.','ok');
 }
 async function doLogout(){ await sb.auth.signOut(); myRole='guest'; myMember=null; myVendor=null; showView('view-landing'); }
 
@@ -1437,7 +1454,7 @@ async function saveTelegram(){
   fmsg('tg-msg','✓ تم الحفظ','ok');
 }
 async function testTelegram(){
-  const ok = await tgSend(document.getElementById('tg-admin').value.trim(), '✅ GameLex — الاتصال يعمل!');
+  const ok = await tgSend(document.getElementById('tg-admin').value.trim(), '✅ URB — الاتصال يعمل!');
   fmsg('tg-msg', ok?'✓ وصلت الرسالة!':'✕ تحقق من البيانات', ok?'ok':'err');
 }
 
@@ -1521,7 +1538,7 @@ async function loadPricingPublic(){
   const { data } = await sb.from('pricing').select('*').order('sort_order');
   A.pricing = data||[];
   const g = document.getElementById('priceGrid');
-  if(!data?.length){ g.innerHTML = '<div class="empty" style="grid-column:1/-1;">لا توجد باقات بعد</div>'; return; }
+  if(!data?.length){ g.innerHTML = `<div class="empty" style="grid-column:1/-1;">${t('no_plans')}</div>`; return; }
   g.innerHTML = data.map(p=>{
     const feats = Array.isArray(p.features)?p.features:JSON.parse(p.features||'[]');
     const showPrice = p.price && p.price.toLowerCase?.() !== 'hidden';
@@ -1568,7 +1585,7 @@ async function loadClientPackages(){
         ${stBadge(p.status)}
         <button class="mini-btn" onclick="clientPkgDetail('${p.id}')">📋 تفاصيل</button>
       </div>
-    </div>`).join('') : `<div class="empty"><div class="ei">📦</div>لا توجد حزم — أطلق أول حزمة!<br><br><button class="mini-btn mm" onclick="openCreatePkg()">➕ حزمة جديدة</button></div>`;
+    </div>`).join('') : `<div class="empty"><div class="ei">📦</div>${t('no_pkgs')}<br><br><button class="mini-btn mm" onclick="openCreatePkg()">➕ حزمة جديدة</button></div>`;
   document.getElementById('cl-recent').innerHTML = render(C.pkgs.slice(0,4));
   document.getElementById('cl-pkg-list').innerHTML = render(C.pkgs);
 }
@@ -1642,8 +1659,8 @@ async function submitPackage(){
     await sb.storage.from('packages').upload(`${me.id}/${data.id}/${Date.now()}_${f.name}`, f);
   }
   await sb.from('package_updates').insert([{package_id:data.id, new_status:'submitted', note:'📥 تم استلام الحزمة'}]);
-  tgAdmin(`📦 <b>GameLex — حزمة جديدة!</b>\n\n🎮 ${name}\n📋 ${payload.plan}\n📁 ${npFiles.length} ملف${payload.est_words?`\n📝 ${payload.est_words} كلمة`:''}`);
-  fmsg('np-msg','✓ تم إرسال الحزمة بنجاح! 🎉','ok');
+  tgAdmin(`📦 <b>URB — حزمة جديدة!</b>\n\n🎮 ${name}\n📋 ${payload.plan}\n📁 ${npFiles.length} ملف${payload.est_words?`\n📝 ${payload.est_words} كلمة`:''}`);
+  fmsg('np-msg','✓ تم! حزمتك وصلتنا 🎉','ok');
   b.disabled=false; b.textContent='🚀 إرسال الحزمة';
   ['np-name','np-desc','np-links','np-platforms','np-langs','np-words','np-deadline','np-notes'].forEach(i=>document.getElementById(i).value='');
   npFiles=[]; document.getElementById('np-filelist').textContent='';
@@ -1687,7 +1704,7 @@ async function loadGlossary(){
         <span style="color:var(--cyan);font-size:0.86rem;">← ${esc(g.translated_term)}</span>
       </div>
       <button class="mini-btn dg" onclick="delTerm('${g.id}')">حذف</button>
-    </div>`).join('') : '<div class="empty">لا مصطلحات بعد</div>';
+    </div>`).join('') : '<div class="empty">ما أضفت مصطلحات للحين</div>';
 }
 async function addTerm(){
   const s = document.getElementById('g-src').value.trim();
@@ -1741,7 +1758,7 @@ async function loadTeamTasks(){
         <button class="mini-btn" onclick="teamFiles('${p.id}','${esc(p.game_name)}','${p.user_id}')">📁</button>
       </div>
     </div>`;
-  }).join('') : '<div class="empty"><div class="ei">📋</div>لا مهام مسندة لك حالياً</div>';
+  }).join('') : '<div class="empty"><div class="ei">📋</div>ما عندك مهام مسندة حالياً</div>';
 }
 async function teamStatus(id, st){
   if(!st) return;
@@ -1793,7 +1810,7 @@ async function loadVendorRfqs(){
           : (myQ?.status==='accepted' ? '<span class="badge b-green">🏆 فزت بالعرض!</span>' : '<span class="badge b-dim">مغلق</span>')}
       </div>
     </div>`;
-  }).join('') : '<div class="empty"><div class="ei">📨</div>لا طلبات تسعير موجهة لك</div>';
+  }).join('') : '<div class="empty"><div class="ei">📨</div>ما وصلتك طلبات تسعير للحين</div>';
 
   // awarded tasks
   const { data: myTasks } = await sb.from('packages').select('*').eq('vendor_id', myVendor.id).order('created_at',{ascending:false});
@@ -1814,7 +1831,7 @@ async function loadVendorRfqs(){
         </select>
         <button class="mini-btn" onclick="teamFiles('${p.id}','${esc(p.game_name)}','${p.user_id}')">📁</button>
       </div>
-    </div>`).join('') : '<div class="empty">لا مهام مسندة</div>';
+    </div>`).join('') : '<div class="empty">ما عندك مهام مسندة</div>';
 }
 async function vendorStatus(id, st){
   if(!st) return;
@@ -1869,7 +1886,7 @@ async function adminLoadAll(){
   document.getElementById('ad-pkgs').innerHTML = renderAdminPkgs(A.pkgs);
 }
 function renderAdminPkgs(list){
-  if(!list.length) return '<div class="empty"><div class="ei">📦</div>لا حزم بعد</div>';
+  if(!list.length) return '<div class="empty"><div class="ei">📦</div>ما فيه حزم للحين</div>';
   return list.map(p=>{
     const tm = A.team.find(m=>m.id===p.assigned_to);
     const vn = A.vendors.find(v=>v.id===p.vendor_id);
@@ -1983,7 +2000,7 @@ async function confirmAssign(id){
   await sb.from('packages').update(upd).eq('id',id);
   const target = isTeam ? A.team.find(m=>m.id===memberId) : A.vendors.find(v=>v.id===vendorId);
   await sb.from('package_updates').insert([{package_id:id, new_status:'processing', note:`👥 وُجّهت إلى ${target?.name}${notes?': '+notes:''}`}]);
-  if(target?.telegram_chat_id) tgSend(target.telegram_chat_id, `🎮 <b>GameLex — مهمة جديدة</b>\n\nوُجّهت لك حزمة${notes?`\n📝 ${notes}`:''}\n\nافتح المنصة للبدء.`);
+  if(target?.telegram_chat_id) tgSend(target.telegram_chat_id, `🎮 <b>URB — مهمة جديدة</b>\n\nوُجّهت لك حزمة${notes?`\n📝 ${notes}`:''}\n\nافتح المنصة للبدء.`);
   tgAdmin(`👥 <b>توجيه حزمة</b>\n← ${target?.name} ${isTeam?'(فريق)':'(متعهد)'}`);
   fmsg('asg-msg','✓ تم التوجيه بنجاح','ok');
   setTimeout(()=>{ closeM('detailModal'); adminLoadAll(); }, 1300);
@@ -2024,7 +2041,7 @@ async function sendRfq(pkgId){
   // notify vendors
   for(const vid of vendorIds){
     const v = A.vendors.find(x=>x.id===vid);
-    if(v?.telegram_chat_id) tgSend(v.telegram_chat_id, `📨 <b>GameLex — طلب تسعير جديد</b>\n\n${rfq.title}\n\nادخل المنصة وقدّم عرضك.`);
+    if(v?.telegram_chat_id) tgSend(v.telegram_chat_id, `📨 <b>URB — طلب تسعير جديد</b>\n\n${rfq.title}\n\nادخل المنصة وقدّم عرضك.`);
   }
   await sb.from('packages').update({status:'quoted'}).eq('id',pkgId);
   fmsg('rq-msg',`✓ أُرسل الـ RFQ إلى ${vendorIds.length} متعهد`,'ok');
@@ -2090,7 +2107,7 @@ function adminLoadClients(){
         <span class="badge b-cyan">${pkgs.length} حزمة</span>
         <button class="mini-btn" onclick="adminClientPkgs('${uid}',${i+1})">📦 عرض</button>
       </div>
-    </div>`).join('') : '<div class="empty">لا عملاء بعد</div>';
+    </div>`).join('') : '<div class="empty">ما فيه عملاء للحين</div>';
 }
 function adminClientPkgs(uid, n){
   document.getElementById('dm-title').textContent = `📦 حزم عميل ${n}`;
@@ -2113,9 +2130,10 @@ async function adminLoadTeam(){
       <div class="row-actions" style="display:flex;gap:6px;align-items:center;">
         <span class="badge ${m.is_active?'b-green':'b-dim'}">${m.is_active?'نشط':'معطل'}</span>
         <button class="mini-btn" onclick="toggleActive('team_members','${m.id}',${!m.is_active});adminLoadAll().then(adminLoadTeam)">${m.is_active?'تعطيل':'تفعيل'}</button>
+        ${m.email?`<button class="mini-btn" onclick="resetPass('${m.email}')" title="إرسال رابط تغيير كلمة السر">🔑</button>`:''}
         <button class="mini-btn dg" onclick="delRow('team_members','${m.id}');setTimeout(()=>adminLoadAll().then(adminLoadTeam),400)">🗑</button>
       </div>
-    </div>`).join('') : '<div class="empty">لا أعضاء بعد</div>';
+    </div>`).join('') : '<div class="empty">ما أضفت أعضاء للحين</div>';
 }
 async function addTeamMember(){
   const name = document.getElementById('atm-name').value.trim();
@@ -2143,9 +2161,10 @@ async function adminLoadVendors(){
       <div class="row-actions" style="display:flex;gap:6px;align-items:center;">
         <span class="badge ${v.is_active?'b-green':'b-dim'}">${v.is_active?'مؤهل':'معطل'}</span>
         <button class="mini-btn" onclick="toggleActive('vendors','${v.id}',${!v.is_active});adminLoadAll().then(adminLoadVendors)">${v.is_active?'تعطيل':'تفعيل'}</button>
+        ${v.email?`<button class="mini-btn" onclick="resetPass('${v.email}')" title="إرسال رابط تغيير كلمة السر">🔑</button>`:''}
         <button class="mini-btn dg" onclick="delRow('vendors','${v.id}');setTimeout(()=>adminLoadAll().then(adminLoadVendors),400)">🗑</button>
       </div>
-    </div>`).join('') : '<div class="empty">لا متعهدين — أضف أول provider</div>';
+    </div>`).join('') : '<div class="empty">ما فيه متعهدين — يلا أضف أول واحد</div>';
 }
 async function addVendor(){
   const name = document.getElementById('av-name').value.trim();
@@ -2177,7 +2196,7 @@ async function adminLoadPricing(){
       <div style="display:flex;gap:6px;flex-wrap:wrap;margin-top:8px;">
         ${(Array.isArray(p.features)?p.features:JSON.parse(p.features||'[]')).map(f=>`<span class="badge b-purple" style="font-family:'Tajawal';font-weight:400;">${esc(f)}</span>`).join('')}
       </div>
-    </div>`).join('') : '<div class="empty">لا باقات</div>';
+    </div>`).join('') : '<div class="empty">ما فيه باقات</div>';
 }
 function editPlan(id){
   const p = id ? A.pricing.find(x=>x.id===id) : {name:'',price:'',period:'',btn_label:'ابدأ الآن',btn_action:'',features:[]};
@@ -2234,7 +2253,7 @@ async function adminLoadPartners(){
         <button class="mini-btn" onclick="togVis('partners','${p.id}',${!p.is_visible});setTimeout(adminLoadPartners,400)">${p.is_visible?'👁':'🙈'}</button>
         <button class="mini-btn dg" onclick="delRow('partners','${p.id}');setTimeout(adminLoadPartners,400);setTimeout(loadPartnersPublic,600)">🗑</button>
       </div>
-    </div>`).join('') || '<div class="empty">لا شركاء بعد</div>';
+    </div>`).join('') || '<div class="empty">ما أضفت شركاء للحين</div>';
 }
 async function addPartner(){
   const name = document.getElementById('pt-name').value.trim();
@@ -2256,7 +2275,7 @@ async function adminLoadPortfolio(){
         <button class="mini-btn" onclick="togVis('portfolio','${p.id}',${!p.is_visible});setTimeout(adminLoadPortfolio,400)">${p.is_visible?'👁':'🙈'}</button>
         <button class="mini-btn dg" onclick="delRow('portfolio','${p.id}');setTimeout(adminLoadPortfolio,400);setTimeout(loadPortfolioPublic,600)">🗑</button>
       </div>
-    </div>`).join('') || '<div class="empty">لا أعمال بعد</div>';
+    </div>`).join('') || '<div class="empty">ما أضفت أعمال للحين</div>';
 }
 async function addPortfolio(){
   const title = document.getElementById('pf-title').value.trim();
@@ -2282,7 +2301,7 @@ async function adminLoadShowcase(){
         <button class="mini-btn" onclick="togVis('team_showcase','${m.id}',${!m.is_visible});setTimeout(adminLoadShowcase,400)">${m.is_visible?'👁':'🙈'}</button>
         <button class="mini-btn dg" onclick="delRow('team_showcase','${m.id}');setTimeout(adminLoadShowcase,400);setTimeout(loadShowcasePublic,600)">🗑</button>
       </div>
-    </div>`).join('') || '<div class="empty">لا كوادر بعد</div>';
+    </div>`).join('') || '<div class="empty">ما أضفت كوادر للحين</div>';
 }
 async function addShowcase(){
   const name = document.getElementById('ts-name').value.trim();
@@ -2303,6 +2322,78 @@ async function saveSiteSettings(){
   for(const u of ups) await sb.from('site_settings').upsert(u);
   fmsg('ss-msg','✓ حُفظت كل الإعدادات','ok');
   loadSiteCfg();
+}
+
+/* ═══ VENDOR APPLICATION ═══ */
+function openVendorApply(){ openM('vendorApplyModal'); }
+async function submitVendorApply(){
+  const name = document.getElementById('va-name').value.trim();
+  const email = document.getElementById('va-email').value.trim();
+  if(!name||!email){ fmsg('va-msg','⚠️ الاسم والبريد مطلوبان','err'); return; }
+  const b = document.getElementById('va-btn'); b.disabled=true; b.textContent='⟳...';
+  const { error } = await sb.from('vendor_applications').insert([{
+    name, email,
+    company: document.getElementById('va-company').value.trim()||null,
+    phone: document.getElementById('va-phone').value.trim()||null,
+    specialties: document.getElementById('va-spec').value.trim()||null,
+    languages: document.getElementById('va-langs').value.trim()||null,
+    experience: document.getElementById('va-exp').value.trim()||null,
+    portfolio_link: document.getElementById('va-link').value.trim()||null
+  }]);
+  b.disabled=false; b.textContent='📨 إرسال الطلب';
+  if(error){ fmsg('va-msg','✕ '+error.message,'err'); return; }
+  tgAdmin(`🤝 <b>طلب تقديم متعهد جديد!</b>\n\n👤 ${name}\n✉️ ${email}\n\nراجعه من لوحة الإدارة → المتعهدون.`);
+  fmsg('va-msg','✓ وصلنا طلبك! بنراجعه ونتواصل معك قريب.','ok');
+  ['va-name','va-company','va-email','va-phone','va-spec','va-langs','va-exp','va-link'].forEach(i=>document.getElementById(i).value='');
+  setTimeout(()=>closeM('vendorApplyModal'), 2200);
+}
+async function adminLoadApplications(){
+  const { data } = await sb.from('vendor_applications').select('*').eq('status','pending').order('created_at',{ascending:false});
+  const apps = data||[];
+  const el = document.getElementById('ad-vendor-apps');
+  if(!el) return;
+  el.innerHTML = apps.length ? apps.map(a=>`
+    <div class="row-item" style="flex-direction:column;align-items:stretch;">
+      <div style="display:flex;justify-content:space-between;gap:9px;flex-wrap:wrap;">
+        <div>
+          <b>${esc(a.name)}</b>${a.company?` <span style="color:var(--dim);font-size:0.78rem;">— ${esc(a.company)}</span>`:''}
+          <div style="font-size:0.72rem;color:var(--dim);margin-top:3px;direction:ltr;text-align:end;">${esc(a.email)}${a.phone?` • ${esc(a.phone)}`:''}</div>
+        </div>
+        <span class="badge b-gold">⏳ جديد</span>
+      </div>
+      <div style="font-size:0.78rem;color:#c3c9e3;margin-top:8px;line-height:1.8;">
+        ${a.specialties?`🎯 ${esc(a.specialties)}<br>`:''}
+        ${a.languages?`🌐 ${esc(a.languages)}<br>`:''}
+        ${a.experience?`📋 ${esc(a.experience)}<br>`:''}
+        ${a.portfolio_link?`🔗 <a href="${esc(a.portfolio_link)}" target="_blank" style="color:var(--cyan);">Portfolio</a>`:''}
+      </div>
+      <div style="display:flex;gap:8px;margin-top:10px;">
+        <button class="mini-btn mm" style="flex:1;" onclick="approveApp('${a.id}')">✅ قبول وتأهيل</button>
+        <button class="mini-btn dg" onclick="rejectApp('${a.id}')">✕ رفض</button>
+      </div>
+    </div>`).join('') : '<div class="empty" style="padding:20px;">ما فيه طلبات تقديم جديدة</div>';
+}
+async function approveApp(id){
+  const { data: a } = await sb.from('vendor_applications').select('*').eq('id',id).single();
+  if(!a) return;
+  await sb.from('vendors').insert([{
+    name:a.name, company:a.company, email:a.email,
+    specialties:[a.specialties,a.languages].filter(Boolean).join(' | ')
+  }]);
+  await sb.from('vendor_applications').update({status:'approved'}).eq('id',id);
+  toast('✅ قُبل — صار متعهد مؤهل. بلغه يسجل حساب بنفس بريده');
+  await adminLoadAll(); adminLoadVendors(); adminLoadApplications();
+}
+async function rejectApp(id){
+  await sb.from('vendor_applications').update({status:'rejected'}).eq('id',id);
+  toast('✕ رُفض الطلب'); adminLoadApplications();
+}
+
+/* ═══ PASSWORD RESET (admin sends email link) ═══ */
+async function resetPass(email){
+  if(!confirm(`إرسال رابط تغيير كلمة السر إلى:\n${email}؟`)) return;
+  const { error } = await sb.auth.resetPasswordForEmail(email, { redirectTo: location.origin + location.pathname });
+  toast(error ? '✕ '+error.message : '✓ انرسل رابط التغيير على بريده');
 }
 
 /* ═══ INIT ═══ */
