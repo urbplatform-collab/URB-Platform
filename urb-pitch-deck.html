@@ -20,6 +20,11 @@ body{background:var(--bg);color:var(--text);font-family:'Tajawal',sans-serif;ove
 ::selection{background:rgba(139,92,246,0.4)}
 #stars{position:fixed;inset:0;z-index:0;pointer-events:none}
 
+/* Time Progress Bar */
+#time-bar { position: fixed; top: 0; left: 0; height: 3px; background: var(--grad); z-index: 100; width: 0%; transition: width 1s linear, background-color 0.5s; }
+#time-bar.warning { background: var(--gold); }
+#time-bar.danger { background: var(--red); }
+
 #deck{height:100vh;overflow-y:auto;scroll-snap-type:y mandatory;position:relative;z-index:1;-webkit-overflow-scrolling:touch}
 .slide{min-height:100vh;scroll-snap-align:start;display:flex;align-items:center;justify-content:center;padding:90px 24px 70px;position:relative}
 .sl-in{max-width:1050px;width:100%}
@@ -35,10 +40,18 @@ h2{font-size:clamp(1.7rem,4.2vw,2.9rem);font-weight:700;margin-bottom:18px}
 .logo-mark{width:32px;height:32px;border-radius:9px;background:var(--grad);display:flex;align-items:center;justify-content:center;font-size:0.95rem;box-shadow:0 0 30px rgba(139,92,246,0.35)}
 .logo-name{font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:1.1rem}
 .logo-name b{background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
-.top-tools{display:flex;gap:10px;align-items:center}
-.counter{font-family:'Space Mono',monospace;font-size:0.68rem;color:var(--dim);letter-spacing:1px}
-.lang-tgl{background:rgba(255,255,255,0.05);border:1px solid var(--border);color:var(--text);border-radius:100px;padding:8px 18px;cursor:pointer;font-family:'Space Mono',monospace;font-size:0.75rem;letter-spacing:1px;transition:all 0.22s}
-.lang-tgl:hover{border-color:var(--purple);box-shadow:0 0 20px rgba(139,92,246,0.25)}
+.top-tools{display:flex;gap:12px;align-items:center}
+
+/* Counter & Timer Layout */
+.counter-container { display: flex; align-items: center; gap: 8px; }
+.page-counter { font-family: 'Space Mono', monospace; font-size: 0.68rem; color: var(--dim); letter-spacing: 1px; }
+
+/* Digital Countdown Timer Styling */
+#timerDisplay { display: none; background: rgba(0,0,0,0.6); border: 1px solid var(--border); padding: 4px 10px; border-radius: 8px; color: var(--cyan); font-weight: 700; font-size: 0.8rem; box-shadow: 0 0 15px rgba(0,0,0,0.5); font-family: 'Space Mono', monospace; letter-spacing: 1px;}
+
+.top-btn { background: rgba(255,255,255,0.05); border: 1px solid var(--border); color: var(--text); border-radius: 100px; padding: 8px 18px; cursor: pointer; font-family: 'Space Mono', monospace; font-size: 0.75rem; letter-spacing: 1px; transition: all 0.22s; display: flex; align-items: center; justify-content: center; min-width: 44px; }
+.top-btn:hover { border-color: var(--purple); box-shadow: 0 0 20px rgba(139,92,246,0.25); }
+.fs-icon { font-size: 1rem; line-height: 1; }
 
 .dots{position:fixed;inset-block:0;inset-inline-end:16px;z-index:50;display:flex;flex-direction:column;gap:11px;justify-content:center}
 .dot{width:9px;height:9px;border-radius:50%;cursor:pointer;background:rgba(255,255,255,0.15);border:none;transition:all 0.3s}
@@ -62,7 +75,6 @@ h2{font-size:clamp(1.7rem,4.2vw,2.9rem);font-weight:700;margin-bottom:18px}
 .card h3{font-size:1.05rem;margin-bottom:9px;font-family:'Space Grotesk','Tajawal',sans-serif}
 .card p{color:var(--dim);font-size:0.85rem;line-height:1.85}
 .pain .ic{background:rgba(248,113,113,0.08);border-color:rgba(248,113,113,0.2)}
-/* interactive problem demos */
 .idemo{margin-top:14px;border-top:1px solid rgba(255,255,255,0.06);padding-top:13px}
 .ibtn{
   width:100%;background:rgba(139,92,246,0.12);border:1px solid var(--border);
@@ -114,7 +126,6 @@ h2{font-size:clamp(1.7rem,4.2vw,2.9rem);font-weight:700;margin-bottom:18px}
 .why-row h4{font-size:0.98rem;margin-bottom:5px}
 .why-row p{font-size:0.82rem;color:var(--dim);line-height:1.8}
 
-/* business model tiers */
 .bm{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:38px;align-items:stretch}
 .bm-card{background:rgba(11,14,32,0.75);border:1px solid var(--border2);border-radius:20px;padding:26px 22px;position:relative}
 .bm-card.feat{border:1.5px solid var(--purple);box-shadow:0 0 44px rgba(139,92,246,0.18)}
@@ -123,17 +134,12 @@ h2{font-size:clamp(1.7rem,4.2vw,2.9rem);font-weight:700;margin-bottom:18px}
 .bm-card p{font-size:0.8rem;color:var(--dim);line-height:1.8}
 .bm-rev{margin-top:14px;padding-top:12px;border-top:1px solid rgba(255,255,255,0.06);font-family:'Space Mono',monospace;font-size:0.68rem;color:var(--gold);letter-spacing:1px}
 .bm-card.sel{border-color:var(--cyan)!important;box-shadow:0 0 40px rgba(34,211,238,0.22)!important;transform:translateY(-3px)}
-.deal-sim{
-  margin-top:20px;background:rgba(11,14,32,0.85);border:1px solid var(--border);
-  border-radius:17px;padding:20px 22px;
-}
+.deal-sim{margin-top:20px;background:rgba(11,14,32,0.85);border:1px solid var(--border);border-radius:17px;padding:20px 22px;}
 .deal-body{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
 .deal-cell{background:rgba(255,255,255,0.03);border:1px solid var(--border2);border-radius:11px;padding:13px;text-align:center}
 .deal-cell .dl{font-family:'Space Mono',monospace;font-size:0.6rem;letter-spacing:1.4px;color:var(--dim);margin-bottom:6px}
 .deal-cell .dv{font-family:'Space Mono',monospace;font-size:1.05rem;font-weight:700}
-@media(max-width:640px){.deal-body{grid-template-columns:1fr 1fr}}
 
-/* roadmap */
 .road{margin-top:38px;position:relative;padding-inline-start:26px}
 .road::before{content:'';position:absolute;inset-block:6px;inset-inline-start:7px;width:2px;background:linear-gradient(to bottom,var(--purple),var(--cyan))}
 .ph{position:relative;margin-bottom:22px}
@@ -143,6 +149,12 @@ h2{font-size:clamp(1.7rem,4.2vw,2.9rem);font-weight:700;margin-bottom:18px}
 .ph h4{font-size:1.02rem;margin-bottom:5px}
 .ph p{font-size:0.84rem;color:var(--dim);line-height:1.8;max-width:600px}
 
+.team5 { display: grid; grid-template-columns: repeat(5, 1fr); gap: 16px; margin-top: 26px; }
+.team-card { background: rgba(11,14,32,0.72); border: 1px solid var(--border2); border-radius: 18px; padding: 24px 16px; text-align: center; transition: transform 0.25s, border-color 0.25s; }
+.team-card:hover { transform: translateY(-4px); border-color: var(--border); box-shadow: 0 10px 30px rgba(139,92,246,0.1); }
+.t-av { width: 64px; height: 64px; border-radius: 50%; background: linear-gradient(135deg, rgba(139,92,246,0.15), rgba(34,211,238,0.15)); border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; font-size: 1.8rem; margin: 0 auto 16px; box-shadow: inset 0 0 10px rgba(139,92,246,0.1); }
+.team-card h3 { font-size: 1rem; margin-bottom: 4px; font-family: 'Space Grotesk', 'Tajawal', sans-serif; }
+
 .contact{text-align:center}
 .c-btns{display:flex;gap:13px;justify-content:center;flex-wrap:wrap;margin-top:36px}
 .btn{border:none;cursor:pointer;font-family:inherit;border-radius:13px;font-weight:700;text-decoration:none;font-size:0.95rem;display:inline-flex;align-items:center;gap:9px;padding:14px 30px;transition:all 0.22s}
@@ -151,18 +163,33 @@ h2{font-size:clamp(1.7rem,4.2vw,2.9rem);font-weight:700;margin-bottom:18px}
 .btn-ghost{background:rgba(255,255,255,0.04);border:1px solid var(--border2);color:var(--text)}
 .btn-ghost:hover{border-color:var(--cyan)}
 .foot-note{margin-top:52px;font-family:'Space Mono',monospace;font-size:0.64rem;letter-spacing:2px;color:var(--dim)}
+.qr-box { margin-top: 36px; display: inline-block; background: #fff; padding: 12px; border-radius: 16px; border: 2px solid var(--purple); box-shadow: 0 0 30px rgba(139,92,246,0.25); transition: transform 0.3s;}
+.qr-box:hover { transform: scale(1.05); }
+.qr-box img { display: block; width: 140px; height: 140px; border-radius: 6px; }
+.qr-hint { font-family: 'Space Mono', monospace; font-size: 0.75rem; color: var(--cyan); margin-top: 12px; letter-spacing: 2px; }
 
-.rv{opacity:0;transform:translateY(26px);transition:opacity 0.7s,transform 0.7s}
+.rv{opacity:0;transform:translateY(26px);transition:opacity 0.4s ease-out,transform 0.4s ease-out}
 .rv.vis{opacity:1;transform:none}
 @media (prefers-reduced-motion: reduce){*{animation:none!important;transition:none!important}.rv{opacity:1;transform:none}}
-@media(max-width:900px){.cards3,.cards4,.bm{grid-template-columns:1fr 1fr}}
+@media(max-width:900px){
+  .cards3,.cards4,.bm{grid-template-columns:1fr 1fr}
+  .team5 { grid-template-columns: repeat(3, 1fr); }
+}
+
+/* MOBILE FIXES FOR COUNTER & TIMER */
 @media(max-width:640px){
   #deck{scroll-snap-type:y proximity}
   .slide{align-items:flex-start}
   .cards3,.cards4,.bm{grid-template-columns:1fr}
+  .team5 { grid-template-columns: repeat(2, 1fr); }
+  .deal-body{grid-template-columns:1fr 1fr}
   .slide{padding:84px 18px 60px}
   .dots{inset-inline-end:7px;gap:9px}.dot{width:7px;height:7px}
-  .counter{display:none}
+  
+  /* Hide page number on mobile, BUT KEEP THE TIMER */
+  .page-counter { display: none; } 
+  #timerDisplay { font-size: 0.7rem; padding: 4px 8px;}
+  
   h2{font-size:1.55rem}.cover h1{font-size:2.9rem}
   .term-body{padding:17px 13px}.t-box{font-size:0.72rem}
   .btn{width:100%;justify-content:center}
@@ -170,13 +197,21 @@ h2{font-size:clamp(1.7rem,4.2vw,2.9rem);font-weight:700;margin-bottom:18px}
 </style>
 </head>
 <body>
+<div id="time-bar"></div>
 <canvas id="stars"></canvas>
 
 <div class="topbar">
   <div class="logo"><div class="logo-mark">🎮</div><div class="logo-name">عُرب <b>URB</b></div></div>
   <div class="top-tools">
-    <span class="counter" id="counter">URB://01/10</span>
-    <button class="lang-tgl" id="langBtn" onclick="flipLang()">EN</button>
+    <div class="counter-container">
+      <span class="page-counter" id="pageCounter">URB://01/11</span>
+      <!-- Digital Countdown Timer -->
+      <span id="timerDisplay">03:00</span>
+    </div>
+    <button class="top-btn" id="langBtn" onclick="flipLang()">EN</button>
+    <button class="top-btn" id="fsBtn" onclick="toggleTimerAndFullscreen()" title="تشغيل العرض / التوقيت">
+      <span class="fs-icon">⛶</span>
+    </button>
   </div>
 </div>
 
@@ -384,16 +419,38 @@ h2{font-size:clamp(1.7rem,4.2vw,2.9rem);font-weight:700;margin-bottom:18px}
   </div>
 </section>
 
-<!-- 10 ▸ ASK / CONTACT -->
+<!-- 10 ▸ TEAM -->
+<section class="slide">
+  <div class="sl-in">
+    <div class="eyebrow">URB://09 — THE TEAM</div>
+    <h2 class="rv" data-k="team_t"></h2>
+    <p class="lead rv" data-k="team_sub"></p>
+    <div class="team5">
+      <div class="team-card rv"><div class="t-av">👨‍💻</div><h3 data-k="tm1"></h3></div>
+      <div class="team-card rv"><div class="t-av">👩‍💻</div><h3 data-k="tm2"></h3></div>
+      <div class="team-card rv"><div class="t-av">👩‍💻</div><h3 data-k="tm3"></h3></div>
+      <div class="team-card rv"><div class="t-av">👩‍💻</div><h3 data-k="tm4"></h3></div>
+      <div class="team-card rv"><div class="t-av">👩‍💻</div><h3 data-k="tm5"></h3></div>
+    </div>
+  </div>
+</section>
+
+<!-- 11 ▸ ASK / CONTACT -->
 <section class="slide contact">
   <div class="sl-in">
-    <div class="eyebrow" style="justify-content:center;">URB://09 — THE ASK</div>
+    <div class="eyebrow" style="justify-content:center;">URB://10 — THE ASK</div>
     <h2 class="rv"><span data-k="ct_t1"></span> <span class="g" data-k="ct_t2"></span></h2>
     <p class="lead rv" style="margin:0 auto;" data-k="ct_p"></p>
     <div class="c-btns rv">
       <a class="btn btn-grad" href="https://urbplatform-collab.github.io/URB-Platform/" target="_blank" data-k="ct_b1"></a>
       <a class="btn btn-ghost" href="mailto:hello@urb.sa" data-k="ct_b2"></a>
     </div>
+    
+    <div class="qr-box rv">
+      <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://urbplatform-collab.github.io/URB-Platform/" alt="URB Platform QR Code">
+    </div>
+    <div class="qr-hint rv" data-k="qr_hint"></div>
+
     <div class="foot-note">© 2026 عُرب URB — BUILT FOR GAMES. TRAINED BY HUMANS.</div>
   </div>
 </section>
@@ -420,6 +477,101 @@ h2{font-size:clamp(1.7rem,4.2vw,2.9rem);font-weight:700;margin-bottom:18px}
     requestAnimationFrame(draw);
   })(0);
 })();
+
+/* FULLSCREEN & DIGITAL TIMER LOGIC (Mobile Friendly) */
+let timerInterval;
+let startTime;
+let isTimerRunning = false;
+const PREZ_DURATION = 3 * 60 * 1000; // 3 minutes in milliseconds
+
+function toggleTimerAndFullscreen() {
+  const btn = document.getElementById('fsBtn');
+  
+  // 1. Try to go fullscreen (might fail on some mobile browsers, which is fine)
+  if (!document.fullscreenElement) {
+    if (document.documentElement.requestFullscreen) {
+       document.documentElement.requestFullscreen().catch(e => console.log("Fullscreen API not supported on this device/browser."));
+    }
+  } else {
+    if (document.exitFullscreen) {
+       document.exitFullscreen();
+    }
+  }
+
+  // 2. Regardless of fullscreen success, start/stop the timer
+  if(!isTimerRunning){
+      startTimer();
+      btn.innerHTML = '<span class="fs-icon" style="color:var(--cyan);">🗙</span>';
+  } else {
+      stopTimer();
+      btn.innerHTML = '<span class="fs-icon">⛶</span>';
+  }
+}
+
+function startTimer() {
+  isTimerRunning = true;
+  const timeBar = document.getElementById('time-bar');
+  const timerDisplay = document.getElementById('timerDisplay');
+  
+  // Show digital clock
+  timerDisplay.style.display = 'inline-block';
+  timerDisplay.style.color = 'var(--cyan)';
+  timerDisplay.textContent = '03:00';
+  
+  timeBar.style.width = '0%';
+  timeBar.className = '';
+  startTime = Date.now();
+  
+  if(timerInterval) clearInterval(timerInterval);
+  
+  timerInterval = setInterval(() => {
+    const elapsed = Date.now() - startTime;
+    const remaining = Math.max(0, PREZ_DURATION - elapsed);
+    
+    // Calculate minutes and seconds
+    const mins = Math.floor(remaining / 60000);
+    const secs = Math.floor((remaining % 60000) / 1000);
+    
+    // Update digital text (e.g., 02:45)
+    timerDisplay.textContent = `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+
+    // Update progress bar
+    const percentage = Math.min((elapsed / PREZ_DURATION) * 100, 100);
+    timeBar.style.width = `${percentage}%`;
+    
+    // Color warnings based on time left
+    if (percentage > 85) { 
+      timeBar.className = 'danger'; 
+      timerDisplay.style.color = 'var(--red)';
+    } else if (percentage > 66) { 
+      timeBar.className = 'warning'; 
+      timerDisplay.style.color = 'var(--gold)';
+    }
+    
+    if (percentage >= 100) {
+      clearInterval(timerInterval);
+      timerDisplay.textContent = '00:00';
+    }
+  }, 1000);
+}
+
+function stopTimer() {
+  isTimerRunning = false;
+  if(timerInterval) clearInterval(timerInterval);
+  document.getElementById('time-bar').style.width = '0%';
+  document.getElementById('time-bar').className = '';
+  document.getElementById('timerDisplay').style.display = 'none'; // Hide clock
+}
+
+// Handle native fullscreen exit (like pressing ESC)
+document.addEventListener('fullscreenchange', () => {
+  const btn = document.getElementById('fsBtn');
+  if (!document.fullscreenElement && isTimerRunning) {
+      // If we exited fullscreen but timer is running, stop it.
+      stopTimer();
+      btn.innerHTML = '<span class="fs-icon">⛶</span>';
+  }
+});
 
 /* DIALECT DEMO */
 (function(){
@@ -501,7 +653,7 @@ const K={
  bm3_r:{ar:'أعلى قيمة تعاقد — Upsell طبيعي',en:'HIGHEST ACV — NATURAL UPSELL'},
  why_t:{ar:'ميزتنا التنافسية',en:'Our competitive edge'},
  e1_t:{ar:'اللهجات — خندقنا',en:'Dialects — our moat'},
- e1_p:{ar:'سعودي، مصري، جزائري. ما أحد يقدمها اليوم، وكل مشروع يوسع بياناتنا ويعمق الخندق.',en:'Saudi, Egyptian, Algerian. No one offers this today — and every project deepens our data moat.'},
+ e1_p:{ar:'سعودي، مصري، جزائري. ما أحد يقدمها اليوم، وكل مشروع يوسع بياناتنا. (محرك مخصص للألعاب، وليس ChatGPT عام).',en:'Saudi, Egyptian, Algerian. No one offers this today. (Gaming-specific engine, not a generic ChatGPT).'},
  e2_t:{ar:'AI + إنسان، مو أو',en:'AI + Human, not either-or'},
  e2_p:{ar:'سرعة الآلة بجودة الخبير — وكل مراجعة بشرية تدرّب المحرك من جديد.',en:'Machine speed with expert quality — every human review retrains the engine.'},
  e3_t:{ar:'منصة، مو مكتب ترجمة',en:'A platform, not an agency'},
@@ -518,7 +670,7 @@ const K={
  rd_t:{ar:'خارطة الطريق',en:'Roadmap'},
  rd1_d:{ar:'المرحلة 1 — الآن',en:'PHASE 1 — NOW'},
  rd1_t:{ar:'الإطلاق والمشاريع التجريبية',en:'Launch & pilots'},
- rd1_p:{ar:'إطلاق المنصة وتنفيذ مشاريع تجريبية مع استوديوهات إقليمية لبناء سابقة الأعمال.',en:'Launch the platform and run pilot projects with regional studios to build the portfolio.'},
+ rd1_p:{ar:'إطلاق المنصة، والبدء مع استوديوهات محلية (GTM Strategy) لبناء سابقة الأعمال.',en:'Launch the platform and run pilot projects with local studios (GTM Strategy) to build the portfolio.'},
  rd2_d:{ar:'المرحلة 2',en:'PHASE 2'},
  rd2_t:{ar:'التوسع بالعملاء والشبكة',en:'Grow clients & network'},
  rd2_p:{ar:'استقطاب استوديوهات عالمية متوسطة، وتوسيع شبكة المتعهدين المؤهلين والمؤثرين.',en:'Win mid-size global studios; expand the vetted provider and influencer network.'},
@@ -528,12 +680,20 @@ const K={
  rd4_d:{ar:'المرحلة 4',en:'PHASE 4'},
  rd4_t:{ar:'بوابة المنطقة',en:'The region\u2019s gateway'},
  rd4_p:{ar:'الشريك الافتراضي لأي لعبة تدخل السوق العربي — توطيناً وتسويقاً.',en:'The default partner for any game entering the Arab market — localization and marketing.'},
+ team_t:{ar:'فريقنا',en:'The Team'},
+ team_sub:{ar:'فريقنا يجمع بين خبرة الذكاء الاصطناعي، تطوير الألعاب، وشغف حقيقي بمجتمع اللاعبين.',en:'A team combining AI expertise, game development, and real passion for the gaming community.'},
+ tm1:{ar:'سليمان الخطيب',en:'Sulaiman Al-Khatib'},
+ tm2:{ar:'ولاء',en:'Walaa'},
+ tm3:{ar:'شذى',en:'Shatha'},
+ tm4:{ar:'سحر',en:'Sahar'},
+ tm5:{ar:'شفاء',en:'Shifa'},
  ct_t1:{ar:'انضم لنا في بناء',en:'Join us in building'},
  ct_t2:{ar:'صوت اللاعب العربي',en:'the Arab gamer\u2019s voice'},
- ct_p:{ar:'نبحث عن شركاء ومستثمرين واستوديوهات للمشاريع التجريبية — خلنا نتكلم.',
-       en:'We\u2019re looking for partners, investors, and pilot studios — let\u2019s talk.'},
+ ct_p:{ar:'نبحث عن استثمار بقيمة [أدخل الرقم] ريال للمرحلة القادمة، و 3 استوديوهات لمشاريع تجريبية (Pilots).',
+       en:'Seeking an investment of [Amount] for the next phase, and 3 studios for pilot projects.'},
  ct_b1:{ar:'🚀 شوف المنصة حية',en:'🚀 See the live platform'},
  ct_b2:{ar:'✉️ راسلنا',en:'✉️ Email us'},
+ qr_hint:{ar:'امسح الرمز لزيارة المنصة',en:'SCAN TO VISIT PLATFORM'}
 };
 /* ═══ INTERACTIVE PROBLEM DEMOS ═══ */
 const IX = {
@@ -576,21 +736,21 @@ function raceStart(){
   b1.style.transition='none'; b2.style.transition='none';
   b1.style.width='0'; b2.style.width='0';
   void b1.offsetWidth;
-  // URB: 72h — fills fast
-  b2.style.transition='width 0.9s ease-out';
+  
+  b2.style.transition='width 0.4s ease-out';
   b2.style.width='100%';
-  let h=0; const hInt=setInterval(()=>{ h+=6; if(h>=72){h=72;clearInterval(hInt);
+  let h=0; const hInt=setInterval(()=>{ h+=12; if(h>=72){h=72;clearInterval(hInt);
     t2.textContent = lang==='ar'?'72 ساعة ✓':'72 hrs ✓';
-  } else t2.textContent = lang==='ar'? h+' ساعة' : h+' hrs'; }, 70);
-  // Traditional: 12 weeks — crawls
-  b1.style.transition='width 7s linear';
+  } else t2.textContent = lang==='ar'? h+' ساعة' : h+' hrs'; }, 30);
+  
+  b1.style.transition='width 4s linear';
   b1.style.width='100%';
   let w=0; const wInt=setInterval(()=>{ w++; if(w>=12){w=12;clearInterval(wInt);
     t1.textContent = lang==='ar'?'12 أسبوع 🐌':'12 weeks 🐌'; raceRun=false;
-  } else t1.textContent = lang==='ar'? w+' أسبوع' : w+' wk'; }, 560);
+  } else t1.textContent = lang==='ar'? w+' أسبوع' : w+' wk'; }, 320);
 }
 function costCalc(){
-  const w = Number(document.getElementById('costR').value); // thousands of words
+  const w = Number(document.getElementById('costR').value); 
   document.getElementById('costW').textContent = (w*1000).toLocaleString();
   const trad = w*1000*0.12, urb = w*1000*0.048;
   document.getElementById('costT').textContent = '$'+Math.round(trad).toLocaleString();
@@ -625,11 +785,10 @@ function flipLang(){lang=lang==='ar'?'en':'ar';apply();initDemos();renderDeal();
 apply();
 initDemos();
 
-/* ═══ COUNT-UP NUMBERS ═══ */
 function countUp(el){
   if(el.dataset.done) return; el.dataset.done='1';
   const to=parseFloat(el.dataset.to), fmt=el.dataset.fmt||'', dec=parseInt(el.dataset.dec||'0');
-  const t0=performance.now(), dur=1600;
+  const t0=performance.now(), dur=1200; 
   function fr(t){
     const p=Math.min((t-t0)/dur,1), e=1-Math.pow(1-p,3);
     const v=(to*e).toFixed(dec);
@@ -646,7 +805,6 @@ const cntObs=new IntersectionObserver(es=>{
 },{threshold:0.4});
 document.querySelectorAll('.cnt').forEach(el=>cntObs.observe(el));
 
-/* ═══ DEAL SIMULATOR ═══ */
 const DEALS=[
   {words:50000, rate:0.048, days:4,  plus:0},
   {words:50000, rate:0.09,  days:12, plus:0},
@@ -679,25 +837,22 @@ function renderDeal(){
   }
 }
 
-/* DOTS + KEYS */
 const slides=[...document.querySelectorAll('.slide')];
 const dotsEl=document.getElementById('dots');
 slides.forEach((s)=>{const d=document.createElement('button');d.className='dot';d.onclick=()=>s.scrollIntoView({behavior:'smooth'});dotsEl.appendChild(d);});
 const dots=[...dotsEl.children];
 const deck=document.getElementById('deck');
 let cur=0;
-// slide tracker (low threshold so tall mobile slides still register)
 const obs=new IntersectionObserver(es=>{
   es.forEach(e=>{
     if(e.isIntersecting){
       cur=slides.indexOf(e.target);
       dots.forEach((d,i)=>d.classList.toggle('on',i===cur));
-      document.getElementById('counter').textContent=`URB://${String(cur+1).padStart(2,'0')}/10`;
+      document.getElementById('pageCounter').textContent=`URB://${String(cur+1).padStart(2,'0')}/11`;
     }
   });
 },{root:deck,threshold:0.15});
 slides.forEach(s=>obs.observe(s));
-// reveal each element individually — works regardless of slide height
 const rvObs=new IntersectionObserver(es=>{
   es.forEach((e)=>{
     if(e.isIntersecting){
@@ -707,12 +862,29 @@ const rvObs=new IntersectionObserver(es=>{
   });
 },{root:deck,threshold:0.05,rootMargin:'0px 0px -5% 0px'});
 document.querySelectorAll('.rv').forEach(el=>rvObs.observe(el));
-// safety: reveal everything after 2.5s no matter what
-setTimeout(()=>document.querySelectorAll('.rv').forEach(el=>el.classList.add('vis')),2500);
+setTimeout(()=>document.querySelectorAll('.rv').forEach(el=>el.classList.add('vis')),2000);
+
 addEventListener('keydown',e=>{
-  if(e.key==='ArrowDown'||e.key==='PageDown'||e.key===' '){e.preventDefault();slides[Math.min(cur+1,9)].scrollIntoView({behavior:'smooth'});}
-  if(e.key==='ArrowUp'||e.key==='PageUp'){e.preventDefault();slides[Math.max(cur-1,0)].scrollIntoView({behavior:'smooth'});}
+  if(e.key===' '){
+      e.preventDefault();
+      slides[Math.min(cur+1,10)].scrollIntoView({behavior:'smooth'});
+  }
+  if(e.key==='ArrowDown'||e.key==='PageDown'){
+      e.preventDefault();
+      slides[Math.min(cur+1,10)].scrollIntoView({behavior:'smooth'});
+  }
+  if(e.key==='ArrowUp'||e.key==='PageUp'){
+      e.preventDefault();
+      slides[Math.max(cur-1,0)].scrollIntoView({behavior:'smooth'});
+  }
+  if(e.key==='f' || e.key==='F'){
+      e.preventDefault();
+      toggleTimerAndFullscreen();
+  }
 });
 </script>
 </body>
 </html>
+
+
+```
