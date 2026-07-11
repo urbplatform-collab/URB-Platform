@@ -62,6 +62,37 @@ h2{font-size:clamp(1.7rem,4.2vw,2.9rem);font-weight:700;margin-bottom:18px}
 .card h3{font-size:1.05rem;margin-bottom:9px;font-family:'Space Grotesk','Tajawal',sans-serif}
 .card p{color:var(--dim);font-size:0.85rem;line-height:1.85}
 .pain .ic{background:rgba(248,113,113,0.08);border-color:rgba(248,113,113,0.2)}
+/* interactive problem demos */
+.idemo{margin-top:14px;border-top:1px solid rgba(255,255,255,0.06);padding-top:13px}
+.ibtn{
+  width:100%;background:rgba(139,92,246,0.12);border:1px solid var(--border);
+  color:#c9b8ff;border-radius:10px;padding:9px;cursor:pointer;
+  font-family:'Tajawal',sans-serif;font-size:0.78rem;font-weight:700;transition:all 0.2s;
+}
+.ibtn:hover{background:rgba(139,92,246,0.22)}
+.ibox{
+  background:rgba(255,255,255,0.03);border:1px solid var(--border2);
+  border-radius:10px;padding:11px 13px;font-size:0.8rem;line-height:1.8;
+  margin-bottom:9px;min-height:58px;transition:all 0.3s;
+}
+.ibox .rx{font-size:1.15rem;display:block;margin-top:4px}
+.ibox.good{border-color:rgba(52,211,153,0.35);background:rgba(52,211,153,0.05)}
+.ibox.bad{border-color:rgba(248,113,113,0.3);background:rgba(248,113,113,0.04)}
+.race-row{margin-bottom:10px}
+.race-lbl{display:flex;justify-content:space-between;font-size:0.68rem;color:var(--dim);margin-bottom:5px;font-family:'Space Mono',monospace}
+.race-bar{height:9px;background:rgba(255,255,255,0.07);border-radius:5px;overflow:hidden}
+.race-bar i{display:block;height:100%;width:0;border-radius:5px}
+.race-bar .slow{background:var(--red)}
+.race-bar .fast{background:var(--grad)}
+.cost-slider{width:100%;accent-color:var(--purple);margin:8px 0 12px;cursor:pointer;height:26px}
+.cost-out{display:flex;justify-content:space-between;gap:8px;font-family:'Space Mono',monospace;font-size:0.72rem}
+.cost-out div{flex:1;background:rgba(255,255,255,0.03);border:1px solid var(--border2);border-radius:9px;padding:8px;text-align:center}
+.cost-out .cv{font-size:1rem;font-weight:700;margin-top:3px}
+.save-badge{
+  margin-top:9px;text-align:center;font-size:0.78rem;font-weight:700;color:var(--green);
+  background:rgba(52,211,153,0.08);border:1px solid rgba(52,211,153,0.25);
+  border-radius:9px;padding:7px;
+}
 
 .stat-big{text-align:center;background:rgba(11,14,32,0.72);border:1px solid var(--border2);border-radius:18px;padding:30px 18px}
 .stat-big .n{font-family:'Space Mono',monospace;font-size:clamp(1.9rem,4vw,2.9rem);font-weight:700;background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
@@ -91,6 +122,15 @@ h2{font-size:clamp(1.7rem,4.2vw,2.9rem);font-weight:700;margin-bottom:18px}
 .bm-card h3{font-size:1rem;margin-bottom:8px}
 .bm-card p{font-size:0.8rem;color:var(--dim);line-height:1.8}
 .bm-rev{margin-top:14px;padding-top:12px;border-top:1px solid rgba(255,255,255,0.06);font-family:'Space Mono',monospace;font-size:0.68rem;color:var(--gold);letter-spacing:1px}
+.bm-card.sel{border-color:var(--cyan)!important;box-shadow:0 0 40px rgba(34,211,238,0.22)!important;transform:translateY(-3px)}
+.deal-sim{
+  margin-top:20px;background:rgba(11,14,32,0.85);border:1px solid var(--border);
+  border-radius:17px;padding:20px 22px;
+}
+.deal-body{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+.deal-cell{background:rgba(255,255,255,0.03);border:1px solid var(--border2);border-radius:11px;padding:13px;text-align:center}
+.deal-cell .dl{font-family:'Space Mono',monospace;font-size:0.6rem;letter-spacing:1.4px;color:var(--dim);margin-bottom:6px}
+.deal-cell .dv{font-family:'Space Mono',monospace;font-size:1.05rem;font-weight:700}
 
 /* roadmap */
 .road{margin-top:38px;position:relative;padding-inline-start:26px}
@@ -102,6 +142,14 @@ h2{font-size:clamp(1.7rem,4.2vw,2.9rem);font-weight:700;margin-bottom:18px}
 .ph h4{font-size:1.02rem;margin-bottom:5px}
 .ph p{font-size:0.84rem;color:var(--dim);line-height:1.8;max-width:600px}
 
+/* team grid */
+.team5 { display: grid; grid-template-columns: repeat(5, 1fr); gap: 16px; margin-top: 38px; }
+.team-card { background: rgba(11,14,32,0.72); border: 1px solid var(--border2); border-radius: 18px; padding: 24px 16px; text-align: center; transition: transform 0.25s, border-color 0.25s; }
+.team-card:hover { transform: translateY(-4px); border-color: var(--border); box-shadow: 0 10px 30px rgba(139,92,246,0.1); }
+.t-av { width: 64px; height: 64px; border-radius: 50%; background: linear-gradient(135deg, rgba(139,92,246,0.15), rgba(34,211,238,0.15)); border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; font-size: 1.8rem; margin: 0 auto 16px; box-shadow: inset 0 0 10px rgba(139,92,246,0.1); }
+.team-card h3 { font-size: 1rem; margin-bottom: 4px; font-family: 'Space Grotesk', 'Tajawal', sans-serif; }
+
+/* contact & qr */
 .contact{text-align:center}
 .c-btns{display:flex;gap:13px;justify-content:center;flex-wrap:wrap;margin-top:36px}
 .btn{border:none;cursor:pointer;font-family:inherit;border-radius:13px;font-weight:700;text-decoration:none;font-size:0.95rem;display:inline-flex;align-items:center;gap:9px;padding:14px 30px;transition:all 0.22s}
@@ -110,13 +158,24 @@ h2{font-size:clamp(1.7rem,4.2vw,2.9rem);font-weight:700;margin-bottom:18px}
 .btn-ghost{background:rgba(255,255,255,0.04);border:1px solid var(--border2);color:var(--text)}
 .btn-ghost:hover{border-color:var(--cyan)}
 .foot-note{margin-top:52px;font-family:'Space Mono',monospace;font-size:0.64rem;letter-spacing:2px;color:var(--dim)}
+.qr-box { margin-top: 36px; display: inline-block; background: #fff; padding: 12px; border-radius: 16px; border: 2px solid var(--purple); box-shadow: 0 0 30px rgba(139,92,246,0.25); transition: transform 0.3s;}
+.qr-box:hover { transform: scale(1.05); }
+.qr-box img { display: block; width: 140px; height: 140px; border-radius: 6px; }
+.qr-hint { font-family: 'Space Mono', monospace; font-size: 0.75rem; color: var(--cyan); margin-top: 12px; letter-spacing: 2px; }
 
 .rv{opacity:0;transform:translateY(26px);transition:opacity 0.7s,transform 0.7s}
 .rv.vis{opacity:1;transform:none}
 @media (prefers-reduced-motion: reduce){*{animation:none!important;transition:none!important}.rv{opacity:1;transform:none}}
-@media(max-width:900px){.cards3,.cards4,.bm{grid-template-columns:1fr 1fr}}
+@media(max-width:900px){
+  .cards3,.cards4,.bm{grid-template-columns:1fr 1fr}
+  .team5 { grid-template-columns: repeat(3, 1fr); }
+}
 @media(max-width:640px){
+  #deck{scroll-snap-type:y proximity}
+  .slide{align-items:flex-start}
   .cards3,.cards4,.bm{grid-template-columns:1fr}
+  .team5 { grid-template-columns: repeat(2, 1fr); }
+  .deal-body{grid-template-columns:1fr 1fr}
   .slide{padding:84px 18px 60px}
   .dots{inset-inline-end:7px;gap:9px}.dot{width:7px;height:7px}
   .counter{display:none}
@@ -132,7 +191,7 @@ h2{font-size:clamp(1.7rem,4.2vw,2.9rem);font-weight:700;margin-bottom:18px}
 <div class="topbar">
   <div class="logo"><div class="logo-mark">🎮</div><div class="logo-name">عُرب <b>URB</b></div></div>
   <div class="top-tools">
-    <span class="counter" id="counter">URB://01/10</span>
+    <span class="counter" id="counter">URB://01/11</span>
     <button class="lang-tgl" id="langBtn" onclick="flipLang()">EN</button>
   </div>
 </div>
@@ -158,12 +217,58 @@ h2{font-size:clamp(1.7rem,4.2vw,2.9rem);font-weight:700;margin-bottom:18px}
     <div class="eyebrow">URB://01 — PROBLEM</div>
     <h2 class="rv" data-k="pr_t"></h2>
     <p class="lead rv" data-k="pr_p"></p>
-    <div class="cards4">
-      <div class="card pain rv"><div class="ic">📜</div><h3 data-k="pr1_t"></h3><p data-k="pr1_p"></p></div>
-      <div class="card pain rv"><div class="ic">🐌</div><h3 data-k="pr2_t"></h3><p data-k="pr2_p"></p></div>
-      <div class="card pain rv"><div class="ic">💸</div><h3 data-k="pr3_t"></h3><p data-k="pr3_p"></p></div>
-      <div class="card pain rv"><div class="ic">🎭</div><h3 data-k="pr4_t"></h3><p data-k="pr4_p"></p></div>
+    <div class="cards4" style="align-items:start;">
+      <!-- 1 MSA toggle -->
+      <div class="card pain rv">
+        <div class="ic">📜</div><h3 data-k="pr1_t"></h3><p data-k="pr1_p"></p>
+        <div class="idemo">
+          <div style="font-family:'Space Mono',monospace;font-size:0.62rem;color:var(--dim);margin-bottom:6px;" dir="ltr">EN: "You got this, champ!"</div>
+          <div class="ibox bad" id="msaBox" dir="rtl"></div>
+          <button class="ibtn" id="msaBtn" onclick="msaFlip()"></button>
+        </div>
+      </div>
+      <!-- 2 speed race -->
+      <div class="card pain rv">
+        <div class="ic">🐌</div><h3 data-k="pr2_t"></h3><p data-k="pr2_p"></p>
+        <div class="idemo">
+          <div class="race-row">
+            <div class="race-lbl"><span data-k="race_trad"></span><span id="raceT1">0</span></div>
+            <div class="race-bar"><i class="slow" id="raceB1"></i></div>
+          </div>
+          <div class="race-row">
+            <div class="race-lbl"><span>URB</span><span id="raceT2">0</span></div>
+            <div class="race-bar"><i class="fast" id="raceB2"></i></div>
+          </div>
+          <button class="ibtn" onclick="raceStart()" data-k="race_btn"></button>
+        </div>
+      </div>
+      <!-- 3 cost slider -->
+      <div class="card pain rv">
+        <div class="ic">💸</div><h3 data-k="pr3_t"></h3><p data-k="pr3_p"></p>
+        <div class="idemo">
+          <div style="font-size:0.72rem;color:var(--dim);display:flex;justify-content:space-between;">
+            <span data-k="cost_words"></span>
+            <b id="costW" style="font-family:'Space Mono',monospace;color:var(--text);">50,000</b>
+          </div>
+          <input type="range" class="cost-slider" id="costR" min="10" max="200" value="50" step="10" oninput="costCalc()">
+          <div class="cost-out">
+            <div><span data-k="race_trad"></span><div class="cv" style="color:var(--red);" id="costT">$6,000</div></div>
+            <div><span>URB</span><div class="cv" style="color:var(--cyan);" id="costU">$2,400</div></div>
+          </div>
+          <div class="save-badge" id="costS"></div>
+        </div>
+      </div>
+      <!-- 4 culture flip -->
+      <div class="card pain rv">
+        <div class="ic">🎭</div><h3 data-k="pr4_t"></h3><p data-k="pr4_p"></p>
+        <div class="idemo">
+          <div style="font-family:'Space Mono',monospace;font-size:0.62rem;color:var(--dim);margin-bottom:6px;" dir="ltr">EN: "Piece of cake!"</div>
+          <div class="ibox bad" id="cultBox" dir="rtl" style="cursor:pointer;" onclick="cultFlip()"></div>
+          <button class="ibtn" id="cultBtn" onclick="cultFlip()"></button>
+        </div>
+      </div>
     </div>
+    <p class="rv" style="margin-top:18px;font-size:0.68rem;color:var(--dim);font-family:'Space Mono',monospace;" data-k="pr_note"></p>
   </div>
 </section>
 
@@ -197,10 +302,10 @@ h2{font-size:clamp(1.7rem,4.2vw,2.9rem);font-weight:700;margin-bottom:18px}
     <h2 class="rv" data-k="mkt_t"></h2>
     <p class="lead rv" data-k="mkt_p"></p>
     <div class="cards4">
-      <div class="stat-big rv"><div class="n">21M+</div><div class="l" data-k="mkt1"></div></div>
-      <div class="stat-big rv"><div class="n">$1.13B</div><div class="l" data-k="mkt2"></div></div>
-      <div class="stat-big rv"><div class="n">$38B</div><div class="l" data-k="mkt3"></div></div>
-      <div class="stat-big rv"><div class="n">~0</div><div class="l" data-k="mkt4"></div></div>
+      <div class="stat-big rv"><div class="n cnt" data-to="21" data-fmt="M+">0</div><div class="l" data-k="mkt1"></div></div>
+      <div class="stat-big rv"><div class="n cnt" data-to="1.13" data-fmt="$B" data-dec="2">0</div><div class="l" data-k="mkt2"></div></div>
+      <div class="stat-big rv"><div class="n cnt" data-to="38" data-fmt="$B0">0</div><div class="l" data-k="mkt3"></div></div>
+      <div class="stat-big rv"><div class="n" style="color:var(--green);-webkit-text-fill-color:var(--green);">~0</div><div class="l" data-k="mkt4"></div></div>
     </div>
     <p class="lead rv" style="margin-top:30px;font-size:0.9rem;" data-k="mkt_note"></p>
   </div>
@@ -228,24 +333,28 @@ h2{font-size:clamp(1.7rem,4.2vw,2.9rem);font-weight:700;margin-bottom:18px}
     <h2 class="rv" data-k="bm_t"></h2>
     <p class="lead rv" data-k="bm_p"></p>
     <div class="bm">
-      <div class="bm-card rv">
+      <div class="bm-card rv" onclick="bmDeal(0)" style="cursor:pointer;" id="bmc0">
         <div class="bm-tier">TIER 1</div>
         <h3>URB AI System</h3>
         <p data-k="bm1_p"></p>
         <div class="bm-rev" data-k="bm1_r"></div>
       </div>
-      <div class="bm-card feat rv">
+      <div class="bm-card feat rv" onclick="bmDeal(1)" style="cursor:pointer;" id="bmc1">
         <div class="bm-tier">TIER 2</div>
         <h3>URB AI + Human Auditing</h3>
         <p data-k="bm2_p"></p>
         <div class="bm-rev" data-k="bm2_r"></div>
       </div>
-      <div class="bm-card rv">
+      <div class="bm-card rv" onclick="bmDeal(2)" style="cursor:pointer;" id="bmc2">
         <div class="bm-tier">TIER 3</div>
         <h3>URB PLUS</h3>
         <p data-k="bm3_p"></p>
         <div class="bm-rev" data-k="bm3_r"></div>
       </div>
+    </div>
+    <div class="deal-sim rv" id="dealSim">
+      <div style="font-family:'Space Mono',monospace;font-size:0.66rem;letter-spacing:2px;color:var(--dim);margin-bottom:12px;" data-k="ds_hint"></div>
+      <div class="deal-body" id="dealBody"></div>
     </div>
   </div>
 </section>
@@ -291,16 +400,39 @@ h2{font-size:clamp(1.7rem,4.2vw,2.9rem);font-weight:700;margin-bottom:18px}
   </div>
 </section>
 
-<!-- 10 ▸ ASK / CONTACT -->
+<!-- 10 ▸ TEAM -->
+<section class="slide">
+  <div class="sl-in">
+    <div class="eyebrow">URB://09 — THE TEAM</div>
+    <h2 class="rv" data-k="team_t"></h2>
+    <div class="team5">
+      <div class="team-card rv"><div class="t-av">👨‍💻</div><h3 data-k="tm1"></h3></div>
+      <div class="team-card rv"><div class="t-av">👩‍💻</div><h3 data-k="tm2"></h3></div>
+      <div class="team-card rv"><div class="t-av">👩‍💻</div><h3 data-k="tm3"></h3></div>
+      <div class="team-card rv"><div class="t-av">👩‍💻</div><h3 data-k="tm4"></h3></div>
+      <div class="team-card rv"><div class="t-av">👩‍💻</div><h3 data-k="tm5"></h3></div>
+    </div>
+  </div>
+</section>
+
+<!-- 11 ▸ ASK / CONTACT -->
 <section class="slide contact">
   <div class="sl-in">
-    <div class="eyebrow" style="justify-content:center;">URB://09 — THE ASK</div>
+    <div class="eyebrow" style="justify-content:center;">URB://10 — THE ASK</div>
     <h2 class="rv"><span data-k="ct_t1"></span> <span class="g" data-k="ct_t2"></span></h2>
     <p class="lead rv" style="margin:0 auto;" data-k="ct_p"></p>
     <div class="c-btns rv">
       <a class="btn btn-grad" href="https://urbplatform-collab.github.io/URB-Platform/" target="_blank" data-k="ct_b1"></a>
       <a class="btn btn-ghost" href="mailto:hello@urb.sa" data-k="ct_b2"></a>
     </div>
+    
+    <!-- QR Code Addition -->
+    <div class="qr-box rv">
+      <!-- Using a reliable public API to generate the QR code directly to the GitHub pages link -->
+      <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://urbplatform-collab.github.io/URB-Platform/" alt="URB Platform QR Code">
+    </div>
+    <div class="qr-hint rv" data-k="qr_hint"></div>
+
     <div class="foot-note">© 2026 عُرب URB — BUILT FOR GAMES. TRAINED BY HUMANS.</div>
   </div>
 </section>
@@ -356,6 +488,10 @@ const K={
  pr_p:{ar:'ملايين اللاعبين العرب يلعبون بلغة مو لغتهم — لأن توطين الألعاب اليوم:',
        en:'Millions of Arab gamers play in a language that isn\u2019t theirs — because game localization today is:'},
  pr1_t:{ar:'فصحى فقط',en:'MSA only'},
+ pr_note:{ar:'* الأرقام في العروض التفاعلية توضيحية لغرض المقارنة',en:'* Figures in interactive demos are illustrative for comparison'},
+ race_trad:{ar:'الطريقة التقليدية',en:'Traditional'},
+ race_btn:{ar:'▶ ابدأ السباق',en:'▶ Start the race'},
+ cost_words:{ar:'حجم اللعبة (كلمة)',en:'Game size (words)'},
  pr1_p:{ar:'فصحى رسمية ما تشبه كلام اللاعبين ولا روح اللعبة.',en:'Formal Arabic that sounds nothing like real players or the game\u2019s spirit.'},
  pr2_t:{ar:'بطيء',en:'Slow'},
  pr2_p:{ar:'دورات ترجمة تاخذ شهور وتأخر الإطلاقات بالسوق العربي.',en:'Cycles take months and delay Arabic-market launches.'},
@@ -389,6 +525,13 @@ const K={
  bm_t:{ar:'نموذج العمل',en:'Business model'},
  bm_p:{ar:'إيراد لكل مشروع عبر ثلاث باقات تصاعدية — وكل باقة تفتح باب اللي بعدها:',
        en:'Per-project revenue across three ascending tiers — each tier upsells the next:'},
+ ds_hint:{ar:'👆 اضغط أي باقة وشوف مثال صفقة حية',en:'👆 Tap any tier to see a live deal example'},
+ ds_game:{ar:'حجم اللعبة',en:'GAME SIZE'},
+ ds_days:{ar:'مدة التسليم',en:'DELIVERY'},
+ ds_val:{ar:'قيمة العقد',en:'CONTRACT VALUE'},
+ ds_plus:{ar:'قيمة الحملة',en:'CAMPAIGN VALUE'},
+ ds_word:{ar:'كلمة',en:'words'},
+ ds_day:{ar:'يوم',en:'days'},
  bm1_p:{ar:'توطين آلي سريع للاستوديوهات الصغيرة والمشاريع السريعة — نقطة الدخول.',en:'Fast AI localization for smaller studios and quick projects — the entry point.'},
  bm1_r:{ar:'هامش مرتفع — تكلفة تشغيل آلية',en:'HIGH MARGIN — AUTOMATED COST BASE'},
  bm2_p:{ar:'الباقة الأساسية: AI + تدقيق بشري ولهجات — للإطلاقات الجادة.',en:'The core tier: AI + human audit and dialects — for serious launches.'},
@@ -424,13 +567,96 @@ const K={
  rd4_d:{ar:'المرحلة 4',en:'PHASE 4'},
  rd4_t:{ar:'بوابة المنطقة',en:'The region\u2019s gateway'},
  rd4_p:{ar:'الشريك الافتراضي لأي لعبة تدخل السوق العربي — توطيناً وتسويقاً.',en:'The default partner for any game entering the Arab market — localization and marketing.'},
+ team_t:{ar:'فريقنا',en:'The Team'},
+ tm1:{ar:'سليمان الخطيب',en:'Sulaiman Al-Khatib'},
+ tm2:{ar:'ولاء',en:'Walaa'},
+ tm3:{ar:'شذى',en:'Shatha'},
+ tm4:{ar:'سحر',en:'Sahar'},
+ tm5:{ar:'شفاء',en:'Shifa'},
  ct_t1:{ar:'انضم لنا في بناء',en:'Join us in building'},
  ct_t2:{ar:'صوت اللاعب العربي',en:'the Arab gamer\u2019s voice'},
  ct_p:{ar:'نبحث عن شركاء ومستثمرين واستوديوهات للمشاريع التجريبية — خلنا نتكلم.',
        en:'We\u2019re looking for partners, investors, and pilot studios — let\u2019s talk.'},
  ct_b1:{ar:'🚀 شوف المنصة حية',en:'🚀 See the live platform'},
  ct_b2:{ar:'✉️ راسلنا',en:'✉️ Email us'},
+ qr_hint:{ar:'امسح الرمز لزيارة المنصة',en:'SCAN TO VISIT PLATFORM'}
 };
+/* ═══ INTERACTIVE PROBLEM DEMOS ═══ */
+const IX = {
+  msa: {
+    bad:{ar:'«لقد نجحتَ في ذلك أيها البطل!»<span class="rx">اللاعب: 😐 مين يتكلم كذا؟</span>',
+         en:'\u00ABYou have succeeded in that, O hero!\u00BB<span class="rx">Player: 😐 who talks like this?</span>'},
+    good:{ar:'«كفووو! أثبتها يا وحش 🔥»<span class="rx">اللاعب: 🤩 هذا كلامنا!</span>',
+          en:'\u00ABKafuuu! You proved it, beast 🔥\u00BB<span class="rx">Player: 🤩 now THAT\u2019s our language!</span>'},
+    btnBad:{ar:'👆 شوف كيف توصل اليوم — اضغط',en:'👆 See how it arrives today — tap'},
+    btnGood:{ar:'✨ هذا توطين عُرب — اضغط للرجوع',en:'✨ This is URB localization — tap to compare'}
+  },
+  cult: {
+    bad:{ar:'الترجمة الحرفية: «قطعة من الكعك!»<span class="rx">اللاعب: 🤨 وش دخل الكيك؟</span>',
+         en:'Literal: \u00ABA piece of cake!\u00BB (in Arabic)<span class="rx">Player: 🤨 what cake??</span>'},
+    good:{ar:'توطين عُرب: «سهالات!» 😎<span class="rx">اللاعب: فهمتها من أول نظرة ✅</span>',
+          en:'URB: \u00ABSahalat!\u00BB 😎<span class="rx">Player: got it instantly ✅</span>'},
+    btnBad:{ar:'👆 هذا اللي يستلمه اللاعب — اضغط',en:'👆 This is what players get — tap'},
+    btnGood:{ar:'✨ وهذا الفرق — اضغط للمقارنة',en:'✨ And this is the difference — tap'}
+  }
+};
+let msaGood=false, cultGood=false, raceRun=false;
+function msaFlip(){
+  msaGood=!msaGood;
+  const b=document.getElementById('msaBox'), t=document.getElementById('msaBtn');
+  b.innerHTML = msaGood? IX.msa.good[lang] : IX.msa.bad[lang];
+  b.className = 'ibox ' + (msaGood?'good':'bad');
+  t.textContent = msaGood? IX.msa.btnGood[lang] : IX.msa.btnBad[lang];
+}
+function cultFlip(){
+  cultGood=!cultGood;
+  const b=document.getElementById('cultBox'), t=document.getElementById('cultBtn');
+  b.innerHTML = cultGood? IX.cult.good[lang] : IX.cult.bad[lang];
+  b.className = 'ibox ' + (cultGood?'good':'bad');
+  t.textContent = cultGood? IX.cult.btnGood[lang] : IX.cult.btnBad[lang];
+}
+function raceStart(){
+  if(raceRun) return; raceRun=true;
+  const b1=document.getElementById('raceB1'), b2=document.getElementById('raceB2');
+  const t1=document.getElementById('raceT1'), t2=document.getElementById('raceT2');
+  b1.style.transition='none'; b2.style.transition='none';
+  b1.style.width='0'; b2.style.width='0';
+  void b1.offsetWidth;
+  // URB: 72h — fills fast
+  b2.style.transition='width 0.9s ease-out';
+  b2.style.width='100%';
+  let h=0; const hInt=setInterval(()=>{ h+=6; if(h>=72){h=72;clearInterval(hInt);
+    t2.textContent = lang==='ar'?'72 ساعة ✓':'72 hrs ✓';
+  } else t2.textContent = lang==='ar'? h+' ساعة' : h+' hrs'; }, 70);
+  // Traditional: 12 weeks — crawls
+  b1.style.transition='width 7s linear';
+  b1.style.width='100%';
+  let w=0; const wInt=setInterval(()=>{ w++; if(w>=12){w=12;clearInterval(wInt);
+    t1.textContent = lang==='ar'?'12 أسبوع 🐌':'12 weeks 🐌'; raceRun=false;
+  } else t1.textContent = lang==='ar'? w+' أسبوع' : w+' wk'; }, 560);
+}
+function costCalc(){
+  const w = Number(document.getElementById('costR').value); // thousands of words
+  document.getElementById('costW').textContent = (w*1000).toLocaleString();
+  const trad = w*1000*0.12, urb = w*1000*0.048;
+  document.getElementById('costT').textContent = '$'+Math.round(trad).toLocaleString();
+  document.getElementById('costU').textContent = '$'+Math.round(urb).toLocaleString();
+  document.getElementById('costS').textContent = lang==='ar'
+    ? 'وفّرت $'+Math.round(trad-urb).toLocaleString()+' — يعني 60% أقل 🎯'
+    : 'You saved $'+Math.round(trad-urb).toLocaleString()+' — that\u2019s 60% less 🎯';
+}
+function initDemos(){
+  msaGood=false; cultGood=false;
+  msaFlip(); msaGood=false;
+  document.getElementById('msaBox').innerHTML=IX.msa.bad[lang];
+  document.getElementById('msaBox').className='ibox bad';
+  document.getElementById('msaBtn').textContent=IX.msa.btnBad[lang];
+  document.getElementById('cultBox').innerHTML=IX.cult.bad[lang];
+  document.getElementById('cultBox').className='ibox bad';
+  document.getElementById('cultBtn').textContent=IX.cult.btnBad[lang];
+  costCalc();
+}
+
 let lang='ar';
 function apply(){
   document.documentElement.lang=lang;
@@ -441,8 +667,63 @@ function apply(){
     if(v) el.textContent=v[lang];
   });
 }
-function flipLang(){lang=lang==='ar'?'en':'ar';apply();}
+function flipLang(){lang=lang==='ar'?'en':'ar';apply();initDemos();renderDeal();}
 apply();
+initDemos();
+
+/* ═══ COUNT-UP NUMBERS ═══ */
+function countUp(el){
+  if(el.dataset.done) return; el.dataset.done='1';
+  const to=parseFloat(el.dataset.to), fmt=el.dataset.fmt||'', dec=parseInt(el.dataset.dec||'0');
+  const t0=performance.now(), dur=1600;
+  function fr(t){
+    const p=Math.min((t-t0)/dur,1), e=1-Math.pow(1-p,3);
+    const v=(to*e).toFixed(dec);
+    if(fmt==='M+') el.textContent=v+'M+';
+    else if(fmt==='$B') el.textContent='$'+v+'B';
+    else if(fmt==='$B0') el.textContent='$'+Math.round(to*e)+'B';
+    else el.textContent=v;
+    if(p<1) requestAnimationFrame(fr);
+  }
+  requestAnimationFrame(fr);
+}
+const cntObs=new IntersectionObserver(es=>{
+  es.forEach(e=>{ if(e.isIntersecting){ countUp(e.target); cntObs.unobserve(e.target);} });
+},{threshold:0.4});
+document.querySelectorAll('.cnt').forEach(el=>cntObs.observe(el));
+
+/* ═══ DEAL SIMULATOR ═══ */
+const DEALS=[
+  {words:50000, rate:0.048, days:4,  plus:0},
+  {words:50000, rate:0.09,  days:12, plus:0},
+  {words:50000, rate:0.09,  days:12, plus:15000},
+];
+let dealSel=-1;
+function bmDeal(i){
+  dealSel=i;
+  [0,1,2].forEach(n=>document.getElementById('bmc'+n).classList.toggle('sel',n===i));
+  renderDeal();
+}
+function renderDeal(){
+  const body=document.getElementById('dealBody');
+  if(dealSel<0){ body.innerHTML=''; return; }
+  const d=DEALS[dealSel];
+  const val=Math.round(d.words*d.rate);
+  const cells=[
+    {l:K.ds_game[lang], v:d.words.toLocaleString()+' '+K.ds_word[lang], c:'var(--text)'},
+    {l:K.ds_days[lang], v:d.days+' '+K.ds_day[lang], c:'var(--cyan)'},
+    {l:K.ds_val[lang],  v:'$'+val.toLocaleString(), c:'var(--gold)'},
+  ];
+  if(d.plus) cells.push({l:K.ds_plus[lang], v:'+$'+d.plus.toLocaleString(), c:'var(--green)'});
+  else cells.push({l:'TOTAL', v:'$'+val.toLocaleString(), c:'var(--purple)'});
+  if(d.plus){ cells[3].v='+$'+d.plus.toLocaleString(); }
+  body.innerHTML=cells.map(x=>`
+    <div class="deal-cell"><div class="dl">${x.l}</div><div class="dv" style="color:${x.c};">${x.v}</div></div>`).join('');
+  if(d.plus){
+    body.innerHTML += `<div class="deal-cell" style="grid-column:1/-1;background:rgba(52,211,153,0.06);border-color:rgba(52,211,153,0.25);">
+      <div class="dl">TOTAL</div><div class="dv" style="color:var(--green);">$${(val+d.plus).toLocaleString()}</div></div>`;
+  }
+}
 
 /* DOTS + KEYS */
 const slides=[...document.querySelectorAll('.slide')];
@@ -451,21 +732,37 @@ slides.forEach((s)=>{const d=document.createElement('button');d.className='dot';
 const dots=[...dotsEl.children];
 const deck=document.getElementById('deck');
 let cur=0;
+// slide tracker (low threshold so tall mobile slides still register)
 const obs=new IntersectionObserver(es=>{
   es.forEach(e=>{
     if(e.isIntersecting){
       cur=slides.indexOf(e.target);
       dots.forEach((d,i)=>d.classList.toggle('on',i===cur));
-      document.getElementById('counter').textContent=`URB://${String(cur+1).padStart(2,'0')}/10`;
-      e.target.querySelectorAll('.rv').forEach((el,i)=>setTimeout(()=>el.classList.add('vis'),i*110));
+      // Changed to out of 11 to reflect the new Team slide
+      document.getElementById('counter').textContent=`URB://${String(cur+1).padStart(2,'0')}/11`;
     }
   });
-},{root:deck,threshold:0.45});
+},{root:deck,threshold:0.15});
 slides.forEach(s=>obs.observe(s));
+// reveal each element individually — works regardless of slide height
+const rvObs=new IntersectionObserver(es=>{
+  es.forEach((e)=>{
+    if(e.isIntersecting){
+      e.target.classList.add('vis');
+      rvObs.unobserve(e.target);
+    }
+  });
+},{root:deck,threshold:0.05,rootMargin:'0px 0px -5% 0px'});
+document.querySelectorAll('.rv').forEach(el=>rvObs.observe(el));
+// safety: reveal everything after 2.5s no matter what
+setTimeout(()=>document.querySelectorAll('.rv').forEach(el=>el.classList.add('vis')),2500);
 addEventListener('keydown',e=>{
-  if(e.key==='ArrowDown'||e.key==='PageDown'||e.key===' '){e.preventDefault();slides[Math.min(cur+1,9)].scrollIntoView({behavior:'smooth'});}
+  // updated min length to 10 for the 11-slide total
+  if(e.key==='ArrowDown'||e.key==='PageDown'||e.key===' '){e.preventDefault();slides[Math.min(cur+1,10)].scrollIntoView({behavior:'smooth'});}
   if(e.key==='ArrowUp'||e.key==='PageUp'){e.preventDefault();slides[Math.max(cur-1,0)].scrollIntoView({behavior:'smooth'});}
 });
 </script>
 </body>
 </html>
+
+```
