@@ -131,6 +131,7 @@ h2{font-size:clamp(1.7rem,4.2vw,2.9rem);font-weight:700;margin-bottom:18px}
 .deal-cell{background:rgba(255,255,255,0.03);border:1px solid var(--border2);border-radius:11px;padding:13px;text-align:center}
 .deal-cell .dl{font-family:'Space Mono',monospace;font-size:0.6rem;letter-spacing:1.4px;color:var(--dim);margin-bottom:6px}
 .deal-cell .dv{font-family:'Space Mono',monospace;font-size:1.05rem;font-weight:700}
+@media(max-width:640px){.deal-body{grid-template-columns:1fr 1fr}}
 
 /* roadmap */
 .road{margin-top:38px;position:relative;padding-inline-start:26px}
@@ -142,14 +143,6 @@ h2{font-size:clamp(1.7rem,4.2vw,2.9rem);font-weight:700;margin-bottom:18px}
 .ph h4{font-size:1.02rem;margin-bottom:5px}
 .ph p{font-size:0.84rem;color:var(--dim);line-height:1.8;max-width:600px}
 
-/* team grid */
-.team5 { display: grid; grid-template-columns: repeat(5, 1fr); gap: 16px; margin-top: 38px; }
-.team-card { background: rgba(11,14,32,0.72); border: 1px solid var(--border2); border-radius: 18px; padding: 24px 16px; text-align: center; transition: transform 0.25s, border-color 0.25s; }
-.team-card:hover { transform: translateY(-4px); border-color: var(--border); box-shadow: 0 10px 30px rgba(139,92,246,0.1); }
-.t-av { width: 64px; height: 64px; border-radius: 50%; background: linear-gradient(135deg, rgba(139,92,246,0.15), rgba(34,211,238,0.15)); border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; font-size: 1.8rem; margin: 0 auto 16px; box-shadow: inset 0 0 10px rgba(139,92,246,0.1); }
-.team-card h3 { font-size: 1rem; margin-bottom: 4px; font-family: 'Space Grotesk', 'Tajawal', sans-serif; }
-
-/* contact & qr */
 .contact{text-align:center}
 .c-btns{display:flex;gap:13px;justify-content:center;flex-wrap:wrap;margin-top:36px}
 .btn{border:none;cursor:pointer;font-family:inherit;border-radius:13px;font-weight:700;text-decoration:none;font-size:0.95rem;display:inline-flex;align-items:center;gap:9px;padding:14px 30px;transition:all 0.22s}
@@ -158,24 +151,15 @@ h2{font-size:clamp(1.7rem,4.2vw,2.9rem);font-weight:700;margin-bottom:18px}
 .btn-ghost{background:rgba(255,255,255,0.04);border:1px solid var(--border2);color:var(--text)}
 .btn-ghost:hover{border-color:var(--cyan)}
 .foot-note{margin-top:52px;font-family:'Space Mono',monospace;font-size:0.64rem;letter-spacing:2px;color:var(--dim)}
-.qr-box { margin-top: 36px; display: inline-block; background: #fff; padding: 12px; border-radius: 16px; border: 2px solid var(--purple); box-shadow: 0 0 30px rgba(139,92,246,0.25); transition: transform 0.3s;}
-.qr-box:hover { transform: scale(1.05); }
-.qr-box img { display: block; width: 140px; height: 140px; border-radius: 6px; }
-.qr-hint { font-family: 'Space Mono', monospace; font-size: 0.75rem; color: var(--cyan); margin-top: 12px; letter-spacing: 2px; }
 
 .rv{opacity:0;transform:translateY(26px);transition:opacity 0.7s,transform 0.7s}
 .rv.vis{opacity:1;transform:none}
 @media (prefers-reduced-motion: reduce){*{animation:none!important;transition:none!important}.rv{opacity:1;transform:none}}
-@media(max-width:900px){
-  .cards3,.cards4,.bm{grid-template-columns:1fr 1fr}
-  .team5 { grid-template-columns: repeat(3, 1fr); }
-}
+@media(max-width:900px){.cards3,.cards4,.bm{grid-template-columns:1fr 1fr}}
 @media(max-width:640px){
   #deck{scroll-snap-type:y proximity}
   .slide{align-items:flex-start}
   .cards3,.cards4,.bm{grid-template-columns:1fr}
-  .team5 { grid-template-columns: repeat(2, 1fr); }
-  .deal-body{grid-template-columns:1fr 1fr}
   .slide{padding:84px 18px 60px}
   .dots{inset-inline-end:7px;gap:9px}.dot{width:7px;height:7px}
   .counter{display:none}
@@ -191,7 +175,7 @@ h2{font-size:clamp(1.7rem,4.2vw,2.9rem);font-weight:700;margin-bottom:18px}
 <div class="topbar">
   <div class="logo"><div class="logo-mark">🎮</div><div class="logo-name">عُرب <b>URB</b></div></div>
   <div class="top-tools">
-    <span class="counter" id="counter">URB://01/11</span>
+    <span class="counter" id="counter">URB://01/10</span>
     <button class="lang-tgl" id="langBtn" onclick="flipLang()">EN</button>
   </div>
 </div>
@@ -400,39 +384,16 @@ h2{font-size:clamp(1.7rem,4.2vw,2.9rem);font-weight:700;margin-bottom:18px}
   </div>
 </section>
 
-<!-- 10 ▸ TEAM -->
-<section class="slide">
-  <div class="sl-in">
-    <div class="eyebrow">URB://09 — THE TEAM</div>
-    <h2 class="rv" data-k="team_t"></h2>
-    <div class="team5">
-      <div class="team-card rv"><div class="t-av">👨‍💻</div><h3 data-k="tm1"></h3></div>
-      <div class="team-card rv"><div class="t-av">👩‍💻</div><h3 data-k="tm2"></h3></div>
-      <div class="team-card rv"><div class="t-av">👩‍💻</div><h3 data-k="tm3"></h3></div>
-      <div class="team-card rv"><div class="t-av">👩‍💻</div><h3 data-k="tm4"></h3></div>
-      <div class="team-card rv"><div class="t-av">👩‍💻</div><h3 data-k="tm5"></h3></div>
-    </div>
-  </div>
-</section>
-
-<!-- 11 ▸ ASK / CONTACT -->
+<!-- 10 ▸ ASK / CONTACT -->
 <section class="slide contact">
   <div class="sl-in">
-    <div class="eyebrow" style="justify-content:center;">URB://10 — THE ASK</div>
+    <div class="eyebrow" style="justify-content:center;">URB://09 — THE ASK</div>
     <h2 class="rv"><span data-k="ct_t1"></span> <span class="g" data-k="ct_t2"></span></h2>
     <p class="lead rv" style="margin:0 auto;" data-k="ct_p"></p>
     <div class="c-btns rv">
       <a class="btn btn-grad" href="https://urbplatform-collab.github.io/URB-Platform/" target="_blank" data-k="ct_b1"></a>
       <a class="btn btn-ghost" href="mailto:hello@urb.sa" data-k="ct_b2"></a>
     </div>
-    
-    <!-- QR Code Addition -->
-    <div class="qr-box rv">
-      <!-- Using a reliable public API to generate the QR code directly to the GitHub pages link -->
-      <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://urbplatform-collab.github.io/URB-Platform/" alt="URB Platform QR Code">
-    </div>
-    <div class="qr-hint rv" data-k="qr_hint"></div>
-
     <div class="foot-note">© 2026 عُرب URB — BUILT FOR GAMES. TRAINED BY HUMANS.</div>
   </div>
 </section>
@@ -567,19 +528,12 @@ const K={
  rd4_d:{ar:'المرحلة 4',en:'PHASE 4'},
  rd4_t:{ar:'بوابة المنطقة',en:'The region\u2019s gateway'},
  rd4_p:{ar:'الشريك الافتراضي لأي لعبة تدخل السوق العربي — توطيناً وتسويقاً.',en:'The default partner for any game entering the Arab market — localization and marketing.'},
- team_t:{ar:'فريقنا',en:'The Team'},
- tm1:{ar:'سليمان الخطيب',en:'Sulaiman Al-Khatib'},
- tm2:{ar:'ولاء',en:'Walaa'},
- tm3:{ar:'شذى',en:'Shatha'},
- tm4:{ar:'سحر',en:'Sahar'},
- tm5:{ar:'شفاء',en:'Shifa'},
  ct_t1:{ar:'انضم لنا في بناء',en:'Join us in building'},
  ct_t2:{ar:'صوت اللاعب العربي',en:'the Arab gamer\u2019s voice'},
  ct_p:{ar:'نبحث عن شركاء ومستثمرين واستوديوهات للمشاريع التجريبية — خلنا نتكلم.',
        en:'We\u2019re looking for partners, investors, and pilot studios — let\u2019s talk.'},
  ct_b1:{ar:'🚀 شوف المنصة حية',en:'🚀 See the live platform'},
  ct_b2:{ar:'✉️ راسلنا',en:'✉️ Email us'},
- qr_hint:{ar:'امسح الرمز لزيارة المنصة',en:'SCAN TO VISIT PLATFORM'}
 };
 /* ═══ INTERACTIVE PROBLEM DEMOS ═══ */
 const IX = {
@@ -738,8 +692,7 @@ const obs=new IntersectionObserver(es=>{
     if(e.isIntersecting){
       cur=slides.indexOf(e.target);
       dots.forEach((d,i)=>d.classList.toggle('on',i===cur));
-      // Changed to out of 11 to reflect the new Team slide
-      document.getElementById('counter').textContent=`URB://${String(cur+1).padStart(2,'0')}/11`;
+      document.getElementById('counter').textContent=`URB://${String(cur+1).padStart(2,'0')}/10`;
     }
   });
 },{root:deck,threshold:0.15});
@@ -757,12 +710,9 @@ document.querySelectorAll('.rv').forEach(el=>rvObs.observe(el));
 // safety: reveal everything after 2.5s no matter what
 setTimeout(()=>document.querySelectorAll('.rv').forEach(el=>el.classList.add('vis')),2500);
 addEventListener('keydown',e=>{
-  // updated min length to 10 for the 11-slide total
-  if(e.key==='ArrowDown'||e.key==='PageDown'||e.key===' '){e.preventDefault();slides[Math.min(cur+1,10)].scrollIntoView({behavior:'smooth'});}
+  if(e.key==='ArrowDown'||e.key==='PageDown'||e.key===' '){e.preventDefault();slides[Math.min(cur+1,9)].scrollIntoView({behavior:'smooth'});}
   if(e.key==='ArrowUp'||e.key==='PageUp'){e.preventDefault();slides[Math.max(cur-1,0)].scrollIntoView({behavior:'smooth'});}
 });
 </script>
 </body>
 </html>
-
-```
