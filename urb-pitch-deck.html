@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>عُرب URB — Pitch Deck</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Tajawal:wght@300;400;500;700;900&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#05060f; --surface:#0b0e20; --surface2:#10142c;
+  --purple:#8b5cf6; --cyan:#22d3ee; --gold:#fbbf24; --red:#f87171; --green:#34d399;
+  --text:#e8eaf6; --dim:#8a93b8;
+  --border:rgba(139,92,246,0.18); --border2:rgba(255,255,255,0.07);
+  --grad:linear-gradient(135deg,var(--purple),var(--cyan));
+}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:'Tajawal',sans-serif;overflow-x:hidden}
+[dir="ltr"] body{font-family:'Space Grotesk','Tajawal',sans-serif}
+::selection{background:rgba(139,92,246,0.4)}
+#stars{position:fixed;inset:0;z-index:0;pointer-events:none}
+
+#deck{height:100vh;overflow-y:auto;scroll-snap-type:y mandatory;position:relative;z-index:1;-webkit-overflow-scrolling:touch}
+.slide{min-height:100vh;scroll-snap-align:start;display:flex;align-items:center;justify-content:center;padding:90px 24px 70px;position:relative}
+.sl-in{max-width:1050px;width:100%}
+.eyebrow{font-family:'Space Mono',monospace;font-size:0.72rem;letter-spacing:3px;color:var(--cyan);margin-bottom:18px;display:flex;align-items:center;gap:10px}
+.eyebrow::before{content:'';width:26px;height:1px;background:var(--cyan)}
+h1,h2{font-family:'Space Grotesk','Tajawal',sans-serif;letter-spacing:-1px;line-height:1.12}
+h2{font-size:clamp(1.7rem,4.2vw,2.9rem);font-weight:700;margin-bottom:18px}
+.lead{color:var(--dim);font-size:clamp(0.95rem,1.6vw,1.12rem);line-height:1.95;max-width:660px}
+.g{background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+
+.topbar{position:fixed;top:0;inset-inline:0;z-index:50;display:flex;align-items:center;justify-content:space-between;padding:14px 22px;background:linear-gradient(to bottom,rgba(5,6,15,0.85),transparent)}
+.logo{display:flex;align-items:center;gap:9px}
+.logo-mark{width:32px;height:32px;border-radius:9px;background:var(--grad);display:flex;align-items:center;justify-content:center;font-size:0.95rem;box-shadow:0 0 30px rgba(139,92,246,0.35)}
+.logo-name{font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:1.1rem}
+.logo-name b{background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+.top-tools{display:flex;gap:10px;align-items:center}
+.counter{font-family:'Space Mono',monospace;font-size:0.68rem;color:var(--dim);letter-spacing:1px}
+.lang-tgl{background:rgba(255,255,255,0.05);border:1px solid var(--border);color:var(--text);border-radius:100px;padding:8px 18px;cursor:pointer;font-family:'Space Mono',monospace;font-size:0.75rem;letter-spacing:1px;transition:all 0.22s}
+.lang-tgl:hover{border-color:var(--purple);box-shadow:0 0 20px rgba(139,92,246,0.25)}
+
+.dots{position:fixed;inset-block:0;inset-inline-end:16px;z-index:50;display:flex;flex-direction:column;gap:11px;justify-content:center}
+.dot{width:9px;height:9px;border-radius:50%;cursor:pointer;background:rgba(255,255,255,0.15);border:none;transition:all 0.3s}
+.dot.on{background:var(--purple);box-shadow:0 0 12px rgba(139,92,246,0.7);transform:scale(1.35)}
+
+.cover{text-align:center}
+.cover .badge{display:inline-flex;align-items:center;gap:8px;border:1px solid var(--border);border-radius:100px;padding:7px 18px;font-family:'Space Mono',monospace;font-size:0.72rem;letter-spacing:2px;color:var(--cyan);margin-bottom:30px;background:rgba(34,211,238,0.05)}
+.badge .pulse{width:7px;height:7px;border-radius:50%;background:var(--cyan);animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:0.25}}
+.cover h1{font-size:clamp(3rem,9vw,6.2rem);font-weight:700;margin-bottom:8px}
+.cover .ar-name{font-family:'Tajawal',sans-serif;font-weight:900}
+.cover .tagline{font-family:'Space Mono',monospace;font-size:clamp(0.75rem,1.6vw,0.95rem);letter-spacing:3px;color:var(--dim);margin:22px 0 40px}
+.scroll-hint{position:absolute;bottom:32px;left:50%;transform:translateX(-50%);font-family:'Space Mono',monospace;font-size:0.62rem;letter-spacing:2.5px;color:var(--dim);animation:bob 2.2s ease-in-out infinite}
+@keyframes bob{0%,100%{transform:translateX(-50%) translateY(0)}50%{transform:translateX(-50%) translateY(9px)}}
+
+.cards3{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:38px}
+.cards4{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-top:38px}
+.card{background:rgba(11,14,32,0.72);border:1px solid var(--border2);border-radius:18px;padding:26px 24px;backdrop-filter:blur(10px);transition:transform 0.25s,border-color 0.25s}
+.card:hover{transform:translateY(-4px);border-color:var(--border)}
+.card .ic{width:48px;height:48px;border-radius:13px;font-size:1.4rem;background:rgba(139,92,246,0.1);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;margin-bottom:16px}
+.card h3{font-size:1.05rem;margin-bottom:9px;font-family:'Space Grotesk','Tajawal',sans-serif}
+.card p{color:var(--dim);font-size:0.85rem;line-height:1.85}
+.pain .ic{background:rgba(248,113,113,0.08);border-color:rgba(248,113,113,0.2)}
+
+.stat-big{text-align:center;background:rgba(11,14,32,0.72);border:1px solid var(--border2);border-radius:18px;padding:30px 18px}
+.stat-big .n{font-family:'Space Mono',monospace;font-size:clamp(1.9rem,4vw,2.9rem);font-weight:700;background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+.stat-big .l{font-size:0.78rem;color:var(--dim);margin-top:8px;line-height:1.6}
+
+.term{background:rgba(11,14,32,0.88);border:1px solid var(--border);border-radius:20px;overflow:hidden;max-width:640px;margin:36px auto 0;box-shadow:0 30px 80px rgba(0,0,0,0.5),0 0 50px rgba(139,92,246,0.12)}
+.term-bar{display:flex;align-items:center;gap:10px;padding:14px 19px;border-bottom:1px solid var(--border2)}
+.term-title{font-family:'Space Mono',monospace;font-size:0.68rem;letter-spacing:2px;color:var(--dim)}
+.term-dots{display:flex;gap:6px;margin-inline-start:auto}
+.term-dots span{width:10px;height:10px;border-radius:50%}
+.term-body{padding:22px 20px;text-align:start}
+.t-label{font-family:'Space Mono',monospace;font-size:0.66rem;letter-spacing:1.5px;margin-bottom:8px}
+.t-box{background:rgba(255,255,255,0.025);border:1px solid var(--border2);border-radius:12px;padding:14px 16px;font-family:'Space Mono',monospace;font-size:0.82rem;line-height:1.75;min-height:62px}
+.t-arrow{width:40px;height:40px;border-radius:50%;background:var(--grad);color:#fff;display:flex;align-items:center;justify-content:center;margin:-2px auto;position:relative;z-index:2;font-size:1rem;box-shadow:0 0 26px rgba(139,92,246,0.4)}
+.caret::after{content:'▋';animation:pulse 1s infinite}
+
+.why-row{display:flex;gap:16px;align-items:flex-start;background:rgba(11,14,32,0.72);border:1px solid var(--border2);border-radius:15px;padding:19px 21px;margin-bottom:13px}
+.why-row .wn{font-family:'Space Mono',monospace;color:var(--purple);font-weight:700;font-size:0.85rem;flex-shrink:0;margin-top:2px}
+.why-row h4{font-size:0.98rem;margin-bottom:5px}
+.why-row p{font-size:0.82rem;color:var(--dim);line-height:1.8}
+
+/* business model tiers */
+.bm{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:38px;align-items:stretch}
+.bm-card{background:rgba(11,14,32,0.75);border:1px solid var(--border2);border-radius:20px;padding:26px 22px;position:relative}
+.bm-card.feat{border:1.5px solid var(--purple);box-shadow:0 0 44px rgba(139,92,246,0.18)}
+.bm-tier{font-family:'Space Mono',monospace;font-size:0.68rem;letter-spacing:2px;color:var(--cyan);margin-bottom:12px}
+.bm-card h3{font-size:1rem;margin-bottom:8px}
+.bm-card p{font-size:0.8rem;color:var(--dim);line-height:1.8}
+.bm-rev{margin-top:14px;padding-top:12px;border-top:1px solid rgba(255,255,255,0.06);font-family:'Space Mono',monospace;font-size:0.68rem;color:var(--gold);letter-spacing:1px}
+
+/* roadmap */
+.road{margin-top:38px;position:relative;padding-inline-start:26px}
+.road::before{content:'';position:absolute;inset-block:6px;inset-inline-start:7px;width:2px;background:linear-gradient(to bottom,var(--purple),var(--cyan))}
+.ph{position:relative;margin-bottom:22px}
+.ph::before{content:'';position:absolute;inset-inline-start:-26px;top:5px;width:15px;height:15px;border-radius:50%;background:var(--bg);border:3px solid var(--purple)}
+.ph.now::before{background:var(--purple);box-shadow:0 0 16px rgba(139,92,246,0.8)}
+.ph .pt{font-family:'Space Mono',monospace;font-size:0.66rem;letter-spacing:2px;color:var(--cyan);margin-bottom:5px}
+.ph h4{font-size:1.02rem;margin-bottom:5px}
+.ph p{font-size:0.84rem;color:var(--dim);line-height:1.8;max-width:600px}
+
+.contact{text-align:center}
+.c-btns{display:flex;gap:13px;justify-content:center;flex-wrap:wrap;margin-top:36px}
+.btn{border:none;cursor:pointer;font-family:inherit;border-radius:13px;font-weight:700;text-decoration:none;font-size:0.95rem;display:inline-flex;align-items:center;gap:9px;padding:14px 30px;transition:all 0.22s}
+.btn-grad{background:var(--grad);color:#fff}
+.btn-grad:hover{transform:translateY(-2px);box-shadow:0 12px 34px rgba(139,92,246,0.45)}
+.btn-ghost{background:rgba(255,255,255,0.04);border:1px solid var(--border2);color:var(--text)}
+.btn-ghost:hover{border-color:var(--cyan)}
+.foot-note{margin-top:52px;font-family:'Space Mono',monospace;font-size:0.64rem;letter-spacing:2px;color:var(--dim)}
+
+.rv{opacity:0;transform:translateY(26px);transition:opacity 0.7s,transform 0.7s}
+.rv.vis{opacity:1;transform:none}
+@media (prefers-reduced-motion: reduce){*{animation:none!important;transition:none!important}.rv{opacity:1;transform:none}}
+@media(max-width:900px){.cards3,.cards4,.bm{grid-template-columns:1fr 1fr}}
+@media(max-width:640px){
+  .cards3,.cards4,.bm{grid-template-columns:1fr}
+  .slide{padding:84px 18px 60px}
+  .dots{inset-inline-end:7px;gap:9px}.dot{width:7px;height:7px}
+  .counter{display:none}
+  h2{font-size:1.55rem}.cover h1{font-size:2.9rem}
+  .term-body{padding:17px 13px}.t-box{font-size:0.72rem}
+  .btn{width:100%;justify-content:center}
+}
+</style>
+</head>
+<body>
+<canvas id="stars"></canvas>
+
+<div class="topbar">
+  <div class="logo"><div class="logo-mark">🎮</div><div class="logo-name">عُرب <b>URB</b></div></div>
+  <div class="top-tools">
+    <span class="counter" id="counter">URB://01/10</span>
+    <button class="lang-tgl" id="langBtn" onclick="flipLang()">EN</button>
+  </div>
+</div>
+
+<div class="dots" id="dots"></div>
+
+<div id="deck">
+
+<!-- 1 ▸ COVER -->
+<section class="slide cover">
+  <div class="sl-in">
+    <div class="badge"><span class="pulse"></span> PITCH DECK — 2026</div>
+    <h1><span class="ar-name">عُرب</span> <span class="g">URB</span></h1>
+    <div class="tagline">BUILT FOR GAMES. TRAINED BY HUMANS.</div>
+    <p class="lead" style="margin:0 auto;" data-k="cover_sub"></p>
+  </div>
+  <div class="scroll-hint">▼ SCROLL</div>
+</section>
+
+<!-- 2 ▸ PROBLEM -->
+<section class="slide">
+  <div class="sl-in">
+    <div class="eyebrow">URB://01 — PROBLEM</div>
+    <h2 class="rv" data-k="pr_t"></h2>
+    <p class="lead rv" data-k="pr_p"></p>
+    <div class="cards4">
+      <div class="card pain rv"><div class="ic">📜</div><h3 data-k="pr1_t"></h3><p data-k="pr1_p"></p></div>
+      <div class="card pain rv"><div class="ic">🐌</div><h3 data-k="pr2_t"></h3><p data-k="pr2_p"></p></div>
+      <div class="card pain rv"><div class="ic">💸</div><h3 data-k="pr3_t"></h3><p data-k="pr3_p"></p></div>
+      <div class="card pain rv"><div class="ic">🎭</div><h3 data-k="pr4_t"></h3><p data-k="pr4_p"></p></div>
+    </div>
+  </div>
+</section>
+
+<!-- 3 ▸ SOLUTION -->
+<section class="slide">
+  <div class="sl-in" style="text-align:center;">
+    <div class="eyebrow" style="justify-content:center;">URB://02 — SOLUTION</div>
+    <h2 class="rv" data-k="sol_t"></h2>
+    <p class="lead rv" style="margin:0 auto;" data-k="sol_p"></p>
+    <div class="term rv">
+      <div class="term-bar">
+        <span style="color:var(--cyan);">⛶</span>
+        <span class="term-title">URB_LOCALIZATION</span>
+        <div class="term-dots"><span style="background:#f87171"></span><span style="background:#fbbf24"></span><span style="background:#34d399"></span></div>
+      </div>
+      <div class="term-body">
+        <div class="t-label" style="color:var(--purple);">// SOURCE_EN</div>
+        <div class="t-box" dir="ltr">Legendary loot acquired. Inventory updated.</div>
+        <div class="t-arrow">↓</div>
+        <div class="t-label" style="color:var(--cyan);margin-top:8px;" id="dLbl">// URB PROPOSAL_AR (Saudi dialect)</div>
+        <div class="t-box" dir="rtl"><span id="dOut" class="caret" style="color:#a5f3fc;"></span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 4 ▸ WHY NOW / MARKET -->
+<section class="slide">
+  <div class="sl-in">
+    <div class="eyebrow">URB://03 — WHY NOW</div>
+    <h2 class="rv" data-k="mkt_t"></h2>
+    <p class="lead rv" data-k="mkt_p"></p>
+    <div class="cards4">
+      <div class="stat-big rv"><div class="n">21M+</div><div class="l" data-k="mkt1"></div></div>
+      <div class="stat-big rv"><div class="n">$1.13B</div><div class="l" data-k="mkt2"></div></div>
+      <div class="stat-big rv"><div class="n">$38B</div><div class="l" data-k="mkt3"></div></div>
+      <div class="stat-big rv"><div class="n">~0</div><div class="l" data-k="mkt4"></div></div>
+    </div>
+    <p class="lead rv" style="margin-top:30px;font-size:0.9rem;" data-k="mkt_note"></p>
+  </div>
+</section>
+
+<!-- 5 ▸ PRODUCT -->
+<section class="slide">
+  <div class="sl-in">
+    <div class="eyebrow">URB://04 — PRODUCT</div>
+    <h2 class="rv" data-k="pd_t"></h2>
+    <p class="lead rv" data-k="pd_p"></p>
+    <div class="cards4">
+      <div class="card rv"><div class="ic">🖥️</div><h3 data-k="pd1_t"></h3><p data-k="pd1_p"></p></div>
+      <div class="card rv"><div class="ic">🧠</div><h3 data-k="pd2_t"></h3><p data-k="pd2_p"></p></div>
+      <div class="card rv"><div class="ic">🤝</div><h3 data-k="pd3_t"></h3><p data-k="pd3_p"></p></div>
+      <div class="card rv"><div class="ic">📣</div><h3 data-k="pd4_t"></h3><p data-k="pd4_p"></p></div>
+    </div>
+  </div>
+</section>
+
+<!-- 6 ▸ BUSINESS MODEL -->
+<section class="slide">
+  <div class="sl-in">
+    <div class="eyebrow">URB://05 — BUSINESS MODEL</div>
+    <h2 class="rv" data-k="bm_t"></h2>
+    <p class="lead rv" data-k="bm_p"></p>
+    <div class="bm">
+      <div class="bm-card rv">
+        <div class="bm-tier">TIER 1</div>
+        <h3>URB AI System</h3>
+        <p data-k="bm1_p"></p>
+        <div class="bm-rev" data-k="bm1_r"></div>
+      </div>
+      <div class="bm-card feat rv">
+        <div class="bm-tier">TIER 2</div>
+        <h3>URB AI + Human Auditing</h3>
+        <p data-k="bm2_p"></p>
+        <div class="bm-rev" data-k="bm2_r"></div>
+      </div>
+      <div class="bm-card rv">
+        <div class="bm-tier">TIER 3</div>
+        <h3>URB PLUS</h3>
+        <p data-k="bm3_p"></p>
+        <div class="bm-rev" data-k="bm3_r"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 7 ▸ EDGE -->
+<section class="slide">
+  <div class="sl-in">
+    <div class="eyebrow">URB://06 — COMPETITIVE EDGE</div>
+    <h2 class="rv" data-k="why_t"></h2>
+    <div style="margin-top:34px;">
+      <div class="why-row rv"><span class="wn">A</span><div><h4 data-k="e1_t"></h4><p data-k="e1_p"></p></div></div>
+      <div class="why-row rv"><span class="wn">B</span><div><h4 data-k="e2_t"></h4><p data-k="e2_p"></p></div></div>
+      <div class="why-row rv"><span class="wn">C</span><div><h4 data-k="e3_t"></h4><p data-k="e3_p"></p></div></div>
+      <div class="why-row rv"><span class="wn">D</span><div><h4 data-k="e4_t"></h4><p data-k="e4_p"></p></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- 8 ▸ TRACTION -->
+<section class="slide">
+  <div class="sl-in">
+    <div class="eyebrow">URB://07 — TRACTION</div>
+    <h2 class="rv" data-k="tr_t"></h2>
+    <div class="cards3">
+      <div class="card rv"><div class="ic">✅</div><h3 data-k="tr1_t"></h3><p data-k="tr1_p"></p></div>
+      <div class="card rv"><div class="ic">🧪</div><h3 data-k="tr2_t"></h3><p data-k="tr2_p"></p></div>
+      <div class="card rv"><div class="ic">🌍</div><h3 data-k="tr3_t"></h3><p data-k="tr3_p"></p></div>
+    </div>
+  </div>
+</section>
+
+<!-- 9 ▸ ROADMAP -->
+<section class="slide">
+  <div class="sl-in">
+    <div class="eyebrow">URB://08 — ROADMAP</div>
+    <h2 class="rv" data-k="rd_t"></h2>
+    <div class="road">
+      <div class="ph now rv"><div class="pt" data-k="rd1_d"></div><h4 data-k="rd1_t"></h4><p data-k="rd1_p"></p></div>
+      <div class="ph rv"><div class="pt" data-k="rd2_d"></div><h4 data-k="rd2_t"></h4><p data-k="rd2_p"></p></div>
+      <div class="ph rv"><div class="pt" data-k="rd3_d"></div><h4 data-k="rd3_t"></h4><p data-k="rd3_p"></p></div>
+      <div class="ph rv"><div class="pt" data-k="rd4_d"></div><h4 data-k="rd4_t"></h4><p data-k="rd4_p"></p></div>
+    </div>
+  </div>
+</section>
+
+<!-- 10 ▸ ASK / CONTACT -->
+<section class="slide contact">
+  <div class="sl-in">
+    <div class="eyebrow" style="justify-content:center;">URB://09 — THE ASK</div>
+    <h2 class="rv"><span data-k="ct_t1"></span> <span class="g" data-k="ct_t2"></span></h2>
+    <p class="lead rv" style="margin:0 auto;" data-k="ct_p"></p>
+    <div class="c-btns rv">
+      <a class="btn btn-grad" href="https://urbplatform-collab.github.io/URB-Platform/" target="_blank" data-k="ct_b1"></a>
+      <a class="btn btn-ghost" href="mailto:hello@urb.sa" data-k="ct_b2"></a>
+    </div>
+    <div class="foot-note">© 2026 عُرب URB — BUILT FOR GAMES. TRAINED BY HUMANS.</div>
+  </div>
+</section>
+
+</div>
+
+<script>
+/* STARFIELD */
+(function(){
+  const cv=document.getElementById('stars'),cx=cv.getContext('2d');
+  let W,H,S=[];
+  const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+  function size(){W=cv.width=innerWidth;H=cv.height=innerHeight;
+    S=Array.from({length:Math.min(150,W/9)},()=>({x:Math.random()*W,y:Math.random()*H,z:Math.random()+0.2,r:Math.random()*1.3+0.3,t:Math.random()*7}));}
+  size();addEventListener('resize',size);
+  (function draw(ts){
+    cx.clearRect(0,0,W,H);
+    for(const s of S){
+      const a=0.22+0.5*Math.abs(Math.sin(ts/1500+s.t));
+      cx.beginPath();cx.arc(s.x,s.y,s.r,0,7);
+      cx.fillStyle=s.t%2>1?`rgba(139,92,246,${a})`:`rgba(160,190,255,${a})`;cx.fill();
+      if(!reduce){s.y+=s.z*0.1;if(s.y>H){s.y=-3;s.x=Math.random()*W;}}
+    }
+    requestAnimationFrame(draw);
+  })(0);
+})();
+
+/* DIALECT DEMO */
+(function(){
+  const out=document.getElementById('dOut'),lbl=document.getElementById('dLbl');
+  const R=[['Saudi dialect','ابشرك صار عندك غنيمة جباااارة… حدثنا لك المخزون'],
+           ['Egyptian dialect','غنيمة جامدة جدًا! اتضافت للشنطة بتاعتك'],
+           ['Algerian dialect','غنيمة خرافية! تزادت للساك تاعك']];
+  let ri=0,ci=0,ph='t';
+  (function tick(){
+    const [d,ar]=R[ri];
+    lbl.textContent=`// URB PROPOSAL_AR (${d})`;
+    if(ph==='t'){ci++;out.textContent=ar.slice(0,ci);
+      if(ci>=ar.length){ph='h';setTimeout(()=>ph='e',2600);}
+      setTimeout(tick,50);
+    }else if(ph==='e'){ci-=3;out.textContent=ar.slice(0,Math.max(0,ci));
+      if(ci<=0){ci=0;ri=(ri+1)%R.length;ph='t';}
+      setTimeout(tick,20);
+    }else setTimeout(tick,240);
+  })();
+})();
+
+/* BILINGUAL */
+const K={
+ cover_sub:{ar:'اللاعب العربي أكبر جمهور مهمَل في صناعة الألعاب — وعُرب جاية تغير المعادلة: توطين بالذكاء الاصطناعي، بمراجعة بشرية، وباللهجة.',
+            en:'Arab gamers are the industry\u2019s largest neglected audience — URB changes the equation: AI localization, human-audited, in real dialects.'},
+ pr_t:{ar:'المشكلة',en:'The problem'},
+ pr_p:{ar:'ملايين اللاعبين العرب يلعبون بلغة مو لغتهم — لأن توطين الألعاب اليوم:',
+       en:'Millions of Arab gamers play in a language that isn\u2019t theirs — because game localization today is:'},
+ pr1_t:{ar:'فصحى فقط',en:'MSA only'},
+ pr1_p:{ar:'فصحى رسمية ما تشبه كلام اللاعبين ولا روح اللعبة.',en:'Formal Arabic that sounds nothing like real players or the game\u2019s spirit.'},
+ pr2_t:{ar:'بطيء',en:'Slow'},
+ pr2_p:{ar:'دورات ترجمة تاخذ شهور وتأخر الإطلاقات بالسوق العربي.',en:'Cycles take months and delay Arabic-market launches.'},
+ pr3_t:{ar:'مكلف',en:'Expensive'},
+ pr3_p:{ar:'تكاليف تخلي الاستوديوهات الصغيرة والمتوسطة تتجاهل العربية كلياً.',en:'Costs push small and mid-size studios to skip Arabic entirely.'},
+ pr4_t:{ar:'بعيد عن الثقافة',en:'Culturally off'},
+ pr4_p:{ar:'ترجمة حرفية تفقد النكتة والمرجع — واللاعب يحس فيها فوراً.',en:'Literal translation loses the joke — and players feel it instantly.'},
+ sol_t:{ar:'الحل: عُرب URB',en:'The solution: URB'},
+ sol_p:{ar:'محرك ذكاء اصطناعي مدرّب على الألعاب + مراجعة بشرية متخصصة + لهجات حقيقية. شوف الفرق:',
+        en:'A gaming-trained AI engine + specialist human review + real dialects. See the difference:'},
+ mkt_t:{ar:'ليش الحين؟',en:'Why now?'},
+ mkt_p:{ar:'السوق ينفجر، والدولة تستثمر، والمنافسة على التوطين باللهجات... صفر.',
+        en:'The market is exploding, the state is investing, and dialect-localization competition is... zero.'},
+ mkt1:{ar:'لاعب في السعودية وحدها',en:'Gamers in Saudi Arabia alone'},
+ mkt2:{ar:'حجم سوق الألعاب السعودي',en:'Saudi gaming market size'},
+ mkt3:{ar:'التزام Savvy Games الاستثماري بالقطاع',en:'Savvy Games\u2019 committed sector investment'},
+ mkt4:{ar:'منافسين يقدمون توطين باللهجات العربية',en:'Competitors offering Arabic dialect localization'},
+ mkt_note:{ar:'رؤية 2030 تجعل الألعاب قطاعاً استراتيجياً — وكل لعبة تدخل السوق العربي تحتاج توطين. إحنا البوابة.',
+           en:'Vision 2030 makes gaming a strategic sector — and every game entering the Arab market needs localization. We are the gateway.'},
+ pd_t:{ar:'المنتج: منصة SaaS كاملة — وشغالة',en:'The product: a full SaaS platform — live today'},
+ pd_p:{ar:'مو فكرة على ورق. منصة مبنية وتشتغل الآن بأربع بوابات مترابطة:',
+       en:'Not an idea on paper. A built, working platform with four connected portals:'},
+ pd1_t:{ar:'بوابة العميل',en:'Client portal'},
+ pd1_p:{ar:'الاستوديو يرفع حزمته ويتابع التقدم لحظة بلحظة مع إشعارات فورية.',en:'Studios submit packages and track progress live with instant notifications.'},
+ pd2_t:{ar:'محرك URB-AI',en:'URB-AI engine'},
+ pd2_p:{ar:'ترجمة بالسياق مع مصطلحات اللعبة وذاكرة ترجمة تتحسن مع كل مشروع.',en:'Context-aware translation with game glossaries and a TM that improves per project.'},
+ pd3_t:{ar:'شبكة التنفيذ',en:'Fulfillment network'},
+ pd3_p:{ar:'فريق داخلي + متعهدون مؤهلون بنظام RFQ داخلي — مرونة بلا توظيف ضخم.',en:'In-house team + vetted providers via internal RFQ — scale without heavy hiring.'},
+ pd4_t:{ar:'ذراع تسويقي',en:'Marketing arm'},
+ pd4_p:{ar:'باقة PLUS: مؤثرين وستريمرز يوصلون اللعبة للاعب العربي بعد توطينها.',en:'URB PLUS: influencers and streamers carry the localized game to Arab players.'},
+ bm_t:{ar:'نموذج العمل',en:'Business model'},
+ bm_p:{ar:'إيراد لكل مشروع عبر ثلاث باقات تصاعدية — وكل باقة تفتح باب اللي بعدها:',
+       en:'Per-project revenue across three ascending tiers — each tier upsells the next:'},
+ bm1_p:{ar:'توطين آلي سريع للاستوديوهات الصغيرة والمشاريع السريعة — نقطة الدخول.',en:'Fast AI localization for smaller studios and quick projects — the entry point.'},
+ bm1_r:{ar:'هامش مرتفع — تكلفة تشغيل آلية',en:'HIGH MARGIN — AUTOMATED COST BASE'},
+ bm2_p:{ar:'الباقة الأساسية: AI + تدقيق بشري ولهجات — للإطلاقات الجادة.',en:'The core tier: AI + human audit and dialects — for serious launches.'},
+ bm2_r:{ar:'الإيراد الرئيسي — الأكثر طلباً',en:'CORE REVENUE — MOST POPULAR'},
+ bm3_p:{ar:'توطين + حملة تسويق كاملة بالمؤثرين — أعلى قيمة للعقد الواحد.',en:'Localization + full influencer campaign — highest contract value.'},
+ bm3_r:{ar:'أعلى قيمة تعاقد — Upsell طبيعي',en:'HIGHEST ACV — NATURAL UPSELL'},
+ why_t:{ar:'ميزتنا التنافسية',en:'Our competitive edge'},
+ e1_t:{ar:'اللهجات — خندقنا',en:'Dialects — our moat'},
+ e1_p:{ar:'سعودي، مصري، جزائري. ما أحد يقدمها اليوم، وكل مشروع يوسع بياناتنا ويعمق الخندق.',en:'Saudi, Egyptian, Algerian. No one offers this today — and every project deepens our data moat.'},
+ e2_t:{ar:'AI + إنسان، مو أو',en:'AI + Human, not either-or'},
+ e2_p:{ar:'سرعة الآلة بجودة الخبير — وكل مراجعة بشرية تدرّب المحرك من جديد.',en:'Machine speed with expert quality — every human review retrains the engine.'},
+ e3_t:{ar:'منصة، مو مكتب ترجمة',en:'A platform, not an agency'},
+ e3_p:{ar:'منتج SaaS قابل للتوسع بنظام إسناد ومتعهدين — ننمو بدون ما تنمو التكاليف بنفس السرعة.',en:'A scalable SaaS product with assignment and provider systems — revenue scales faster than cost.'},
+ e4_t:{ar:'توطين + توزيع',en:'Localize + distribute'},
+ e4_p:{ar:'الوحيدون اللي يوطنون اللعبة ثم يوصلونها للاعب عبر المؤثرين — قيمة ما يقدمها مترجم.',en:'The only ones who localize a game then carry it to players via influencers — value no translator offers.'},
+ tr_t:{ar:'وين وصلنا',en:'Where we are'},
+ tr1_t:{ar:'المنصة مبنية',en:'Platform built'},
+ tr1_p:{ar:'أربع بوابات شغالة: عميل، فريق، متعهدين، وإدارة — بنظام RFQ وإشعارات فورية.',en:'Four working portals: client, team, providers, admin — with RFQ workflows and instant notifications.'},
+ tr2_t:{ar:'المحرك مُدرّب',en:'Engine trained'},
+ tr2_p:{ar:'نموذج توطين باللهجات الثلاث جاهز للمشاريع التجريبية مع استوديوهات مختارة.',en:'A three-dialect localization model ready for pilot projects with selected studios.'},
+ tr3_t:{ar:'12 لغة',en:'12 languages'},
+ tr3_p:{ar:'المنصة نفسها تدعم 12 لغة — جاهزة لخدمة استوديوهات عالمية من اليوم الأول.',en:'The platform itself supports 12 languages — ready for global studios from day one.'},
+ rd_t:{ar:'خارطة الطريق',en:'Roadmap'},
+ rd1_d:{ar:'المرحلة 1 — الآن',en:'PHASE 1 — NOW'},
+ rd1_t:{ar:'الإطلاق والمشاريع التجريبية',en:'Launch & pilots'},
+ rd1_p:{ar:'إطلاق المنصة وتنفيذ مشاريع تجريبية مع استوديوهات إقليمية لبناء سابقة الأعمال.',en:'Launch the platform and run pilot projects with regional studios to build the portfolio.'},
+ rd2_d:{ar:'المرحلة 2',en:'PHASE 2'},
+ rd2_t:{ar:'التوسع بالعملاء والشبكة',en:'Grow clients & network'},
+ rd2_p:{ar:'استقطاب استوديوهات عالمية متوسطة، وتوسيع شبكة المتعهدين المؤهلين والمؤثرين.',en:'Win mid-size global studios; expand the vetted provider and influencer network.'},
+ rd3_d:{ar:'المرحلة 3',en:'PHASE 3'},
+ rd3_t:{ar:'تعميق التقنية',en:'Deepen the tech'},
+ rd3_p:{ar:'لهجات إضافية، دبلجة صوتية بالذكاء الاصطناعي، وتكامل مباشر مع محركات الألعاب.',en:'More dialects, AI voice dubbing, and direct game-engine integrations.'},
+ rd4_d:{ar:'المرحلة 4',en:'PHASE 4'},
+ rd4_t:{ar:'بوابة المنطقة',en:'The region\u2019s gateway'},
+ rd4_p:{ar:'الشريك الافتراضي لأي لعبة تدخل السوق العربي — توطيناً وتسويقاً.',en:'The default partner for any game entering the Arab market — localization and marketing.'},
+ ct_t1:{ar:'انضم لنا في بناء',en:'Join us in building'},
+ ct_t2:{ar:'صوت اللاعب العربي',en:'the Arab gamer\u2019s voice'},
+ ct_p:{ar:'نبحث عن شركاء ومستثمرين واستوديوهات للمشاريع التجريبية — خلنا نتكلم.',
+       en:'We\u2019re looking for partners, investors, and pilot studios — let\u2019s talk.'},
+ ct_b1:{ar:'🚀 شوف المنصة حية',en:'🚀 See the live platform'},
+ ct_b2:{ar:'✉️ راسلنا',en:'✉️ Email us'},
+};
+let lang='ar';
+function apply(){
+  document.documentElement.lang=lang;
+  document.documentElement.dir=lang==='ar'?'rtl':'ltr';
+  document.getElementById('langBtn').textContent=lang==='ar'?'EN':'عربي';
+  document.querySelectorAll('[data-k]').forEach(el=>{
+    const v=K[el.getAttribute('data-k')];
+    if(v) el.textContent=v[lang];
+  });
+}
+function flipLang(){lang=lang==='ar'?'en':'ar';apply();}
+apply();
+
+/* DOTS + KEYS */
+const slides=[...document.querySelectorAll('.slide')];
+const dotsEl=document.getElementById('dots');
+slides.forEach((s)=>{const d=document.createElement('button');d.className='dot';d.onclick=()=>s.scrollIntoView({behavior:'smooth'});dotsEl.appendChild(d);});
+const dots=[...dotsEl.children];
+const deck=document.getElementById('deck');
+let cur=0;
+const obs=new IntersectionObserver(es=>{
+  es.forEach(e=>{
+    if(e.isIntersecting){
+      cur=slides.indexOf(e.target);
+      dots.forEach((d,i)=>d.classList.toggle('on',i===cur));
+      document.getElementById('counter').textContent=`URB://${String(cur+1).padStart(2,'0')}/10`;
+      e.target.querySelectorAll('.rv').forEach((el,i)=>setTimeout(()=>el.classList.add('vis'),i*110));
+    }
+  });
+},{root:deck,threshold:0.45});
+slides.forEach(s=>obs.observe(s));
+addEventListener('keydown',e=>{
+  if(e.key==='ArrowDown'||e.key==='PageDown'||e.key===' '){e.preventDefault();slides[Math.min(cur+1,9)].scrollIntoView({behavior:'smooth'});}
+  if(e.key==='ArrowUp'||e.key==='PageUp'){e.preventDefault();slides[Math.max(cur-1,0)].scrollIntoView({behavior:'smooth'});}
+});
+</script>
+</body>
+</html>
