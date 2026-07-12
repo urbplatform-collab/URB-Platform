@@ -949,7 +949,22 @@ textarea.fi{resize:vertical;min-height:80px}
               <div class="fg"><label class="fl">NAME</label><input class="fi" id="av-name"></div>
               <div class="fg"><label class="fl">COMPANY / OFFICE</label><input class="fi" id="av-company"></div>
               <div class="fg"><label class="fl">EMAIL (للربط التلقائي)</label><input class="fi" id="av-email" style="direction:ltr;"></div>
-              <div class="fg"><label class="fl">SPECIALTIES</label><input class="fi" id="av-spec" placeholder="ترجمة يابانية، دبلجة..."></div>
+              <div class="fg"><label class="fl">TYPE — نوع المتعهد</label>
+                <select class="fi" id="av-type" onchange="vendorTypeChanged()">
+                  <option value="translator">🌐 مترجم / توطين</option>
+                  <option value="tester">🎮 فريلانسر تجربة لعبة</option>
+                  <option value="voice">🎙️ دبلجة صوتية</option>
+                  <option value="qa">🔍 جودة لغوية LQA</option>
+                  <option value="office">🏢 مكتب ترجمة</option>
+                </select></div>
+              <div class="fg" style="grid-column:span 2;"><label class="fl">SPECIALTIES</label><input class="fi" id="av-spec" placeholder="ترجمة يابانية، دبلجة..."></div>
+            </div>
+            <!-- Tester extras -->
+            <div id="av-tester-extra" style="display:none;background:rgba(139,92,246,0.05);border:1px solid var(--border);border-radius:13px;padding:15px;margin-bottom:14px;">
+              <div class="fl" style="margin-bottom:9px;">🕹️ الأجهزة المتوفرة عنده</div>
+              <div id="av-devices" style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:14px;"></div>
+              <div class="fl" style="margin-bottom:9px;">🎯 أنواع الألعاب اللي يجربها</div>
+              <div id="av-platforms" style="display:flex;flex-wrap:wrap;gap:8px;"></div>
             </div>
             <button class="mini-btn mm" style="width:100%;padding:11px;" onclick="addVendor()">➕ إضافة</button>
           </div>
@@ -957,6 +972,17 @@ textarea.fi{resize:vertical;min-height:80px}
         <div class="dcard">
           <div class="dcard-head"><div class="dcard-title">🤝 المتعهدون المؤهلون</div></div>
           <div class="dcard-body" id="ad-vendors"></div>
+        </div>
+        <div class="dcard">
+          <div class="dcard-head"><div class="dcard-title">🕹️ خيارات الأجهزة وأنواع الألعاب</div></div>
+          <div class="dcard-body">
+            <div class="fmsg info" style="display:block;margin:0 0 12px;">هذي القوائم تظهر عند إضافة فريلانسر تجربة لعبة — أضف أو احذف على كيفك (افصل بينها بفاصلة)</div>
+            <div class="fg"><label class="fl">DEVICES — الأجهزة</label>
+              <input class="fi" id="opt-devices" placeholder="PC, PlayStation 5, Xbox Series..."></div>
+            <div class="fg"><label class="fl">GAME PLATFORMS — أنواع الألعاب</label>
+              <input class="fi" id="opt-platforms" placeholder="ألعاب جوال Android, ألعاب iOS..."></div>
+            <button class="mini-btn mm" style="width:100%;padding:10px;" onclick="saveVendorOptions()">💾 حفظ الخيارات</button>
+          </div>
         </div>
       </div>
 
@@ -1385,7 +1411,10 @@ function dPage(dash, page, el){
     if(page==='showcase') adminLoadShowcase();
     if(page==='social') fillSocialInputs();
     if(page==='telegram') loadTelegram();
-    if(page==='vendors'){ adminLoadVendors(); adminLoadApplications(); }
+    if(page==='vendors'){ adminLoadVendors(); adminLoadApplications();
+      document.getElementById('opt-devices').value = siteCfg.vendor_devices || DEFAULT_DEVICES;
+      document.getElementById('opt-platforms').value = siteCfg.vendor_platforms || DEFAULT_PLATFORMS;
+      vendorTypeChanged(); }
     if(page==='rfqs') adminLoadRfqs();
     if(page==='team') adminLoadTeam();
     if(page==='clients') adminLoadClients();
@@ -2244,8 +2273,9 @@ async function adminLoadVendors(){
   document.getElementById('ad-vendors').innerHTML = A.vendors.length ? A.vendors.map(v=>`
     <div class="row-item">
       <div style="min-width:0;">
-        <div style="font-weight:700;font-size:0.88rem;">${esc(v.name)} ${v.user_id?'<span class="badge b-green" style="font-size:0.58rem;">🔗</span>':''}</div>
+        <div style="font-weight:700;font-size:0.88rem;">${esc(v.name)} <span class="badge b-purple" style="font-size:0.58rem;">${VENDOR_TYPES[v.vendor_type]||'🌐 مترجم'}</span> ${v.user_id?'<span class="badge b-green" style="font-size:0.58rem;">🔗</span>':''}</div>
         <div style="font-size:0.7rem;color:var(--dim);">${esc(v.company||'')}${v.email?` • ${esc(v.email)}`:''}${v.specialties?` • ${esc(v.specialties)}`:''}</div>
+        ${v.vendor_type==='tester'&&(v.devices||v.game_platforms)?`<div style="font-size:0.68rem;color:var(--cyan);margin-top:3px;">${v.devices?`🕹️ ${esc(v.devices)}`:''}${v.game_platforms?` • 🎯 ${esc(v.game_platforms)}`:''}</div>`:''}
       </div>
       <div class="row-actions" style="display:flex;gap:6px;align-items:center;">
         <span class="badge ${v.is_active?'b-green':'b-dim'}">${v.is_active?'مؤهل':'معطل'}</span>
@@ -2255,20 +2285,70 @@ async function adminLoadVendors(){
       </div>
     </div>`).join('') : '<div class="empty">ما فيه متعهدين — يلا أضف أول واحد</div>';
 }
+const VENDOR_TYPES = {
+  translator:'🌐 مترجم', tester:'🎮 تجربة لعبة', voice:'🎙️ دبلجة',
+  qa:'🔍 جودة LQA', office:'🏢 مكتب'
+};
+const DEFAULT_DEVICES = 'PC, PlayStation 5, PlayStation 4, Xbox Series X|S, Xbox One, Nintendo Switch, جوال Android, جوال iOS, VR';
+const DEFAULT_PLATFORMS = 'ألعاب PC, ألعاب PlayStation, ألعاب Xbox, ألعاب Nintendo, ألعاب جوال Android, ألعاب iOS, ألعاب VR, ألعاب ويب';
+
+function vendorOpts(key, fallback){
+  return (siteCfg[key] || fallback).split(',').map(s=>s.trim()).filter(Boolean);
+}
+function vendorTypeChanged(){
+  const isTester = document.getElementById('av-type').value === 'tester';
+  const box = document.getElementById('av-tester-extra');
+  box.style.display = isTester ? 'block' : 'none';
+  if(isTester) renderTesterChecks();
+}
+function checkChip(name, group){
+  return `<label style="display:inline-flex;gap:6px;align-items:center;background:var(--surface2);
+    border:1px solid var(--border2);border-radius:9px;padding:8px 12px;cursor:pointer;font-size:0.8rem;">
+    <input type="checkbox" class="${group}" value="${esc(name)}" style="accent-color:var(--purple);width:15px;height:15px;"
+      ${name==='الكل'?`onchange="if(this.checked)document.querySelectorAll('.${group}').forEach(c=>{if(c!==this)c.checked=false})"`:
+      `onchange="if(this.checked){const all=[...document.querySelectorAll('.${group}')].find(c=>c.value==='الكل');if(all)all.checked=false}"`}>
+    ${esc(name)}</label>`;
+}
+function renderTesterChecks(){
+  const devs = ['الكل', ...vendorOpts('vendor_devices', DEFAULT_DEVICES)];
+  const plats = ['الكل', ...vendorOpts('vendor_platforms', DEFAULT_PLATFORMS)];
+  document.getElementById('av-devices').innerHTML = devs.map(d=>checkChip(d,'av-dev')).join('');
+  document.getElementById('av-platforms').innerHTML = plats.map(p=>checkChip(p,'av-plat')).join('');
+}
+function collectChecks(group){
+  return [...document.querySelectorAll('.'+group+':checked')].map(c=>c.value).join(', ');
+}
+async function saveVendorOptions(){
+  await sb.from('site_settings').upsert({key:'vendor_devices', value:document.getElementById('opt-devices').value.trim()});
+  await sb.from('site_settings').upsert({key:'vendor_platforms', value:document.getElementById('opt-platforms').value.trim()});
+  siteCfg.vendor_devices = document.getElementById('opt-devices').value.trim();
+  siteCfg.vendor_platforms = document.getElementById('opt-platforms').value.trim();
+  toast('✓ انحفظت الخيارات');
+  if(document.getElementById('av-type').value==='tester') renderTesterChecks();
+}
 async function addVendor(){
   const name = document.getElementById('av-name').value.trim();
   if(!name){ toast('⚠️ أدخل الاسم'); return; }
-  await sb.from('vendors').insert([{
-    name, company: document.getElementById('av-company').value.trim()||null,
+  const vtype = document.getElementById('av-type').value;
+  const payload = {
+    name, vendor_type: vtype,
+    company: document.getElementById('av-company').value.trim()||null,
     email: document.getElementById('av-email').value.trim()||null,
     specialties: document.getElementById('av-spec').value.trim()||null
-  }]);
+  };
+  if(vtype==='tester'){
+    payload.devices = collectChecks('av-dev')||null;
+    payload.game_platforms = collectChecks('av-plat')||null;
+  }
+  const { error } = await sb.from('vendors').insert([payload]);
+  if(error){ toast('✕ '+error.message); return; }
   ['av-name','av-company','av-email','av-spec'].forEach(i=>document.getElementById(i).value='');
-  toast('✓ أُضيف المتعهد — أرسل له رابط الموقع ليسجل بنفس البريد');
+  document.querySelectorAll('.av-dev:checked,.av-plat:checked').forEach(c=>c.checked=false);
+  toast('✓ انضاف المتعهد — أرسل له رابط الموقع يسجل بنفس البريد');
   await adminLoadAll(); adminLoadVendors();
 }
 
-/* pricing CRUD */
+/* pricing CRUD *//* pricing CRUD */
 async function adminLoadPricing(){
   const { data } = await sb.from('pricing').select('*').order('sort_order');
   A.pricing = data||[];
