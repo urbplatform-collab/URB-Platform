@@ -5,7 +5,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>عُرب URB — Built for Games. Trained by Humans.</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<!-- إضافة خطوط بيكسل للألعاب + الخطوط الأساسية -->
 <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Space+Grotesk:wght@400;500;600;700&family=Tajawal:wght@300;400;500;700;900&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
 <style>
 :root{
@@ -15,7 +14,10 @@
   --surface2:#10142c;
   --surface3:#161b3a;
   --purple:#8b5cf6;
+  --purple2:#7c4dff;
   --cyan:#22d3ee;
+  --cyan2:#00e5ff;
+  --pink:#f472b6;
   --gold:#fbbf24;
   --red:#f87171;
   --green:#34d399;
@@ -48,13 +50,12 @@ body{
 }
 .intro-splash.zoomed { transform: scale(80); opacity: 0; pointer-events: none; }
 
-/* 1. Retro Arcade Screen (Language Selection) */
+/* 1. Retro Arcade Screen */
 .intro-lang-screen {
   position: absolute; inset: 0; background: #000; z-index: 20;
   display: flex; flex-direction: column; align-items: center; justify-content: center;
   transition: opacity 0.5s, filter 0.2s;
 }
-/* تأثير شاشات الـ CRT القديمة */
 .crt-overlay {
   position: absolute; inset: 0; pointer-events: none;
   background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
@@ -72,18 +73,21 @@ body{
 .retro-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; z-index: 10; max-width: 900px; padding: 20px; }
 @media(max-width:800px){ .retro-grid { grid-template-columns: repeat(2, 1fr); gap: 15px; } .retro-title { font-size: 0.7rem; } }
 
+/* تعديل أزرار الأركيد لتدعم اللغات بالشكل المطلوب */
 .btn-retro {
   background: #000; border: 4px solid #fff; color: #fff;
-  font-family: 'Press Start 2P', monospace; padding: 18px 12px;
-  font-size: 0.65rem; text-align: center; cursor: pointer; text-transform: uppercase;
-  box-shadow: 6px 6px 0px var(--purple); transition: all 0.1s;
-  display: flex; flex-direction: column; gap: 10px; align-items: center;
+  padding: 16px 10px; cursor: pointer; transition: all 0.1s;
+  box-shadow: 6px 6px 0px var(--purple); display: flex; flex-direction: column; gap: 8px; align-items: center;
 }
-.btn-retro span.f { font-size: 1.8rem; }
+.btn-retro .f { font-size: 2rem; }
+.btn-retro .n { font-family: 'Space Grotesk', 'Tajawal', sans-serif; font-size: 1.15rem; font-weight: 700; }
+.btn-retro .c { font-family: 'Space Mono', monospace; font-size: 0.65rem; color: var(--cyan); font-weight: 400; opacity: 0.8; letter-spacing: 2px; }
+
 .btn-retro:hover { background: var(--cyan); color: #000; box-shadow: 6px 6px 0px var(--pink); transform: translate(-2px, -2px); border-color: #000; }
 .btn-retro:active { transform: translate(4px, 4px); box-shadow: 0px 0px 0px transparent; }
+.btn-retro:hover .c { color: #000; }
 
-/* 2. Globe Screen (Map & Counter) */
+/* 2. Globe Screen */
 .intro-globe-screen {
   display: none; flex-direction: column; align-items: center; justify-content: center;
   width: 100%; height: 100%; z-index: 5; position: absolute; inset: 0;
@@ -110,7 +114,6 @@ body{
 .g-node::before { content:''; position:absolute; inset:-10px; border:1px solid var(--cyan); border-radius:50%; animation: introPing 2s infinite; }
 @keyframes introPing { 0% { transform:scale(0.5); opacity:1; } 100% { transform:scale(2.5); opacity:0; } }
 
-/* Dynamic Play Button (Ensured Clickable) */
 .btn-play-intro {
   background: rgba(139,92,246,0.15); border: 2px solid var(--purple); color: #fff;
   padding: 16px 42px; border-radius: 100px; font-family: 'Space Grotesk', 'Tajawal', sans-serif;
@@ -298,21 +301,21 @@ footer{border-top:1px solid var(--border2);padding:52px 24px 34px;position:relat
     <div class="crt-overlay"></div>
     <div class="retro-title">
       <span style="color:#fff">></span> PLAYER 1_<span class="bl"> </span><br><br>
-      <span style="font-size:0.5em; color:var(--dim); text-shadow:none;">SELECT YOUR SERVER [REGION]</span>
+      <span style="font-size:0.5em; color:var(--dim); text-shadow:none;">SELECT YOUR LANGUAGE</span>
     </div>
     <div class="retro-grid">
-      <button class="btn-retro" onclick="selectIntroLang('ar')"><span class="f">🇸🇦</span>ARABIC</button>
-      <button class="btn-retro" onclick="selectIntroLang('en')"><span class="f">🇺🇸</span>ENGLISH</button>
-      <button class="btn-retro" onclick="selectIntroLang('zh')"><span class="f">🇨🇳</span>CHINESE</button>
-      <button class="btn-retro" onclick="selectIntroLang('ja')"><span class="f">🇯🇵</span>JAPANESE</button>
-      <button class="btn-retro" onclick="selectIntroLang('ko')"><span class="f">🇰🇷</span>KOREAN</button>
-      <button class="btn-retro" onclick="selectIntroLang('ur')"><span class="f">🇵🇰</span>URDU</button>
-      <button class="btn-retro" onclick="selectIntroLang('fr')"><span class="f">🇫🇷</span>FRENCH</button>
-      <button class="btn-retro" onclick="selectIntroLang('es')"><span class="f">🇪🇸</span>SPANISH</button>
-      <button class="btn-retro" onclick="selectIntroLang('pt')"><span class="f">🇧🇷</span>PORTUGUESE</button>
-      <button class="btn-retro" onclick="selectIntroLang('it')"><span class="f">🇮🇹</span>ITALIAN</button>
-      <button class="btn-retro" onclick="selectIntroLang('ru')"><span class="f">🇷🇺</span>RUSSIAN</button>
-      <button class="btn-retro" onclick="selectIntroLang('de')"><span class="f">🇩🇪</span>GERMAN</button>
+      <button class="btn-retro" onclick="selectIntroLang('ar')"><span class="f">🇸🇦</span><span class="n">العربية</span><span class="c">AR</span></button>
+      <button class="btn-retro" onclick="selectIntroLang('en')"><span class="f">🇺🇸</span><span class="n">English</span><span class="c">EN</span></button>
+      <button class="btn-retro" onclick="selectIntroLang('zh')"><span class="f">🇨🇳</span><span class="n">中文</span><span class="c">ZH</span></button>
+      <button class="btn-retro" onclick="selectIntroLang('ja')"><span class="f">🇯🇵</span><span class="n">日本語</span><span class="c">JA</span></button>
+      <button class="btn-retro" onclick="selectIntroLang('ko')"><span class="f">🇰🇷</span><span class="n">한국어</span><span class="c">KO</span></button>
+      <button class="btn-retro" onclick="selectIntroLang('ur')"><span class="f">🇵🇰</span><span class="n">اردو</span><span class="c">UR</span></button>
+      <button class="btn-retro" onclick="selectIntroLang('fr')"><span class="f">🇫🇷</span><span class="n">Français</span><span class="c">FR</span></button>
+      <button class="btn-retro" onclick="selectIntroLang('es')"><span class="f">🇪🇸</span><span class="n">Español</span><span class="c">ES</span></button>
+      <button class="btn-retro" onclick="selectIntroLang('pt')"><span class="f">🇧🇷</span><span class="n">Português</span><span class="c">PT</span></button>
+      <button class="btn-retro" onclick="selectIntroLang('it')"><span class="f">🇮🇹</span><span class="n">Italiano</span><span class="c">IT</span></button>
+      <button class="btn-retro" onclick="selectIntroLang('ru')"><span class="f">🇷🇺</span><span class="n">Русский</span><span class="c">RU</span></button>
+      <button class="btn-retro" onclick="selectIntroLang('de')"><span class="f">🇩🇪</span><span class="n">Deutsch</span><span class="c">DE</span></button>
     </div>
   </div>
 
@@ -320,9 +323,7 @@ footer{border-top:1px solid var(--border2);padding:52px 24px 34px;position:relat
   <div id="intro-globe-screen" class="intro-globe-screen">
     <div class="globe-wrapper">
       <div class="globe-map"></div>
-      <!-- السعودية في المنتصف الساطع -->
       <div class="g-node node-ksa" title="KSA"></div>
-      <!-- باقي الدول العربية وشمال أفريقيا بإضاءة خافتة -->
       <div class="g-node node-eg" title="Egypt"></div>
       <div class="g-node node-ae" title="UAE"></div>
       <div class="g-node node-ma" title="Morocco"></div>
@@ -331,7 +332,7 @@ footer{border-top:1px solid var(--border2);padding:52px 24px 34px;position:relat
     
     <button id="intro-btn" class="btn-play-intro" onclick="startIntro()">
       <span class="play-icon">▶️</span>
-      <span id="intro-btn-text" class="play-text" data-i18n="intro_btn_play">يلاه نلعب</span>
+      <span id="intro-btn-text" class="play-text">يلاه نلعب</span>
     </button>
     
     <div id="intro-counter-box" class="intro-counter-box">
@@ -340,7 +341,6 @@ footer{border-top:1px solid var(--border2);padding:52px 24px 34px;position:relat
     </div>
   </div>
 
-  <!-- Audio SFX -->
   <audio id="retro-blip" src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_51a37c95b7.mp3?filename=8-bit-select-104930.mp3" preload="auto"></audio>
   <audio id="intro-sfx" src="https://cdn.pixabay.com/download/audio/2021/08/04/audio_12b0c7443c.mp3?filename=epic-whoosh-104812.mp3" preload="auto"></audio>
 </div>
@@ -373,7 +373,6 @@ footer{border-top:1px solid var(--border2);padding:52px 24px 34px;position:relat
   </div>
 </nav>
 
-<!-- HERO -->
 <div class="hero">
   <div>
     <div class="hero-eyebrow"><span class="dot"></span> AI-POWERED LOCALIZATION</div>
@@ -457,6 +456,24 @@ footer{border-top:1px solid var(--border2);padding:52px 24px 34px;position:relat
   </div>
 </section>
 
+<section id="about" style="background:rgba(11,14,32,0.4);">
+  <div class="sec-in">
+    <div class="about-grid">
+      <div>
+        <div class="sec-tag">// ABOUT US</div>
+        <h2 class="sec-title" data-i18n="ab_title">من نحن</h2>
+        <div class="about-text" id="aboutText" data-i18n="ab_default">عُرب URB منصة سعودية متخصصة في توطين ألعاب الفيديو، تجمع بين قوة الذكاء الاصطناعي والخبرة البشرية عشان توصلك تجربة عربية أصيلة لكل لاعب.</div>
+      </div>
+      <div class="contact-card" id="contact">
+        <h3 style="margin-bottom:16px;font-size:1.05rem;" data-i18n="ct_title">📡 تواصل معنا</h3>
+        <div class="c-row"><div class="ci">✉️</div><div><div style="font-size:0.7rem;color:var(--dim);font-family:'Space Mono',monospace;margin-bottom:3px;">EMAIL</div><a id="ctEmail" href="mailto:info@urbgame.com">info@urbgame.com</a></div></div>
+        <div class="c-row"><div class="ci">📞</div><div><div style="font-size:0.7rem;color:var(--dim);font-family:'Space Mono',monospace;margin-bottom:3px;">PHONE</div><a id="ctPhone" href="tel:+966500000000">+966 50 000 0000</a></div></div>
+        <div class="c-row" style="border-bottom:none;"><div class="ci">📍</div><div><div style="font-size:0.7rem;color:var(--dim);font-family:'Space Mono',monospace;margin-bottom:3px;">ADDRESS</div><span id="ctAddress" style="color:#c3c9e3;">Riyadh, Saudi Arabia</span></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
 <footer>
   <div class="foot-in">
     <div class="foot-grid">
@@ -486,6 +503,7 @@ footer{border-top:1px solid var(--border2);padding:52px 24px 34px;position:relat
     </div>
   </div>
 </footer>
+
 </div><!-- /landing -->
 
 <!-- CLIENT DASHBOARD -->
@@ -591,7 +609,6 @@ footer{border-top:1px solid var(--border2);padding:52px 24px 34px;position:relat
 
 <!-- ═══════════ MODALS ═══════════ -->
 
-<!-- AUTH MODAL -->
 <div class="overlay" id="authModal">
   <div class="panel" style="width:460px;">
     <div class="panel-head">
@@ -604,7 +621,6 @@ footer{border-top:1px solid var(--border2);padding:52px 24px 34px;position:relat
         <button class="atab" id="at-signup" onclick="authTab('signup')" data-i18n="tab_signup">حساب جديد</button>
       </div>
       
-      <!-- Login -->
       <div id="f-login">
         <div class="fg"><label class="fl">EMAIL</label><input class="fi" type="email" id="li-email" style="direction:ltr;" placeholder="you@studio.com"></div>
         <div class="fg">
@@ -617,14 +633,12 @@ footer{border-top:1px solid var(--border2);padding:52px 24px 34px;position:relat
         <button class="btn btn-grad" style="width:100%;padding:13px;" id="li-btn" onclick="doLogin()" data-i18n="tab_login">🔐 دخول</button>
       </div>
 
-      <!-- Forgot Password -->
       <div id="f-forgot" style="display:none;">
         <div class="fg"><label class="fl">EMAIL</label><input class="fi" type="email" id="fg-email" style="direction:ltr;" placeholder="you@studio.com"></div>
         <button class="btn btn-grad" style="width:100%;padding:13px;" onclick="doForgot()" data-i18n="send_reset">إرسال رابط الاستعادة</button>
         <div style="text-align:center;margin-top:15px;"><a href="#" onclick="showForgot(false)" style="font-size:0.8rem;color:var(--dim);text-decoration:none;" data-i18n="back_login">العودة لتسجيل الدخول</a></div>
       </div>
 
-      <!-- Signup -->
       <div id="f-signup" style="display:none;">
         <div class="f2">
           <div class="fg"><label class="fl">FULL NAME</label><input class="fi" id="su-name"></div>
@@ -642,7 +656,6 @@ footer{border-top:1px solid var(--border2);padding:52px 24px 34px;position:relat
   </div>
 </div>
 
-<!-- ADMIN GATE MODAL -->
 <div class="overlay" id="adminGate">
   <div class="panel" style="width:400px;">
     <div class="panel-head">
@@ -660,7 +673,6 @@ footer{border-top:1px solid var(--border2);padding:52px 24px 34px;position:relat
   </div>
 </div>
 
-<!-- VENDOR APPLY MODAL -->
 <div class="overlay" id="vendorApplyModal">
   <div class="panel" style="width:560px;">
     <div class="panel-head"><div class="panel-title" data-i18n="foot_apply">🤝 التقديم كمتعهد / Freelancer</div>
@@ -681,7 +693,6 @@ footer{border-top:1px solid var(--border2);padding:52px 24px 34px;position:relat
   </div>
 </div>
 
-<!-- CREATE PACKAGE MODAL -->
 <div class="overlay" id="pkgModal">
   <div class="panel" style="width:600px;">
     <div class="panel-head">
@@ -740,7 +751,6 @@ let C = { pkgs:[], gloss:[] };
 let lang = localStorage.getItem('gl_lang') || 'ar';
 
 /* ═══ INTRO LOGIC (RETRO ARCADE -> GLOBE ZOOM) ═══ */
-// دورة الكلمات لزر الدخول (تلائم جميع اللغات)
 const introPhrases = {
   ar: "يلاه نلعب", en: "Start Game", zh: "开始游戏", ja: "開始する", 
   ko: "게임 시작", ur: "کھیلیں", fr: "Jouons", es: "Vamos a jugar", 
@@ -754,7 +764,6 @@ let introInterval = setInterval(() => {
   if(!introTextEl) return;
   introTextEl.style.opacity = 0;
   setTimeout(() => {
-    // تبديل الجمل بشكل عشوائي بين اللغات لجذب الانتباه
     introPhraseIdx = (introPhraseIdx + 1) % introPhraseKeys.length;
     introTextEl.textContent = introPhrases[introPhraseKeys[introPhraseIdx]];
     introTextEl.style.opacity = 1;
@@ -762,26 +771,21 @@ let introInterval = setInterval(() => {
 }, 1800);
 
 function selectIntroLang(code) {
-  // 1. تشغيل صوت الأتاري
   try {
     const blip = document.getElementById('retro-blip');
     if(blip) { blip.volume = 0.5; blip.play().catch(e=>console.log(e)); }
   } catch(e){}
 
-  // 2. تطبيق اللغة المختارة فوراً على كامل المنصة
   setLang(code);
   
-  // ضبط لغة الزر بناءً على اختيار العميل وإيقاف التقليب العشوائي
   clearInterval(introInterval);
   if(introTextEl) { introTextEl.textContent = introPhrases[code] || introPhrases['en']; introTextEl.style.opacity = 1; }
 
-  // 3. تأثير وميض الأركيد (Glitch / Flash)
   const screen = document.getElementById('intro-lang-screen');
   screen.style.filter = 'invert(1) hue-rotate(180deg)';
   setTimeout(() => { screen.style.filter = 'none'; }, 100);
   setTimeout(() => { screen.style.filter = 'invert(1)'; }, 200);
 
-  // 4. الانتقال إلى شاشة الكرة الأرضية
   setTimeout(() => {
     screen.style.opacity = '0';
     setTimeout(() => {
@@ -822,7 +826,6 @@ function startIntro() {
         splash.classList.add('zoomed');
         setTimeout(() => { 
           splash.style.display = 'none'; 
-          startTerminalTyping(); 
         }, 1600);
       }, 300);
     }
@@ -830,12 +833,15 @@ function startIntro() {
   requestAnimationFrame(updateCounter);
 }
 
-/* ═══ TERMINAL TYPING DEMO ═══ */
+/* ═══ TERMINAL TYPING DEMO (INFINITE LOOP) ═══ */
 function startTerminalTyping(){
   const out = document.getElementById('demoOut');
   const lbl = document.getElementById('demoLabel');
   const src = document.getElementById('demoSrc');
   if(!out || !lbl || !src) return;
+  if(out.dataset.typing) return;
+  out.dataset.typing = "true";
+
   const EN = 'Legendary loot acquired. Inventory updated.';
   const rounds = [
     ['Saudi dialect',   'ابشرك صار عندك غنيمة جباااارة… حدثنا لك المخزون'],
@@ -849,16 +855,20 @@ function startTerminalTyping(){
     lbl.textContent = `// URB PROPOSAL_AR (${dial})`;
     if(phase==='type'){
       ci++; out.textContent = ar.slice(0,ci);
-      if(ci>=ar.length){ phase='hold'; setTimeout(()=>{phase='erase';}, 2800); }
-      else setTimeout(tick, 48);
+      if(ci>=ar.length){ phase='hold'; setTimeout(tick, 2500); }
+      else setTimeout(tick, 45);
+    } else if(phase==='hold'){
+      phase='erase'; setTimeout(tick, 30);
     } else if(phase==='erase'){
-      ci-=3; out.textContent = ar.slice(0,Math.max(0,ci));
-      if(ci<=0){ ci=0; ri=(ri+1)%rounds.length; phase='type'; }
-      setTimeout(tick, 20);
-    } else setTimeout(tick, 240);
+      ci-=2; out.textContent = ar.slice(0,Math.max(0,ci));
+      if(ci<=0){ ci=0; ri=(ri+1)%rounds.length; phase='type'; setTimeout(tick, 500); }
+      else setTimeout(tick, 20);
+    }
   }
   tick();
 }
+// تشغيل الأنميشن في الخلفية مباشرة
+setTimeout(startTerminalTyping, 1000);
 
 /* ═══ i18n — 12 LANGS ═══ */
 const LANGS = {
@@ -955,7 +965,7 @@ const T = {
   fl_langs: { ar:'اللغات المستهدفة', en:'Target Languages', zh:'目标语言', ja:'対象言語', ko:'대상 언어', ur:'ہدف زبانیں', fr:'Langues cibles', it:'Lingue di destinazione', es:'Idiomas de destino', pt:'Idiomas de destino', ru:'Целевые языки', de:'Zielsprachen' },
   fl_words: { ar:'عدد الكلمات المقدر', en:'Estimated Word Count', zh:'预计字数', ja:'推定単語数', ko:'예상 단어 수', ur:'تخمینی الفاظ', fr:'Nombre de mots estimé', it:'Conteggio parole stimato', es:'Recuento estimado de palabras', pt:'Contagem estimada de palavras', ru:'Оценка количества слов', de:'Geschätzte Wortanzahl' },
   fl_deadline: { ar:'الموعد النهائي للتسليم', en:'Target Deadline', zh:'截止日期', ja:'希望納期', ko:'마감일', ur:'آخری تاریخ', fr:'Date limite', it:'Scadenza', es:'Fecha límite', pt:'Prazo final', ru:'Срок сдачи', de:'Zieltermin' },
-  fl_files_link: { ar:'رابط ملفات اللعبة (Google Drive / Dropbox / WeTransfer)', en:'Game Files Link (Google Drive / Dropbox / WeTransfer)', zh:'游戏文件链接 (Drive/Dropbox/WeTransfer)', ja:'ゲームファイルリンク (Drive/Dropbox/WeTransfer)', ko:'게임 파일 링크 (Drive/Dropbox/WeTransfer)', ur:'گیم فائلوں کا لنک', fr:'Lien des fichiers du jeu (Drive/Dropbox/WeTransfer)', it:'Link ai file del gioco', es:'Enlace a archivos del juego', pt:'Link dos arquivos do jogo', ru:'Ссылка на файлы игры', de:'Link zu den Spieldateien' },
+  fl_files_link: { ar:'رابط ملفات اللعبة (Google Drive / Dropbox / WeTransfer)', en:'Game Files Link (Google Drive / Dropbox / WeTransfer)', zh:'游戏文件链接 (Drive/Dropbox)', ja:'ゲームファイルリンク (Drive/Dropbox)', ko:'게임 파일 링크 (Drive/Dropbox)', ur:'گیم فائلوں کا لنک', fr:'Lien des fichiers du jeu', it:'Link ai file del gioco', es:'Enlace a archivos del juego', pt:'Link dos arquivos do jogo', ru:'Ссылка на файлы игры', de:'Link zu den Spieldateien' },
   fl_notes: { ar:'ملاحظات وتعليمات إضافية', en:'Additional Notes', zh:'附加说明', ja:'追加のメモ', ko:'추가 참고 사항', ur:'اضافی نوٹس', fr:'Notes supplémentaires', it:'Note aggiuntive', es:'Notas adicionales', pt:'Notas adicionais', ru:'Дополнительные примечания', de:'Zusätzliche Anmerkungen' },
   btn_submit_pkg: { ar:'🚀 إرسال الحزمة', en:'🚀 Submit Package', zh:'🚀 提交包', ja:'🚀 パッケージを送信', ko:'🚀 패키지 제출', ur:'🚀 پیکج جمع کریں', fr:'🚀 Soumettre le package', it:'🚀 Invia pacchetto', es:'🚀 Enviar paquete', pt:'🚀 Enviar pacote', ru:'🚀 Отправить пакет', de:'🚀 Paket einreichen' }
 };
@@ -1177,7 +1187,7 @@ const PKG_TRANS = {
   "LQA تدقيق جودة التوطين": { en: "LQA Localization QA", zh: "LQA本地化质检", ja: "LQA品質チェック", ko: "LQA 로컬라이제이션 품질 검사", ur: "LQA کوالٹی چیک", fr: "Assurance qualité LQA", it: "Controllo qualità LQA", es: "Control de calidad LQA", pt: "Garantia de qualidade LQA", ru: "LQA проверка качества", de: "LQA-Qualitätsprüfung" },
   "تكيف ثقافي كامل": { en: "Full Cultural Adaptation", zh: "完全文化适应", ja: "完全な文化的適応", ko: "완벽한 문화적 적응", ur: "مکمل ثقافتی مطابقت", fr: "Adaptation culturelle complète", it: "Adattamento culturale completo", es: "Adaptación cultural completa", pt: "Adaptação cultural completa", ru: "Полная адаптация", de: "Vollständige kulturelle Anpassung" },
   "مراجعة المصطلحات": { en: "Glossary Review", zh: "术语审校", ja: "用語集レビュー", ko: "용어집 검토", ur: "الفاظ ਦਾ جائزہ", fr: "Révision du glossaire", it: "Revisione del glossario", es: "Revisión de glosario", pt: "Revisão de glossário", ru: "Проверка глоссария", de: "Glossar-Prüfung" },
-  "مراجعة تجربة اللعب": { en: "Gameplay Experience Review", zh: "游戏体验审校", ja: "ゲームプレイ体験レビュー", ko: "게임플레이 체험 검토", ur: "گیم پلے تجربے کا جائزہ", fr: "Révision expérience de jeu", it: "Revisione esperienza di gioco", es: "Revisión de experiencia de juego", pt: "Revisão de experiência de jogo", ru: "Проверка игрового опыта", de: "Gameplay-Prüfung" },
+  "مراجعة تجربة اللعب": { en: "Gameplay Experience Review", zh: "游戏体验审校", ja: "ゲームプレイ体験レビュー", ko: "게임플레이 체험 검토", ur: "گیم پلے تجربے کا جائزہ", fr: "Révision expérience de jeu", it: "Revisione esperienza di gioco", es: "Revisión de experiencia de juego", pt: "Revisão de experiencia de jogo", ru: "Проверка игрового опыта", de: "Gameplay-Prüfung" },
   "كل مميزات الباقتين": { en: "All Features of Both Plans", zh: "包含前两款套餐所有功能", ja: "両プランの全機能", ko: "두 플랜의 모든 기능", ur: "دونوں پلانز کی تمام خصوصیات", fr: "Toutes les fonctionnalités", it: "Tutte le funzionalità", es: "Todas las funciones de ambos planes", pt: "Todas as funções de ambos os planos", ru: "Все функции обоих пакетов", de: "Alle Funktionen aller Pakete" },
   "تسويق عبر مؤثري الألعاب": { en: "Game Influencer Marketing", zh: "游戏网红营销", ja: "インフルエンサーマーケティング", ko: "게임 인플루언서 마케팅", ur: "گیم انفلوئنسر مارکیٹنگ", fr: "Marketing d'influenceurs", it: "Marketing con influencer", es: "Marketing de influencers", pt: "Marketing de influenciadores", ru: "Маркетинг с инфлюенсерами", de: "Influencer-Marketing" },
   "حملات ستريمرز": { en: "Streamer Campaigns", zh: "主播推广活动", ja: "配信者キャンペーン", ko: "스트리머 캠페인", ur: "سٹریمرز مہمات", fr: "Campagnes de streamers", it: "Campagne streamer", es: "Campañas de streamers", pt: "Campanhas de streamers", ru: "Кампании со стримерами", de: "Streamer-Kampagnen" },
@@ -1386,6 +1396,11 @@ async function adminDelPkg(id){
   adminLoadAll();
 }
 
+function toast(m){
+  const el = document.getElementById('toast'); el.textContent = m; el.classList.add('show');
+  setTimeout(()=>el.classList.remove('show'), 3000);
+}
+
 /* ═══ VENDOR APPLY ═══ */
 async function submitVendorApply(){
   const name = document.getElementById('va-name').value.trim();
@@ -1405,7 +1420,6 @@ async function submitVendorApply(){
 }
 
 /* ═══ BOT FUNCTIONS ═══ */
-let selectedLang = 'auto';
 function setBotLanguage(langCode, langName) {
   selectedLang = langCode;
   document.getElementById('langContainer').style.display = 'none';
