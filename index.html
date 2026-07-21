@@ -2682,5 +2682,126 @@ loadSiteCfg(); loadPricingPublic(); loadPillarsPublic(); loadNewsPublic();
 sb.from('settings').select('value').eq('key','admin_secret').single().then(({data})=>{ if(data?.value) adminSecret=data.value; });
 sb.auth.getSession().then(({data:{session}})=>{ if(session){ me=session.user; routeByRole(); } });
 </script>
+
+<!-- ═══ URB CHATBOT WIDGET ═══ -->
+<style>
+  .chat-widget {
+    position: fixed; bottom: 26px; left: 26px; z-index: 9999;
+    font-family: 'Tajawal', sans-serif;
+  }
+  .chat-toggle {
+    width: 60px; height: 60px; border-radius: 18px;
+    background: var(--grad); color: #fff; font-size: 1.8rem;
+    border: none; cursor: pointer; box-shadow: var(--glow-p);
+    display: flex; align-items: center; justify-content: center;
+    transition: transform 0.3s;
+  }
+  .chat-toggle:hover { transform: translateY(-4px) scale(1.05); }
+  .chat-box {
+    display: none; flex-direction: column;
+    width: 360px; height: 500px; max-width: 90vw; max-height: 80vh;
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 22px; overflow: hidden;
+    box-shadow: 0 30px 90px rgba(0,0,0,0.5), var(--glow-p);
+    position: absolute; bottom: 76px; left: 0;
+  }
+  .chat-box.open { display: flex; animation: slideUp 0.3s ease-out; }
+  @keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+  .chat-header {
+    background: var(--surface2); padding: 16px 20px;
+    border-bottom: 1px solid var(--border2);
+    display: flex; justify-content: space-between; align-items: center;
+  }
+  .chat-title { font-weight: 700; color: var(--text); display: flex; align-items: center; gap: 8px;}
+  .chat-close { background: var(--surface3); border: 1px solid var(--border2); border-radius:8px; color: var(--dim); cursor: pointer; font-size: 14px; padding: 4px 8px; transition: 0.2s;}
+  .chat-close:hover { background: var(--red); color: white; border-color: var(--red);}
+  .chat-messages {
+    flex: 1; padding: 18px; overflow-y: auto; display: flex; flex-direction: column; gap: 12px;
+    background: rgba(11,14,32,0.85); backdrop-filter: blur(16px);
+  }
+  .chat-msg { padding: 12px 16px; border-radius: 14px; font-size: 0.9rem; max-width: 85%; line-height: 1.6; }
+  .chat-msg.bot { background: var(--surface3); color: var(--text); align-self: flex-start; border-bottom-right-radius: 4px;}
+  .chat-msg.user { background: var(--purple); color: #fff; align-self: flex-end; border-bottom-left-radius: 4px;}
+  .chat-input-area {
+    display: flex; gap:10px; padding: 14px; border-top: 1px solid var(--border2); background: var(--surface2);
+  }
+  .chat-input {
+    flex: 1; background: var(--bg); border: 1px solid var(--border2);
+    border-radius: 12px; padding: 12px; color: var(--text); outline: none;
+    font-family: inherit; font-size: 0.9rem; transition: 0.2s;
+  }
+  .chat-input:focus { border-color: var(--cyan); box-shadow: var(--glow-c); }
+  .chat-send {
+    background: var(--grad); border: none; color: white; font-weight: bold;
+    border-radius: 12px; padding: 0 18px; cursor: pointer; transition: 0.2s;
+  }
+  .chat-send:hover { transform: scale(1.05); }
+  .typing-dot { display: inline-block; width: 6px; height: 6px; border-radius: 50%; background: var(--cyan); animation: typing 1.4s infinite ease-in-out both; margin: 0 2px; }
+  .typing-dot:nth-child(1) { animation-delay: -0.32s; }
+  .typing-dot:nth-child(2) { animation-delay: -0.16s; }
+  @keyframes typing { 0%, 80%, 100% { transform: scale(0); } 40% { transform: scale(1); } }
+</style>
+
+<div class="chat-widget" dir="rtl">
+  <button class="chat-toggle" onclick="document.getElementById('chatBox').classList.toggle('open')">🤖</button>
+  <div class="chat-box" id="chatBox">
+    <div class="chat-header">
+      <span class="chat-title"><span>🤖</span> مساعد عُرب</span>
+      <button class="chat-close" onclick="document.getElementById('chatBox').classList.remove('open')">✕</button>
+    </div>
+    <div class="chat-messages" id="chatMessages">
+      <div class="chat-msg bot">يا هلا بك في عُرب URB! 🎮<br>أنا المساعد الذكي، كيف أقدر أساعدك في توطين ألعابك اليوم؟</div>
+    </div>
+    <div class="chat-input-area">
+      <input type="text" id="chatInput" class="chat-input" placeholder="اكتب سؤالك هنا..." onkeypress="if(event.key === 'Enter') sendChatMessage()">
+      <button class="chat-send" onclick="sendChatMessage()">إرسال</button>
+    </div>
+  </div>
+</div>
+
+<script>
+  async function sendChatMessage() {
+    const input = document.getElementById('chatInput');
+    const messages = document.getElementById('chatMessages');
+    const text = input.value.trim();
+    if (!text) return;
+
+    messages.innerHTML += `<div class="chat-msg user">${text}</div>`;
+    input.value = '';
+    messages.scrollTop = messages.scrollHeight;
+
+    const loadingId = 'loading-' + Date.now();
+    messages.innerHTML += `
+      <div class="chat-msg bot" id="${loadingId}">
+        <span class="typing-dot"></span><span class="typing-dot"></span><span class="typing-dot"></span>
+      </div>`;
+    messages.scrollTop = messages.scrollHeight;
+
+    try {
+      // الاتصال بملف الـ API الخاص بنا الموجود على Netlify
+      const response = await fetch('/.netlify/functions/chat', {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ message: text })
+      });
+
+      const data = await response.json();
+      document.getElementById(loadingId).remove();
+      
+      if(data.reply) {
+        let formattedReply = data.reply.replace(/\\n/g, '<br>').replace(/\\*\\*(.*?)\\*\\*/g, '<b>$1</b>');
+        messages.innerHTML += `<div class="chat-msg bot">${formattedReply}</div>`;
+      } else {
+        messages.innerHTML += `<div class="chat-msg bot" style="color: var(--red);">المعذرة، واجهت مشكلة تقنية. 🛠️</div>`;
+      }
+    } catch (error) {
+      document.getElementById(loadingId).remove();
+      messages.innerHTML += `<div class="chat-msg bot" style="color: var(--red);">المعذرة، السيرفر ما يرد حالياً. 🔌</div>`;
+    }
+    messages.scrollTop = messages.scrollHeight;
+  }
+</script>
+<!-- ═══ END CHATBOT ═══ -->
+
 </body>
 </html>
