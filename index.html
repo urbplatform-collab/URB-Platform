@@ -47,10 +47,22 @@ body{
 
 .intro-lang-screen { position: absolute; inset: 0; background: #000; z-index: 20; display: flex; flex-direction: column; align-items: center; justify-content: center; transition: opacity 0.5s, filter 0.2s; }
 .crt-overlay { position: absolute; inset: 0; pointer-events: none; background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06)); background-size: 100% 4px, 3px 100%; z-index: 100; }
+
 .retro-title { font-family: 'Press Start 2P', monospace; color: var(--cyan); text-align: center; line-height: 2.2; margin-bottom: 50px; text-shadow: 4px 4px var(--purple); animation: retroPulse 1.5s infinite; }
 .retro-title span.bl { animation: blinkCaret 1s step-end infinite; }
 @keyframes blinkCaret { 50% { opacity: 0; } }
 @keyframes retroPulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.85; } }
+
+/* SUPERMAN PIXEL ART */
+.pixel-superman {
+  position: absolute; bottom: 100%; left: 50%; transform: translateX(-50%);
+  width: 50px; height: 50px; z-index: 10;
+  /* صورة بيكسل لسوبرمان أو بطل يجلس، يمكن تغيير الرابط بصورة متحركة شفافة */
+  background-image: url('https://cdn-icons-png.flaticon.com/512/8152/8152511.png');
+  background-size: contain; background-repeat: no-repeat; background-position: bottom center;
+  image-rendering: pixelated; animation: floatSitting 2s infinite ease-in-out;
+}
+@keyframes floatSitting { 0%, 100% { transform: translate(-50%, 0px); } 50% { transform: translate(-50%, -6px); } }
 
 .retro-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; z-index: 10; max-width: 900px; padding: 20px; }
 @media(max-width:800px){ .retro-grid { grid-template-columns: repeat(2, 1fr); gap: 15px; } .retro-title { font-size: 0.7rem; } }
@@ -111,6 +123,7 @@ nav{position:sticky;top:0;z-index:90;background:rgba(5,6,15,0.75);backdrop-filte
 .btn-grad{background:var(--grad);color:#fff;padding:10px 22px;font-size:0.9rem}
 .btn-grad:hover{transform:translateY(-2px);box-shadow:0 10px 32px rgba(139,92,246,0.45)}
 .btn-ghost{background:rgba(255,255,255,0.04);border:1px solid var(--border2);color:var(--text);padding:10px 20px;font-size:0.88rem}
+.btn-ghost:hover{border-color:var(--purple)}
 .btn-sm{padding:7px 14px;font-size:0.8rem;border-radius:9px}
 
 .lang-pick{position:relative}
@@ -135,7 +148,6 @@ nav{position:sticky;top:0;z-index:90;background:rgba(5,6,15,0.75);backdrop-filte
 .hero h1 .g2{background:linear-gradient(135deg,#22d3ee,#67e8f9);-webkit-background-clip:text;background-clip:text;color:transparent}
 .hero p{color:var(--dim);font-size:1.05rem;line-height:1.85;max-width:480px;margin-bottom:34px}
 .hero-actions{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:44px}
-.btn-hero{padding:15px 30px;font-size:1rem;border-radius:13px}
 .hero-stats{display:flex;gap:34px;flex-wrap:wrap}
 .hstat .n{font-family:'Space Mono',monospace;font-size:1.7rem;font-weight:700;background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
 .hstat .l{font-size:0.72rem;color:var(--dim);letter-spacing:1.4px;text-transform:uppercase;margin-top:3px;font-family:'Space Mono',monospace}
@@ -223,6 +235,7 @@ footer{border-top:1px solid var(--border2);padding:52px 24px 34px;position:relat
 .fmsg{display:none;margin-top:12px;padding:11px 15px;border-radius:10px;font-size:0.83rem}
 .fmsg.err{display:block;background:rgba(248,113,113,0.09);border:1px solid rgba(248,113,113,0.3);color:var(--red)}
 .fmsg.ok{display:block;background:rgba(52,211,153,0.09);border:1px solid rgba(52,211,153,0.3);color:var(--green)}
+.fmsg.info{display:block;background:rgba(34,211,238,0.08);border:1px solid rgba(34,211,238,0.25);color:var(--cyan)}
 
 .atabs{display:flex;background:var(--surface2);border-radius:12px;padding:4px;gap:4px;margin-bottom:22px}
 .atab{flex:1;padding:10px;border:none;background:transparent;color:var(--dim);border-radius:9px;cursor:pointer;font-size:0.9rem;font-weight:600;}
@@ -291,9 +304,13 @@ footer{border-top:1px solid var(--border2);padding:52px 24px 34px;position:relat
   <!-- 1. شاشة اختيار اللغة بستايل أركيد قديم -->
   <div id="intro-lang-screen" class="intro-lang-screen">
     <div class="crt-overlay"></div>
-    <div class="retro-title">
+    <div class="retro-title" style="position:relative;">
       <span style="color:#fff">></span> PLAYER 1_<span class="bl"> </span><br><br>
-      <span style="font-size:0.5em; color:var(--dim); text-shadow:none;">SELECT YOUR LANGUAGE</span>
+      <!-- البطل البيكسل (سوبرمان الألعاب) يجلس على النص -->
+      <div style="position:relative; display:inline-block;">
+        <div class="pixel-superman"></div>
+        <span style="font-size:0.5em; color:var(--dim); text-shadow:none;">SELECT YOUR LANGUAGE</span>
+      </div>
     </div>
     <div class="retro-grid">
       <button class="btn-retro" onclick="selectIntroLang('ar')"><span class="f">🇸🇦</span><span class="n">العربية</span><span class="c">AR</span></button>
@@ -333,7 +350,6 @@ footer{border-top:1px solid var(--border2);padding:52px 24px 34px;position:relat
     </div>
   </div>
 
-  <!-- Audio SFX -->
   <audio id="retro-blip" src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_51a37c95b7.mp3?filename=8-bit-select-104930.mp3" preload="auto"></audio>
   <audio id="intro-sfx" src="https://cdn.pixabay.com/download/audio/2021/08/04/audio_12b0c7443c.mp3?filename=epic-whoosh-104812.mp3" preload="auto"></audio>
 </div>
@@ -398,7 +414,7 @@ footer{border-top:1px solid var(--border2);padding:52px 24px 34px;position:relat
       <div class="term-label" style="color:var(--purple);">// SOURCE_EN</div>
       <div class="term-box" dir="ltr" id="demoSrc">Legendary loot acquired. Inventory updated.</div>
       <div class="term-arrow">↓</div>
-      <div class="term-label" style="color:var(--cyan);margin-top:9px;" id="demoLabel">// URB PROPOSAL_AR (Saudi dialect)</div>
+      <div class="term-label" style="color:var(--cyan);margin-top:9px;" id="demoLabel">// URB PROPOSAL_AR</div>
       <div class="term-box" dir="rtl"><span id="demoOut" class="type-caret" style="color:#a5f3fc;"></span></div>
       <div class="term-status">
         <span>● HUMAN_IN_THE_LOOP: ENABLED</span>
@@ -629,7 +645,6 @@ footer{border-top:1px solid var(--border2);padding:52px 24px 34px;position:relat
         </div>
       </div>
 
-      <!-- Admin Pricing -->
       <div class="dpage" id="admin-pricing">
         <div class="dcard">
           <div class="dcard-head"><div class="dcard-title">💰 إدارة الباقات</div>
@@ -638,7 +653,6 @@ footer{border-top:1px solid var(--border2);padding:52px 24px 34px;position:relat
         </div>
       </div>
 
-      <!-- Admin News -->
       <div class="dpage" id="admin-news">
         <div class="dcard">
           <div class="dcard-head"><div class="dcard-title">📢 شريط الأخبار</div></div>
@@ -656,7 +670,6 @@ footer{border-top:1px solid var(--border2);padding:52px 24px 34px;position:relat
         </div>
       </div>
 
-      <!-- Admin Partners -->
       <div class="dpage" id="admin-partners">
         <div class="dcard">
           <div class="dcard-head">
@@ -674,7 +687,6 @@ footer{border-top:1px solid var(--border2);padding:52px 24px 34px;position:relat
         </div>
       </div>
 
-      <!-- Admin Showcase -->
       <div class="dpage" id="admin-showcase">
         <div class="dcard">
           <div class="dcard-head">
@@ -699,7 +711,6 @@ footer{border-top:1px solid var(--border2);padding:52px 24px 34px;position:relat
 
 <!-- ═══════════ MODALS ═══════════ -->
 
-<!-- Reset Password Modal -->
 <div class="overlay" id="resetModal">
   <div class="panel" style="width:400px;">
     <div class="panel-head">
@@ -714,7 +725,6 @@ footer{border-top:1px solid var(--border2);padding:52px 24px 34px;position:relat
   </div>
 </div>
 
-<!-- AUTH MODAL -->
 <div class="overlay" id="authModal">
   <div class="panel" style="width:460px;">
     <div class="panel-head">
@@ -771,7 +781,6 @@ footer{border-top:1px solid var(--border2);padding:52px 24px 34px;position:relat
     <div class="panel-body">
       <div class="fg">
         <label class="fl">ADMIN PASSWORD</label>
-        <!-- إزالة Placeholder لتكون الكلمة مخفية تماماً -->
         <input class="fi" type="password" id="gate-pass" onkeydown="if(event.key==='Enter')checkAdminGate()">
       </div>
       <button class="btn btn-grad" style="width:100%;padding:13px;" onclick="checkAdminGate()">دخول ←</button>
@@ -845,6 +854,26 @@ footer{border-top:1px solid var(--border2);padding:52px 24px 34px;position:relat
 
 <div class="toast" id="toast"></div>
 
+<!-- ═══════════ URB BOT COMPONENT ═══════════ -->
+<button class="chat-widget-btn" onclick="toggleChat()">
+  <span>🤖</span>
+  <span>URB bot</span>
+</button>
+
+<div class="chat-box" id="chatBox">
+  <div class="chat-header">
+    <h3>🤖 URB bot</h3>
+    <button class="close-btn" onclick="toggleChat()">✕</button>
+  </div>
+  <div class="chat-messages" id="chatMessages">
+    <!-- First Message Appears Based On Current Selected Lang -->
+  </div>
+  <div class="chat-input-area">
+    <input type="text" id="userInput" class="chat-input" placeholder="Ask URB bot..." onkeypress="if(event.key==='Enter') sendMessage()">
+    <button class="send-btn" id="sendBtn" onclick="sendMessage()" title="إرسال">➤</button>
+  </div>
+</div>
+
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
 /* ═══ SUPABASE ═══ */
@@ -859,6 +888,10 @@ let siteCfg = {};
 let A = { pkgs:[], team:[], vendors:[], rfqs:[], quotes:[], pricing:[] };
 let C = { pkgs:[], gloss:[] };
 let lang = localStorage.getItem('gl_lang') || 'ar';
+
+function escapeHTML(str) {
+  return String(str||'').replace(/[&<>'"]/g, tag => ({'&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;'}[tag]));
+}
 
 /* ═══ INTRO LOGIC ═══ */
 const introPhrases = {
@@ -1011,11 +1044,11 @@ const T = {
   hs2: { ar:'Words Trained', en:'Words Trained', zh:'训练字数', ja:'学習単語数', ko:'학습 단어 수', ur:'تربیت یافتہ الفاظ', fr:'Mots entraînés', it:'Parole addestrate', es:'Palabras entrenadas', pt:'Palavras treinadas', ru:'Обучено слов', de:'Trainierte Wörter' },
   hs3: { ar:'Engine Latency', en:'Engine Latency', zh:'引擎延迟', ja:'エンジン遅延', ko:'엔진 지연 시간', ur:'انجن تاخیر', fr:'Latence moteur', it:'Latenza motore', es:'Latencia del motor', pt:'Latência do motor', ru:'Задержка движка', de:'Engine-Latenz' },
 
-  tech_title: { ar:'ثلاثة محاور، قوة واحدة', en:'Three Pillars, One Power', zh:'三大支柱，一种力量', ja:'3つの柱、1つの力', ko:'세 가지 기둥, 하나의 힘', ur:'تین ستون، ایک طاقت', fr:'Trois piliers, une force', it:'Tre pilastri, una forza', es:'Tres pilares, una fuerza', pt:'Três pilares, una fuerza', ru:'Три столпа, одна сила', de:'Drei Säulen, eine Kraft' },
+  tech_title: { ar:'ثلاثة محاور، قوة واحدة', en:'Three Pillars, One Power', zh:'三大支柱，一种力量', ja:'3つの柱、1つの力', ko:'세 가지 기둥, 하나의 힘', ur:'تین ستون، ایک طاقت', fr:'Trois piliers, une force', it:'Tre pilastri, una forza', es:'Tres pilares, una fuerza', pt:'Três pilares, uma fuerza', ru:'Три столпа, одна сила', de:'Drei Säulen, eine Kraft' },
   tech_sub: { ar:'بنية توطين متكاملة تضمن أعلى جودة للألعاب العربية.', en:'An integrated localization architecture ensuring top game quality.', zh:'确保最高游戏质量的一体化本地化架构。', ja:'最高品質を保証する統合ローカライズ基盤。', ko:'최고의 게임 품질을 보장하는 통합 아키텍처.', ur:'اعلیٰ معیار کی ضمانت دینے والا مربوط ڈھانچہ۔', fr:'Une architecture de localisation intégrée assurant une qualité optimale.', it:'Un\'architettura integrata che garantisce la massima qualità.', es:'Arquitectura integrada que garantiza la máxima calidad.', pt:'Arquitetura integrada garantindo a máxima qualidade.', ru:'Интегрированная архитектура, гарантирующая высшее качество.', de:'Integrierte Lokalisierungsarchitektur für höchste Qualität.' },
   tech_1: { ar:'نموذج مخصص لعالم الألعاب يتعلم من كل مشروع ويحسّن دقته أسبوعياً.', en:'Gaming-custom model learning from every project with weekly accuracy updates.', zh:'专为游戏打造的模型，不断学习提升精度。', ja:'ゲーム専用モデルが毎週精度を向上させます。', ko:'매주 정확도가 향상되는 게임 특화 모델.', ur:'گیمنگ کے لیے مخصوص ماڈل جو ہر پروجیکٹ سے سیکھتا ہے۔', fr:'Modèle dédié au jeu qui s\'améliore chaque semaine.', it:'Modello dedicato al gaming che migliora ogni settimana.', es:'Modelo dedicado a videojuegos que mejora semanalmente.', pt:'Modelo dedicado a jogos que melhora semanalmente.', ru:'Игровая модель, улучшающая точность еженедельно.', de:'Gaming-Modell, das wöchentlich besser wird.' },
   tech_2: { ar:'معالجة متكاملة للنصوص والصوت والصور مع الحفاظ على التصميم الأصلي.', en:'Multimodal processing for text, audio, and images keeping native design intact.', zh:'多模态处理文本、语音与图像，保留原始设计。', ja:'テキスト・音声・画像を元のデザインのまま統合処理。', ko:'원본 디자인을 유지하는 멀티모달 텍스트·음성·이미지 처리.', ur:'متن، آواز اور تصاویر کی مربوط پروسیسنگ۔', fr:'Traitement multimodal préservant le design original.', it:'Elaborazione multimodale che preserva il design originale.', es:'Procesamiento multimodal que conserva el diseño original.', pt:'Processamento multimodal preservando o design original.', ru:'Мультимодальная обработка с сохранением дизайна.', de:'Multimodale Verarbeitung mit Erhalt des Originaldesigns.' },
-  tech_3: { ar:'بيئة عمل موحدة تُمكّن المترجم من المراجعة والتعديل — الآلة تقترح والإنسان يقرر.', en:'Unified workspace enabling human translators to review: machine proposes, human decides.', zh:'统一工作台供译员审校：机器建议，人类决策。', ja:'人間がレビュー・編集する統一環境：AIが提案し人間が決定。', ko:'번역가가 검토하는 통합 환경: 기계가 제안하고 인간이 결정.', ur:'مترجم کے لیے مربوط ورک اسپیس۔', fr:'Espace unifié : la machine propose, l\'humain décide.', it:'Spazio unificato: la macchina propone, l\'umano decide.', es:'Espacio unificado: la macchina propone, el humano decide.', pt:'Espaço unificado: a máquina propõe, o humano decide.', ru:'Единая среда: машина предлагает, человек решает.', de:'Einheitlicher Arbeitsbereich: Maschine schlägt vor, Mensch entscheidet.' },
+  tech_3: { ar:'بيئة عمل موحدة تُمكّن المترجم من المراجعة والتعديل — الآلة تقترح والإنسان يقرر.', en:'Unified workspace enabling human translators to review: machine proposes, human decides.', zh:'统一工作台供译员审校：机器建议，人类决策。', ja:'人間がレビュー・編集する統一環境：AIが提案し人間が決定。', ko:'번역가가 검토하는 통합 환경: 기계가 제안하고 인간이 결정.', ur:'مترجم کے لیے مربوط ورک اسپیس۔', fr:'Espace unifié : la machine propose, l\'humain décide.', it:'Spazio unificato: la macchina propone, l\'umano decide.', es:'Espacio unificado: la máquina propone, el humano decide.', pt:'Espaço unificado: a máquina propõe, o humano decide.', ru:'Единая среда: машина предлагает, человек решает.', de:'Einheitlicher Arbeitsbereich: Maschine schlägt vor, Mensch entscheidet.' },
   tech_t1: { ar:'URB-AI', en:'URB-AI', zh:'URB-AI', ja:'URB-AI', ko:'URB-AI', ur:'URB-AI', fr:'URB-AI', it:'URB-AI', es:'URB-AI', pt:'URB-AI', ru:'URB-AI', de:'URB-AI' },
   tech_t2: { ar:'Multimodal AI', en:'Multimodal AI', zh:'Multimodal AI', ja:'Multimodal AI', ko:'Multimodal AI', ur:'Multimodal AI', fr:'Multimodal AI', it:'Multimodal AI', es:'Multimodal AI', pt:'Multimodal AI', ru:'Multimodal AI', de:'Multimodal AI' },
   tech_t3: { ar:'Human-in-the-Loop', en:'Human-in-the-Loop', zh:'Human-in-the-Loop', ja:'Human-in-the-Loop', ko:'Human-in-the-Loop', ur:'Human-in-the-Loop', fr:'Human-in-the-Loop', it:'Human-in-the-Loop', es:'Human-in-the-Loop', pt:'Human-in-the-Loop', ru:'Human-in-the-Loop', de:'Human-in-the-Loop' },
@@ -1067,7 +1100,7 @@ const T = {
   back_login: { ar:'العودة لتسجيل الدخول', en:'Back to Login', zh:'返回登录', ja:'ログインに戻る', ko:'로그인으로 돌아가기', ur:'لاگ ان پر واپس جائیں', fr:'Retour à la connexion', it:'Torna al login', es:'Volver a iniciar sesión', pt:'Voltar ao login', ru:'Назад к входу', de:'Zurück zum Login' },
   signup_btn: { ar:'🚀 إنشاء حساب', en:'🚀 Create Account', zh:'🚀 创建账户', ja:'🚀 アカウント作成', ko:'🚀 계정 만들기', ur:'🚀 اکاؤنٹ بنائیں', fr:'🚀 Créer un compte', it:'🚀 Crea account', es:'🚀 Crear cuenta', pt:'🚀 Criar conta', ru:'🚀 Создать аккаунт', de:'🚀 Konto erstellen' },
   signup_ok: { ar:'✓ تم! سوّينا حسابك — افحص بريدك وبعدها سجّل دخول.', en:'✓ Success! Account created — please check your email to log in.', zh:'✓ 成功！账户已创建 — 请检查邮箱以登录。', ja:'✓ 成功！アカウントが作成されました — メールを確認してログインしてください。', ko:'✓ 성공! 계정이 생성되었습니다 — 이메일을 확인하고 로그인하세요.', ur:'✓ کامیاب! اکاؤنٹ بن گیا — لاگ ان کرنے کے لیے اپنا ای میل چیک کریں۔', fr:'✓ Succès ! Compte créé — veuillez vérifier votre e-mail pour vous connecter.', it:'✓ Fatto! Account creato — controlla la tua email per accedere.', es:'✓ ¡Éxito! Cuenta creada — revisa tu correo para iniciar sesión.', pt:'✓ Sucesso! Conta criada — verifique seu e-mail para entrar.', ru:'✓ Успешно! Аккаунт создан — проверьте почту для входа.', de:'✓ Erfolgreich! Konto erstellt — bitte überprüfen Sie Ihre E-Mails zum Anmelden.' },
-  modal_pkg_title: { ar:'حزمة توطين جديدة', en:'New Localization Package', zh:'新本地化包', ja:'新規ローカライズパッケージ', ko:'새 로컬라이제이션 패키지', ur:'نیا لوکلائزیشن پیکج', fr:'Nouveau package de localisation', it:'Nuovo pacchetto di localizzazione', es:'Nuevo paquete de localización', pt:'Novo pacote de localização', ru:'Новый пакет локализации', de:'Neues Lokalisierungspaket' },
+  modal_pkg_title: { ar:'حزمة توطين جديدة', en:'New Localization Package', zh:'新本地化包', ja:'新規ローカライズパッケージ', ko:'새 로컬라이제이션 패키지', ur:'نیا لوکلائزیشن پیکج', fr:'Nouveau package de localisation', it:'Nuovo pacchetto di localizzazione', es:'Nuevo paquete de localisation', pt:'Novo pacote de localisation', ru:'Новый пакет локализации', de:'Neues Lokalisierungspaket' },
   fl_pkg_plan: { ar:'الباقة المختارة', en:'Selected Package Plan', zh:'选择的套餐', ja:'選択したプラン', ko:'선택한 플랜', ur:'منتخب کردہ پلان', fr:'Offre sélectionnée', it:'Piano selezionato', es:'Plan seleccionado', pt:'Plano selecionado', ru:'Выбранный план', de:'Gewählter Paketplan' },
   fl_game_name: { ar:'اسم اللعبة *', en:'Game Name *', zh:'游戏名称 *', ja:'ゲーム名 *', ko:'게임 이름 *', ur:'گیم کا نام *', fr:'Nom du jeu *', it:'Nome del gioco *', es:'Nombre del juego *', pt:'Nome do jogo *', ru:'Название игры *', de:'Spielname *' },
   fl_game_engine: { ar:'محرك اللعبة', en:'Game Engine', zh:'游戏引擎', ja:'ゲームエンジン', ko:'게임 엔진', ur:'گیم انجن', fr:'Moteur de jeu', it:'Motore di gioco', es:'Motor del juego', pt:'Motor do jogo', ru:'Игровой движок', de:'Spiel-Engine' },
@@ -1143,28 +1176,6 @@ function handleRoute() {
 }
 
 window.addEventListener('hashchange', handleRoute);
-
-/* ═══ ADMIN GATE FUNCTION ═══ */
-document.addEventListener('keydown', (e) => {
-  if (e.ctrlKey && e.shiftKey && e.key.toLowerCase() === 'a') {
-    openAdminGate();
-  }
-});
-function openAdminGate(){ openM('adminGate'); }
-
-async function checkAdminGate(){
-  const v = document.getElementById('gate-pass').value;
-  if(v === adminSecret){
-    closeM('adminGate');
-    myRole = 'admin';
-    navTo('#dashboard');
-    adminLoadAll();
-  } else {
-    document.getElementById('gate-msg').className = 'fmsg err';
-    document.getElementById('gate-msg').textContent = '✕ كلمة السر غير صحيحة';
-  }
-}
-function adminLogout(){ document.body.style.overflow=''; myRole='guest'; navTo('#home'); }
 
 /* ═══ DASHBOARD NAVIGATION ═══ */
 function dPage(dash, page, el) {
@@ -1544,9 +1555,15 @@ function renderAdminPkgs(list){
       </div>
       <div class="row-actions" style="display:flex;gap:6px;align-items:center;">
         <span class="badge ${badge.c}">${badge.l}</span>
+        <button class="mini-btn dg" onclick="adminDelPkg('${p.id}')">🗑</button>
       </div>
     </div>`;
   }).join('');
+}
+async function adminDelPkg(id){
+  if(!confirm('حذف هذه الحزمة نهائياً؟')) return;
+  await sb.from('packages').delete().eq('id',id);
+  adminLoadAll();
 }
 
 /* Admin Pricing */
@@ -1662,6 +1679,51 @@ async function submitVendorApply(){
 function toast(m){
   const el = document.getElementById('toast'); el.textContent = m; el.classList.add('show');
   setTimeout(()=>el.classList.remove('show'), 3000);
+}
+
+function escapeHTML(str) {
+  return String(str||'').replace(/[&<>'"]/g, tag => ({'&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;'}[tag]));
+}
+
+/* ═══ BOT FUNCTIONS ═══ */
+function setBotLanguage(langCode, langName) {
+  selectedLang = langCode;
+  document.getElementById('langContainer').style.display = 'none';
+  const welcomeText = `Welcome! Language set to: ${langName}. How can I assist you?`;
+  const messagesDiv = document.getElementById('chatMessages');
+  messagesDiv.innerHTML += `<div class="message bot">${welcomeText}</div>`;
+}
+
+function toggleChat() {
+  const box = document.getElementById('chatBox');
+  box.style.display = (box.style.display === 'flex') ? 'none' : 'flex';
+}
+
+async function sendMessage() {
+  const input = document.getElementById('userInput');
+  const text = input.value.trim();
+  if (!text) return;
+  const messagesDiv = document.getElementById('chatMessages');
+  messagesDiv.innerHTML += `<div class="message user">${escapeHTML(text)}</div>`;
+  input.value = '';
+  
+  const loadingId = 'load-' + Date.now();
+  messagesDiv.innerHTML += `<div class="message bot" id="${loadingId}">⏳ جارِ التفكير...</div>`;
+  messagesDiv.scrollTop = messagesDiv.scrollHeight;
+
+  try {
+    const response = await fetch('/api/chat', {
+      method: 'POST', headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ message: text, language: selectedLang })
+    });
+    const data = await response.json();
+    document.getElementById(loadingId).remove();
+    messagesDiv.innerHTML += `<div class="message bot">${escapeHTML(data.reply || '...')}</div>`;
+  } catch (err) {
+    document.getElementById(loadingId).remove();
+    messagesDiv.innerHTML += `<div class="message bot">⚠️ خطأ بالاتصال.</div>`;
+  }
+  messagesDiv.scrollTop = messagesDiv.scrollHeight;
 }
 
 /* ═══ INIT ═══ */
