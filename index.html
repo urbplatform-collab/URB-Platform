@@ -14,10 +14,7 @@
   --surface2:#10142c;
   --surface3:#161b3a;
   --purple:#8b5cf6;
-  --purple2:#7c4dff;
   --cyan:#22d3ee;
-  --cyan2:#00e5ff;
-  --pink:#f472b6;
   --gold:#fbbf24;
   --red:#f87171;
   --green:#34d399;
@@ -27,7 +24,6 @@
   --border2:rgba(255,255,255,0.07);
   --grad:linear-gradient(135deg,var(--purple) 0%,var(--cyan) 100%);
   --glow-p:0 0 40px rgba(139,92,246,0.25);
-  --glow-c:0 0 40px rgba(34,211,238,0.2);
 }
 *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 html{scroll-behavior:smooth}
@@ -42,183 +38,136 @@ body{
 ::-webkit-scrollbar-track{background:var(--bg)}
 ::-webkit-scrollbar-thumb{background:var(--surface3);border-radius:4px}
 
-/* ═══ INTRO SPLASH SCREEN (IMMERSIVE ZOOM) ═══ */
+/* ═══ INTRO SPLASH SCREEN ═══ */
 .intro-splash {
   position: fixed; inset: 0; background: #03040a; z-index: 999999;
   display: flex; align-items: center; justify-content: center; flex-direction: column;
-  transition: transform 1.6s cubic-bezier(0.8, 0, 0.2, 1), opacity 1.2s ease-in;
-  transform-origin: center center;
-  overflow: hidden;
+  transition: transform 1.8s cubic-bezier(0.8, 0, 0.2, 1), opacity 1.5s ease-in;
+  transform-origin: center center; overflow: hidden;
 }
-.intro-splash.zoomed {
-  transform: scale(60); /* الزوم الخارق للدخول في الخريطة */
-  opacity: 0;
-  pointer-events: none;
+.intro-splash.zoomed { transform: scale(80); opacity: 0; pointer-events: none; }
+
+/* 1. شاشة اختيار اللغة (Gaming Style) */
+.intro-lang-screen {
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  width: 100%; height: 100%; transition: opacity 0.5s; z-index: 10;
 }
-/* الكرة الأرضية الحقيقية (بصورة خريطة فيكتور مفرغة) */
+.intro-glitch-title {
+  font-family: 'Space Mono', monospace; font-size: 2.2rem; font-weight: 700;
+  color: var(--cyan); letter-spacing: 4px; margin-bottom: 30px;
+  text-shadow: 0 0 20px rgba(34,211,238,0.5); text-align: center;
+}
+.intro-lang-grid {
+  display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; max-width: 800px; padding: 20px;
+}
+@media(max-width:760px){ .intro-lang-grid { grid-template-columns: repeat(2, 1fr); } }
+.btn-lang-select {
+  background: rgba(11,14,32,0.8); border: 1px solid var(--border); color: var(--text);
+  padding: 18px 24px; border-radius: 12px; font-family: 'Tajawal', sans-serif;
+  font-size: 1.1rem; font-weight: 600; cursor: pointer; transition: all 0.2s;
+  display: flex; flex-direction: column; align-items: center; gap: 8px;
+}
+.btn-lang-select:hover { border-color: var(--cyan); box-shadow: 0 0 20px rgba(34,211,238,0.2); transform: translateY(-3px); }
+.btn-lang-select span:first-child { font-size: 1.8rem; }
+
+/* 2. الكرة الأرضية (خريطة السعودية) */
+.intro-globe-screen {
+  display: none; flex-direction: column; align-items: center; justify-content: center;
+  width: 100%; height: 100%; z-index: 5;
+}
 .globe-wrapper {
-  position: relative; width: 340px; height: 340px; border-radius: 50%;
-  background: radial-gradient(circle at 30% 30%, rgba(34,211,238,0.1), #03040a 80%);
-  box-shadow: 0 0 80px rgba(34,211,238,0.15), inset 0 0 40px rgba(139,92,246,0.3);
-  border: 1px solid rgba(34,211,238,0.4);
-  margin-bottom: 50px; overflow: hidden;
+  position: relative; width: 380px; height: 380px; border-radius: 50%;
+  background: radial-gradient(circle at 30% 30%, rgba(34,211,238,0.05), #03040a 80%);
+  box-shadow: 0 0 80px rgba(34,211,238,0.1), inset 0 0 40px rgba(139,92,246,0.2);
+  border: 1px solid rgba(34,211,238,0.3); margin-bottom: 40px; overflow: hidden;
 }
 .globe-map {
-  position: absolute; width: 280%; height: 140%; top: -20%; left: -60%;
-  /* خريطة العالم الحقيقية بخطوط القارات والبحار */
+  position: absolute; 
+  /* تكبير الخريطة والتركيز على إحداثيات السعودية والشرق الأوسط */
+  width: 450%; height: 220%; top: -15%; left: -190%;
   background-image: url('https://upload.wikimedia.org/wikipedia/commons/8/80/World_map_-_low_resolution.svg');
   background-size: cover; background-position: center; background-repeat: no-repeat;
-  opacity: 0.35; 
-  /* فلتر يحول الخريطة للون سايبربانك السماوي المتوهج */
-  filter: invert(1) sepia(1) saturate(10) hue-rotate(180deg) drop-shadow(0 0 2px var(--cyan));
+  opacity: 0.45; filter: invert(1) sepia(1) saturate(10) hue-rotate(180deg) drop-shadow(0 0 2px var(--cyan));
 }
-/* إضاءات الدول والعواصم */
-.g-node { position: absolute; border-radius: 50%; background: var(--cyan); box-shadow: 0 0 12px var(--cyan); }
-.node-ksa { width: 14px; height: 14px; top: 48%; left: 52%; background: var(--green); box-shadow: 0 0 30px var(--green); z-index: 5; }
-.node-ksa::after { content:''; position:absolute; inset:-16px; border:2px solid var(--green); border-radius:50%; animation: introPing 1.2s infinite; }
-/* دول المغرب، مصر، والإمارات (إضاءة خافتة) */
-.node-eg { width: 6px; height: 6px; top: 45%; left: 44%; opacity: 0.7; }
-.node-ae { width: 5px; height: 5px; top: 51%; left: 59%; opacity: 0.7; }
-.node-ma { width: 5px; height: 5px; top: 41%; left: 30%; opacity: 0.7; }
-.node-jo { width: 4px; height: 4px; top: 41%; left: 48%; opacity: 0.7; }
-.g-node::before { content:''; position:absolute; inset:-8px; border:1px solid var(--cyan); border-radius:50%; animation: introPing 2s infinite; }
-
+/* إضاءة السعودية الساطعة في المنتصف */
+.g-node { position: absolute; border-radius: 50%; background: var(--cyan); box-shadow: 0 0 15px var(--cyan); }
+.node-ksa { width: 16px; height: 16px; top: 48%; left: 49%; background: var(--green); box-shadow: 0 0 40px var(--green); z-index: 5; }
+.node-ksa::after { content:''; position:absolute; inset:-18px; border:2px solid var(--green); border-radius:50%; animation: introPing 1.2s infinite; }
+/* إضاءات أخرى (مصر، الإمارات، المغرب، الأردن) */
+.node-eg { width: 7px; height: 7px; top: 41%; left: 41%; opacity: 0.8; }
+.node-ae { width: 6px; height: 6px; top: 51%; left: 56%; opacity: 0.8; }
+.node-ma { width: 5px; height: 5px; top: 32%; left: 24%; opacity: 0.8; }
+.node-jo { width: 5px; height: 5px; top: 35%; left: 45%; opacity: 0.8; }
+.g-node::before { content:''; position:absolute; inset:-10px; border:1px solid var(--cyan); border-radius:50%; animation: introPing 2s infinite; }
 @keyframes introPing { 0% { transform:scale(0.5); opacity:1; } 100% { transform:scale(2.5); opacity:0; } }
 
-/* العداد */
-.intro-counter-box { text-align: center; position: absolute; bottom: 12%; opacity: 0; transition: opacity 0.4s ease; z-index: 10; }
-.intro-count-val { font-family: 'Space Mono', monospace; font-size: 3.5rem; font-weight: 700; background: var(--grad); -webkit-background-clip: text; color: transparent; margin-bottom: 5px; text-shadow: var(--glow-p); }
-.intro-count-lbl { font-size: 1.1rem; color: var(--text); letter-spacing: 1px; font-weight: 600; }
+/* العداد وزر التشغيل */
+.intro-counter-box { text-align: center; position: absolute; bottom: 10%; opacity: 0; transition: opacity 0.4s ease; z-index: 10; }
+.intro-count-val { font-family: 'Space Mono', monospace; font-size: 4rem; font-weight: 700; background: var(--grad); -webkit-background-clip: text; color: transparent; margin-bottom: 5px; text-shadow: var(--glow-p); }
+.intro-count-lbl { font-size: 1.2rem; color: var(--text); letter-spacing: 1px; font-weight: 600; }
 
-/* الزر الديناميكي الجذاب */
 .btn-play-intro {
-  background: rgba(139,92,246,0.15); border: 2px solid var(--purple);
-  color: #fff; padding: 18px 46px; border-radius: 100px;
-  font-family: 'Space Grotesk', 'Tajawal', sans-serif; font-size: 1.3rem; font-weight: 700;
-  cursor: pointer; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  background: rgba(139,92,246,0.15); border: 2px solid var(--purple); color: #fff;
+  padding: 18px 46px; border-radius: 100px; font-family: 'Space Grotesk', 'Tajawal', sans-serif;
+  font-size: 1.3rem; font-weight: 700; cursor: pointer; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   box-shadow: 0 0 25px rgba(139,92,246,0.3); position: absolute; bottom: 15%;
-  display: flex; align-items: center; justify-content: center; gap: 14px;
-  z-index: 9999999; /* لضمان قابليته للضغط دائماً */
-  pointer-events: auto;
+  display: flex; align-items: center; justify-content: center; gap: 14px; z-index: 10;
 }
 .btn-play-intro:hover { background: var(--purple); box-shadow: 0 0 50px rgba(139,92,246,0.6); transform: scale(1.08); }
 .btn-play-intro:active { transform: scale(0.95); }
-.play-icon { font-size: 1.5rem; }
-.play-text { min-width: 140px; text-align: center; transition: opacity 0.2s; }
-
 
 /* ═══ STARFIELD ═══ */
 #stars{position:fixed;inset:0;z-index:0;pointer-events:none}
 .float-icons{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden}
 .f-icon{position:absolute;opacity:0.06;font-size:2.4rem;animation:floaty 18s ease-in-out infinite}
-@keyframes floaty{
-  0%,100%{transform:translateY(0) rotate(-6deg)}
-  50%{transform:translateY(-34px) rotate(8deg)}
-}
+@keyframes floaty{ 0%,100%{transform:translateY(0) rotate(-6deg)} 50%{transform:translateY(-34px) rotate(8deg)} }
 
-/* ═══ LAYOUT ═══ */
+/* ═══ LAYOUT & COMMON ═══ */
 .view{display:none;position:relative;z-index:1}
 .view.active{display:block}
 .wrap{max-width:1200px;margin:0 auto;padding:0 24px}
 
-/* ═══ NAV ═══ */
-nav{
-  position:sticky;top:0;z-index:90;
-  background:rgba(5,6,15,0.75);backdrop-filter:blur(24px);
-  border-bottom:1px solid var(--border2);
-}
+nav{position:sticky;top:0;z-index:90;background:rgba(5,6,15,0.75);backdrop-filter:blur(24px);border-bottom:1px solid var(--border2);}
 .nav-inner{max-width:1200px;margin:0 auto;padding:14px 24px;display:flex;align-items:center;justify-content:space-between;gap:14px}
 .logo{display:flex;align-items:center;gap:10px;cursor:pointer}
-.logo-mark{
-  width:34px;height:34px;border-radius:10px;background:var(--grad);
-  display:flex;align-items:center;justify-content:center;font-size:1.05rem;
-  box-shadow:var(--glow-p);
-}
+.logo-mark{width:34px;height:34px;border-radius:10px;background:var(--grad);display:flex;align-items:center;justify-content:center;font-size:1.05rem;box-shadow:var(--glow-p);}
 .logo-name{font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:1.25rem;letter-spacing:-0.5px}
 .logo-name b{background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
 .nav-links{display:flex;gap:22px;align-items:center}
 .nav-links a{color:var(--dim);text-decoration:none;font-size:0.88rem;transition:color 0.2s}
 .nav-links a:hover{color:var(--text)}
 .nav-cta{display:flex;gap:10px;align-items:center}
-.btn{
-  border:none;cursor:pointer;font-family:inherit;border-radius:11px;
-  font-weight:700;transition:all 0.22s;text-decoration:none;
-  display:inline-flex;align-items:center;justify-content:center;gap:8px;
-}
+
+.btn{border:none;cursor:pointer;font-family:inherit;border-radius:11px;font-weight:700;transition:all 0.22s;display:inline-flex;align-items:center;justify-content:center;gap:8px;}
 .btn-grad{background:var(--grad);color:#fff;padding:10px 22px;font-size:0.9rem}
 .btn-grad:hover{transform:translateY(-2px);box-shadow:0 10px 32px rgba(139,92,246,0.45)}
 .btn-ghost{background:rgba(255,255,255,0.04);border:1px solid var(--border2);color:var(--text);padding:10px 20px;font-size:0.88rem}
-.btn-ghost:hover{border-color:var(--purple)}
 .btn-sm{padding:7px 14px;font-size:0.8rem;border-radius:9px}
 
-/* lang picker */
 .lang-pick{position:relative}
 .lang-btn{background:rgba(255,255,255,0.04);border:1px solid var(--border2);color:var(--text);border-radius:10px;padding:8px 14px;font-size:0.82rem;cursor:pointer;display:flex;gap:7px;align-items:center;font-family:inherit}
-.lang-menu{
-  position:absolute;top:110%;inset-inline-end:0;background:var(--surface2);
-  border:1px solid var(--border);border-radius:13px;padding:6px;
-  display:none;flex-direction:column;min-width:160px;z-index:100;
-  box-shadow:0 20px 50px rgba(0,0,0,0.5);max-height:320px;overflow-y:auto;
-}
+.lang-menu{position:absolute;top:110%;inset-inline-end:0;background:var(--surface2);border:1px solid var(--border);border-radius:13px;padding:6px;display:none;flex-direction:column;min-width:160px;z-index:100;box-shadow:0 20px 50px rgba(0,0,0,0.5);max-height:320px;overflow-y:auto;}
 .lang-menu.open{display:flex}
 .lang-opt{background:none;border:none;color:var(--text);padding:9px 13px;border-radius:8px;cursor:pointer;text-align:start;font-size:0.85rem;font-family:inherit;display:flex;gap:9px;align-items:center}
 .lang-opt:hover{background:var(--surface3)}
-.lang-opt.on{background:rgba(139,92,246,0.15);color:var(--purple)}
 
-/* ═══ HERO ═══ */
-.hero{padding:90px 24px 60px;max-width:1200px;margin:0 auto;display:grid;grid-template-columns:1.05fr 0.95fr;gap:48px;align-items:center;min-height:82vh}
-.hero-eyebrow{
-  display:inline-flex;align-items:center;gap:8px;
-  border:1px solid var(--border);border-radius:100px;
-  padding:6px 16px;font-size:0.78rem;color:var(--cyan);
-  font-family:'Space Mono',monospace;margin-bottom:26px;
-  background:rgba(34,211,238,0.05);
-}
-.hero-eyebrow .dot{width:7px;height:7px;border-radius:50%;background:var(--cyan);animation:pulse 2s infinite}
-@keyframes pulse{0%,100%{opacity:1}50%{opacity:0.3}}
-.hero h1{
-  font-family:'Space Grotesk','Tajawal',sans-serif;
-  font-size:clamp(2.4rem,5.4vw,4.2rem);
-  line-height:1.06;font-weight:700;letter-spacing:-1.5px;margin-bottom:24px;
-}
-.hero h1 .g1{background:linear-gradient(135deg,#a78bfa,#8b5cf6);-webkit-background-clip:text;background-clip:text;color:transparent}
-.hero h1 .g2{background:linear-gradient(135deg,#22d3ee,#67e8f9);-webkit-background-clip:text;background-clip:text;color:transparent}
+/* ═══ HERO & TERMINAL ═══ */
+.hero{padding:90px 24px 60px;max-width:1200px;margin:0 auto;display:grid;grid-template-columns:1.05fr 0.95fr;gap:48px;align-items:center;}
+.hero-eyebrow{display:inline-flex;align-items:center;gap:8px;border:1px solid var(--border);border-radius:100px;padding:6px 16px;font-size:0.78rem;color:var(--cyan);font-family:'Space Mono',monospace;margin-bottom:26px;background:rgba(34,211,238,0.05);}
+.hero h1{font-family:'Space Grotesk','Tajawal',sans-serif;font-size:clamp(2.4rem,5.4vw,4.2rem);line-height:1.06;font-weight:700;letter-spacing:-1.5px;margin-bottom:24px;}
 .hero p{color:var(--dim);font-size:1.05rem;line-height:1.85;max-width:480px;margin-bottom:34px}
 .hero-actions{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:44px}
-.btn-hero{padding:15px 30px;font-size:1rem;border-radius:13px}
 .hero-stats{display:flex;gap:34px;flex-wrap:wrap}
 .hstat .n{font-family:'Space Mono',monospace;font-size:1.7rem;font-weight:700;background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
 .hstat .l{font-size:0.72rem;color:var(--dim);letter-spacing:1.4px;text-transform:uppercase;margin-top:3px;font-family:'Space Mono',monospace}
 
-/* terminal demo */
-.term{
-  background:rgba(11,14,32,0.85);border:1px solid var(--border);
-  border-radius:20px;overflow:hidden;backdrop-filter:blur(16px);
-  box-shadow:0 30px 90px rgba(0,0,0,0.55),var(--glow-p);
-}
+.term{background:rgba(11,14,32,0.85);border:1px solid var(--border);border-radius:20px;overflow:hidden;backdrop-filter:blur(16px);box-shadow:0 30px 90px rgba(0,0,0,0.55),var(--glow-p);}
 .term-bar{display:flex;align-items:center;gap:10px;padding:15px 20px;border-bottom:1px solid var(--border2)}
-.term-dots{display:flex;gap:6px}
-.term-dots span{width:11px;height:11px;border-radius:50%}
 .term-title{font-family:'Space Mono',monospace;font-size:0.72rem;letter-spacing:2px;color:var(--dim)}
 .term-body{padding:24px 22px}
 .term-label{font-family:'Space Mono',monospace;font-size:0.7rem;letter-spacing:1.6px;margin-bottom:9px}
-.term-box{
-  background:rgba(255,255,255,0.025);border:1px solid var(--border2);
-  border-radius:13px;padding:16px 18px;font-family:'Space Mono',monospace;
-  font-size:0.86rem;line-height:1.75;min-height:76px;
-}
-.term-arrow{
-  width:46px;height:46px;border-radius:50%;background:var(--grad);
-  display:flex;align-items:center;justify-content:center;margin:-2px auto;
-  position:relative;z-index:2;box-shadow:var(--glow-p);font-size:1.1rem;color:#fff;
-}
-.term-status{
-  margin-top:18px;display:flex;justify-content:space-between;gap:12px;
-  background:rgba(52,211,153,0.06);border:1px solid rgba(52,211,153,0.2);
-  border-radius:11px;padding:13px 16px;
-  font-family:'Space Mono',monospace;font-size:0.68rem;color:var(--green);
-  letter-spacing:0.6px;flex-wrap:wrap;
-}
+.term-box{background:rgba(255,255,255,0.025);border:1px solid var(--border2);border-radius:13px;padding:16px 18px;font-family:'Space Mono',monospace;font-size:0.86rem;line-height:1.75;min-height:76px;}
+.term-arrow{width:46px;height:46px;border-radius:50%;background:var(--grad);display:flex;align-items:center;justify-content:center;margin:-2px auto;position:relative;z-index:2;box-shadow:var(--glow-p);font-size:1.1rem;color:#fff;}
 .type-caret::after{content:'▋';animation:pulse 1s infinite}
 
 /* ═══ SECTIONS ═══ */
@@ -229,59 +178,27 @@ section{padding:84px 24px;position:relative;z-index:1}
 .sec-sub{color:var(--dim);font-size:1rem;max-width:560px;line-height:1.8;margin-bottom:44px}
 
 .grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
-.card{
-  background:rgba(11,14,32,0.7);border:1px solid var(--border2);
-  border-radius:18px;padding:30px 26px;backdrop-filter:blur(12px);
-  transition:all 0.28s;position:relative;overflow:hidden;
-}
+.card{background:rgba(11,14,32,0.7);border:1px solid var(--border2);border-radius:18px;padding:30px 26px;backdrop-filter:blur(12px);transition:all 0.28s;position:relative;overflow:hidden;}
 .card:hover{border-color:var(--border);transform:translateY(-4px);}
 .card .num{font-family:'Space Mono',monospace;font-size:0.72rem;color:var(--purple);letter-spacing:2px;margin-bottom:16px}
-.card .ic{
-  width:52px;height:52px;border-radius:14px;font-size:1.5rem;
-  background:rgba(139,92,246,0.1);border:1px solid var(--border);
-  display:flex;align-items:center;justify-content:center;margin-bottom:18px;
-}
-.card h3{font-family:'Space Grotesk','Tajawal',sans-serif;font-size:1.15rem;margin-bottom:10px}
-.card p{color:var(--dim);font-size:0.88rem;line-height:1.8}
+.card .ic{width:52px;height:52px;border-radius:14px;font-size:1.5rem;background:rgba(139,92,246,0.1);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;margin-bottom:18px;}
 
 /* PRICING */
 .price-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;align-items:stretch}
-.price-card{
-  background:rgba(11,14,32,0.75);border:1px solid var(--border2);
-  border-radius:22px;padding:34px 28px;display:flex;flex-direction:column;
-  backdrop-filter:blur(12px);transition:all 0.28s;position:relative;
-}
+.price-card{background:rgba(11,14,32,0.75);border:1px solid var(--border2);border-radius:22px;padding:34px 28px;display:flex;flex-direction:column;backdrop-filter:blur(12px);transition:all 0.28s;position:relative;}
 .price-card.feat{border:1.5px solid var(--purple);box-shadow:var(--glow-p)}
-.price-badge{
-  position:absolute;top:-13px;inset-inline-start:50%;transform:translateX(50%);
-  background:var(--grad);color:#fff;border-radius:100px;
-  padding:5px 18px;font-size:0.72rem;font-weight:700;white-space:nowrap;
-}
+.price-badge{position:absolute;top:-13px;inset-inline-start:50%;transform:translateX(50%);background:var(--grad);color:#fff;border-radius:100px;padding:5px 18px;font-size:0.72rem;font-weight:700;white-space:nowrap;}
 [dir="ltr"] .price-badge{transform:translateX(-50%)}
 .price-plan{font-family:'Space Mono',monospace;font-size:0.72rem;letter-spacing:2.4px;color:var(--dim);margin-bottom:14px}
 .price-amt{font-size:2.2rem;font-weight:700;margin-bottom:4px}
 .price-per{color:var(--dim);font-size:0.8rem;margin-bottom:26px}
 .price-feats{list-style:none;flex:1;margin-bottom:26px}
 .price-feats li{display:flex;gap:10px;padding:9px 0;font-size:0.86rem;color:#c3c9e3;border-bottom:1px solid rgba(255,255,255,0.04)}
-.price-feats li .ck{color:var(--cyan);font-weight:700}
 
 /* WORKFLOW */
 .flow{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
 .flow-step{position:relative;padding:26px 20px;background:rgba(11,14,32,0.7);border:1px solid var(--border2);border-radius:16px}
-.flow-step .fnum{
-  font-family:'Space Mono',monospace;width:34px;height:34px;border-radius:10px;
-  background:var(--grad);color:#fff;display:flex;align-items:center;justify-content:center;
-  font-weight:700;font-size:0.85rem;margin-bottom:14px;
-}
-.flow-step h4{font-size:0.98rem;margin-bottom:7px}
-.flow-step p{font-size:0.8rem;color:var(--dim);line-height:1.7}
-
-/* ABOUT */
-.about-grid{display:grid;grid-template-columns:1.1fr 0.9fr;gap:44px;align-items:start}
-.about-text{color:#c3c9e3;line-height:2;font-size:0.96rem;}
-.contact-card{background:rgba(11,14,32,0.75);border:1px solid var(--border);border-radius:20px;padding:30px}
-.c-row{display:flex;gap:13px;align-items:flex-start;padding:13px 0;border-bottom:1px solid rgba(255,255,255,0.05);font-size:0.9rem}
-.c-row .ci{width:38px;height:38px;border-radius:11px;background:rgba(139,92,246,0.1);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.flow-step .fnum{font-family:'Space Mono',monospace;width:34px;height:34px;border-radius:10px;background:var(--grad);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:0.85rem;margin-bottom:14px;}
 
 /* FOOTER FULL */
 footer{border-top:1px solid var(--border2);padding:52px 24px 34px;position:relative;z-index:1;background:rgba(5,6,15,0.7)}
@@ -293,33 +210,17 @@ footer{border-top:1px solid var(--border2);padding:52px 24px 34px;position:relat
 .foot-bottom{display:flex;justify-content:space-between;align-items:center;gap:14px;padding-top:24px;border-top:1px solid rgba(255,255,255,0.05);font-size:0.78rem;color:var(--dim);flex-wrap:wrap}
 
 /* MODALS */
-.overlay{
-  position:fixed;inset:0;background:rgba(3,4,10,0.82);backdrop-filter:blur(10px);
-  z-index:200;display:flex;align-items:center;justify-content:center;
-  opacity:0;pointer-events:none;transition:opacity 0.3s;padding:20px;
-}
+.overlay{position:fixed;inset:0;background:rgba(3,4,10,0.82);backdrop-filter:blur(10px);z-index:200;display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity 0.3s;padding:20px;}
 .overlay.open{opacity:1;pointer-events:all}
-.panel{
-  background:var(--surface);border:1px solid var(--border);border-radius:22px;
-  width:580px;max-width:96vw;max-height:90vh;overflow-y:auto;
-  box-shadow:0 40px 100px rgba(0,0,0,0.6);
-}
-.panel-head{
-  padding:19px 24px;border-bottom:1px solid var(--border2);
-  display:flex;align-items:center;justify-content:space-between;
-  position:sticky;top:0;background:var(--surface);z-index:2;
-}
+.panel{background:var(--surface);border:1px solid var(--border);border-radius:22px;width:580px;max-width:96vw;max-height:90vh;overflow-y:auto;box-shadow:0 40px 100px rgba(0,0,0,0.6);}
+.panel-head{padding:19px 24px;border-bottom:1px solid var(--border2);display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;background:var(--surface);z-index:2;}
 .panel-title{font-weight:700;font-size:1rem}
 .x-btn{background:none;border:none;color:var(--dim);font-size:1.15rem;cursor:pointer;padding:4px 9px;}
 .panel-body{padding:24px}
 
 .fg{margin-bottom:16px}
 .fl{display:block;font-family:'Space Mono',monospace;font-size:0.68rem;letter-spacing:1.2px;color:var(--dim);margin-bottom:7px}
-.fi{
-  width:100%;background:var(--surface2);border:1px solid var(--border2);
-  border-radius:11px;padding:12px 15px;color:var(--text);font-size:0.92rem;
-  font-family:'Tajawal',sans-serif;outline:none;
-}
+.fi{width:100%;background:var(--surface2);border:1px solid var(--border2);border-radius:11px;padding:12px 15px;color:var(--text);font-size:0.92rem;font-family:'Tajawal',sans-serif;outline:none;}
 .f2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
 .fmsg{display:none;margin-top:12px;padding:11px 15px;border-radius:10px;font-size:0.83rem}
 .fmsg.err{display:block;background:rgba(248,113,113,0.09);border:1px solid rgba(248,113,113,0.3);color:var(--red)}
@@ -332,22 +233,10 @@ footer{border-top:1px solid var(--border2);padding:52px 24px 34px;position:relat
 /* DASHBOARDS */
 .dash{display:none;min-height:100vh;}
 .dash.active{display:flex;flex-direction:column}
-.dash-top{
-  position:sticky;top:0;z-index:80;
-  background:rgba(5,6,15,0.85);backdrop-filter:blur(20px);
-  border-bottom:1px solid var(--border2);
-  padding:13px 22px;display:flex;align-items:center;justify-content:space-between;
-}
+.dash-top{position:sticky;top:0;z-index:80;background:rgba(5,6,15,0.85);backdrop-filter:blur(20px);border-bottom:1px solid var(--border2);padding:13px 22px;display:flex;align-items:center;justify-content:space-between;}
 .dash-body{flex:1;display:flex;max-width:1400px;width:100%;margin:0 auto}
-.dash-side{
-  width:230px;flex-shrink:0;border-inline-end:1px solid var(--border2);
-  padding:20px 14px;display:flex;flex-direction:column;gap:4px;
-}
-.side-item{
-  display:flex;align-items:center;gap:11px;padding:11px 15px;border-radius:11px;
-  color:var(--dim);cursor:pointer;font-size:0.88rem;background:none;border:none;
-  width:100%;text-align:start;
-}
+.dash-side{width:230px;flex-shrink:0;border-inline-end:1px solid var(--border2);padding:20px 14px;display:flex;flex-direction:column;gap:4px;}
+.side-item{display:flex;align-items:center;gap:11px;padding:11px 15px;border-radius:11px;color:var(--dim);cursor:pointer;font-size:0.88rem;background:none;border:none;width:100%;text-align:start;}
 .side-item.on{background:rgba(139,92,246,0.1);color:var(--text);border:1px solid var(--border)}
 .dash-main{flex:1;padding:26px;min-width:0}
 .dpage{display:none}
@@ -357,7 +246,6 @@ footer{border-top:1px solid var(--border2);padding:52px 24px 34px;position:relat
 .stat{background:rgba(11,14,32,0.75);border:1px solid var(--border2);border-radius:15px;padding:19px 20px;}
 .stat .sl{font-family:'Space Mono',monospace;font-size:0.62rem;color:var(--dim)}
 .stat .sv{font-family:'Space Mono',monospace;font-size:1.65rem;font-weight:700}
-.stat .ss{font-size:0.72rem;color:var(--dim);margin-top:4px}
 
 .dcard{background:rgba(11,14,32,0.75);border:1px solid var(--border2);border-radius:17px;overflow:hidden;margin-bottom:20px;}
 .dcard-head{padding:16px 20px;border-bottom:1px solid var(--border2);display:flex;align-items:center;justify-content:space-between;}
@@ -366,49 +254,56 @@ footer{border-top:1px solid var(--border2);padding:52px 24px 34px;position:relat
 .mini-btn.mm{background:var(--grad);color:#fff;border:none;font-weight:700}
 .empty{text-align:center;padding:46px 18px;color:var(--dim)}
 
-/* BOT */
-.chat-widget-btn{position:fixed;bottom:20px;left:20px;background:linear-gradient(135deg,#6366f1,#a855f7);color:white;border:none;border-radius:50px;padding:12px 20px;font-weight:bold;cursor:pointer;z-index:99999;}
-.chat-box{position:fixed;bottom:80px;left:20px;width:360px;height:500px;background:#131525;border:1px solid rgba(255,255,255,0.1);border-radius:16px;display:none;flex-direction:column;z-index:99999;color:#fff;}
-.chat-header{background:#1a1d36;padding:16px;display:flex;justify-content:space-between;}
-.chat-messages{flex:1;padding:16px;overflow-y:auto;display:flex;flex-direction:column;gap:12px;}
-.message{max-width:80%;padding:10px 14px;border-radius:12px;font-size:14px;}
-.message.user{background:#6366f1;color:white;align-self:flex-start;}
-.message.bot{background:#222643;color:#e2e8f0;align-self:flex-end;}
-.chat-input-area{padding:12px;background:#1a1d36;display:flex;gap:8px;}
-.chat-input{flex:1;background:#0b0d17;border:1px solid rgba(255,255,255,0.1);border-radius:8px;padding:10px;color:white;outline:none;}
-.send-btn{background:linear-gradient(135deg,#6366f1,#a855f7);color:white;border:none;border-radius:8px;width:42px;cursor:pointer;}
-
 @media(max-width:1024px){.hero{grid-template-columns:1fr;}.grid3,.price-grid,.flow{grid-template-columns:1fr;}.foot-grid{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
 
-<!-- ═══ INTRO SPLASH SCREEN (REALISTIC GLOBE & ZOOM) ═══ -->
+<!-- ═══ INTRO SPLASH SCREEN (GAMIFIED) ═══ -->
 <div id="intro-splash" class="intro-splash">
-  <div class="globe-wrapper">
-    <div class="globe-map"></div>
-    <div class="g-node node-ksa" title="KSA"></div>
-    <div class="g-node node-eg" title="Egypt"></div>
-    <div class="g-node node-ae" title="UAE"></div>
-    <div class="g-node node-ma" title="Morocco"></div>
-    <div class="g-node node-jo" title="Jordan"></div>
-  </div>
   
-  <button id="intro-btn" class="btn-play-intro" onclick="startIntro()">
-    <span class="play-icon">▶️</span>
-    <span id="intro-btn-text" class="play-text">يلاه نلعب</span>
-  </button>
-  
-  <div id="intro-counter-box" class="intro-counter-box">
-    <div id="intro-count-val" class="intro-count-val">0</div>
-    <div class="intro-count-lbl" data-i18n="intro_gamers">لاعب عربي مسجل</div>
+  <!-- 1. شاشة اختيار اللغة -->
+  <div id="intro-lang-screen" class="intro-lang-screen">
+    <div class="intro-glitch-title">SELECT REGION / CHOOSE LANGUAGE</div>
+    <div class="intro-lang-grid">
+      <button class="btn-lang-select" onclick="selectIntroLang('ar')"><span>🇸🇦</span><span>العربية</span></button>
+      <button class="btn-lang-select" onclick="selectIntroLang('en')"><span>🇺🇸</span><span>English</span></button>
+      <button class="btn-lang-select" onclick="selectIntroLang('zh')"><span>🇨🇳</span><span>中文</span></button>
+      <button class="btn-lang-select" onclick="selectIntroLang('ja')"><span>🇯🇵</span><span>日本語</span></button>
+      <button class="btn-lang-select" onclick="selectIntroLang('ko')"><span>🇰🇷</span><span>한국어</span></button>
+      <button class="btn-lang-select" onclick="selectIntroLang('ur')"><span>🇵🇰</span><span>اردو</span></button>
+      <button class="btn-lang-select" onclick="selectIntroLang('fr')"><span>🇫🇷</span><span>Français</span></button>
+      <button class="btn-lang-select" onclick="selectIntroLang('es')"><span>🇪🇸</span><span>Español</span></button>
+    </div>
   </div>
 
-  <!-- Audio SFX (Sci-Fi Game Boot) -->
-  <audio id="intro-sfx" src="https://cdn.pixabay.com/download/audio/2022/03/10/audio_c8c8a73467.mp3?filename=futuristic-smash-fx-9844.mp3" preload="auto"></audio>
+  <!-- 2. الكرة الأرضية والزوم بعد اختيار اللغة -->
+  <div id="intro-globe-screen" class="intro-globe-screen">
+    <div class="globe-wrapper">
+      <div class="globe-map"></div>
+      <div class="g-node node-ksa" title="KSA"></div>
+      <div class="g-node node-eg" title="Egypt"></div>
+      <div class="g-node node-ae" title="UAE"></div>
+      <div class="g-node node-ma" title="Morocco"></div>
+      <div class="g-node node-jo" title="Jordan"></div>
+    </div>
+    
+    <button id="intro-btn" class="btn-play-intro" onclick="startIntro()">
+      <span class="play-icon">▶️</span>
+      <span id="intro-btn-text" class="play-text" data-i18n="intro_btn_play">يلاه نلعب</span>
+    </button>
+    
+    <div id="intro-counter-box" class="intro-counter-box">
+      <div id="intro-count-val" class="intro-count-val">0</div>
+      <div class="intro-count-lbl" data-i18n="intro_gamers">لاعب سعودي مسجل</div>
+    </div>
+  </div>
+
+  <!-- Audio SFX (Epic Sci-Fi Riser) -->
+  <audio id="intro-sfx" src="https://cdn.pixabay.com/download/audio/2021/08/04/audio_12b0c7443c.mp3?filename=epic-whoosh-104812.mp3" preload="auto"></audio>
 </div>
 
-<!-- ═══ STARFIELD & FLOAT ICONS (RESTORED) ═══ -->
+<!-- ═══ STARFIELD & FLOAT ICONS ═══ -->
 <canvas id="stars"></canvas>
 <div class="float-icons" id="floatIcons"></div>
 
@@ -425,7 +320,6 @@ footer{border-top:1px solid var(--border2);padding:52px 24px 34px;position:relat
       <a href="#packages" data-i18n="nav_packages">الباقات</a>
       <a href="#workflow" data-i18n="nav_workflow">آلية العمل</a>
       <a href="#about" data-i18n="nav_about">من نحن</a>
-      <a href="#contact" data-i18n="nav_contact">تواصل</a>
     </div>
     <div class="nav-cta">
       <div class="lang-pick">
@@ -437,7 +331,6 @@ footer{border-top:1px solid var(--border2);padding:52px 24px 34px;position:relat
   </div>
 </nav>
 
-<!-- HERO -->
 <div class="hero">
   <div>
     <div class="hero-eyebrow"><span class="dot"></span> AI-POWERED LOCALIZATION</div>
@@ -458,9 +351,6 @@ footer{border-top:1px solid var(--border2);padding:52px 24px 34px;position:relat
     <div class="term-bar">
       <span style="color:var(--cyan);font-size:1.1rem;">⛶</span>
       <span class="term-title">URB_LOCALIZATION</span>
-      <div class="term-dots" style="margin-inline-start:auto;">
-        <span style="background:#f87171"></span><span style="background:#fbbf24"></span><span style="background:#34d399"></span>
-      </div>
     </div>
     <div class="term-body">
       <div class="term-label" style="color:var(--purple);">// SOURCE_EN</div>
@@ -476,10 +366,6 @@ footer{border-top:1px solid var(--border2);padding:52px 24px 34px;position:relat
   </div>
 </div>
 
-<!-- MARQUEE -->
-<div class="marquee"><div class="marquee-track"><span>عُرب <b>URB</b> ★ BUILT FOR GAMES ★ TRAINED BY HUMANS ★ توطين بروح عربية ★ AI + HUMAN REVIEW ★ 12 LANGUAGES ★ SAUDI • EGYPTIAN • ALGERIAN DIALECTS ★&nbsp;</span><span>عُرب <b>URB</b> ★ BUILT FOR GAMES ★ TRAINED BY HUMANS ★ توطين بروح عربية ★ AI + HUMAN REVIEW ★ 12 LANGUAGES ★ SAUDI • EGYPTIAN • ALGERIAN DIALECTS ★&nbsp;</span></div></div>
-
-<!-- TECH / ENGINE -->
 <section id="tech">
   <div class="sec-in">
     <div class="sec-tag">// THE ENGINE</div>
@@ -489,23 +375,22 @@ footer{border-top:1px solid var(--border2);padding:52px 24px 34px;position:relat
       <div class="card">
         <div class="num">01</div><div class="ic">🧠</div>
         <h3 data-i18n="tech_t1">URB-AI</h3>
-        <p data-i18n="tech_1">نموذج مخصص لعالم الألعاب يتعلم من كل مشروع ويحسّن دقته أسبوعياً — بفهم عميق لسياق وثقافة اللعب العربي.</p>
+        <p data-i18n="tech_1">نموذج مخصص لعالم الألعاب يتعلم من كل مشروع ويحسّن دقته أسبوعياً.</p>
       </div>
       <div class="card">
         <div class="num">02</div><div class="ic">🎭</div>
         <h3 data-i18n="tech_t2">Multimodal AI</h3>
-        <p data-i18n="tech_2">معالجة متكاملة للنصوص والصوت والصور — استخراج النصوص من الصور مع الحفاظ على التصميم الأصلي تماماً.</p>
+        <p data-i18n="tech_2">معالجة متكاملة للنصوص والصوت والصور مع الحفاظ على التصميم الأصلي.</p>
       </div>
       <div class="card">
         <div class="num">03</div><div class="ic">🔄</div>
         <h3 data-i18n="tech_t3">Human-in-the-Loop</h3>
-        <p data-i18n="tech_3">بيئة عمل موحدة تُمكّن المترجم من المراجعة والتعديل وإعادة التدريب — الآلة تقترح والإنسان يقرر.</p>
+        <p data-i18n="tech_3">بيئة عمل موحدة تُمكّن المترجم من المراجعة والتعديل — الآلة تقترح والإنسان يقرر.</p>
       </div>
     </div>
   </div>
 </section>
 
-<!-- PACKAGES -->
 <section id="packages" style="background:rgba(11,14,32,0.4);">
   <div class="sec-in">
     <div class="sec-tag">// PACKAGES</div>
@@ -515,14 +400,13 @@ footer{border-top:1px solid var(--border2);padding:52px 24px 34px;position:relat
   </div>
 </section>
 
-<!-- WORKFLOW -->
 <section id="workflow">
   <div class="sec-in">
     <div class="sec-tag">// WORKFLOW</div>
     <h2 class="sec-title" data-i18n="wf_title">من الرفع إلى الإطلاق</h2>
     <p class="sec-sub" data-i18n="wf_sub">رحلة حزمتك عبر منظومة عُرب.</p>
     <div class="flow">
-      <div class="flow-step"><div class="fnum">1</div><h4 data-i18n="wf_1">أرسل حزمتك</h4><p data-i18n="wf_1s">ارفع ملفات لعبتك وحدد اللغات المستهدفة والموعد.</p></div>
+      <div class="flow-step"><div class="fnum">1</div><h4 data-i18n="wf_1">أرسل حزمتك</h4><p data-i18n="wf_1s">ارفع رابط ملفات لعبتك وحدد اللغات والموعد.</p></div>
       <div class="flow-step"><div class="fnum">2</div><h4 data-i18n="wf_2">معالجة AI</h4><p data-i18n="wf_2s">محرك URB يترجم مع الحفاظ على السياق والمصطلحات.</p></div>
       <div class="flow-step"><div class="fnum">3</div><h4 data-i18n="wf_3">مراجعة بشرية</h4><p data-i18n="wf_3s">خبراء لغويون يدققون الدقة الثقافية وجودة التجربة.</p></div>
       <div class="flow-step"><div class="fnum">4</div><h4 data-i18n="wf_4">تسليم وإطلاق</h4><p data-i18n="wf_4s">حزمة جاهزة للدمج — مع دعم تسويقي في باقة PLUS.</p></div>
@@ -530,26 +414,6 @@ footer{border-top:1px solid var(--border2);padding:52px 24px 34px;position:relat
   </div>
 </section>
 
-<!-- ABOUT + CONTACT -->
-<section id="about" style="background:rgba(11,14,32,0.4);">
-  <div class="sec-in">
-    <div class="about-grid">
-      <div>
-        <div class="sec-tag">// ABOUT US</div>
-        <h2 class="sec-title" data-i18n="ab_title">من نحن</h2>
-        <div class="about-text" id="aboutText" data-i18n="ab_default">عُرب URB منصة سعودية متخصصة في توطين ألعاب الفيديو، تجمع بين قوة الذكاء الاصطناعي والخبرة البشرية عشان توصلك تجربة عربية أصيلة لكل لاعب.</div>
-      </div>
-      <div class="contact-card" id="contact">
-        <h3 style="margin-bottom:16px;font-size:1.05rem;" data-i18n="ct_title">📡 تواصل معنا</h3>
-        <div class="c-row"><div class="ci">✉️</div><div><div style="font-size:0.7rem;color:var(--dim);font-family:'Space Mono',monospace;margin-bottom:3px;">EMAIL</div><a id="ctEmail" href="mailto:info@urbgame.com">info@urbgame.com</a></div></div>
-        <div class="c-row"><div class="ci">📞</div><div><div style="font-size:0.7rem;color:var(--dim);font-family:'Space Mono',monospace;margin-bottom:3px;">PHONE</div><a id="ctPhone" href="tel:+966500000000">+966 50 000 0000</a></div></div>
-        <div class="c-row" style="border-bottom:none;"><div class="ci">📍</div><div><div style="font-size:0.7rem;color:var(--dim);font-family:'Space Mono',monospace;margin-bottom:3px;">ADDRESS</div><span id="ctAddress" style="color:#c3c9e3;">Riyadh, Saudi Arabia</span></div></div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- FOOTER FULL (RESTORED ORIGINAL DESIGN) -->
 <footer>
   <div class="foot-in">
     <div class="foot-grid">
@@ -570,9 +434,7 @@ footer{border-top:1px solid var(--border2);padding:52px 24px 34px;position:relat
       <div class="foot-col">
         <h5>COMPANY</h5>
         <a href="#about" data-i18n="nav_about">من نحن</a>
-        <a href="#contact" data-i18n="nav_contact">تواصل</a>
         <a href="#" onclick="openVendorApply();return false;" style="color:var(--gold);" data-i18n="foot_apply">🤝 قدّم كمتعهد / Freelancer</a>
-        <a href="#" onclick="openPolicy();return false;" data-i18n="foot_policy">سياسة الخصوصية</a>
       </div>
     </div>
     <div class="foot-bottom">
@@ -581,7 +443,6 @@ footer{border-top:1px solid var(--border2);padding:52px 24px 34px;position:relat
     </div>
   </div>
 </footer>
-
 </div><!-- /landing -->
 
 <!-- CLIENT DASHBOARD -->
@@ -589,10 +450,6 @@ footer{border-top:1px solid var(--border2);padding:52px 24px 34px;position:relat
   <div class="dash-top">
     <div class="dash-title"><span>URB</span> <span class="role-chip role-client">CLIENT</span></div>
     <div style="display:flex;gap:12px;align-items:center;">
-      <div class="lang-pick">
-        <button class="lang-btn" onclick="toggleLangMenu(event)"><span id="clLangFlag">🇸🇦</span> <span id="clLangName">العربية</span> ▾</button>
-        <div class="lang-menu" id="clLangMenu"></div>
-      </div>
       <span id="cl-name" style="font-size:0.82rem;color:var(--dim);"></span>
       <button class="mini-btn dg" onclick="doLogout()"><span data-i18n="btn_logout">خروج ↩</span></button>
     </div>
@@ -610,10 +467,10 @@ footer{border-top:1px solid var(--border2);padding:52px 24px 34px;position:relat
     <div class="dash-main">
       <div class="dpage active" id="client-overview">
         <div class="stats">
-          <div class="stat"><div class="sl" data-i18n="st_pkgs">PACKAGES</div><div class="sv" style="color:var(--purple);" id="cs-total">0</div><div class="ss" data-i18n="st_pkgs_sub">إجمالي الحزم</div></div>
-          <div class="stat"><div class="sl" data-i18n="st_proc">IN PROGRESS</div><div class="sv" style="color:var(--cyan);" id="cs-proc">0</div><div class="ss" data-i18n="st_proc_sub">قيد التنفيذ</div></div>
-          <div class="stat"><div class="sl" data-i18n="st_done">COMPLETED</div><div class="sv" style="color:var(--green);" id="cs-done">0</div><div class="ss" data-i18n="st_done_sub">مكتملة</div></div>
-          <div class="stat"><div class="sl" data-i18n="st_words">WORDS</div><div class="sv" style="color:var(--gold);" id="cs-words">0</div><div class="ss" data-i18n="st_words_sub">كلمة مقدرة</div></div>
+          <div class="stat"><div class="sl" data-i18n="st_pkgs">PACKAGES</div><div class="sv" style="color:var(--purple);" id="cs-total">0</div></div>
+          <div class="stat"><div class="sl" data-i18n="st_proc">IN PROGRESS</div><div class="sv" style="color:var(--cyan);" id="cs-proc">0</div></div>
+          <div class="stat"><div class="sl" data-i18n="st_done">COMPLETED</div><div class="sv" style="color:var(--green);" id="cs-done">0</div></div>
+          <div class="stat"><div class="sl" data-i18n="st_words">WORDS</div><div class="sv" style="color:var(--gold);" id="cs-words">0</div></div>
         </div>
         <div class="dcard">
           <div class="dcard-head">
@@ -623,17 +480,12 @@ footer{border-top:1px solid var(--border2);padding:52px 24px 34px;position:relat
           <div class="dcard-body" id="cl-recent"></div>
         </div>
       </div>
-
       <div class="dpage" id="client-packages">
         <div class="dcard">
-          <div class="dcard-head">
-            <div class="dcard-title" data-i18n="dash_pkgs">📦 كل حزمي</div>
-            <button class="mini-btn" onclick="loadClientPackages()">↻</button>
-          </div>
+          <div class="dcard-head"><div class="dcard-title" data-i18n="dash_pkgs">📦 كل حزمي</div><button class="mini-btn" onclick="loadClientPackages()">↻</button></div>
           <div class="dcard-body" id="cl-pkg-list"></div>
         </div>
       </div>
-
       <div class="dpage" id="client-glossary">
         <div class="dcard">
           <div class="dcard-head"><div class="dcard-title" data-i18n="dash_glossary">📖 مصطلحاتي المخصصة</div></div>
@@ -647,7 +499,6 @@ footer{border-top:1px solid var(--border2);padding:52px 24px 34px;position:relat
           </div>
         </div>
       </div>
-
       <div class="dpage" id="client-profile">
         <div class="dcard">
           <div class="dcard-head"><div class="dcard-title" data-i18n="dash_profile">👤 ملفي</div></div>
@@ -673,15 +524,14 @@ footer{border-top:1px solid var(--border2);padding:52px 24px 34px;position:relat
       <button class="side-item on" onclick="dPage('admin','overview',this)">📊 <span>نظرة عامة</span></button>
       <button class="side-item" onclick="dPage('admin','packages',this)">📦 <span>الحزم</span></button>
       <button class="side-item" onclick="dPage('admin','clients',this)">👤 <span>العملاء</span></button>
-      <button class="side-item" onclick="dPage('admin','team',this)">👥 <span>الفريق</span></button>
       <button class="side-item" onclick="dPage('admin','vendors',this)">🤝 <span>المتعهدون</span></button>
     </div>
     <div class="dash-main">
       <div class="dpage active" id="admin-overview">
         <div class="stats">
-          <div class="stat"><div class="sl">PACKAGES</div><div class="sv" style="color:var(--purple);" id="as-pkgs">0</div><div class="ss" id="as-pkgs-s">—</div></div>
-          <div class="stat"><div class="sl">CLIENTS</div><div class="sv" style="color:var(--cyan);" id="as-clients">0</div><div class="ss">عملاء</div></div>
-          <div class="stat"><div class="sl">PENDING</div><div class="sv" style="color:var(--gold);" id="as-pending">0</div><div class="ss">تحتاج توجيه</div></div>
+          <div class="stat"><div class="sl">PACKAGES</div><div class="sv" style="color:var(--purple);" id="as-pkgs">0</div></div>
+          <div class="stat"><div class="sl">CLIENTS</div><div class="sv" style="color:var(--cyan);" id="as-clients">0</div></div>
+          <div class="stat"><div class="sl">PENDING</div><div class="sv" style="color:var(--gold);" id="as-pending">0</div></div>
         </div>
         <div class="dcard">
           <div class="dcard-head"><div class="dcard-title">📦 أحدث الحزم</div></div>
@@ -694,7 +544,7 @@ footer{border-top:1px solid var(--border2);padding:52px 24px 34px;position:relat
 
 <!-- ═══════════ MODALS ═══════════ -->
 
-<!-- AUTH MODAL -->
+<!-- AUTH MODAL (With Forgot Password) -->
 <div class="overlay" id="authModal">
   <div class="panel" style="width:460px;">
     <div class="panel-head">
@@ -706,11 +556,28 @@ footer{border-top:1px solid var(--border2);padding:52px 24px 34px;position:relat
         <button class="atab on" id="at-login" onclick="authTab('login')" data-i18n="tab_login">دخول</button>
         <button class="atab" id="at-signup" onclick="authTab('signup')" data-i18n="tab_signup">حساب جديد</button>
       </div>
+      
+      <!-- Login Form -->
       <div id="f-login">
         <div class="fg"><label class="fl">EMAIL</label><input class="fi" type="email" id="li-email" style="direction:ltr;" placeholder="you@studio.com"></div>
-        <div class="fg"><label class="fl">PASSWORD</label><input class="fi" type="password" id="li-pass" onkeydown="if(event.key==='Enter')doLogin()"></div>
+        <div class="fg">
+          <div style="display:flex;justify-content:space-between;">
+            <label class="fl">PASSWORD</label>
+            <a href="#" onclick="showForgot(true)" style="font-size:0.75rem;color:var(--cyan);text-decoration:none;" data-i18n="forgot_pass">نسيت كلمة المرور؟</a>
+          </div>
+          <input class="fi" type="password" id="li-pass" onkeydown="if(event.key==='Enter')doLogin()">
+        </div>
         <button class="btn btn-grad" style="width:100%;padding:13px;" id="li-btn" onclick="doLogin()" data-i18n="tab_login">🔐 دخول</button>
       </div>
+
+      <!-- Forgot Password Form -->
+      <div id="f-forgot" style="display:none;">
+        <div class="fg"><label class="fl">EMAIL</label><input class="fi" type="email" id="fg-email" style="direction:ltr;" placeholder="you@studio.com"></div>
+        <button class="btn btn-grad" style="width:100%;padding:13px;" onclick="doForgot()" data-i18n="send_reset">إرسال رابط الاستعادة</button>
+        <div style="text-align:center;margin-top:15px;"><a href="#" onclick="showForgot(false)" style="font-size:0.8rem;color:var(--dim);text-decoration:none;" data-i18n="back_login">العودة لتسجيل الدخول</a></div>
+      </div>
+
+      <!-- Signup Form -->
       <div id="f-signup" style="display:none;">
         <div class="f2">
           <div class="fg"><label class="fl">FULL NAME</label><input class="fi" id="su-name"></div>
@@ -746,27 +613,18 @@ footer{border-top:1px solid var(--border2);padding:52px 24px 34px;position:relat
   </div>
 </div>
 
-<!-- POLICY MODAL -->
-<div class="overlay" id="policyModal">
-  <div class="panel" style="width:600px;">
-    <div class="panel-head"><div class="panel-title">📜 سياسة الخصوصية</div>
-      <button class="x-btn" onclick="closeM('policyModal')">✕</button></div>
-    <div class="panel-body"><div class="about-text" id="policyText">—</div></div>
-  </div>
-</div>
-
 <!-- VENDOR APPLY MODAL -->
 <div class="overlay" id="vendorApplyModal">
   <div class="panel" style="width:560px;">
-    <div class="panel-head"><div class="panel-title">🤝 التقديم كمتعهد / Freelancer</div>
+    <div class="panel-head"><div class="panel-title" data-i18n="foot_apply">🤝 التقديم كمتعهد / Freelancer</div>
       <button class="x-btn" onclick="closeM('vendorApplyModal')">✕</button></div>
     <div class="panel-body">
-      <div class="fmsg info" style="display:block;margin:0 0 18px;line-height:1.8;">
-        انضم لشبكة عُرب من المترجمين والمكاتب المؤهلة — عبّي النموذج وسيتواصل معك فريقنا بعد المراجعة.
+      <div class="fmsg info" style="display:block;margin:0 0 18px;line-height:1.8;" data-i18n="vendor_info">
+        انضم لشبكة عُرب! عبّي النموذج وسيتم التواصل معك لعمل مقابلة، ومن ثم تفعيل حسابك وتزويدك ببيانات الدخول.
       </div>
       <div class="f2">
         <div class="fg"><label class="fl">FULL NAME *</label><input class="fi" id="va-name"></div>
-        <div class="fg"><label class="fl">COMPANY / OFFICE</label><input class="fi" id="va-company" placeholder="فرد أو اسم المكتب"></div>
+        <div class="fg"><label class="fl">COMPANY / OFFICE</label><input class="fi" id="va-company"></div>
         <div class="fg"><label class="fl">EMAIL *</label><input class="fi" id="va-email" style="direction:ltr;"></div>
         <div class="fg"><label class="fl">PHONE / WHATSAPP</label><input class="fi" id="va-phone" style="direction:ltr;"></div>
       </div>
@@ -785,7 +643,7 @@ footer{border-top:1px solid var(--border2);padding:52px 24px 34px;position:relat
     </div>
     <div class="panel-body">
       <div class="fg">
-        <label class="fl" data-i18n="fl_pkg_plan">PACKAGE PLAN / الباقة</label>
+        <label class="fl" data-i18n="fl_pkg_plan">PACKAGE PLAN</label>
         <select class="fi" id="np-plan">
           <option value="URB AI System">URB AI System</option>
           <option value="URB AI + Human Auditing">URB AI + Human Auditing</option>
@@ -793,92 +651,31 @@ footer{border-top:1px solid var(--border2);padding:52px 24px 34px;position:relat
         </select>
       </div>
       <div class="f2">
-        <div class="fg">
-          <label class="fl" data-i18n="fl_game_name">GAME NAME / اسم اللعبة *</label>
-          <input class="fi" id="np-name">
-        </div>
-        <div class="fg">
-          <label class="fl" data-i18n="fl_game_engine">GAME ENGINE / محرك اللعبة</label>
+        <div class="fg"><label class="fl" data-i18n="fl_game_name">GAME NAME *</label><input class="fi" id="np-name"></div>
+        <div class="fg"><label class="fl" data-i18n="fl_game_engine">GAME ENGINE</label>
           <select class="fi" id="np-engine">
-            <option value="">— Select Engine —</option>
-            <option>Unity</option>
-            <option>Unreal Engine</option>
-            <option>Godot</option>
-            <option>GameMaker</option>
-            <option>Custom Engine</option>
-          </select>
-        </div>
-      </div>
-      <div class="fg">
-        <label class="fl" data-i18n="fl_game_desc">GAME DESCRIPTION / وصف اللعبة</label>
-        <textarea class="fi" id="np-desc" rows="2"></textarea>
+            <option value="">— Select Engine —</option><option>Unity</option>
+            <option>Unreal Engine</option><option>Godot</option>
+            <option>GameMaker</option><option>Custom Engine</option>
+          </select></div>
       </div>
       <div class="f2">
-        <div class="fg">
-          <label class="fl" data-i18n="fl_platforms">PLATFORMS / المنصات</label>
-          <input class="fi" id="np-platforms" placeholder="PC, PS5, Mobile">
-        </div>
-        <div class="fg">
-          <label class="fl" data-i18n="fl_langs">TARGET LANGUAGES / اللغات المستهدفة</label>
-          <input class="fi" id="np-langs" placeholder="Arabic, Japanese...">
-        </div>
+        <div class="fg"><label class="fl" data-i18n="fl_platforms">PLATFORMS</label><input class="fi" id="np-platforms" placeholder="PC, PS5, Mobile"></div>
+        <div class="fg"><label class="fl" data-i18n="fl_langs">TARGET LANGUAGES</label><input class="fi" id="np-langs" placeholder="Arabic, Japanese..."></div>
       </div>
       <div class="f2">
-        <div class="fg">
-          <label class="fl" data-i18n="fl_words">ESTIMATED WORDS / الكلمات المقدرة</label>
-          <input class="fi" type="number" id="np-words">
-        </div>
-        <div class="fg">
-          <label class="fl" data-i18n="fl_deadline">DEADLINE / الموعد النهائي</label>
-          <input class="fi" type="date" id="np-deadline">
-        </div>
+        <div class="fg"><label class="fl" data-i18n="fl_words">ESTIMATED WORDS</label><input class="fi" type="number" id="np-words"></div>
+        <div class="fg"><label class="fl" data-i18n="fl_deadline">DEADLINE</label><input class="fi" type="date" id="np-deadline"></div>
       </div>
-      
       <div class="fg">
-        <label class="fl" data-i18n="fl_files_link">FILES LINK / رابط ملفات اللعبة (Google Drive, Dropbox, WeTransfer)</label>
+        <label class="fl" data-i18n="fl_files_link">FILES LINK (Google Drive / Dropbox)</label>
         <input class="fi" id="np-filelink" placeholder="https://drive.google.com/..." style="direction:ltr;">
       </div>
-
-      <div class="fg">
-        <label class="fl" data-i18n="fl_notes">NOTES / ملاحظات إضافية</label>
-        <textarea class="fi" id="np-notes" rows="2"></textarea>
-      </div>
-      
       <button class="btn btn-grad" style="width:100%;padding:14px;" id="np-btn" onclick="submitPackage()" data-i18n="btn_submit_pkg">🚀 إرسال الحزمة</button>
       <div class="fmsg" id="np-msg"></div>
     </div>
   </div>
 </div>
-
-<!-- ═══════════ URB BOT COMPONENT ═══════════ -->
-<button class="chat-widget-btn" onclick="toggleChat()">
-  <span>🤖</span>
-  <span>URB bot</span>
-</button>
-
-<div class="chat-box" id="chatBox">
-  <div class="chat-header">
-    <h3>🤖 URB bot</h3>
-    <button class="close-btn" onclick="toggleChat()">✕</button>
-  </div>
-  <div class="chat-messages" id="chatMessages">
-    <div class="lang-container" id="langContainer">
-      <div class="lang-title">اختر لغتك المفضلة / Choose Language</div>
-      <div class="lang-buttons">
-        <button class="lang-btn" onclick="setBotLanguage('Arabic', '🇸🇦 العربية')">🇸🇦 العربية</button>
-        <button class="lang-btn" onclick="setBotLanguage('English', '🇺🇸 English')">🇺🇸 English</button>
-        <button class="lang-btn" onclick="setBotLanguage('Chinese', '🇨🇳 中文')">🇨🇳 中文</button>
-        <button class="lang-btn" onclick="setBotLanguage('Japanese', '🇯🇵 日本語')">🇯🇵 日本語</button>
-      </div>
-    </div>
-  </div>
-  <div class="chat-input-area">
-    <input type="text" id="userInput" class="chat-input" placeholder="اكتب سؤالك هنا..." onkeypress="if(event.key==='Enter') sendMessage()">
-    <button class="send-btn" id="sendBtn" onclick="sendMessage()" title="إرسال">➤</button>
-  </div>
-</div>
-
-<div class="toast" id="toast"></div>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
@@ -893,34 +690,22 @@ let adminSecret = 'Urb@2026';
 let A = { pkgs:[], team:[], vendors:[], rfqs:[], quotes:[], pricing:[] };
 let C = { pkgs:[], gloss:[] };
 let lang = localStorage.getItem('gl_lang') || 'ar';
-let selectedLang = 'auto';
 
-/* ═══ INTRO DYNAMIC TEXT ═══ */
-const introPhrases = [
-  "يلاه نلعب", "Let's Play", "ابدأ الرحلة", "Start Game", 
-  "شغل اللعب", "開始する", "Vamos a jugar", "Jouons"
-];
-let introPhraseIdx = 0;
-const introTextEl = document.getElementById('intro-btn-text');
-let introInterval = setInterval(() => {
-  if(!introTextEl) return;
-  introTextEl.style.opacity = 0;
+/* ═══ INTRO LOGIC (LANG SELECTION -> GLOBE ZOOM) ═══ */
+function selectIntroLang(code) {
+  setLang(code);
+  // إخفاء شاشة اللغات وإظهار شاشة الكرة الأرضية
+  document.getElementById('intro-lang-screen').style.opacity = '0';
   setTimeout(() => {
-    introPhraseIdx = (introPhraseIdx + 1) % introPhrases.length;
-    introTextEl.textContent = introPhrases[introPhraseIdx];
-    introTextEl.style.opacity = 1;
-  }, 200);
-}, 1500);
+    document.getElementById('intro-lang-screen').style.display = 'none';
+    document.getElementById('intro-globe-screen').style.display = 'flex';
+  }, 500);
+}
 
-/* ═══ INTRO LOGIC (GLOBE ZOOM) ═══ */
 function startIntro() {
-  clearInterval(introInterval); // إيقاف تغيير النص عند الضغط
   try {
     const sfx = document.getElementById('intro-sfx');
-    if(sfx) {
-      sfx.volume = 0.5;
-      sfx.play().catch(e => console.log('Audio prevented', e));
-    }
+    if(sfx) { sfx.volume = 0.5; sfx.play().catch(e => console.log('Audio prevented', e)); }
   } catch(e){}
 
   document.getElementById('intro-btn').style.display = 'none';
@@ -929,13 +714,13 @@ function startIntro() {
 
   const counterEl = document.getElementById('intro-count-val');
   const target = 21000000;
-  const duration = 1500; 
+  const duration = 2200; // متناسق مع طول الصوت الجديد
   const start = performance.now();
 
   function updateCounter(t) {
     const elapsed = t - start;
     const progress = Math.min(elapsed / duration, 1);
-    const ease = 1 - Math.pow(1 - progress, 3);
+    const ease = 1 - Math.pow(1 - progress, 4); // Quartic ease لسرعة تصاعدية مثيرة
     const current = Math.floor(ease * target);
     
     counterEl.innerText = current.toLocaleString('en-US') + '+';
@@ -946,15 +731,15 @@ function startIntro() {
       setTimeout(() => {
         const splash = document.getElementById('intro-splash');
         splash.classList.add('zoomed');
-        setTimeout(() => { splash.style.display = 'none'; }, 1300);
-      }, 500);
+        setTimeout(() => { splash.style.display = 'none'; startTerminalTyping(); }, 1600);
+      }, 300);
     }
   }
   requestAnimationFrame(updateCounter);
 }
 
 /* ═══ TERMINAL TYPING DEMO ═══ */
-(function(){
+function startTerminalTyping(){
   const out = document.getElementById('demoOut');
   const lbl = document.getElementById('demoLabel');
   const src = document.getElementById('demoSrc');
@@ -980,8 +765,43 @@ function startIntro() {
       setTimeout(tick, 20);
     } else setTimeout(tick, 240);
   }
-  setTimeout(tick, 3500); // تأخير بسيط حتى تنتهي شاشة الدخول
+  tick();
+}
+
+/* ═══ STARFIELD ANIMATION ═══ */
+(function(){
+  const cv = document.getElementById('stars'), cx = cv.getContext('2d');
+  let W,H,stars=[];
+  function size(){ W=cv.width=innerWidth; H=cv.height=innerHeight;
+    stars = Array.from({length: Math.min(160, W/8)}, () => ({
+      x:Math.random()*W, y:Math.random()*H, z:Math.random()*1+0.2,
+      r:Math.random()*1.4+0.3, tw:Math.random()*Math.PI*2
+    }));
+  }
+  size(); addEventListener('resize', size);
+  function draw(t){
+    cx.clearRect(0,0,W,H);
+    for(const s of stars){
+      const a = 0.25 + 0.55*Math.abs(Math.sin(t/1400 + s.tw));
+      cx.beginPath(); cx.arc(s.x, s.y, s.r, 0, 7);
+      cx.fillStyle = s.tw % 2 > 1 ? `rgba(139,92,246,${a})` : `rgba(160,190,255,${a})`;
+      cx.fill();
+      s.y += s.z*0.12; if(s.y>H){s.y=-4; s.x=Math.random()*W;}
+    }
+    requestAnimationFrame(draw);
+  }
+  requestAnimationFrame(draw);
+  const icons = ['🎮','🕹️','👾','⚔️','🏆','🚀','💎','🛡️'];
+  const fc = document.getElementById('floatIcons');
+  if(fc){
+    icons.forEach((ic,i)=>{
+      const d = document.createElement('div'); d.className='f-icon'; d.textContent=ic;
+      d.style.left = (5+i*12)+'%'; d.style.top = (10+((i*23)%70))+'%';
+      d.style.animationDelay = (i*1.7)+'s'; fc.appendChild(d);
+    });
+  }
 })();
+
 
 /* ═══ i18n — 12 LANGS ═══ */
 const LANGS = {
@@ -994,7 +814,9 @@ const LANGS = {
 };
 
 const T = {
-  intro_gamers: { ar:'لاعب عربي مسجل', en:'Registered Arab Gamers', zh:'注册阿拉伯玩家', ja:'登録されたアラブのゲーマー', ko:'등록된 아랍 게이머', ur:'رجسٹرڈ عرب گیمرز', fr:'Joueurs arabes inscrits', it:'Giocatori arabi registrati', es:'Jugadores árabes registrados', pt:'Jogadores árabes registrados', ru:'Зарегистрированные арабские игроки', de:'Registrierte arabische Gamer' },
+  intro_btn_play: { ar:'يلاه نلعب', en:"Let's Play", zh:'开始游戏', ja:'ゲーム開始', ko:'게임 시작', ur:'کھیلیں', fr:'Jouons', it:'Giochiamo', es:'Vamos a jugar', pt:'Vamos jogar', ru:'Давай играть', de:'Lass uns spielen' },
+  intro_gamers: { ar:'لاعب سعودي مسجل', en:'Registered Saudi Gamers', zh:'注册沙特玩家', ja:'登録されたサウジのゲーマー', ko:'등록된 사우디 게이머', ur:'رجسٹرڈ سعودی گیمرز', fr:'Joueurs saoudiens inscrits', it:'Giocatori sauditi registrati', es:'Jugadores saudíes registrados', pt:'Jogadores sauditas registrados', ru:'Зарегистрированные саудовские игроки', de:'Registrierte saudische Gamer' },
+  
   nav_engine: { ar:'التقنية', en:'Engine', zh:'技术引擎', ja:'エンジン', ko:'엔진', ur:'ٹیکنالوجی', fr:'Technologie', it:'Tecnologia', es:'Tecnología', pt:'Tecnologia', ru:'Технология', de:'Engine' },
   nav_packages: { ar:'الباقات', en:'Packages', zh:'套餐', ja:'パッケージ', ko:'패키지', ur:'پیکجز', fr:'Offres', it:'Pacchetti', es:'Paquetes', pt:'Pacotes', ru:'Пакеты', de:'Pakete' },
   nav_workflow: { ar:'آلية العمل', en:'Workflow', zh:'工作流程', ja:'ワークフロー', ko:'워크플로우', ur:'ورک فلو', fr:'Processus', it:'Processo', es:'Proceso', pt:'Processo', ru:'Процесс', de:'Ablauf' },
@@ -1002,10 +824,10 @@ const T = {
   nav_contact: { ar:'تواصل', en:'Contact', zh:'联系', ja:'お問い合わせ', ko:'문의', ur:'رابطہ', fr:'Contact', it:'Contatti', es:'Contacto', pt:'Contato', ru:'Контакты', de:'Kontakt' },
   nav_login: { ar:'🔐 دخول', en:'🔐 Login', zh:'🔐 登录', ja:'🔐 ログイン', ko:'🔐 로그인', ur:'🔐 لاگ ان', fr:'🔐 Connexion', it:'🔐 Accedi', es:'🔐 Entrar', pt:'🔐 Entrar', ru:'🔐 Войти', de:'🔐 Anmelden' },
   
-  hero_1: { ar:'صُنعت للألعاب.', en:'Built for Games.', zh:'为游戏而生。', ja:'ゲームのために。', ko:'게임을 위해.', ur:'گیمز کے لیے۔', fr:'Conçu pour jeux.', it:'Nato per giochi.', es:'Hecho para juegos.', pt:'Feito para jogos.', ru:'Создано для игр.', de:'Für Spiele gebaut.' },
+  hero_1: { ar:'صُنعت للألعاب.', en:'Built for Games.', zh:'为游戏而生。', ja:'ゲームのために。', ko:'게임을 위해.', ur:'گیمز کے لیے۔', fr:'Conçu pour les jeux.', it:'Nato per i giochi.', es:'Hecho para juegos.', pt:'Feito para jogos.', ru:'Создано для игр.', de:'Für Spiele gebaut.' },
   hero_2: { ar:'دُرّبت', en:'Trained', zh:'由人类', ja:'人間が', ko:'인간이', ur:'انسانوں کی', fr:'Entraîné', it:'Addestrato', es:'Entrenado', pt:'Treinado', ru:'Обучено', de:'Trainiert' },
   hero_3: { ar:'بالبشر.', en:'by Humans.', zh:'训练。', ja:'訓練。', ko:'훈련.', ur:'تربیت۔', fr:'par des humains.', it:'da umani.', es:'por humanos.', pt:'por humanos.', ru:'людьми.', de:'von Menschen.' },
-  hero_sub: { ar:'منصة توطين ذكية تجمع قوة الذكاء الاصطناعي مع الدقة الثقافية السعودية — لتجعل العربية لغةً أصيلة في كل عالم افتراضي.', en:'Smart localization platform combining AI with cultural accuracy.', zh:'结合AI与文化精准度的智能本地化平台。', ja:'AIと文化的正確性を組み合わせたローカライズ基盤。', ko:'AI와 문화적 정밀함을 결합한 플랫폼.', ur:'ذہین لوکلائزیشن پلیٹ فارم۔', fr:'Plateforme de localisation combinant IA et précision culturelle.', it:'Piattaforma di localizzazione con IA e accuratezza culturale.', es:'Plataforma de localización con IA y precisión cultural.', pt:'Plataforma de localização com IA e precisão cultural.', ru:'Интеллектуальная платформа локализации с ИИ.', de:'Intelligente Lokalisierungsplattform mit KI.' },
+  hero_sub: { ar:'منصة توطين ذكية تجمع قوة الذكاء الاصطناعي مع الدقة الثقافية السعودية — لتجعل العربية لغةً أصيلة في كل عالم افتراضي.', en:'Smart localization platform combining AI with Saudi cultural accuracy.', zh:'结合AI与沙特文化精准度的智能本地化平台。', ja:'AIとサウジの文化的正確性を組み合わせたローカライズ基盤。', ko:'AI와 사우디 문화적 정밀함을 결합한 플랫폼.', ur:'ذہین لوکلائزیشن پلیٹ فارم۔', fr:'Plateforme de localisation combinant IA et précision culturelle saoudienne.', it:'Piattaforma di localizzazione con IA e accuratezza culturale.', es:'Plataforma de localización con IA y precisión cultural.', pt:'Plataforma de localização com IA e precisão cultural.', ru:'Интеллектуальная платформа локализации с ИИ.', de:'Intelligente Lokalisierungsplattform mit KI.' },
   hero_cta1: { ar:'🚀 أطلق حزمة جديدة', en:'🚀 Launch Package', zh:'🚀 启动包', ja:'🚀 パッケージ作成', ko:'🚀 패키지 시작', ur:'🚀 نیا پیکج', fr:'🚀 Lancer un package', it:'🚀 Nuovo pacchetto', es:'🚀 Lanzar paquete', pt:'🚀 Novo pacote', ru:'🚀 Создать пакет', de:'🚀 Paket starten' },
   hero_cta2: { ar:'شاهد التقنية ›_', en:'View Tech ›_', zh:'查看技术 ›_', ja:'技術を見る ›_', ko:'기술 보기 ›_', ur:'ٹیکنالوجی دیکھیں ›_', fr:'Voir la technologie ›_', it:'Vedi tecnologia ›_', es:'Ver tecnología ›_', pt:'Ver tecnologia ›_', ru:'Посмотреть технологию ›_', de:'Technologie ansehen ›_' },
   
@@ -1017,7 +839,7 @@ const T = {
   tech_sub: { ar:'بنية توطين متكاملة تضمن أعلى جودة للألعاب العربية.', en:'An integrated localization architecture ensuring top game quality.', zh:'确保最高游戏质量的一体化本地化架构。', ja:'最高品質を保証する統合ローカライズ基盤。', ko:'최고의 게임 품질을 보장하는 통합 아키텍처.', ur:'اعلیٰ معیار کی ضمانت دینے والا مربوط ڈھانچہ۔', fr:'Une architecture de localisation intégrée assurant une qualité optimale.', it:'Un\'architettura integrata che garantisce la massima qualità.', es:'Arquitectura integrada que garantiza la máxima calidad.', pt:'Arquitetura integrada garantindo a máxima qualidade.', ru:'Интегрированная архитектура, гарантирующая высшее качество.', de:'Integrierte Lokalisierungsarchitektur für höchste Qualität.' },
   tech_1: { ar:'نموذج مخصص لعالم الألعاب يتعلم من كل مشروع ويحسّن دقته أسبوعياً.', en:'Gaming-custom model learning from every project with weekly accuracy updates.', zh:'专为游戏打造的模型，不断学习提升精度。', ja:'ゲーム専用モデルが毎週精度を向上させます。', ko:'매주 정확도가 향상되는 게임 특화 모델.', ur:'گیمنگ کے لیے مخصوص ماڈل جو ہر پروجیکٹ سے سیکھتا ہے۔', fr:'Modèle dédié au jeu qui s\'améliore chaque semaine.', it:'Modello dedicato al gaming che migliora ogni settimana.', es:'Modelo dedicado a videojuegos que mejora semanalmente.', pt:'Modelo dedicado a jogos que melhora semanalmente.', ru:'Игровая модель, улучшающая точность еженедельно.', de:'Gaming-Modell, das wöchentlich besser wird.' },
   tech_2: { ar:'معالجة متكاملة للنصوص والصوت والصور مع الحفاظ على التصميم الأصلي.', en:'Multimodal processing for text, audio, and images keeping native design intact.', zh:'多模态处理文本、语音与图像，保留原始设计。', ja:'テキスト・音声・画像を元のデザインのまま統合処理。', ko:'원본 디자인을 유지하는 멀티모달 텍스트·음성·이미지 처리.', ur:'متن، آواز اور تصاویر کی مربوط پروسیسنگ۔', fr:'Traitement multimodal préservant le design original.', it:'Elaborazione multimodale che preserva il design originale.', es:'Procesamiento multimodal que conserva el diseño original.', pt:'Processamento multimodal preservando o design original.', ru:'Мультимодальная обработка с сохранением дизайна.', de:'Multimodale Verarbeitung mit Erhalt des Originaldesigns.' },
-  tech_3: { ar:'بيئة عمل موحدة تُمكّن المترجم من المراجعة والتعديل — الآلة تقترح والإنسان يقرر.', en:'Unified workspace enabling human translators to review: machine proposes, human decides.', zh:'统一工作台供译员审校：机器建议，人类决策。', ja:'人間がレビュー・編集する統一環境：AIが提案し人間が決定。', ko:'번역가가 검토하는 통합 환경: 기계가 제안하고 인간이 결정.', ur:'مترجم کے لیے مربوط ورک اسپیس۔', fr:'Espace unifié : la machine propose, l\'humain décide.', it:'Spazio unificato: la macchina propone, l\'umano decide.', es:'Espacio unificado: la máquina propone, el humano decide.', pt:'Espaço unificado: a máquina propõe, o humano decide.', ru:'Единая среда: машина предлагает, человек решает.', de:'Einheitlicher Arbeitsbereich: Maschine schlägt vor, Mensch entscheidet.' },
+  tech_3: { ar:'بيئة عمل موحدة تُمكّن المترجم من المراجعة والتعديل — الآلة تقترح والإنسان يقرر.', en:'Unified workspace enabling human translators to review: machine proposes, human decides.', zh:'统一工作台供译员审校：机器建议，人类决策。', ja:'人間がレビュー・編集する統一環境：AIが提案し人間が決定。', ko:'번역가가 검토하는 통합 환경: 기계가 제안하고 인간이 결정.', ur:'مترجم کے لیے مربوط ورک اسپیس۔', fr:'Espace unifié : la machine propose, l\'humain décide.', it:'Spazio unificato: la macchina propone, l\'umano decide.', es:'Espacio unificado: la macchina propone, el humano decide.', pt:'Espaço unificado: a máquina propõe, o humano decide.', ru:'Единая среда: машина предлагает, человек решает.', de:'Einheitlicher Arbeitsbereich: Maschine schlägt vor, Mensch entscheidet.' },
   tech_t1: { ar:'URB-AI', en:'URB-AI', zh:'URB-AI', ja:'URB-AI', ko:'URB-AI', ur:'URB-AI', fr:'URB-AI', it:'URB-AI', es:'URB-AI', pt:'URB-AI', ru:'URB-AI', de:'URB-AI' },
   tech_t2: { ar:'Multimodal AI', en:'Multimodal AI', zh:'Multimodal AI', ja:'Multimodal AI', ko:'Multimodal AI', ur:'Multimodal AI', fr:'Multimodal AI', it:'Multimodal AI', es:'Multimodal AI', pt:'Multimodal AI', ru:'Multimodal AI', de:'Multimodal AI' },
   tech_t3: { ar:'Human-in-the-Loop', en:'Human-in-the-Loop', zh:'Human-in-the-Loop', ja:'Human-in-the-Loop', ko:'Human-in-the-Loop', ur:'Human-in-the-Loop', fr:'Human-in-the-Loop', it:'Human-in-the-Loop', es:'Human-in-the-Loop', pt:'Human-in-the-Loop', ru:'Human-in-the-Loop', de:'Human-in-the-Loop' },
@@ -1036,6 +858,7 @@ const T = {
   wf_4: { ar:'تسليم وإطلاق', en:'Deliver & Launch', zh:'交付与发布', ja:'納品とリリース', ko:'전달 및 출시', ur:'ڈیلیوری اور لانچ', fr:'Livraison & Lancement', it:'Consegna e lancio', es:'Entrega y lanzamiento', pt:'Entrega e lançamento', ru:'Доставка и запуск', de:'Lieferung & Launch' },
   wf_4s: { ar:'حزمة جاهزة للدمج — مع دعم تسويقي في باقة PLUS.', en:'Integration-ready package — with marketing support in PLUS.', zh:'可直接集成的包，PLUS含营销支持。', ja:'統合準備完了 — PLUSはマーケ支援付き。', ko:'통합 준비 완료 — PLUS는 마케팅 지원 포함.', ur:'انضمام کے لیے تیار پیکج۔', fr:'Package prêt à intégrer avec support marketing en PLUS.', it:'Pacchetto pronto all\'integrazione.', es:'Paquete listo para integrar con soporte en PLUS.', pt:'Pacote pronto para integrar com suporte no PLUS.', ru:'Готовый к интеграции пакет с маркетингом.', de:'Integrationsbereites Paket mit Marketing im PLUS-Tarif.' },
 
+  /* ABOUT & CONTACT SECTION */
   ab_title: { ar:'من نحن', en:'About Us', zh:'关于我们', ja:'会社概要', ko:'회사 소개', ur:'ہمارے بارے میں', fr:'À propos de nous', it:'Chi siamo', es:'Sobre nosotros', pt:'Sobre nós', ru:'О нас', de:'Über uns' },
   ab_default: { ar:'عُرب URB منصة سعودية متخصصة في توطين ألعاب الفيديو، تجمع بين قوة الذكاء الاصطناعي والخبرة البشرية عشان توصلك تجربة عربية أصيلة لكل لاعب.', en:'URB is a Saudi platform specializing in game localization, combining AI power with human expertise for an authentic player experience.', zh:'URB是一家专注于游戏本地化的沙特平台，将AI与人工经验结合。', ja:'URBはゲームローカライズに特化したサウジのプラットフォームです。', ko:'URB는 게임 로컬라이제이션 전문 사우디 플랫폼입니다.', ur:'URB گیم لوکلائزیشن میں مہارت رکھنے والا سعودی پلیٹ فارم ہے۔', fr:'URB est une plateforme saoudienne spécialisée en localisation de jeux.', it:'URB è una piattaforma saudita specializzata nella localizzazione di giochi.', es:'URB es una plataforma saudí especializada en localización de videojuegos.', pt:'URB é uma plataforma saudita especializada em localização de jogos.', ru:'URB — саудовская платформа для локализации видеоигр.', de:'URB ist eine saudische Plattform für Spielelokalisierung.' },
   ct_title: { ar:'📡 تواصل معنا', en:'📡 Contact Us', zh:'📡 联系我们', ja:'📡 お問い合わせ', ko:'📡 문의하기', ur:'📡 رابطہ کریں', fr:'📡 Contactez-nous', it:'📡 Contattaci', es:'📡 Contáctanos', pt:'📡 Fale conosco', ru:'📡 Связаться с нами', de:'📡 Kontaktieren Sie uns' },
@@ -1043,6 +866,7 @@ const T = {
   foot_apply: { ar:'🤝 قدّم كمتعهد / Freelancer', en:'🤝 Apply as Provider', zh:'🤝 申请成为供应商', ja:'🤝 プロバイダー応募', ko:'🤝 프리랜서 지원', ur:'🤝 فری لانسر بنیں', fr:'🤝 Devenir prestataire', it:'🤝 Candidati', es:'🤝 Aplica como proveedor', pt:'🤝 Candidate-se', ru:'🤝 Стать подрядчиком', de:'🤝 Als Anbieter bewerben' },
   foot_policy: { ar:'سياسة الخصوصية', en:'Privacy Policy', zh:'隐私政策', ja:'プライバシー', ko:'개인정보', ur:'پرائیویسی', fr:'Confidentialité', it:'Privacy', es:'Privacidad', pt:'Privacidade', ru:'Конфиденциальность', de:'Datenschutz' },
 
+  /* CLIENT DASHBOARD ITEMS */
   dash_overview: { ar:'📊 لوحتي', en:'📊 Dashboard', zh:'📊 控制面板', ja:'📊 ダッシュボード', ko:'📊 대시보드', ur:'📊 ڈیش بورڈ', fr:'📊 Tableau de bord', it:'📊 Dashboard', es:'📊 Panel', pt:'📊 Painel', ru:'📊 Дашборд', de:'📊 Dashboard' },
   dash_pkgs: { ar:'📦 حزمي', en:'📦 My Packages', zh:'📦 我的包', ja:'📦 マイパッケージ', ko:'📦 내 패키지', ur:'📦 میرے پیکجز', fr:'📦 Mes packages', it:'📦 I miei pacchetti', es:'📦 Mis paquetes', pt:'📦 Meus pacotes', ru:'📦 Мои пакеты', de:'📦 Meine Pakete' },
   dash_new_pkg: { ar:'➕ حزمة جديدة', en:'➕ New Package', zh:'➕ 新建包', ja:'➕ パッケージ新規作成', ko:'➕ 새 패키지', ur:'➕ نیا پیکج', fr:'➕ Nouveau package', it:'➕ Nuovo pacchetto', es:'➕ Nuevo paquete', pt:'➕ Novo pacote', ru:'➕ Новый пакет', de:'➕ Neues Paket' },
@@ -1061,9 +885,13 @@ const T = {
   recent_pkgs: { ar:'📦 أحدث الحزم', en:'📦 Recent Packages', zh:'📦 最新包', ja:'📦 最近のパッケージ', ko:'📦 최근 패키지', ur:'📦 حالیہ پیکجز', fr:'📦 Packages récents', it:'📦 Pacchetti recenti', es:'📦 Paquetes recientes', pt:'📦 Pacotes recentes', ru:'📦 Последние пакеты', de:'📦 Neueste Pakete' },
   no_pkgs: { ar:'ما عندك حزم للحين — يلا أطلق أول وحدة!', en:'No packages yet — launch your first!', zh:'暂无包裹 — 立即启动第一个！', ja:'パッケージがありません — 最初のパッケージを作成しましょう！', ko:'아직 패키지가 없습니다 — 첫 번째 패키지를 시작하세요!', ur:'ابھی کوئی پیکج نہیں — اپنا پہلا پیکج شروع کریں!', fr:'Aucun package pour le moment — lancez le premier !', it:'Nessun pacchetto ancora — lancia il tuo primo!', es:'¡Aún no hay paquetes — lanza el primero!', pt:'Nenhum pacote ainda — lance o seu primeiro!', ru:'Пока нет пакетов — создайте первый!', de:'Noch keine Pakete — starten Sie Ihr erstes!' },
 
+  /* MODALS */
   auth_title: { ar:'الدخول إلى عُرب URB', en:'Sign in to URB', zh:'登录 URB', ja:'URBにサインイン', ko:'URB 로그인', ur:'URB میں لاگ ان کریں', fr:'Connexion à URB', it:'Accedi a URB', es:'Iniciar sesión en URB', pt:'Entrar no URB', ru:'Вход в URB', de:'Bei URB anmelden' },
   tab_login: { ar:'دخول', en:'Login', zh:'登录', ja:'ログイン', ko:'로그인', ur:'لاگ ان', fr:'Connexion', it:'Accedi', es:'Entrar', pt:'Entrar', ru:'Войти', de:'Anmelden' },
   tab_signup: { ar:'حساب جديد', en:'Sign Up', zh:'注册', ja:'登録', ko:'가입', ur:'رجسٹر', fr:'Inscription', it:'Registrati', es:'Registro', pt:'Cadastro', ru:'Регистрация', de:'Registrieren' },
+  forgot_pass: { ar:'نسيت كلمة المرور؟', en:'Forgot password?', zh:'忘记密码？', ja:'パスワードを忘れた場合', ko:'비밀번호를 잊으셨나요?', ur:'پاس ورڈ بھول گئے؟', fr:'Mot de passe oublié?', it:'Password dimenticata?', es:'¿Olvidaste tu contraseña?', pt:'Esqueceu a senha?', ru:'Забыли пароль?', de:'Passwort vergessen?' },
+  send_reset: { ar:'إرسال رابط الاستعادة', en:'Send Reset Link', zh:'发送重置链接', ja:'リセットリンクを送信', ko:'재설정 링크 보내기', ur:'ری سیٹ لنک بھیجیں', fr:'Envoyer le lien', it:'Invia link di ripristino', es:'Enviar enlace', pt:'Enviar link de redefinição', ru:'Отправить ссылку', de:'Link senden' },
+  back_login: { ar:'العودة لتسجيل الدخول', en:'Back to Login', zh:'返回登录', ja:'ログインに戻る', ko:'로그인으로 돌아가기', ur:'لاگ ان پر واپس جائیں', fr:'Retour à la connexion', it:'Torna al login', es:'Volver a iniciar sesión', pt:'Voltar ao login', ru:'Назад к входу', de:'Zurück zum Login' },
   signup_btn: { ar:'🚀 إنشاء حساب', en:'🚀 Create Account', zh:'🚀 创建账户', ja:'🚀 アカウント作成', ko:'🚀 계정 만들기', ur:'🚀 اکاؤنٹ بنائیں', fr:'🚀 Créer un compte', it:'🚀 Crea account', es:'🚀 Crear cuenta', pt:'🚀 Criar conta', ru:'🚀 Создать аккаунт', de:'🚀 Konto erstellen' },
   signup_ok: { ar:'✓ تم! سوّينا حسابك — افحص بريدك وبعدها سجّل دخول.', en:'✓ Success! Account created — please check your email to log in.', zh:'✓ 成功！账户已创建 — 请检查邮箱以登录。', ja:'✓ 成功！アカウントが作成されました — メールを確認してログインしてください。', ko:'✓ 성공! 계정이 생성되었습니다 — 이메일을 확인하고 로그인하세요.', ur:'✓ کامیاب! اکاؤنٹ بن گیا — لاگ ان کرنے کے لیے اپنا ای میل چیک کریں۔', fr:'✓ Succès ! Compte créé — veuillez vérifier votre e-mail pour vous connecter.', it:'✓ Fatto! Account creato — controlla la tua email per accedere.', es:'✓ ¡Éxito! Cuenta creada — revisa tu correo para iniciar sesión.', pt:'✓ Sucesso! Conta criada — verifique seu e-mail para entrar.', ru:'✓ Успешно! Аккаунт создан — проверьте почту для входа.', de:'✓ Erfolgreich! Konto erstellt — bitte überprüfen Sie Ihre E-Mails zum Anmelden.' },
   modal_pkg_title: { ar:'حزمة توطين جديدة', en:'New Localization Package', zh:'新本地化包', ja:'新規ローカライズパッケージ', ko:'새 로컬라이제이션 패키지', ur:'نیا لوکلائزیشن پیکج', fr:'Nouveau package de localisation', it:'Nuovo pacchetto di localizzazione', es:'Nuevo paquete de localización', pt:'Novo pacote de localização', ru:'Новый пакет локализации', de:'Neues Lokalisierungspaket' },
@@ -1075,9 +903,10 @@ const T = {
   fl_langs: { ar:'اللغات المستهدفة', en:'Target Languages', zh:'目标语言', ja:'対象言語', ko:'대상 언어', ur:'ہدف زبانیں', fr:'Langues cibles', it:'Lingue di destinazione', es:'Idiomas de destino', pt:'Idiomas de destino', ru:'Целевые языки', de:'Zielsprachen' },
   fl_words: { ar:'عدد الكلمات المقدر', en:'Estimated Word Count', zh:'预计字数', ja:'推定単語数', ko:'예상 단어 수', ur:'تخمینی الفاظ', fr:'Nombre de mots estimé', it:'Conteggio parole stimato', es:'Recuento estimado de palabras', pt:'Contagem estimada de palavras', ru:'Оценка количества слов', de:'Geschätzte Wortanzahl' },
   fl_deadline: { ar:'الموعد النهائي للتسليم', en:'Target Deadline', zh:'截止日期', ja:'希望納期', ko:'마감일', ur:'آخری تاریخ', fr:'Date limite', it:'Scadenza', es:'Fecha límite', pt:'Prazo final', ru:'Срок сдачи', de:'Zieltermin' },
-  fl_files_link: { ar:'رابط ملفات اللعبة (Google Drive / Dropbox)', en:'Game Files Link (Google Drive / Dropbox)', zh:'游戏文件链接 (Drive/Dropbox)', ja:'ゲームファイルリンク (Drive/Dropbox)', ko:'게임 파일 링크 (Drive/Dropbox)', ur:'گیم فائلوں کا لنک', fr:'Lien des fichiers du jeu', it:'Link ai file del gioco', es:'Enlace a archivos del juego', pt:'Link dos arquivos do jogo', ru:'Ссылка на файлы игры', de:'Link zu den Spieldateien' },
+  fl_files_link: { ar:'رابط ملفات اللعبة (Google Drive / Dropbox / WeTransfer)', en:'Game Files Link (Google Drive / Dropbox / WeTransfer)', zh:'游戏文件链接 (Drive/Dropbox)', ja:'ゲームファイルリンク (Drive/Dropbox)', ko:'게임 파일 링크 (Drive/Dropbox)', ur:'گیم فائلوں کا لنک', fr:'Lien des fichiers du jeu', it:'Link ai file del gioco', es:'Enlace a archivos del juego', pt:'Link dos arquivos do jogo', ru:'Ссылка на файлы игры', de:'Link zu den Spieldateien' },
   fl_notes: { ar:'ملاحظات وتعليمات إضافية', en:'Additional Notes', zh:'附加说明', ja:'追加のメモ', ko:'추가 참고 사항', ur:'اضافی نوٹس', fr:'Notes supplémentaires', it:'Note aggiuntive', es:'Notas adicionales', pt:'Notas adicionais', ru:'Дополнительные примечания', de:'Zusätzliche Anmerkungen' },
-  btn_submit_pkg: { ar:'🚀 إرسال الحزمة', en:'🚀 Submit Package', zh:'🚀 提交包', ja:'🚀 パッケージを送信', ko:'🚀 패키지 제출', ur:'🚀 پیکج جمع کریں', fr:'🚀 Soumettre le package', it:'🚀 Invia pacchetto', es:'🚀 Enviar paquete', pt:'🚀 Enviar pacote', ru:'🚀 Отправить пакет', de:'🚀 Paket einreichen' }
+  btn_submit_pkg: { ar:'🚀 إرسال الحزمة', en:'🚀 Submit Package', zh:'🚀 提交包', ja:'🚀 パッケージを送信', ko:'🚀 패키지 제출', ur:'🚀 پیکج جمع کریں', fr:'🚀 Soumettre le package', it:'🚀 Invia pacchetto', es:'🚀 Enviar paquete', pt:'🚀 Enviar pacote', ru:'🚀 Отправить пакет', de:'🚀 Paket einreichen' },
+  vendor_info: { ar:'انضم لشبكة عُرب! عبّي النموذج وسيتم التواصل معك لعمل مقابلة، ومن ثم تفعيل حسابك وتزويدك ببيانات الدخول.', en:'Join URB network! Fill the form, we will contact you for an interview, activate your account, and provide login details.', zh:'加入URB网络！填写表格，我们将与您联系进行面试并激活账户。', ja:'URBネットワークに参加！フォームに入力後、面接のご連絡をし、アカウントを有効化します。', ko:'URB 네트워크에 가입하세요! 양식을 작성하시면 면접을 위해 연락드리고 계정을 활성화해 드립니다.', ur:'اروب نیٹ ورک میں شامل ہوں! فارم بھریں، ہم انٹرویو کے لیے آپ سے رابطہ کریں گے۔', fr:'Rejoignez le réseau URB! Remplissez le formulaire, nous vous contacterons pour un entretien.', it:'Unisciti alla rete URB! Compila il modulo, ti contatteremo per un colloquio.', es:'¡Únete a la red URB! Completa el formulario, te contactaremos para una entrevista.', pt:'Junte-se à rede URB! Preencha o formulário, entraremos em contato para uma entrevista.', ru:'Присоединяйтесь к сети URB! Заполните форму, мы свяжемся с вами для собеседования.', de:'Treten Sie dem URB-Netzwerk bei! Füllen Sie das Formular aus, wir kontaktieren Sie für ein Interview.' }
 };
 
 function t(k){ return T[k]?.[lang] || T[k]?.en || T[k]?.ar || ''; }
@@ -1097,7 +926,7 @@ function applyLang() {
   
   buildLangMenus();
   renderPricingGrid();
-  if (me) loadClientPackages();
+  if (me && myRole==='client') loadClientPackages();
 }
 
 function buildLangMenus() {
@@ -1199,6 +1028,13 @@ function authTab(t){
   document.getElementById('at-signup').classList.toggle('on', t==='signup');
   document.getElementById('f-login').style.display = t==='login'?'block':'none';
   document.getElementById('f-signup').style.display = t==='signup'?'block':'none';
+  document.getElementById('f-forgot').style.display = 'none';
+}
+
+function showForgot(show) {
+  document.getElementById('f-login').style.display = show ? 'none' : 'block';
+  document.getElementById('f-forgot').style.display = show ? 'block' : 'none';
+  document.getElementById('atabs-box').style.display = show ? 'none' : 'flex';
 }
 
 /* ═══ AUTH FUNCTIONS ═══ */
@@ -1236,6 +1072,24 @@ async function doLogin(){
   } else {
     closeM('authModal');
     navTo('#dashboard');
+  }
+}
+
+async function doForgot(){
+  const email = document.getElementById('fg-email').value.trim();
+  const msgEl = document.getElementById('auth-msg');
+  if(!email){
+    msgEl.className = 'fmsg err';
+    msgEl.textContent = 'Please enter your email.';
+    return;
+  }
+  const { error } = await sb.auth.resetPasswordForEmail(email, { redirectTo: location.origin + location.pathname });
+  if(error){
+    msgEl.className = 'fmsg err';
+    msgEl.textContent = error.message;
+  } else {
+    msgEl.className = 'fmsg ok';
+    msgEl.textContent = 'تم إرسال رابط الاستعادة إلى بريدك.';
   }
 }
 
@@ -1497,7 +1351,7 @@ async function submitVendorApply(){
     portfolio_link: document.getElementById('va-link').value.trim()||null
   }]);
   document.getElementById('va-msg').className = 'fmsg ok';
-  document.getElementById('va-msg').textContent = '✓ وصلنا طلبك!';
+  document.getElementById('va-msg').textContent = '✓ وصلنا طلبك! سنتواصل معك قريبًا.';
   setTimeout(()=>closeM('vendorApplyModal'), 2200);
 }
 
