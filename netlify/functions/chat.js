@@ -15,8 +15,30 @@ const staticKnowledge = `
 `;
 
 exports.handler = async function(event, context) {
+  // الهيدرز الخاصة بالاتصال ومنع مشاكل الـ CORS
+  const headers = {
+    "Access-Control-Allow-Origin": "*",
+    "Access-Control-Allow-Headers": "Content-Type",
+    "Access-Control-Allow-Methods": "POST, OPTIONS",
+    "Content-Type": "application/json"
+  };
+
+  // 1. معالجة طلبات الفحص المسبق (OPTIONS Preflight) لتفادي خطأ 405
+  if (event.httpMethod === 'OPTIONS') {
+    return {
+      statusCode: 200,
+      headers,
+      body: ''
+    };
+  }
+
+  // 2. التأكد من أن الطلب POST فقط
   if (event.httpMethod !== 'POST') {
-    return { statusCode: 405, body: JSON.stringify({ error: 'Method Not Allowed' }) };
+    return {
+      statusCode: 405,
+      headers,
+      body: JSON.stringify({ error: 'Method Not Allowed' })
+    };
   }
 
   try {
@@ -31,12 +53,12 @@ exports.handler = async function(event, context) {
     if (!apiKey) {
       return {
         statusCode: 200,
-        headers: { "Content-Type": "application/json" },
+        headers,
         body: JSON.stringify({ reply: '⚠️ مفتاح GROQ_API_KEY غير مضاف في Netlify.' })
       };
     }
 
-    // جلب البيانات من Supabase
+    // جلب البيانات المحدثة من Supabase
     let dynamicKnowledge = "";
     if (supabaseUrl && supabaseKey) {
       try {
@@ -89,7 +111,7 @@ exports.handler = async function(event, context) {
     if (data.error) {
       return {
         statusCode: 200,
-        headers: { "Content-Type": "application/json" },
+        headers,
         body: JSON.stringify({ reply: `⚠️ خطأ من السيرفر: ${data.error.message}` })
       };
     }
@@ -98,13 +120,13 @@ exports.handler = async function(event, context) {
 
     return {
       statusCode: 200,
-      headers: { "Content-Type": "application/json" },
+      headers,
       body: JSON.stringify({ reply })
     };
   } catch (error) {
     return { 
       statusCode: 200, 
-      headers: { "Content-Type": "application/json" },
+      headers,
       body: JSON.stringify({ reply: 'حدث خطأ في الاتصال: ' + error.message }) 
     };
   }
