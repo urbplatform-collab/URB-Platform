@@ -44,20 +44,10 @@ body{
 
 /* ═══ STARFIELD ═══ */
 #stars{position:fixed;inset:0;z-index:0;pointer-events:none}
-.float-icons{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden}
-.f-icon{position:absolute;opacity:0.06;font-size:2.4rem;animation:floaty 18s ease-in-out infinite}
-@keyframes floaty{
-  0%,100%{transform:translateY(0) rotate(-6deg)}
-  50%{transform:translateY(-34px) rotate(8deg)}
-}
-@media (prefers-reduced-motion: reduce){
-  *{animation-duration:0.01ms!important;transition-duration:0.01ms!important}
-}
 
 /* ═══ LAYOUT ═══ */
 .view{display:none;position:relative;z-index:1}
 .view.active{display:block}
-.wrap{max-width:1200px;margin:0 auto;padding:0 24px}
 
 /* ═══ NAV ═══ */
 nav{
@@ -76,7 +66,6 @@ nav{
 .logo-name b{background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
 .nav-links{display:flex;gap:22px;align-items:center}
 .nav-links a{color:var(--dim);text-decoration:none;font-size:0.88rem;transition:color 0.2s}
-.nav-links a:hover{color:var(--text)}
 .nav-cta{display:flex;gap:10px;align-items:center}
 .btn{
   border:none;cursor:pointer;font-family:inherit;border-radius:11px;
@@ -84,14 +73,8 @@ nav{
   display:inline-flex;align-items:center;justify-content:center;gap:8px;
 }
 .btn-grad{background:var(--grad);color:#fff;padding:10px 22px;font-size:0.9rem}
-.btn-grad:hover{transform:translateY(-2px);box-shadow:0 10px 32px rgba(139,92,246,0.45)}
 .btn-ghost{background:rgba(255,255,255,0.04);border:1px solid var(--border2);color:var(--text);padding:10px 20px;font-size:0.88rem}
-.btn-ghost:hover{border-color:var(--purple)}
 .btn-sm{padding:7px 14px;font-size:0.8rem;border-radius:9px}
-.dash-burger{display:none}
-.side-close{display:none}
-@media(max-width:760px){.dash-burger{display:block!important}}
-.hamburger{display:none;background:none;border:1px solid var(--border2);color:var(--text);border-radius:9px;padding:7px 12px;font-size:1.1rem;cursor:pointer}
 
 /* lang picker */
 .lang-pick{position:relative}
@@ -107,212 +90,90 @@ nav{
 .lang-opt:hover{background:var(--surface3)}
 .lang-opt.on{background:rgba(139,92,246,0.15);color:var(--purple)}
 
-/* ═══ HERO ═══ */
+/* HERO */
 .hero{padding:90px 24px 60px;max-width:1200px;margin:0 auto;display:grid;grid-template-columns:1.05fr 0.95fr;gap:48px;align-items:center;min-height:82vh}
-.hero-eyebrow{
-  display:inline-flex;align-items:center;gap:8px;
-  border:1px solid var(--border);border-radius:100px;
-  padding:6px 16px;font-size:0.78rem;color:var(--cyan);
-  font-family:'Space Mono',monospace;margin-bottom:26px;
-  background:rgba(34,211,238,0.05);
-}
-.hero-eyebrow .dot{width:7px;height:7px;border-radius:50%;background:var(--cyan);animation:pulse 2s infinite}
-@keyframes pulse{0%,100%{opacity:1}50%{opacity:0.3}}
-.hero h1{
-  font-family:'Space Grotesk','Tajawal',sans-serif;
-  font-size:clamp(2.4rem,5.4vw,4.2rem);
-  line-height:1.06;font-weight:700;letter-spacing:-1.5px;margin-bottom:24px;
-}
-.hero h1 .g1{background:linear-gradient(135deg,#a78bfa,#8b5cf6);-webkit-background-clip:text;background-clip:text;color:transparent}
-.hero h1 .g2{background:linear-gradient(135deg,#22d3ee,#67e8f9);-webkit-background-clip:text;background-clip:text;color:transparent}
+.hero h1{font-family:'Space Grotesk','Tajawal',sans-serif;font-size:clamp(2.4rem,5.4vw,4.2rem);line-height:1.06;font-weight:700;margin-bottom:24px;}
 .hero p{color:var(--dim);font-size:1.05rem;line-height:1.85;max-width:480px;margin-bottom:34px}
 .hero-actions{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:44px}
-.btn-hero{padding:15px 30px;font-size:1rem;border-radius:13px}
-.hero-stats{display:flex;gap:34px;flex-wrap:wrap}
-.hstat .n{font-family:'Space Mono',monospace;font-size:1.7rem;font-weight:700;background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
-.hstat .l{font-size:0.72rem;color:var(--dim);letter-spacing:1.4px;text-transform:uppercase;margin-top:3px;font-family:'Space Mono',monospace}
 
-/* terminal demo */
-.term{
-  background:rgba(11,14,32,0.85);border:1px solid var(--border);
-  border-radius:20px;overflow:hidden;backdrop-filter:blur(16px);
-  box-shadow:0 30px 90px rgba(0,0,0,0.55),var(--glow-p);
-}
-.term-bar{display:flex;align-items:center;gap:10px;padding:15px 20px;border-bottom:1px solid var(--border2)}
-.term-dots{display:flex;gap:6px}
-.term-dots span{width:11px;height:11px;border-radius:50%}
-.term-title{font-family:'Space Mono',monospace;font-size:0.72rem;letter-spacing:2px;color:var(--dim)}
-.term-body{padding:24px 22px}
-.term-label{font-family:'Space Mono',monospace;font-size:0.7rem;letter-spacing:1.6px;margin-bottom:9px}
-.term-box{
-  background:rgba(255,255,255,0.025);border:1px solid var(--border2);
-  border-radius:13px;padding:16px 18px;font-family:'Space Mono',monospace;
-  font-size:0.86rem;line-height:1.75;min-height:76px;
-}
-.term-arrow{
-  width:46px;height:46px;border-radius:50%;background:var(--grad);
-  display:flex;align-items:center;justify-content:center;margin:-2px auto;
-  position:relative;z-index:2;box-shadow:var(--glow-p);font-size:1.1rem;color:#fff;
-}
-.term-status{
-  margin-top:18px;display:flex;justify-content:space-between;gap:12px;
-  background:rgba(52,211,153,0.06);border:1px solid rgba(52,211,153,0.2);
-  border-radius:11px;padding:13px 16px;
-  font-family:'Space Mono',monospace;font-size:0.68rem;color:var(--green);
-  letter-spacing:0.6px;flex-wrap:wrap;
-}
-.type-caret::after{content:'▋';animation:pulse 1s infinite}
-
-/* marquee */
-.marquee{overflow:hidden;border-block:1px solid var(--border2);padding:13px 0;position:relative;z-index:1;background:rgba(11,14,32,0.5)}
-.marquee-track{display:inline-flex;gap:52px;white-space:nowrap;animation:mq 28s linear infinite;font-family:'Space Mono',monospace;font-size:0.78rem;letter-spacing:2px;color:var(--dim)}
-.marquee-track b{color:var(--purple)}
-@keyframes mq{from{transform:translateX(0)}to{transform:translateX(50%)}}
-
-/* ═══ SECTIONS ═══ */
+/* SECTIONS */
 section{padding:84px 24px;position:relative;z-index:1}
 .sec-in{max-width:1200px;margin:0 auto}
 .sec-tag{font-family:'Space Mono',monospace;font-size:0.75rem;letter-spacing:3px;color:var(--cyan);margin-bottom:14px}
-.sec-title{font-family:'Space Grotesk','Tajawal',sans-serif;font-size:clamp(1.7rem,3.4vw,2.6rem);font-weight:700;letter-spacing:-1px;margin-bottom:14px}
-.sec-sub{color:var(--dim);font-size:1rem;max-width:560px;line-height:1.8;margin-bottom:44px}
+.sec-title{font-family:'Space Grotesk','Tajawal',sans-serif;font-size:clamp(1.7rem,3.4vw,2.6rem);font-weight:700;margin-bottom:14px}
 
-/* features */
-.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
-.card{
-  background:rgba(11,14,32,0.7);border:1px solid var(--border2);
-  border-radius:18px;padding:30px 26px;backdrop-filter:blur(12px);
-  transition:all 0.28s;position:relative;overflow:hidden;
-}
-.card:hover{border-color:var(--border);transform:translateY(-4px);box-shadow:0 18px 46px rgba(0,0,0,0.4)}
-.card .num{font-family:'Space Mono',monospace;font-size:0.72rem;color:var(--purple);letter-spacing:2px;margin-bottom:16px}
-.card .ic{
-  width:52px;height:52px;border-radius:14px;font-size:1.5rem;
-  background:rgba(139,92,246,0.1);border:1px solid var(--border);
-  display:flex;align-items:center;justify-content:center;margin-bottom:18px;
-}
-.card h3{font-family:'Space Grotesk','Tajawal',sans-serif;font-size:1.15rem;margin-bottom:10px}
-.card p{color:var(--dim);font-size:0.88rem;line-height:1.8}
-
-/* pricing */
+/* PRICING */
 .price-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;align-items:stretch}
-.price-card{
-  background:rgba(11,14,32,0.75);border:1px solid var(--border2);
-  border-radius:22px;padding:34px 28px;display:flex;flex-direction:column;
-  backdrop-filter:blur(12px);transition:all 0.28s;position:relative;
-}
-.price-card:hover{transform:translateY(-5px)}
+.price-card{background:rgba(11,14,32,0.75);border:1px solid var(--border2);border-radius:22px;padding:34px 28px;display:flex;flex-direction:column;position:relative;}
 .price-card.feat{border:1.5px solid var(--purple);box-shadow:var(--glow-p)}
-.price-badge{
-  position:absolute;top:-13px;inset-inline-start:50%;transform:translateX(50%);
-  background:var(--grad);color:#fff;border-radius:100px;
-  padding:5px 18px;font-size:0.72rem;font-weight:700;white-space:nowrap;
-}
+.price-badge{position:absolute;top:-13px;inset-inline-start:50%;transform:translateX(50%);background:var(--grad);color:#fff;border-radius:100px;padding:5px 18px;font-size:0.72rem;font-weight:700;}
 [dir="ltr"] .price-badge{transform:translateX(-50%)}
 .price-plan{font-family:'Space Mono',monospace;font-size:0.72rem;letter-spacing:2.4px;color:var(--dim);margin-bottom:14px}
 .price-amt{font-family:'Space Grotesk',sans-serif;font-size:2.5rem;font-weight:700;margin-bottom:4px}
-.price-amt .cur{font-size:1.1rem;color:var(--purple);vertical-align:top}
-.price-per{color:var(--dim);font-size:0.8rem;margin-bottom:26px}
 .price-feats{list-style:none;flex:1;margin-bottom:26px}
 .price-feats li{display:flex;gap:10px;padding:9px 0;font-size:0.86rem;color:#c3c9e3;border-bottom:1px solid rgba(255,255,255,0.04)}
 .price-feats li .ck{color:var(--cyan);font-weight:700}
 
-/* workflow */
-.flow{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;counter-reset:step}
-.flow-step{position:relative;padding:26px 20px;background:rgba(11,14,32,0.7);border:1px solid var(--border2);border-radius:16px}
-.flow-step .fnum{
-  font-family:'Space Mono',monospace;width:34px;height:34px;border-radius:10px;
-  background:var(--grad);color:#fff;display:flex;align-items:center;justify-content:center;
-  font-weight:700;font-size:0.85rem;margin-bottom:14px;
-}
-.flow-step h4{font-size:0.98rem;margin-bottom:7px}
-.flow-step p{font-size:0.8rem;color:var(--dim);line-height:1.7}
+/* MODALS */
+.overlay{position:fixed;inset:0;background:rgba(3,4,10,0.82);backdrop-filter:blur(10px);z-index:200;display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity 0.3s;padding:20px;}
+.overlay.open{opacity:1;pointer-events:all}
+.panel{background:var(--surface);border:1px solid var(--border);border-radius:22px;width:520px;max-width:96vw;max-height:90vh;overflow-y:auto;box-shadow:0 40px 100px rgba(0,0,0,0.6);}
+.panel-head{padding:19px 24px;border-bottom:1px solid var(--border2);display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;background:var(--surface);z-index:2;}
+.panel-title{font-weight:700;font-size:1rem}
+.x-btn{background:none;border:none;color:var(--dim);font-size:1.15rem;cursor:pointer;padding:4px 9px;}
+.panel-body{padding:24px}
 
-/* footer */
-footer{border-top:1px solid var(--border2);padding:52px 24px 34px;position:relative;z-index:1;background:rgba(5,6,15,0.7)}
-.foot-in{max-width:1200px;margin:0 auto}
-.foot-grid{display:grid;grid-template-columns:1.4fr 1fr 1fr;gap:38px;margin-bottom:38px}
-.foot-col h5{font-family:'Space Mono',monospace;font-size:0.72rem;letter-spacing:2px;color:var(--dim);margin-bottom:16px}
-.foot-col a{display:block;color:#aab2d4;text-decoration:none;font-size:0.86rem;padding:5px 0;transition:color 0.2s}
-.foot-col a:hover{color:var(--cyan)}
-.foot-bottom{display:flex;justify-content:space-between;align-items:center;gap:14px;padding-top:24px;border-top:1px solid rgba(255,255,255,0.05);font-size:0.78rem;color:var(--dim);flex-wrap:wrap}
+.fg{margin-bottom:16px}
+.fl{display:block;font-family:'Space Mono',monospace;font-size:0.68rem;letter-spacing:1.2px;color:var(--dim);margin-bottom:7px}
+.fi{width:100%;background:var(--surface2);border:1px solid var(--border2);border-radius:11px;padding:12px 15px;color:var(--text);font-size:0.92rem;outline:none;}
+.f2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.fmsg{display:none;margin-top:12px;padding:11px 15px;border-radius:10px;font-size:0.83rem}
+.fmsg.err{display:block;background:rgba(248,113,113,0.09);border:1px solid rgba(248,113,113,0.3);color:var(--red)}
+.fmsg.ok{display:block;background:rgba(52,211,153,0.09);border:1px solid rgba(52,211,153,0.3);color:var(--green)}
 
-/* ═══ URB BOT STYLES ═══ */
-.chat-widget-btn {
-  position: fixed;
-  bottom: 20px;
-  left: 20px;
-  background: linear-gradient(135deg, #6366f1, #a855f7);
-  color: white;
-  border: none;
-  border-radius: 50px;
-  padding: 12px 20px;
-  font-size: 15px;
-  font-weight: bold;
-  cursor: pointer;
-  box-shadow: 0 10px 25px rgba(99, 102, 241, 0.4);
-  z-index: 99999;
-  transition: all 0.3s ease;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  font-family: sans-serif;
-}
-.chat-widget-btn:hover { transform: translateY(-3px); }
-.chat-box {
-  position: fixed;
-  bottom: 80px;
-  left: 20px;
-  width: 360px;
-  max-width: 90vw;
-  height: 500px;
-  background: #131525;
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 16px;
-  box-shadow: 0 20px 40px rgba(0,0,0,0.5);
-  display: none;
-  flex-direction: column;
-  z-index: 99999;
-  overflow: hidden;
-  font-family: sans-serif;
-  color: #fff;
-}
-.chat-header { background: #1a1d36; padding: 16px; display: flex; justify-content: space-between; align-items: center; }
-.chat-header h3 { margin: 0; font-size: 16px; color: #fff; display: flex; align-items: center; gap: 8px; }
-.close-btn { background: none; border: none; color: #a0a5ba; font-size: 20px; cursor: pointer; }
-.chat-messages { flex: 1; padding: 16px; overflow-y: auto; display: flex; flex-direction: column; gap: 12px; }
-.lang-container { background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 12px; padding: 12px; text-align: center; }
-.lang-title { font-size: 12px; color: #a0a5ba; margin-bottom: 10px; }
-.lang-buttons { display: flex; flex-wrap: wrap; gap: 6px; justify-content: center; }
-.lang-btn { background: #222643; color: #fff; border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 8px; padding: 6px 10px; font-size: 12px; cursor: pointer; }
-.lang-btn:hover { background: #6366f1; }
-.message { max-width: 80%; padding: 10px 14px; border-radius: 12px; font-size: 14px; line-height: 1.5; }
-.message.user { background: #6366f1; color: white; align-self: flex-start; border-bottom-left-radius: 2px; }
-.message.bot { background: #222643; color: #e2e8f0; align-self: flex-end; border-bottom-right-radius: 2px; }
-.chat-input-area { padding: 12px; background: #1a1d36; display: flex; gap: 8px; align-items: center; }
-.chat-input { flex: 1; background: #0b0d17; border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 8px; padding: 10px 12px; color: white; outline: none; font-size: 14px; }
-.send-btn { 
-  background: linear-gradient(135deg, #6366f1, #a855f7); 
-  color: white; border: none; border-radius: 8px; width: 42px; height: 38px;
-  display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 16px; transition: 0.2s;
-}
-.send-btn:hover { transform: scale(1.05); }
+.atabs{display:flex;background:var(--surface2);border-radius:12px;padding:4px;gap:4px;margin-bottom:22px}
+.atab{flex:1;padding:10px;border:none;background:transparent;color:var(--dim);border-radius:9px;cursor:pointer;font-size:0.9rem;font-weight:600;}
+.atab.on{background:var(--surface3);color:var(--text);}
 
-/* RESPONSIVE */
-@media(max-width:1024px){
-  .hero{grid-template-columns:1fr;min-height:auto;padding-top:60px}
-  .grid3{grid-template-columns:repeat(2,1fr)}
-  .price-grid{grid-template-columns:1fr;max-width:460px;margin:0 auto}
-  .flow{grid-template-columns:repeat(2,1fr)}
-}
-@media(max-width:760px){
-  .nav-links{display:none}
-  .hamburger{display:block}
-  .grid3{grid-template-columns:1fr}
-  .flow{grid-template-columns:1fr}
-  section{padding:56px 18px}
-  .hero{padding:44px 18px 40px;gap:34px}
-  .sec-title{font-size:1.55rem}
-}
+/* DASHBOARDS */
+.dash{display:none;min-height:100vh;position:relative;z-index:1}
+.dash.active{display:flex;flex-direction:column}
+.dash-top{position:sticky;top:0;z-index:80;background:rgba(5,6,15,0.85);backdrop-filter:blur(20px);border-bottom:1px solid var(--border2);padding:13px 22px;display:flex;align-items:center;justify-content:space-between;}
+.dash-body{flex:1;display:flex;max-width:1400px;width:100%;margin:0 auto}
+.dash-side{width:230px;flex-shrink:0;border-inline-end:1px solid var(--border2);padding:20px 14px;display:flex;flex-direction:column;gap:4px;}
+.side-item{display:flex;align-items:center;gap:11px;padding:11px 15px;border-radius:11px;color:var(--dim);cursor:pointer;font-size:0.88rem;background:none;border:none;width:100%;text-align:start;}
+.side-item.on{background:rgba(139,92,246,0.1);color:var(--text);border:1px solid var(--border)}
+.dash-main{flex:1;padding:26px 26px 60px;min-width:0}
+
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:15px;margin-bottom:26px}
+.stat{background:rgba(11,14,32,0.75);border:1px solid var(--border2);border-radius:15px;padding:19px 20px;position:relative;}
+.stat .sl{font-family:'Space Mono',monospace;font-size:0.62rem;letter-spacing:1.6px;color:var(--dim);margin-bottom:9px}
+.stat .sv{font-family:'Space Mono',monospace;font-size:1.65rem;font-weight:700}
+.stat .ss{font-size:0.72rem;color:var(--dim);margin-top:4px}
+
+.dcard{background:rgba(11,14,32,0.75);border:1px solid var(--border2);border-radius:17px;margin-bottom:20px;overflow:hidden}
+.dcard-head{padding:16px 20px;border-bottom:1px solid var(--border2);display:flex;align-items:center;justify-content:space-between;}
+.dcard-body{padding:18px 20px}
+.row-item{display:flex;align-items:center;justify-content:space-between;gap:12px;background:var(--surface2);border:1px solid var(--border2);border-radius:13px;padding:15px 17px;margin-bottom:11px;}
+
+.badge{display:inline-flex;align-items:center;padding:4px 11px;border-radius:7px;font-size:0.68rem;font-family:'Space Mono',monospace;font-weight:700;}
+.b-purple{background:rgba(139,92,246,0.13);color:#b79cff}
+.b-cyan{background:rgba(34,211,238,0.12);color:var(--cyan)}
+.b-green{background:rgba(52,211,153,0.12);color:var(--green)}
+.mini-btn{background:var(--surface3);border:1px solid var(--border2);color:#c3c9e3;padding:7px 13px;border-radius:9px;font-size:0.76rem;cursor:pointer;}
+.mini-btn.mm{background:var(--grad);color:#fff;border:none;font-weight:700}
+
+/* BOT */
+.chat-widget-btn{position:fixed;bottom:20px;left:20px;background:linear-gradient(135deg,#6366f1,#a855f7);color:white;border:none;border-radius:50px;padding:12px 20px;font-weight:bold;cursor:pointer;z-index:99999;}
+.chat-box{position:fixed;bottom:80px;left:20px;width:360px;height:500px;background:#131525;border:1px solid rgba(255,255,255,0.1);border-radius:16px;display:none;flex-direction:column;z-index:99999;color:#fff;}
+.chat-header{background:#1a1d36;padding:16px;display:flex;justify-content:space-between;}
+.chat-messages{flex:1;padding:16px;overflow-y:auto;display:flex;flex-direction:column;gap:12px;}
+.message{max-width:80%;padding:10px 14px;border-radius:12px;font-size:14px;}
+.message.user{background:#6366f1;color:white;align-self:flex-start;}
+.message.bot{background:#222643;color:#e2e8f0;align-self:flex-end;}
+.chat-input-area{padding:12px;background:#1a1d36;display:flex;gap:8px;}
+.chat-input{flex:1;background:#0b0d17;border:1px solid rgba(255,255,255,0.1);border-radius:8px;padding:10px;color:white;outline:none;}
+.send-btn{background:linear-gradient(135deg,#6366f1,#a855f7);color:white;border:none;border-radius:8px;width:42px;cursor:pointer;}
 </style>
 </head>
 <body>
@@ -321,19 +182,15 @@ footer{border-top:1px solid var(--border2);padding:52px 24px 34px;position:relat
 
 <!-- LANDING VIEW -->
 <div class="view active" id="view-landing">
-
 <nav>
   <div class="nav-inner">
     <div class="logo" onclick="scrollTo({top:0,behavior:'smooth'})">
       <div class="logo-mark">🎮</div>
       <div class="logo-name">عُرب <b>URB</b></div>
     </div>
-    <div class="nav-links" id="navLinks">
-      <a href="#tech" data-i18n="nav_engine">التقنية</a>
+    <div class="nav-links">
       <a href="#packages" data-i18n="nav_packages">الباقات</a>
-      <a href="#workflow" data-i18n="nav_workflow">آلية العمل</a>
-      <a href="#about" data-i18n="nav_about">من نحن</a>
-      <a href="#contact" data-i18n="nav_contact">تواصل</a>
+      <a href="#tech" data-i18n="nav_engine">التقنية</a>
     </div>
     <div class="nav-cta">
       <div class="lang-pick">
@@ -341,137 +198,97 @@ footer{border-top:1px solid var(--border2);padding:52px 24px 34px;position:relat
         <div class="lang-menu" id="langMenu"></div>
       </div>
       <button class="btn btn-grad btn-sm" onclick="openAuth()" data-i18n="nav_login">🔐 دخول</button>
-      <button class="hamburger" onclick="document.getElementById('navLinks').classList.toggle('mob-open')">☰</button>
     </div>
   </div>
 </nav>
 
-<!-- HERO -->
 <div class="hero">
   <div>
-    <div class="hero-eyebrow"><span class="dot"></span> AI-POWERED LOCALIZATION</div>
-    <h1><span data-i18n="hero_1">صُنعت للألعاب.</span><br><span class="g1" data-i18n="hero_2">دُرّبت</span> <span class="g2" data-i18n="hero_3">بالبشر.</span></h1>
-    <p data-i18n="hero_sub">منصة توطين ذكية تدمج قوة الذكاء الاصطناعي مع الدقة الثقافية السعودية — لتجعل العربية لغةً أصيلة في كل عالم افتراضي.</p>
+    <h1><span data-i18n="hero_1">صُنعت للألعاب.</span><br><span style="color:var(--purple);" data-i18n="hero_2">دُرّبت</span> <span style="color:var(--cyan);" data-i18n="hero_3">بالبشر.</span></h1>
+    <p data-i18n="hero_sub">منصة توطين ذكية تجمع قوة الذكاء الاصطناعي مع الدقة الثقافية السعودية.</p>
     <div class="hero-actions">
-      <button class="btn btn-grad btn-hero" onclick="openAuth('signup')" data-i18n="hero_cta1">🚀 أطلق حزمة جديدة</button>
-      <a href="#tech" class="btn btn-ghost btn-hero" data-i18n="hero_cta2">شاهد التقنية ›_</a>
-    </div>
-    <div class="hero-stats">
-      <div class="hstat"><div class="n">99.8%</div><div class="l" data-i18n="hs1">Context Accuracy</div></div>
-      <div class="hstat"><div class="n">450M+</div><div class="l" data-i18n="hs2">Words Trained</div></div>
-      <div class="hstat"><div class="n">14ms</div><div class="l" data-i18n="hs3">Engine Latency</div></div>
-    </div>
-  </div>
-
-  <div class="term">
-    <div class="term-bar">
-      <span style="color:var(--cyan);font-size:1.1rem;">⛶</span>
-      <span class="term-title">URB_LOCALIZATION</span>
-      <div class="term-dots" style="margin-inline-start:auto;">
-        <span style="background:#f87171"></span><span style="background:#fbbf24"></span><span style="background:#34d399"></span>
-      </div>
-    </div>
-    <div class="term-body">
-      <div class="term-label" style="color:var(--purple);">// SOURCE_EN</div>
-      <div class="term-box" dir="ltr" id="demoSrc">Critical biological failure detected. Re-initiating neural link...</div>
-      <div class="term-arrow">↓</div>
-      <div class="term-label" style="color:var(--cyan);margin-top:9px;" id="demoLabel">// URB PROPOSAL_AR (Saudi dialect)</div>
-      <div class="term-box" dir="rtl"><span id="demoOut" class="type-caret" style="color:#a5f3fc;"></span></div>
-      <div class="term-status">
-        <span>● HUMAN_IN_THE_LOOP: ENABLED</span>
-        <span>ENGINE_STATUS: READY</span>
-      </div>
+      <button class="btn btn-grad" onclick="openAuth('signup')" data-i18n="hero_cta1">🚀 أطلق حزمة جديدة</button>
     </div>
   </div>
 </div>
 
-<!-- TECH / ENGINE -->
-<section id="tech">
+<section id="packages">
   <div class="sec-in">
-    <div class="sec-tag">// THE ENGINE</div>
-    <h2 class="sec-title" data-i18n="tech_title">ثلاثة محاور، قوة واحدة</h2>
-    <p class="sec-sub" data-i18n="tech_sub">بنية توطين متكاملة تضمن أعلى جودة للألعاب العربية.</p>
-    <div class="grid3" id="pillarsGrid">
-      <div class="card">
-        <div class="num">01</div><div class="ic">🧠</div>
-        <h3>URB-AI</h3>
-        <p data-i18n="tech_1">نموذج مخصص لعالم الألعاب يتعلم من كل مشروع ويحسّن دقته أسبوعياً — بفهم عميق لسياق وثقافة اللعب العربي.</p>
-      </div>
-      <div class="card">
-        <div class="num">02</div><div class="ic">🎭</div>
-        <h3>Multimodal AI</h3>
-        <p data-i18n="tech_2">معالجة متكاملة للنصوص والصوت والصور — استخراج النصوص من الصور مع الحفاظ على التصميم الأصلي تماماً.</p>
-      </div>
-      <div class="card">
-        <div class="num">03</div><div class="ic">🔄</div>
-        <h3>Human-in-the-Loop</h3>
-        <p data-i18n="tech_3">بيئة عمل موحدة تُمكّن المترجم من المراجعة والتعديل وإعادة التدريب — الآلة تقترح والإنسان يقرر.</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- PACKAGES / PRICING -->
-<section id="packages" style="background:rgba(11,14,32,0.4);">
-  <div class="sec-in">
-    <div class="sec-tag">// PACKAGES</div>
     <h2 class="sec-title" data-i18n="pk_title">باقة لكل طموح</h2>
-    <p class="sec-sub" data-i18n="pk_sub">من التوطين الآلي السريع إلى حملات الإطلاق الكاملة.</p>
-    <div class="price-grid" id="priceGrid">
-      <div class="empty" style="grid-column:1/-1;">⟳</div>
-    </div>
+    <div class="price-grid" id="priceGrid"></div>
   </div>
 </section>
-
-<!-- WORKFLOW -->
-<section id="workflow">
-  <div class="sec-in">
-    <div class="sec-tag">// WORKFLOW</div>
-    <h2 class="sec-title" data-i18n="wf_title">من الرفع إلى الإطلاق</h2>
-    <p class="sec-sub" data-i18n="wf_sub">رحلة حزمتك عبر منظومة عُرب.</p>
-    <div class="flow">
-      <div class="flow-step"><div class="fnum">1</div><h4 data-i18n="wf_1">أرسل حزمتك</h4><p data-i18n="wf_1s">ارفع ملفات لعبتك وحدد اللغات المستهدفة والموعد.</p></div>
-      <div class="flow-step"><div class="fnum">2</div><h4 data-i18n="wf_2">معالجة AI</h4><p data-i18n="wf_2s">محرك URB يترجم مع الحفاظ على السياق والمصطلحات.</p></div>
-      <div class="flow-step"><div class="fnum">3</div><h4 data-i18n="wf_3">مراجعة بشرية</h4><p data-i18n="wf_3s">خبراء لغويون يدققون الدقة الثقافية وجودة التجربة.</p></div>
-      <div class="flow-step"><div class="fnum">4</div><h4 data-i18n="wf_4">تسليم وإطلاق</h4><p data-i18n="wf_4s">حزمة جاهزة للدمج — مع دعم تسويقي في باقة PLUS.</p></div>
-    </div>
-  </div>
-</section>
-
-<footer>
-  <div class="foot-in">
-    <div class="foot-bottom">
-      <span>© 2026 عُرب URB — All rights reserved</span>
-      <span style="font-family:'Space Mono',monospace;font-size:0.68rem;">ENGINE_STATUS: <span style="color:var(--green);">ONLINE ●</span></span>
-    </div>
-  </div>
-</footer>
-
 </div>
 
-<!-- URB BOT COMPONENT -->
-<button class="chat-widget-btn" onclick="toggleChat()">
-  <span>🤖</span>
-  <span>URB bot</span>
-</button>
-
-<div class="chat-box" id="chatBox">
-  <div class="chat-header">
-    <h3>🤖 URB bot</h3>
-    <button class="close-btn" onclick="toggleChat()">✕</button>
+<!-- CLIENT DASHBOARD -->
+<div class="dash" id="dash-client">
+  <div class="dash-top">
+    <div style="font-weight:700;"><span>URB</span> <span class="badge b-cyan">CLIENT</span></div>
+    <div style="display:flex;gap:12px;align-items:center;">
+      <div class="lang-pick">
+        <button class="lang-btn" onclick="toggleLangMenu(event)"><span id="clLangFlag">🇸🇦</span> <span id="clLangName">العربية</span> ▾</button>
+        <div class="lang-menu" id="clLangMenu"></div>
+      </div>
+      <span id="cl-name" style="font-size:0.82rem;color:var(--dim);"></span>
+      <button class="mini-btn" onclick="doLogout()"><span data-i18n="btn_logout">خروج ↩</span></button>
+    </div>
   </div>
-  <div class="chat-messages" id="chatMessages">
-    <div class="lang-container" id="langContainer">
-      <div class="lang-title">اختر لغتك المفضلة / Choose Language</div>
-      <div class="lang-buttons">
-        <button class="lang-btn" onclick="setLanguage('Arabic', '🇸🇦 العربية')">🇸🇦 العربية</button>
-        <button class="lang-btn" onclick="setLanguage('English', '🇺🇸 English')">🇺🇸 English</button>
+  <div class="dash-body">
+    <div class="dash-side">
+      <button class="side-item on"><span data-i18n="dash_overview">📊 لوحتي</span></button>
+      <button class="side-item" onclick="openCreatePkg()"><span data-i18n="dash_new_pkg">➕ حزمة جديدة</span></button>
+    </div>
+    <div class="dash-main">
+      <div class="stats">
+        <div class="stat"><div class="sl" data-i18n="st_pkgs">PACKAGES</div><div class="sv" id="cs-total">0</div><div class="ss" data-i18n="st_pkgs_sub">إجمالي الحزم</div></div>
+        <div class="stat"><div class="sl" data-i18n="st_proc">IN PROGRESS</div><div class="sv" id="cs-proc">0</div><div class="ss" data-i18n="st_proc_sub">قيد التنفيذ</div></div>
+        <div class="stat"><div class="sl" data-i18n="st_done">COMPLETED</div><div class="sv" id="cs-done">0</div><div class="ss" data-i18n="st_done_sub">مكتملة</div></div>
+        <div class="stat"><div class="sl" data-i18n="st_words">WORDS</div><div class="sv" id="cs-words">0</div><div class="ss" data-i18n="st_words_sub">كلمة مقدرة</div></div>
+      </div>
+      <div class="dcard">
+        <div class="dcard-head"><div style="font-weight:700;" data-i18n="recent_pkgs">📦 أحدث الحزم</div><button class="mini-btn mm" onclick="openCreatePkg()" data-i18n="dash_new_pkg">➕ حزمة جديدة</button></div>
+        <div class="dcard-body" id="cl-recent"></div>
       </div>
     </div>
   </div>
+</div>
+
+<!-- AUTH MODAL -->
+<div class="overlay" id="authModal">
+  <div class="panel">
+    <div class="panel-head"><div class="panel-title">🔐 <span data-i18n="auth_title">الدخول إلى عُرب URB</span></div><button class="x-btn" onclick="closeM('authModal')">✕</button></div>
+    <div class="panel-body">
+      <div class="atabs">
+        <button class="atab on" id="at-login" onclick="authTab('login')" data-i18n="tab_login">دخول</button>
+        <button class="atab" id="at-signup" onclick="authTab('signup')" data-i18n="tab_signup">حساب جديد</button>
+      </div>
+      <div id="f-login">
+        <div class="fg"><label class="fl">EMAIL</label><input class="fi" type="email" id="li-email" placeholder="you@studio.com"></div>
+        <div class="fg"><label class="fl">PASSWORD</label><input class="fi" type="password" id="li-pass"></div>
+        <button class="btn btn-grad" style="width:100%;padding:13px;" onclick="doLogin()" data-i18n="tab_login">🔐 دخول</button>
+      </div>
+      <div id="f-signup" style="display:none;">
+        <div class="f2">
+          <div class="fg"><label class="fl">FULL NAME</label><input class="fi" id="su-name"></div>
+          <div class="fg"><label class="fl">COMPANY</label><input class="fi" id="su-company"></div>
+        </div>
+        <div class="fg"><label class="fl">EMAIL</label><input class="fi" type="email" id="su-email"></div>
+        <div class="fg"><label class="fl">PASSWORD</label><input class="fi" type="password" id="su-pass"></div>
+        <button class="btn btn-grad" style="width:100%;padding:13px;" onclick="doSignup()" data-i18n="signup_btn">🚀 إنشاء حساب</button>
+      </div>
+      <div class="fmsg" id="auth-msg"></div>
+    </div>
+  </div>
+</div>
+
+<!-- URB BOT -->
+<button class="chat-widget-btn" onclick="toggleChat()">🤖 URB bot</button>
+<div class="chat-box" id="chatBox">
+  <div class="chat-header"><h3>🤖 URB bot</h3><button style="background:none;border:none;color:#fff;cursor:pointer;" onclick="toggleChat()">✕</button></div>
+  <div class="chat-messages" id="chatMessages"></div>
   <div class="chat-input-area">
-    <input type="text" id="userInput" class="chat-input" placeholder="اكتب سؤالك هنا..." onkeypress="if(event.key==='Enter') sendMessage()">
-    <button class="send-btn" id="sendBtn" onclick="sendMessage()">➤</button>
+    <input type="text" id="userInput" class="chat-input" placeholder="Ask something...">
+    <button class="send-btn" onclick="sendMessage()">➤</button>
   </div>
 </div>
 
@@ -481,118 +298,135 @@ const SUPA_URL = 'https://sagmdtrjlmarwrrbsqbi.supabase.co';
 const SUPA_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InNhZ21kdHJqbG1hcndycmJzcWJpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODM1NDY2OTQsImV4cCI6MjA5OTEyMjY5NH0.fssvhFVqzz5RvUz4nnMk6mBZlCpTkwyunLkhl8aEZVk';
 const sb = supabase.createClient(SUPA_URL, SUPA_KEY);
 
-/* ═══ DICTIONARY FOR PACKAGES ═══ */
-const PKG_TRANS = {
-  "الأكثر طلباً": { en: "Most Popular", zh: "最受欢迎", ja: "一番人気", fr: "Plus populaire", es: "Más popular" },
-  "لكل مشروع": { en: "Per Project", zh: "每个项目", ja: "プロジェクトごと", fr: "Par projet", es: "Por proyecto" },
-  "فوري AI توطين": { en: "Instant AI Localization", zh: "即时AI本地化", ja: "即时AIローカライズ", fr: "Localisation IA instantanée", es: "Localización IA instantánea" },
-  "تسليم سريع": { en: "Fast Delivery", zh: "快速交付", ja: "迅速な納品", fr: "Livraison rapide", es: "Entrega rápida" },
-  "توليد المصطلحات تلقائياً": { en: "Auto Glossary Generation", zh: "自动术语生成", ja: "自動用語集生成", fr: "Génération auto de glossaire", es: "Generación auto de glosario" },
-  "ذاكرة الترجمة": { en: "Translation Memory", zh: "翻译记忆库", ja: "翻訳メモリ", fr: "Mémoire de traduction", es: "Memoria de traducción" },
-  "فحص جودة آلي": { en: "Automated QA", zh: "自动质量检查", ja: "自動QAチェック", fr: "Assurance qualité auto", es: "Control de calidad auto" },
-  "كل مميزات URB AI System": { en: "All URB AI Features", zh: "包含所有URB AI功能", ja: "URB AIの全機能", fr: "Toutes les fonctions IA", es: "Todas las funciones de IA" },
-  "مراجعة بشرية متخصصة": { en: "Expert Human Review", zh: "专家人工审校", ja: "専門家によるレビュー", fr: "Révision humaine experte", es: "Revisión humana experta" },
-  "LQA تدقيق جودة التوطين": { en: "LQA Localization QA", zh: "LQA本地化质检", ja: "LQA品質チェック", fr: "Assurance qualité LQA", es: "Control de calidad LQA" },
-  "تكيف ثقافي كامل": { en: "Full Cultural Adaptation", zh: "完全文化适应", ja: "完全な文化的適応", fr: "Adaptation culturelle complète", es: "Adaptación cultural completa" },
-  "مراجعة المصطلحات": { en: "Glossary Review", zh: "术语审校", ja: "用語集レビュー", fr: "Révision de glossaire", es: "Revisión de glosario" },
-  "مراجعة تجربة اللعب": { en: "Gameplay Experience Review", zh: "游戏体验审校", ja: "ゲームプレイ体験レビュー", fr: "Révision d'expérience de jeu", es: "Revisión de experiencia de juego" },
-  "كل مميزات الباقتين": { en: "All Features of Both Plans", zh: "包含两款套餐的所有功能", ja: "両プランの全機能", fr: "Toutes les fonctionnalités", es: "Todas las funciones" },
-  "تسويق عبر مؤثري الألعاب": { en: "Game Influencer Marketing", zh: "游戏网红营销", ja: "インフルエンサーマーケティング", fr: "Marketing d'influenceurs", es: "Marketing de influencers" },
-  "حملات ستريمرز": { en: "Streamer Campaigns", zh: "主播推广活动", ja: "配信者キャンペーン", fr: "Campagnes de streamers", es: "Campañas de streamers" },
-  "تغطية يوتيوب": { en: "YouTube Coverage", zh: "YouTube视频覆盖", ja: "YouTubeカバー", fr: "Couverture YouTube", es: "Cobertura en YouTube" },
-  "حملة تيك توك": { en: "TikTok Campaign", zh: "TikTok营销活动", ja: "TikTokキャンペーン", fr: "Campagne TikTok", es: "Campaña de TikTok" },
-  "محتوى سوشيال ميديا": { en: "Social Media Content", zh: "社交媒体内容", ja: "SNSコンテンツ", fr: "Contenu réseaux sociaux", es: "Contenido para redes" },
-  "دعم الإطلاق": { en: "Launch Support", zh: "发布全程支持", ja: "ローンチサポート", fr: "Support de lancement", es: "Soporte de lanzamiento" },
-  "اطلب عرض سعر": { en: "Request Quote", zh: "索取报价", ja: "見積もりをリクエスト", fr: "Demander un devis", es: "Solicitar cotización" }
-};
-
-let currentPricingData = [];
+let me = null;
 let lang = localStorage.getItem('gl_lang') || 'ar';
 
-function translateText(text) {
-  if (lang === 'ar') return text;
-  return PKG_TRANS[text]?.[lang] || PKG_TRANS[text]?.en || text;
-}
-
-/* ═══ PUBLIC PRICING FETCH & RENDER ═══ */
-async function loadPricingPublic() {
-  const { data } = await sb.from('pricing').select('*').order('sort_order');
-  currentPricingData = data || [];
-  renderPricingGrid();
-}
-
-function renderPricingGrid() {
-  const g = document.getElementById('priceGrid');
-  if(!currentPricingData.length) {
-    g.innerHTML = `<div class="empty" style="grid-column:1/-1;">لا توجد باقات حالياً</div>`;
-    return;
-  }
-  
-  g.innerHTML = currentPricingData.map(p => {
-    const rawFeats = Array.isArray(p.features) ? p.features : JSON.parse(p.features || '[]');
-    const translatedFeats = rawFeats.map(f => translateText(f));
-    const translatedName = translateText(p.name);
-    const translatedPeriod = translateText(p.period || 'لكل مشروع');
-    const translatedBtn = translateText(p.btn_label || 'اطلب عرض سعر');
-    
-    return `<div class="price-card ${p.is_featured ? 'feat' : ''}">
-      ${p.is_featured ? `<div class="price-badge">⭐ ${translateText('الأكثر طلباً')}</div>` : ''}
-      <div class="price-plan">${translatedName}</div>
-      <div class="price-amt"><span style="font-size:1.4rem;">${translateText('Request Quote')}</span></div>
-      <div class="price-per">${translatedPeriod}</div>
-      <ul class="price-feats">
-        ${translatedFeats.map(f => `<li><span class="ck">✓</span>${f}</li>`).join('')}
-      </ul>
-      <button class="btn ${p.is_featured ? 'btn-grad' : 'btn-ghost'}" style="padding:13px;" onclick="openAuth('signup')">${translatedBtn}</button>
-    </div>`;
-  }).join('');
-}
-
 const LANGS = { ar:{n:'العربية',f:'🇸🇦'}, en:{n:'English',f:'🇺🇸'} };
+
+const T = {
+  nav_packages: { ar: 'الباقات', en: 'Packages' },
+  nav_engine: { ar: 'التقنية', en: 'Engine' },
+  nav_login: { ar: '🔐 دخول', en: '🔐 Login' },
+  hero_1: { ar: 'صُنعت للألعاب.', en: 'Built for Games.' },
+  hero_2: { ar: 'دُرّبت', en: 'Trained' },
+  hero_3: { ar: 'بالبشر.', en: 'by Humans.' },
+  hero_sub: { ar: 'منصة توطين ذكية تجمع قوة الذكاء الاصطناعي مع الدقة الثقافية السعودية.', en: 'An intelligent localization platform combining AI power with Saudi cultural precision.' },
+  hero_cta1: { ar: '🚀 أطلق حزمة جديدة', en: '🚀 Launch Package' },
+  pk_title: { ar: 'باقة لكل طموح', en: 'A package for every ambition' },
+  btn_logout: { ar: 'خروج ↩', en: 'Logout ↩' },
+  auth_title: { ar: 'الدخول إلى عُرب URB', en: 'Sign in to URB' },
+  tab_login: { ar: 'دخول', en: 'Login' },
+  tab_signup: { ar: 'حساب جديد', en: 'Sign Up' },
+  signup_btn: { ar: '🚀 إنشاء حساب', en: '🚀 Create Account' },
+  signup_ok: { ar: '✓ تم! سوّينا حسابك — افحص بريدك وبعدها سجّل دخول.', en: '✓ Success! Account created — please check your email to log in.' },
+  dash_overview: { ar: '📊 لوحتي', en: '📊 Dashboard' },
+  dash_new_pkg: { ar: '➕ حزمة جديدة', en: '➕ New Package' },
+  st_pkgs: { ar: 'PACKAGES', en: 'PACKAGES' },
+  st_pkgs_sub: { ar: 'إجمالي الحزم', en: 'Total Packages' },
+  st_proc: { ar: 'IN PROGRESS', en: 'IN PROGRESS' },
+  st_proc_sub: { ar: 'قيد التنفيذ', en: 'In Progress' },
+  st_done: { ar: 'COMPLETED', en: 'COMPLETED' },
+  st_done_sub: { ar: 'مكتملة', en: 'Completed' },
+  st_words: { ar: 'WORDS', en: 'WORDS' },
+  st_words_sub: { ar: 'كلمة مقدرة', en: 'Estimated Words' },
+  recent_pkgs: { ar: '📦 أحدث الحزم', en: '📦 Recent Packages' }
+};
+
+function t(k){ return T[k]?.[lang] || T[k]?.en || T[k]?.ar || ''; }
 
 function applyLang() {
   document.documentElement.lang = lang;
   document.documentElement.dir = (lang === 'ar') ? 'rtl' : 'ltr';
-  renderPricingGrid(); // إعادة رندر الباقات بلغة الصفحة الجديدة تلقائياً
+  
+  document.querySelectorAll('#langFlag, #clLangFlag').forEach(el => el.textContent = LANGS[lang].f);
+  document.querySelectorAll('#langName, #clLangName').forEach(el => el.textContent = LANGS[lang].n);
+  
+  document.querySelectorAll('[data-i18n]').forEach(el => {
+    const key = el.getAttribute('data-i18n');
+    if (t(key)) el.innerHTML = t(key);
+  });
+  
+  buildLangMenus();
 }
 
-function setLang(k) { 
-  lang = k; 
-  localStorage.setItem('gl_lang', k); 
-  applyLang(); 
+function buildLangMenus() {
+  const html = Object.entries(LANGS).map(([k, v]) => 
+    `<button class="lang-opt ${k===lang?'on':''}" onclick="setLang('${k}')">${v.f} ${v.n}</button>`
+  ).join('');
+  document.querySelectorAll('#langMenu, #clLangMenu').forEach(m => m.innerHTML = html);
 }
 
-/* Chat logic */
+function setLang(k) {
+  lang = k;
+  localStorage.setItem('gl_lang', k);
+  applyLang();
+  document.querySelectorAll('.lang-menu').forEach(m => m.classList.remove('open'));
+}
+
+function toggleLangMenu(e) {
+  e.stopPropagation();
+  const menu = e.currentTarget.nextElementSibling;
+  menu.classList.toggle('open');
+}
+
+function closeM(id){ document.getElementById(id).classList.remove('open'); }
+function openM(id){ document.getElementById(id).classList.add('open'); }
+function openAuth(t){ openM('authModal'); if(t) authTab(t); }
+
+function authTab(t){
+  document.getElementById('at-login').classList.toggle('on', t==='login');
+  document.getElementById('at-signup').classList.toggle('on', t==='signup');
+  document.getElementById('f-login').style.display = t==='login'?'block':'none';
+  document.getElementById('f-signup').style.display = t==='signup'?'block':'none';
+}
+
+async function doSignup(){
+  const name = document.getElementById('su-name').value.trim();
+  const email = document.getElementById('su-email').value.trim();
+  const pass = document.getElementById('su-pass').value;
+  if(!email || !pass || !name) return;
+  
+  const { error } = await sb.auth.signUp({ email, password: pass, options:{ data:{ full_name:name } } });
+  const msgEl = document.getElementById('auth-msg');
+  if(error) {
+    msgEl.className = 'fmsg err';
+    msgEl.textContent = error.message;
+  } else {
+    msgEl.className = 'fmsg ok';
+    msgEl.textContent = t('signup_ok'); // ترجمة حية لرسالة نجاح التسجيل
+  }
+}
+
+async function doLogin(){
+  const email = document.getElementById('li-email').value.trim();
+  const pass = document.getElementById('li-pass').value;
+  const { error } = await sb.auth.signInWithPassword({ email, password: pass });
+  if(!error) closeM('authModal');
+}
+
+async function doLogout(){
+  await sb.auth.signOut();
+  document.getElementById('dash-client').classList.remove('active');
+  document.getElementById('view-landing').classList.add('active');
+}
+
+sb.auth.onAuthStateChange((ev, session)=>{
+  if(session?.user) {
+    me = session.user;
+    document.getElementById('view-landing').classList.remove('active');
+    document.getElementById('dash-client').classList.add('active');
+    document.getElementById('cl-name').textContent = me.user_metadata?.full_name || me.email;
+    applyLang();
+  }
+});
+
 function toggleChat() {
   const box = document.getElementById('chatBox');
   box.style.display = (box.style.display === 'flex') ? 'none' : 'flex';
 }
 
-async function sendMessage() {
-  const input = document.getElementById('userInput');
-  const text = input.value.trim();
-  if (!text) return;
-
-  const messagesDiv = document.getElementById('chatMessages');
-  messagesDiv.innerHTML += `<div class="message user">${text}</div>`;
-  input.value = '';
-
-  try {
-    const response = await fetch('/api/chat', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ message: text, language: lang })
-    });
-    const data = await response.json();
-    messagesDiv.innerHTML += `<div class="message bot">${data.reply || 'تم استلام الرد.'}</div>`;
-  } catch (err) {
-    messagesDiv.innerHTML += `<div class="message bot">⚠️ خطأ بالاتصال.</div>`;
-  }
-}
-
 // Init
 applyLang();
-loadPricingPublic();
 </script>
 </body>
 </html>
