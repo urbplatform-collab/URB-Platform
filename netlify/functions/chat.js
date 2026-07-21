@@ -46,8 +46,8 @@ export async function handler(event, context) {
       };
     }
 
-    // استبدال اسم النموذج بالموديل الحديث والمستقر gemini-2.0-flash
-    const geminiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
+    // رابط الـ API بـ النموذج المخصص والسريع gemini-1.5-flash-8b
+    const geminiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-8b:generateContent?key=${apiKey}`;
 
     const geminiResponse = await fetch(geminiUrl, {
       method: "POST",
