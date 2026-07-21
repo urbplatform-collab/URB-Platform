@@ -40,12 +40,14 @@ export async function handler(event, context) {
 
     if (!apiKey) {
       return {
-        statusCode: 500,
-        body: JSON.stringify({ error: 'مفتاح API غير متوفر في المتغيرات البيئية' })
+        statusCode: 200,
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ reply: '⚠️ مفتاح GEMINI_API_KEY غير مضاف في إعدادات البيئة Netlify.' })
       };
     }
 
-    const geminiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey}`;
+    // استخدمنا نموذج gemini-1.5-flash المعتمد رسمياً
+    const geminiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`;
 
     const geminiResponse = await fetch(geminiUrl, {
       method: "POST",
@@ -58,7 +60,17 @@ export async function handler(event, context) {
     });
 
     const data = await geminiResponse.json();
-    const reply = data.candidates?.[0]?.content?.parts?.[0]?.text || "لم يتم استلام رد";
+
+    // في حال وجود خطأ من جوجل يظهره لنا مباشرة للتشخيص
+    if (data.error) {
+      return {
+        statusCode: 200,
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ reply: `⚠️ خطأ من سيرفر جوجل: ${data.error.message}` })
+      };
+    }
+
+    const reply = data.candidates?.[0]?.content?.parts?.[0]?.text || "لم يتم استلام رد من الذكاء الاصطناعي.";
 
     return {
       statusCode: 200,
@@ -67,8 +79,9 @@ export async function handler(event, context) {
     };
   } catch (error) {
     return { 
-      statusCode: 500, 
-      body: JSON.stringify({ error: 'حدث خطأ في الخادم: ' + error.message }) 
+      statusCode: 200, 
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ reply: 'حدث خطأ في الاتصال: ' + error.message }) 
     };
   }
 }
