@@ -85,15 +85,17 @@ body{
 .intro-count-val { font-family: 'Space Mono', monospace; font-size: 4rem; font-weight: 700; background: var(--grad); -webkit-background-clip: text; color: transparent; margin-bottom: 5px; text-shadow: var(--glow-p); }
 .intro-count-lbl { font-size: 1.2rem; color: var(--text); letter-spacing: 1px; font-weight: 600; }
 
-/* ═══ GLOBALS & NAV ═══ */
+/* ═══ STARFIELD ═══ */
 #stars{position:fixed;inset:0;z-index:0;pointer-events:none}
 .float-icons{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden}
 .f-icon{position:absolute;opacity:0.06;font-size:2.4rem;animation:floaty 18s ease-in-out infinite}
 @keyframes floaty{ 0%,100%{transform:translateY(0) rotate(-6deg)} 50%{transform:translateY(-34px) rotate(8deg)} }
 
+/* ═══ LAYOUT & COMMON ═══ */
 .view{display:none;position:relative;z-index:1}
 .view.active{display:block}
 .wrap{max-width:1200px;margin:0 auto;padding:0 24px}
+
 nav{position:sticky;top:0;z-index:90;background:rgba(5,6,15,0.75);backdrop-filter:blur(24px);border-bottom:1px solid var(--border2);}
 .nav-inner{max-width:1200px;margin:0 auto;padding:14px 24px;display:flex;align-items:center;justify-content:space-between;gap:14px}
 .logo{display:flex;align-items:center;gap:10px;cursor:pointer}
@@ -109,10 +111,8 @@ nav{position:sticky;top:0;z-index:90;background:rgba(5,6,15,0.75);backdrop-filte
 .btn-grad{background:var(--grad);color:#fff;padding:10px 22px;font-size:0.9rem}
 .btn-grad:hover{transform:translateY(-2px);box-shadow:0 10px 32px rgba(139,92,246,0.45)}
 .btn-ghost{background:rgba(255,255,255,0.04);border:1px solid var(--border2);color:var(--text);padding:10px 20px;font-size:0.88rem}
-.btn-ghost:hover{border-color:var(--purple)}
 .btn-sm{padding:7px 14px;font-size:0.8rem;border-radius:9px}
 
-/* lang picker */
 .lang-pick{position:relative}
 .lang-btn{background:rgba(255,255,255,0.04);border:1px solid var(--border2);color:var(--text);border-radius:10px;padding:8px 14px;font-size:0.82rem;cursor:pointer;display:flex;gap:7px;align-items:center;font-family:inherit}
 .lang-menu{position:absolute;top:110%;inset-inline-end:0;background:var(--surface2);border:1px solid var(--border);border-radius:13px;padding:6px;display:none;flex-direction:column;min-width:160px;z-index:100;box-shadow:0 20px 50px rgba(0,0,0,0.5);max-height:320px;overflow-y:auto;}
@@ -124,7 +124,7 @@ nav{position:sticky;top:0;z-index:90;background:rgba(5,6,15,0.75);backdrop-filte
 .marquee{overflow:hidden;border-block:1px solid var(--border2);padding:13px 0;position:relative;z-index:1;background:rgba(11,14,32,0.5)}
 .marquee-track{display:inline-flex;gap:52px;white-space:nowrap;animation:mq 28s linear infinite;font-family:'Space Mono',monospace;font-size:0.78rem;letter-spacing:2px;color:var(--dim)}
 .marquee-track b{color:var(--purple)}
-.hl-news{color:var(--pink);text-shadow:0 0 10px rgba(244,114,182,0.6);font-weight:700;} /* Highlighted News */
+.hl-news{color:var(--pink);text-shadow:0 0 10px rgba(244,114,182,0.6);font-weight:700;}
 @keyframes mq{from{transform:translateX(0)}to{transform:translateX(50%)}}
 
 /* ═══ HERO & TERMINAL ═══ */
@@ -223,7 +223,6 @@ footer{border-top:1px solid var(--border2);padding:52px 24px 34px;position:relat
 .fmsg{display:none;margin-top:12px;padding:11px 15px;border-radius:10px;font-size:0.83rem}
 .fmsg.err{display:block;background:rgba(248,113,113,0.09);border:1px solid rgba(248,113,113,0.3);color:var(--red)}
 .fmsg.ok{display:block;background:rgba(52,211,153,0.09);border:1px solid rgba(52,211,153,0.3);color:var(--green)}
-.fmsg.info{display:block;background:rgba(34,211,238,0.08);border:1px solid rgba(34,211,238,0.25);color:var(--cyan)}
 
 .atabs{display:flex;background:var(--surface2);border-radius:12px;padding:4px;gap:4px;margin-bottom:22px}
 .atab{flex:1;padding:10px;border:none;background:transparent;color:var(--dim);border-radius:9px;cursor:pointer;font-size:0.9rem;font-weight:600;}
@@ -252,10 +251,12 @@ footer{border-top:1px solid var(--border2);padding:52px 24px 34px;position:relat
 .row-item{display:flex;align-items:center;justify-content:space-between;gap:12px;background:var(--surface2);border:1px solid var(--border2);border-radius:13px;padding:15px 17px;margin-bottom:11px;}
 .mini-btn{background:var(--surface3);border:1px solid var(--border2);color:#c3c9e3;padding:7px 13px;border-radius:9px;font-size:0.76rem;cursor:pointer;}
 .mini-btn.mm{background:var(--grad);color:#fff;border:none;font-weight:700}
+.mini-btn.dg:hover{border-color:var(--red);color:var(--red)}
 .empty{text-align:center;padding:46px 18px;color:var(--dim)}
 .badge{display:inline-flex;padding:4px 11px;border-radius:7px;font-size:0.68rem;font-family:'Space Mono',monospace;font-weight:700;}
 .b-cyan{background:rgba(34,211,238,0.12);color:var(--cyan)}
 .b-green{background:rgba(52,211,153,0.12);color:var(--green)}
+.b-gold{background:rgba(251,191,36,0.12);color:var(--gold)}
 .b-dim{background:rgba(255,255,255,0.06);color:var(--dim)}
 
 /* Toggles */
@@ -407,14 +408,6 @@ footer{border-top:1px solid var(--border2);padding:52px 24px 34px;position:relat
   </div>
 </div>
 
-<!-- PARTNERS -->
-<section id="partners-sec" style="padding:34px 24px;display:none;">
-  <div class="sec-in">
-    <div style="text-align:center;font-family:'Space Mono',monospace;font-size:0.7rem;letter-spacing:3px;color:var(--dim);margin-bottom:26px;" data-i18n="partners_title">شركاء النجاح — TRUSTED BY</div>
-    <div class="partners-strip" id="partnersStrip"></div>
-  </div>
-</section>
-
 <section id="tech">
   <div class="sec-in">
     <div class="sec-tag">// THE ENGINE</div>
@@ -532,7 +525,6 @@ footer{border-top:1px solid var(--border2);padding:52px 24px 34px;position:relat
     </div>
   </div>
 </footer>
-
 </div><!-- /landing -->
 
 <!-- CLIENT DASHBOARD -->
@@ -625,11 +617,11 @@ footer{border-top:1px solid var(--border2);padding:52px 24px 34px;position:relat
       <button class="side-item" onclick="dPage('admin','showcase',this)">⭐ <span>أبرز الكوادر</span></button>
     </div>
     <div class="dash-main">
-      <!-- Admin Overview -->
       <div class="dpage active" id="admin-overview">
         <div class="stats">
           <div class="stat"><div class="sl">PACKAGES</div><div class="sv" style="color:var(--purple);" id="as-pkgs">0</div></div>
           <div class="stat"><div class="sl">CLIENTS</div><div class="sv" style="color:var(--cyan);" id="as-clients">0</div></div>
+          <div class="stat"><div class="sl">PENDING</div><div class="sv" style="color:var(--gold);" id="as-pending">0</div></div>
         </div>
         <div class="dcard">
           <div class="dcard-head"><div class="dcard-title">📦 أحدث الحزم</div></div>
@@ -669,7 +661,7 @@ footer{border-top:1px solid var(--border2);padding:52px 24px 34px;position:relat
         <div class="dcard">
           <div class="dcard-head">
             <div class="dcard-title">🏆 شركاء النجاح / العملاء</div>
-            <label class="tgl" title="إظهار القسم"><input type="checkbox" id="tgl-partners" onchange="setSiteToggle('show_partners',this.checked)"><span class="tr"></span></label>
+            <label class="tgl" title="إظهار القسم للعملاء"><input type="checkbox" id="tgl-partners" onchange="setSiteToggle('show_partners',this.checked)"><span class="tr"></span></label>
           </div>
           <div class="dcard-body">
             <div class="f2">
@@ -687,13 +679,13 @@ footer{border-top:1px solid var(--border2);padding:52px 24px 34px;position:relat
         <div class="dcard">
           <div class="dcard-head">
             <div class="dcard-title">⭐ أبرز الكوادر (مترجمين / مؤثرين)</div>
-            <label class="tgl" title="إظهار القسم"><input type="checkbox" id="tgl-showcase" onchange="setSiteToggle('show_team_showcase',this.checked)"><span class="tr"></span></label>
+            <label class="tgl" title="إظهار القسم للعملاء"><input type="checkbox" id="tgl-showcase" onchange="setSiteToggle('show_team_showcase',this.checked)"><span class="tr"></span></label>
           </div>
           <div class="dcard-body">
             <div class="f2">
               <div class="fg"><label class="fl">الاسم</label><input class="fi" id="sh-name"></div>
               <div class="fg"><label class="fl">الدور (مثال: مترجم ياباني)</label><input class="fi" id="sh-role"></div>
-              <div class="fg" style="grid-column:span 2;"><label class="fl">رابط الصورة</label><input class="fi" id="sh-img" style="direction:ltr;"></div>
+              <div class="fg" style="grid-column:span 2;"><label class="fl">رابط الصورة (اختياري)</label><input class="fi" id="sh-img" style="direction:ltr;"></div>
             </div>
             <button class="mini-btn mm" style="width:100%;padding:10px;" onclick="addShowcase()">➕ إضافة</button>
             <div id="ad-showcase" style="margin-top:16px;"></div>
@@ -735,7 +727,6 @@ footer{border-top:1px solid var(--border2);padding:52px 24px 34px;position:relat
         <button class="atab" id="at-signup" onclick="authTab('signup')" data-i18n="tab_signup">حساب جديد</button>
       </div>
       
-      <!-- Login -->
       <div id="f-login">
         <div class="fg"><label class="fl">EMAIL</label><input class="fi" type="email" id="li-email" style="direction:ltr;" placeholder="you@studio.com"></div>
         <div class="fg">
@@ -748,14 +739,12 @@ footer{border-top:1px solid var(--border2);padding:52px 24px 34px;position:relat
         <button class="btn btn-grad" style="width:100%;padding:13px;" id="li-btn" onclick="doLogin()" data-i18n="tab_login">🔐 دخول</button>
       </div>
 
-      <!-- Forgot Password -->
       <div id="f-forgot" style="display:none;">
         <div class="fg"><label class="fl">EMAIL</label><input class="fi" type="email" id="fg-email" style="direction:ltr;" placeholder="you@studio.com"></div>
         <button class="btn btn-grad" style="width:100%;padding:13px;" onclick="doForgot()" data-i18n="send_reset">إرسال رابط الاستعادة</button>
         <div style="text-align:center;margin-top:15px;"><a href="#" onclick="showForgot(false)" style="font-size:0.8rem;color:var(--dim);text-decoration:none;" data-i18n="back_login">العودة لتسجيل الدخول</a></div>
       </div>
 
-      <!-- Signup -->
       <div id="f-signup" style="display:none;">
         <div class="f2">
           <div class="fg"><label class="fl">FULL NAME</label><input class="fi" id="su-name"></div>
@@ -773,7 +762,6 @@ footer{border-top:1px solid var(--border2);padding:52px 24px 34px;position:relat
   </div>
 </div>
 
-<!-- ADMIN GATE MODAL -->
 <div class="overlay" id="adminGate">
   <div class="panel" style="width:400px;">
     <div class="panel-head">
@@ -783,7 +771,8 @@ footer{border-top:1px solid var(--border2);padding:52px 24px 34px;position:relat
     <div class="panel-body">
       <div class="fg">
         <label class="fl">ADMIN PASSWORD</label>
-        <input class="fi" type="password" id="gate-pass" placeholder="Urb@2026" onkeydown="if(event.key==='Enter')checkAdminGate()">
+        <!-- إزالة Placeholder لتكون الكلمة مخفية تماماً -->
+        <input class="fi" type="password" id="gate-pass" onkeydown="if(event.key==='Enter')checkAdminGate()">
       </div>
       <button class="btn btn-grad" style="width:100%;padding:13px;" onclick="checkAdminGate()">دخول ←</button>
       <div class="fmsg" id="gate-msg"></div>
@@ -791,14 +780,13 @@ footer{border-top:1px solid var(--border2);padding:52px 24px 34px;position:relat
   </div>
 </div>
 
-<!-- VENDOR APPLY MODAL -->
 <div class="overlay" id="vendorApplyModal">
   <div class="panel" style="width:560px;">
     <div class="panel-head"><div class="panel-title" data-i18n="foot_apply">🤝 التقديم كمتعهد / Freelancer</div>
       <button class="x-btn" onclick="closeM('vendorApplyModal')">✕</button></div>
     <div class="panel-body">
       <div class="fmsg info" style="display:block;margin:0 0 18px;line-height:1.8;" data-i18n="vendor_info">
-        انضم لشبكة عُرب! عبّي النموذج وسنتواصل معك لعمل مقابلة، ثم نقوم بتفعيل حسابك وتزويدك ببيانات الدخول.
+        انضم لشبكة عُرب! عبّي النموذج وسيتم التواصل معك لعمل مقابلة، ومن ثم تفعيل حسابك وتزويدك ببيانات الدخول.
       </div>
       <div class="f2">
         <div class="fg"><label class="fl">FULL NAME *</label><input class="fi" id="va-name"></div>
@@ -812,16 +800,6 @@ footer{border-top:1px solid var(--border2);padding:52px 24px 34px;position:relat
   </div>
 </div>
 
-<!-- DETAIL / EDIT MODAL -->
-<div class="overlay" id="detailModal">
-  <div class="panel" style="width:620px;">
-    <div class="panel-head"><div class="panel-title" id="dm-title">تفاصيل</div>
-      <button class="x-btn" onclick="closeM('detailModal')">✕</button></div>
-    <div class="panel-body" id="dm-body"></div>
-  </div>
-</div>
-
-<!-- CREATE PACKAGE MODAL -->
 <div class="overlay" id="pkgModal">
   <div class="panel" style="width:600px;">
     <div class="panel-head">
@@ -882,7 +860,7 @@ let A = { pkgs:[], team:[], vendors:[], rfqs:[], quotes:[], pricing:[] };
 let C = { pkgs:[], gloss:[] };
 let lang = localStorage.getItem('gl_lang') || 'ar';
 
-/* ═══ INTRO LOGIC (RETRO ARCADE -> GLOBE ZOOM) ═══ */
+/* ═══ INTRO LOGIC ═══ */
 const introPhrases = {
   ar: "يلاه نلعب", en: "Start Game", zh: "开始游戏", ja: "開始する", 
   ko: "게임 시작", ur: "کھیلیں", fr: "Jouons", es: "Vamos a jugar", 
@@ -1033,7 +1011,7 @@ const T = {
   hs2: { ar:'Words Trained', en:'Words Trained', zh:'训练字数', ja:'学習単語数', ko:'학습 단어 수', ur:'تربیت یافتہ الفاظ', fr:'Mots entraînés', it:'Parole addestrate', es:'Palabras entrenadas', pt:'Palavras treinadas', ru:'Обучено слов', de:'Trainierte Wörter' },
   hs3: { ar:'Engine Latency', en:'Engine Latency', zh:'引擎延迟', ja:'エンジン遅延', ko:'엔진 지연 시간', ur:'انجن تاخیر', fr:'Latence moteur', it:'Latenza motore', es:'Latencia del motor', pt:'Latência do motor', ru:'Задержка движка', de:'Engine-Latenz' },
 
-  tech_title: { ar:'ثلاثة محاور، قوة واحدة', en:'Three Pillars, One Power', zh:'三大支柱，一种力量', ja:'3つの柱、1つの力', ko:'세 가지 기둥, 하나의 힘', ur:'تین ستون، ایک طاقت', fr:'Trois piliers, une force', it:'Tre pilastri, una forza', es:'Tres pilares, una fuerza', pt:'Três pilares, uma força', ru:'Три столпа, одна сила', de:'Drei Säulen, eine Kraft' },
+  tech_title: { ar:'ثلاثة محاور، قوة واحدة', en:'Three Pillars, One Power', zh:'三大支柱，一种力量', ja:'3つの柱、1つの力', ko:'세 가지 기둥, 하나의 힘', ur:'تین ستون، ایک طاقت', fr:'Trois piliers, une force', it:'Tre pilastri, una forza', es:'Tres pilares, una fuerza', pt:'Três pilares, una fuerza', ru:'Три столпа, одна сила', de:'Drei Säulen, eine Kraft' },
   tech_sub: { ar:'بنية توطين متكاملة تضمن أعلى جودة للألعاب العربية.', en:'An integrated localization architecture ensuring top game quality.', zh:'确保最高游戏质量的一体化本地化架构。', ja:'最高品質を保証する統合ローカライズ基盤。', ko:'최고의 게임 품질을 보장하는 통합 아키텍처.', ur:'اعلیٰ معیار کی ضمانت دینے والا مربوط ڈھانچہ۔', fr:'Une architecture de localisation intégrée assurant une qualité optimale.', it:'Un\'architettura integrata che garantisce la massima qualità.', es:'Arquitectura integrada que garantiza la máxima calidad.', pt:'Arquitetura integrada garantindo a máxima qualidade.', ru:'Интегрированная архитектура, гарантирующая высшее качество.', de:'Integrierte Lokalisierungsarchitektur für höchste Qualität.' },
   tech_1: { ar:'نموذج مخصص لعالم الألعاب يتعلم من كل مشروع ويحسّن دقته أسبوعياً.', en:'Gaming-custom model learning from every project with weekly accuracy updates.', zh:'专为游戏打造的模型，不断学习提升精度。', ja:'ゲーム専用モデルが毎週精度を向上させます。', ko:'매주 정확도가 향상되는 게임 특화 모델.', ur:'گیمنگ کے لیے مخصوص ماڈل جو ہر پروجیکٹ سے سیکھتا ہے۔', fr:'Modèle dédié au jeu qui s\'améliore chaque semaine.', it:'Modello dedicato al gaming che migliora ogni settimana.', es:'Modelo dedicado a videojuegos que mejora semanalmente.', pt:'Modelo dedicado a jogos que melhora semanalmente.', ru:'Игровая модель, улучшающая точность еженедельно.', de:'Gaming-Modell, das wöchentlich besser wird.' },
   tech_2: { ar:'معالجة متكاملة للنصوص والصوت والصور مع الحفاظ على التصميم الأصلي.', en:'Multimodal processing for text, audio, and images keeping native design intact.', zh:'多模态处理文本、语音与图像，保留原始设计。', ja:'テキスト・音声・画像を元のデザインのまま統合処理。', ko:'원본 디자인을 유지하는 멀티모달 텍스트·음성·이미지 처리.', ur:'متن، آواز اور تصاویر کی مربوط پروسیسنگ۔', fr:'Traitement multimodal préservant le design original.', it:'Elaborazione multimodale che preserva il design originale.', es:'Procesamiento multimodal que conserva el diseño original.', pt:'Processamento multimodal preservando o design original.', ru:'Мультимодальная обработка с сохранением дизайна.', de:'Multimodale Verarbeitung mit Erhalt des Originaldesigns.' },
@@ -1152,7 +1130,7 @@ function handleRoute() {
   const h = location.hash || '#home';
   document.querySelectorAll('.view,.dash').forEach(v => v.classList.remove('active'));
   
-  if (h === '#dashboard' && me) {
+  if (h === '#dashboard' && (me || myRole === 'admin')) {
     if(myRole === 'admin') document.getElementById('dash-admin').classList.add('active');
     else document.getElementById('dash-client').classList.add('active');
   } else {
