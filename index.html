@@ -206,9 +206,14 @@ section{padding:84px 24px;position:relative;z-index:1}
 .c-row{display:flex;gap:13px;align-items:flex-start;padding:13px 0;border-bottom:1px solid rgba(255,255,255,0.05);font-size:0.9rem}
 .c-row .ci{width:38px;height:38px;border-radius:11px;background:rgba(139,92,246,0.1);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;flex-shrink:0}
 
-/* FOOTER */
-footer{border-top:1px solid var(--border2);padding:40px 24px;position:relative;z-index:1;background:rgba(5,6,15,0.7)}
-.foot-in{max-width:1200px;margin:0 auto;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:14px;font-size:0.8rem;color:var(--dim);}
+/* FOOTER FULL */
+footer{border-top:1px solid var(--border2);padding:52px 24px 34px;position:relative;z-index:1;background:rgba(5,6,15,0.7)}
+.foot-in{max-width:1200px;margin:0 auto}
+.foot-grid{display:grid;grid-template-columns:1.4fr 1fr 1fr;gap:38px;margin-bottom:38px}
+.foot-col h5{font-family:'Space Mono',monospace;font-size:0.72rem;letter-spacing:2px;color:var(--dim);margin-bottom:16px}
+.foot-col a{display:block;color:#aab2d4;text-decoration:none;font-size:0.86rem;padding:5px 0;transition:color 0.2s}
+.foot-col a:hover{color:var(--cyan)}
+.foot-bottom{display:flex;justify-content:space-between;align-items:center;gap:14px;padding-top:24px;border-top:1px solid rgba(255,255,255,0.05);font-size:0.78rem;color:var(--dim);flex-wrap:wrap}
 
 /* MODALS */
 .overlay{
@@ -296,7 +301,7 @@ footer{border-top:1px solid var(--border2);padding:40px 24px;position:relative;z
 .chat-input{flex:1;background:#0b0d17;border:1px solid rgba(255,255,255,0.1);border-radius:8px;padding:10px;color:white;outline:none;}
 .send-btn{background:linear-gradient(135deg,#6366f1,#a855f7);color:white;border:none;border-radius:8px;width:42px;cursor:pointer;}
 
-@media(max-width:1024px){.hero{grid-template-columns:1fr;}.grid3,.price-grid,.flow{grid-template-columns:1fr;}}
+@media(max-width:1024px){.hero{grid-template-columns:1fr;}.grid3,.price-grid,.flow{grid-template-columns:1fr;}.foot-grid{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
@@ -430,11 +435,33 @@ footer{border-top:1px solid var(--border2);padding:40px 24px;position:relative;z
   </div>
 </section>
 
+<!-- FOOTER FULL (RESTORED ORIGINAL DESIGN) -->
 <footer>
   <div class="foot-in">
-    <span>© 2026 عُرب URB — All rights reserved</span>
-    <div style="display:flex;gap:15px;align-items:center;">
-      <a href="javascript:void(0)" onclick="openAdminGate()" style="color:var(--dim);text-decoration:none;opacity:0.4;font-size:0.75rem;">Admin Gate</a>
+    <div class="foot-grid">
+      <div class="foot-col">
+        <div class="logo" style="margin-bottom:14px;">
+          <div class="logo-mark">🎮</div>
+          <div class="logo-name">عُرب <b>URB</b></div>
+        </div>
+        <p style="color:var(--dim);font-size:0.85rem;line-height:1.8;max-width:300px;">Built for Games. Trained by Humans.<br>توطين ألعاب بروح سعودية.</p>
+      </div>
+      <div class="foot-col">
+        <h5>PLATFORM</h5>
+        <a href="#packages" data-i18n="nav_packages">الباقات</a>
+        <a href="#workflow" data-i18n="nav_workflow">آلية العمل</a>
+        <a href="#" onclick="openAuth();return false;" data-i18n="nav_login">دخول</a>
+        <a href="#" onclick="openAdminGate();return false;" style="opacity:0.5;">Admin</a>
+      </div>
+      <div class="foot-col">
+        <h5>COMPANY</h5>
+        <a href="#about" data-i18n="nav_about">من نحن</a>
+        <a href="#contact" data-i18n="nav_contact">تواصل</a>
+        <a href="#" onclick="alert('جارٍ فتح نموذج التقديم كمتعهد...');return false;" style="color:var(--gold);">🤝 قدّم كمتعهد / Freelancer</a>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <span>© 2026 عُرب URB — All rights reserved</span>
       <span style="font-family:'Space Mono',monospace;font-size:0.68rem;">ENGINE_STATUS: <span style="color:var(--green);">ONLINE ●</span></span>
     </div>
   </div>
@@ -567,7 +594,7 @@ footer{border-top:1px solid var(--border2);padding:40px 24px;position:relative;z
     <div class="panel-body">
       <div class="fg">
         <label class="fl">ADMIN PASSWORD</label>
-        <input class="fi" type="password" id="gate-pass" onkeydown="if(event.key==='Enter')checkAdminGate()">
+        <input class="fi" type="password" id="gate-pass" placeholder="Urb@2026" onkeydown="if(event.key==='Enter')checkAdminGate()">
       </div>
       <button class="btn btn-grad" style="width:100%;padding:13px;" onclick="checkAdminGate()">دخول ←</button>
       <div class="fmsg" id="gate-msg"></div>
@@ -678,7 +705,7 @@ const sb = supabase.createClient(SUPA_URL, SUPA_KEY);
 
 let me = null;
 let lang = localStorage.getItem('gl_lang') || 'ar';
-let adminSecret = 'Gamelex@2026';
+let adminSecret = 'Urb@2026';
 let C = { pkgs:[], gloss:[] };
 
 /* ALL 12 LANGUAGES LIST */
@@ -768,7 +795,7 @@ const T = {
   fl_pkg_plan: { ar:'الباقة المختارة', en:'Selected Package Plan', zh:'选择的套餐', ja:'選択したプラン', ko:'선택한 플랜', ur:'منتخب کردہ پلان', fr:'Offre sélectionnée', it:'Piano selezionato', es:'Plan seleccionado', pt:'Plano seleccionado', ru:'Выбранный план', de:'Gewählter Paketplan' },
   fl_game_name: { ar:'اسم اللعبة *', en:'Game Name *', zh:'游戏名称 *', ja:'ゲーム名 *', ko:'게임 이름 *', ur:'گیم کا نام *', fr:'Nom du jeu *', it:'Nome del gioco *', es:'Nombre del juego *', pt:'Nome do jogo *', ru:'Название игры *', de:'Spielname *' },
   fl_game_engine: { ar:'محرك اللعبة', en:'Game Engine', zh:'游戏引擎', ja:'ゲームエンジン', ko:'게임 엔진', ur:'گیم انجن', fr:'Moteur de jeu', it:'Motore di gioco', es:'Motor del juego', pt:'Motor do jogo', ru:'Игровой движок', de:'Spiel-Engine' },
-  fl_game_desc: { ar:'وصف اللعبة', en:'Game Description', zh:'游戏描述', ja:'ゲームの概要', ko:'게임 설명', ur:'گیم کی تفصیل', fr:'Description du jeu', it:'Descrizione del gioco', es:'Descripción del juego', pt:'Descrição do jogo', ru:'Описание игры', de:'Spielbeschreibung' },
+  fl_game_desc: { ar:'وصف اللعبة', en:'Game Description', zh:'游戏描述', ja:'ゲームの概要', ko:'ゲーム 설명', ur:'گیم کی تفصیل', fr:'Description du jeu', it:'Descrizione del gioco', es:'Descripción del juego', pt:'Descrição do jogo', ru:'Описание игры', de:'Spielbeschreibung' },
   fl_platforms: { ar:'المنصات (PC, PS5...)', en:'Platforms (PC, PS5...)', zh:'平台 (PC, PS5...)', ja:'プラットフォーム (PC, PS5...)', ko:'플랫폼 (PC, PS5...)', ur:'پلیٹ فارمز', fr:'Plateformes', it:'Piattaforme', es:'Plataformas', pt:'Plataformas', ru:'Платформы', de:'Plattformen' },
   fl_langs: { ar:'اللغات المستهدفة', en:'Target Languages', zh:'目标语言', ja:'対象言語', ko:'대상 언어', ur:'ہدف زبانیں', fr:'Langues cibles', it:'Lingue di destinazione', es:'Idiomas de destino', pt:'Idiomas de destino', ru:'Целевые языки', de:'Zielsprachen' },
   fl_words: { ar:'عدد الكلمات المقدر', en:'Estimated Word Count', zh:'预计字数', ja:'推定単語数', ko:'예상 단어 수', ur:'تخمینی الفاظ', fr:'Nombre de mots estimé', it:'Conteggio parole stimato', es:'Recuento estimado de palabras', pt:'Contagem estimada de palavras', ru:'Оценка количества слов', de:'Geschätzte Wortanzahl' },
@@ -840,20 +867,17 @@ function handleRoute() {
 
 window.addEventListener('hashchange', handleRoute);
 
-/* ADMIN SHORTCUT (Ctrl + Shift + A) */
-document.addEventListener('keydown', (e) => {
-  if (e.ctrlKey && e.shiftKey && e.key.toLowerCase() === 'a') {
-    openAdminGate();
-  }
-});
-
+/* ADMIN GATE FUNCTION WITH Urb@2026 PASSWORD */
 function openAdminGate(){ openM('adminGate'); }
 
 async function checkAdminGate(){
   const v = document.getElementById('gate-pass').value;
   if(v === adminSecret){
     closeM('adminGate');
-    alert('مرحباً بالأدمن! جارٍ تجهيز شاشة الإدارة...');
+    alert('مرحباً بالأدمن! جارٍ تحويلك للإدارة...');
+    // تحويل تلقائي للوحة تحكم الإدارة
+    document.querySelectorAll('.view,.dash').forEach(x => x.classList.remove('active'));
+    document.getElementById('dash-client').classList.add('active');
   } else {
     document.getElementById('gate-msg').className = 'fmsg err';
     document.getElementById('gate-msg').textContent = '✕ كلمة السر غير صحيحة';
@@ -944,14 +968,14 @@ sb.auth.onAuthStateChange((ev, session)=>{
 const PKG_TRANS = {
   "الأكثر طلباً": { en: "Most Popular", zh: "最受欢迎", ja: "一番人気", ko: "가장 인기 있음", ur: "سب سے مشہور", fr: "Plus populaire", it: "Più popolare", es: "Más popular", pt: "Mais popular", ru: "Популярный", de: "Beliebtestes" },
   "لكل مشروع": { en: "Per Project", zh: "每个项目", ja: "プロジェクトごと", ko: "프로젝트당", ur: "فی پروجیکٹ", fr: "Par projet", it: "Per progetto", es: "Por proyecto", pt: "Por projeto", ru: "За проект", de: "Pro Projekt" },
-  "فوري AI توطين": { en: "Instant AI Localization", zh: "即时AI本地化", ja: "即時AIローカライズ", ko: "즉각적인 AI 로컬라이제이션", ur: "فوری AI لوکلائزیشن", fr: "Localisation IA instantanée", it: "Localizzazione IA istantanea", es: "Localización IA instantánea", pt: "Localização IA instantânea", ru: "Мгновенная ИИ-локализация", de: "Sofortige KI-Lokalisierung" },
+  "فوري AI توطين": { en: "Instant AI Localization", zh: "即时AI本地化", ja: "即時AIローカライズ", ko: "즉각적인 AI 로컬라이ゼーション", ur: "فوری AI لوکلائزیشن", fr: "Localisation IA instantanée", it: "Localizzazione IA istantanea", es: "Localización IA instantánea", pt: "Localização IA instantânea", ru: "Мгновенная ИИ-локализация", de: "Sofortige KI-Lokalisierung" },
   "تسليم سريع": { en: "Fast Delivery", zh: "快速交付", ja: "迅速な納品", ko: "빠른 배송", ur: "تیز ڈیلیوری", fr: "Livraison rapide", it: "Consegna rapida", es: "Entrega rápida", pt: "Entrega rápida", ru: "Быстрая доставка", de: "Schnelle Lieferung" },
   "توليد المصطلحات تلقائياً": { en: "Auto Glossary Generation", zh: "自动术语生成", ja: "自動用語集生成", ko: "자동 용어집 생성", ur: "خودکار الفاظ کی تخلیق", fr: "Génération auto de glossaire", it: "Generazione automatica glossario", es: "Generación auto de glosario", pt: "Geração auto de glossário", ru: "Авто-генерация глоссария", de: "Automatische Glossarerstellung" },
   "ذاكرة الترجمة": { en: "Translation Memory", zh: "翻译记忆库", ja: "翻訳メモリ", ko: "번역 메모리", ur: "ترجمہ میموری", fr: "Mémoire de traduction", it: "Memoria di traduzione", es: "Memoria de traducción", pt: "Memória de tradução", ru: "Память переводов", de: "Übersetzungsspeicher" },
   "فحص جودة آلي": { en: "Automated QA", zh: "自动质量检查", ja: "自動QAチェック", ko: "자동 QA 검사", ur: "خودکار کوالٹی چیک", fr: "Assurance qualité auto", it: "QA automatico", es: "Control de calidad auto", pt: "Controle de qualidade auto", ru: "Автоматическая проверка качества", de: "Automatische QS" },
   "كل مميزات URB AI System": { en: "All URB AI System Features", zh: "包含URB AI所有功能", ja: "URB AIの全機能", ko: "URB AI의 모든 기능", ur: "تمام URB AI خصوصیات", fr: "Toutes les fonctions IA URB", it: "Tutte le funzioni URB AI", es: "Todas las funciones URB AI", pt: "Todas as funções URB AI", ru: "Все функции URB AI", de: "Alle URB KI-Funktionen" },
   "مراجعة بشرية متخصصة": { en: "Expert Human Review", zh: "专家人工审校", ja: "専門家によるレビュー", ko: "전문가 휴먼 리뷰", ur: "ماہرانہ انسانی جائزہ", fr: "Révision humaine experte", it: "Revisione umana esperta", es: "Revisión humana experta", pt: "Revisão humana especializada", ru: "Экспертная проверка человеком", de: "Experten-Prüfung" },
-  "LQA تدقيق جودة التوطين": { en: "LQA Localization QA", zh: "LQA本地化质检", ja: "LQA品質チェック", ko: "LQA 로컬라이제이션 품질 검사", ur: "LQA کوالٹی چیک", fr: "Assurance qualité LQA", it: "Controllo qualità LQA", es: "Control de calidad LQA", pt: "Garantia de qualidade LQA", ru: "LQA проверка качества", de: "LQA-Qualitätsprüfung" },
+  "LQA تدقيق جودة التوطين": { en: "LQA Localization QA", zh: "LQA本地化质检", ja: "LQA品質チェック", ko: "LQA 로컬라이ゼーション 품질 검사", ur: "LQA کوالٹی چیک", fr: "Assurance qualité LQA", it: "Controllo qualità LQA", es: "Control de calidad LQA", pt: "Garantia de qualidade LQA", ru: "LQA проверка качества", de: "LQA-Qualitätsprüfung" },
   "تكيف ثقافي كامل": { en: "Full Cultural Adaptation", zh: "完全文化适应", ja: "完全な文化的適応", ko: "완벽한 문화적 적응", ur: "مکمل ثقافتی مطابقت", fr: "Adaptation culturelle complète", it: "Adattamento culturale completo", es: "Adaptación cultural completa", pt: "Adaptação cultural completa", ru: "Полная адаптация", de: "Vollständige kulturelle Anpassung" },
   "مراجعة المصطلحات": { en: "Glossary Review", zh: "术语审校", ja: "用語集レビュー", ko: "용어집 검토", ur: "الفاظ ਦਾ جائزہ", fr: "Révision du glossaire", it: "Revisione del glossario", es: "Revisión de glosario", pt: "Revisão de glossário", ru: "Проверка глоссария", de: "Glossar-Prüfung" },
   "مراجعة تجربة اللعب": { en: "Gameplay Experience Review", zh: "游戏体验审校", ja: "ゲームプレイ体験レビュー", ko: "게임플레이 체험 검토", ur: "گیم پلے تجربے کا جائزہ", fr: "Révision expérience de jeu", it: "Revisione esperienza di gioco", es: "Revisión de experiencia de juego", pt: "Revisão de experiência de jogo", ru: "Проверка игрового опыта", de: "Gameplay-Prüfung" },
