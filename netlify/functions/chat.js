@@ -46,8 +46,8 @@ export async function handler(event, context) {
       };
     }
 
-    // استخدمنا نموذج gemini-1.5-flash المعتمد رسمياً
-    const geminiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`;
+    // استبدال اسم النموذج بالموديل الحديث والمستقر gemini-2.0-flash
+    const geminiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
 
     const geminiResponse = await fetch(geminiUrl, {
       method: "POST",
@@ -61,7 +61,6 @@ export async function handler(event, context) {
 
     const data = await geminiResponse.json();
 
-    // في حال وجود خطأ من جوجل يظهره لنا مباشرة للتشخيص
     if (data.error) {
       return {
         statusCode: 200,
