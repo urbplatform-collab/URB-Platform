@@ -433,7 +433,10 @@ footer{border-top:1px solid var(--border2);padding:40px 24px;position:relative;z
 <footer>
   <div class="foot-in">
     <span>© 2026 عُرب URB — All rights reserved</span>
-    <span style="font-family:'Space Mono',monospace;font-size:0.68rem;">ENGINE_STATUS: <span style="color:var(--green);">ONLINE ●</span></span>
+    <div style="display:flex;gap:15px;align-items:center;">
+      <a href="javascript:void(0)" onclick="openAdminGate()" style="color:var(--dim);text-decoration:none;opacity:0.4;font-size:0.75rem;">Admin Gate</a>
+      <span style="font-family:'Space Mono',monospace;font-size:0.68rem;">ENGINE_STATUS: <span style="color:var(--green);">ONLINE ●</span></span>
+    </div>
   </div>
 </footer>
 
@@ -554,6 +557,24 @@ footer{border-top:1px solid var(--border2);padding:40px 24px;position:relative;z
   </div>
 </div>
 
+<!-- ADMIN GATE MODAL -->
+<div class="overlay" id="adminGate">
+  <div class="panel" style="width:400px;">
+    <div class="panel-head">
+      <div class="panel-title">🛡️ دخول الإدارة (Admin)</div>
+      <button class="x-btn" onclick="closeM('adminGate')">✕</button>
+    </div>
+    <div class="panel-body">
+      <div class="fg">
+        <label class="fl">ADMIN PASSWORD</label>
+        <input class="fi" type="password" id="gate-pass" onkeydown="if(event.key==='Enter')checkAdminGate()">
+      </div>
+      <button class="btn btn-grad" style="width:100%;padding:13px;" onclick="checkAdminGate()">دخول ←</button>
+      <div class="fmsg" id="gate-msg"></div>
+    </div>
+  </div>
+</div>
+
 <!-- CREATE PACKAGE MODAL -->
 <div class="overlay" id="pkgModal">
   <div class="panel" style="width:600px;">
@@ -647,6 +668,8 @@ footer{border-top:1px solid var(--border2);padding:40px 24px;position:relative;z
   </div>
 </div>
 
+<div class="toast" id="toast"></div>
+
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
 const SUPA_URL = 'https://sagmdtrjlmarwrrbsqbi.supabase.co';
@@ -655,6 +678,7 @@ const sb = supabase.createClient(SUPA_URL, SUPA_KEY);
 
 let me = null;
 let lang = localStorage.getItem('gl_lang') || 'ar';
+let adminSecret = 'Gamelex@2026';
 let C = { pkgs:[], gloss:[] };
 
 /* ALL 12 LANGUAGES LIST */
@@ -721,7 +745,7 @@ const T = {
   dash_new_pkg: { ar:'➕ حزمة جديدة', en:'➕ New Package', zh:'➕ 新建包', ja:'➕ パッケージ新規作成', ko:'➕ 새 패키지', ur:'➕ نیا پیکج', fr:'➕ Nouveau package', it:'➕ Nuovo pacchetto', es:'➕ Nuevo paquete', pt:'➕ Novo pacote', ru:'➕ Новый пакет', de:'➕ Neues Paket' },
   dash_glossary: { ar:'📖 المصطلحات', en:'📖 Glossary', zh:'📖 术语表', ja:'📖 用語集', ko:'📖 용어집', ur:'📖 الفاظ نامہ', fr:'📖 Glossaire', it:'📖 Glossario', es:'📖 Glosario', pt:'📖 Glossário', ru:'📖 Глоссарий', de:'📖 Glossar' },
   dash_profile: { ar:'👤 ملفي', en:'👤 Profile', zh:'👤 个人资料', ja:'👤 プロフィール', ko:'👤 프로필', ur:'👤 پروفائل', fr:'👤 Profil', it:'👤 Profilo', es:'👤 Perfil', pt:'👤 Perfil', ru:'👤 Профиль', de:'👤 Profil' },
-  btn_logout: { ar:'خروج ↩', en:'Logout ↩', zh:'退出 ↩', ja:'ログアウト ↩', ko:'로그アウト ↩', ur:'لاگ آؤٹ ↩', fr:'Déconnexion ↩', it:'Esci ↩', es:'Salir ↩', pt:'Sair ↩', ru:'Выйти ↩', de:'Abmelden ↩' },
+  btn_logout: { ar:'خروج ↩', en:'Logout ↩', zh:'退出 ↩', ja:'ログアウト ↩', ko:'ログアウト ↩', ur:'لاگ آؤٹ ↩', fr:'Déconnexion ↩', it:'Esci ↩', es:'Salir ↩', pt:'Sair ↩', ru:'Выйти ↩', de:'Abmelden ↩' },
   
   st_pkgs: { ar:'PACKAGES', en:'PACKAGES', zh:'包裹', ja:'パッケージ', ko:'패키지', ur:'پیکجز', fr:'PACKAGES', it:'PACCHETTI', es:'PAQUETES', pt:'PACOTES', ru:'ПАКЕТЫ', de:'PAKETE' },
   st_pkgs_sub: { ar:'إجمالي الحزم', en:'Total Packages', zh:'总包数', ja:'総パッケージ数', ko:'총 패키지 수', ur:'کل پیکجز', fr:'Total des packages', it:'Pacchetti totali', es:'Total de paquetes', pt:'Total de pacotes', ru:'Всего пакетов', de:'Gesamte Pakete' },
@@ -741,7 +765,7 @@ const T = {
   signup_btn: { ar:'🚀 إنشاء حساب', en:'🚀 Create Account', zh:'🚀 创建账户', ja:'🚀 アカウント作成', ko:'🚀 계정 만들기', ur:'🚀 اکاؤنٹ بنائیں', fr:'🚀 Créer un compte', it:'🚀 Crea account', es:'🚀 Crear cuenta', pt:'🚀 Criar conta', ru:'🚀 Создать аккаунт', de:'🚀 Konto erstellen' },
   signup_ok: { ar:'✓ تم! سوّينا حسابك — افحص بريدك وبعدها سجّل دخول.', en:'✓ Success! Account created — please check your email to log in.', zh:'✓ 成功！账户已创建 — 请检查邮箱以登录。', ja:'✓ 成功！アカウントが作成されました — メールを確認してログインしてください。', ko:'✓ 성공! 계정이 생성되었습니다 — 이메일을 확인하고 로그인하세요.', ur:'✓ کامیاب! اکاؤنٹ بن گیا — لاگ ان کرنے کے لیے اپنا ای میل چیک کریں۔', fr:'✓ Succès ! Compte créé — veuillez vérifier votre e-mail pour vous connecter.', it:'✓ Fatto! Account creato — controlla la tua email per accedere.', es:'✓ ¡Éxito! Cuenta creada — revisa tu correo para iniciar sesión.', pt:'✓ Sucesso! Conta criada — verifique seu e-mail para entrar.', ru:'✓ Успешно! Аккаунт создан — проверьте почту для входа.', de:'✓ Erfolgreich! Konto erstellt — bitte überprüfen Sie Ihre E-Mails zum Anmelden.' },
   modal_pkg_title: { ar:'حزمة توطين جديدة', en:'New Localization Package', zh:'新本地化包', ja:'新規ローカライズパッケージ', ko:'새 로컬라이제이션 패키지', ur:'نیا لوکلائزیشن پیکج', fr:'Nouveau package de localisation', it:'Nuovo pacchetto di localizzazione', es:'Nuevo paquete de localización', pt:'Novo pacote de localização', ru:'Новый пакет локализации', de:'Neues Lokalisierungspaket' },
-  fl_pkg_plan: { ar:'الباقة المختارة', en:'Selected Package Plan', zh:'选择的套餐', ja:'選択したプラン', ko:'선택한 플랜', ur:'منتخب کردہ پلان', fr:'Offre sélectionnée', it:'Piano selezionato', es:'Plan seleccionado', pt:'Plano selecionado', ru:'Выбранный план', de:'Gewählter Paketplan' },
+  fl_pkg_plan: { ar:'الباقة المختارة', en:'Selected Package Plan', zh:'选择的套餐', ja:'選択したプラン', ko:'선택한 플랜', ur:'منتخب کردہ پلان', fr:'Offre sélectionnée', it:'Piano selezionato', es:'Plan seleccionado', pt:'Plano seleccionado', ru:'Выбранный план', de:'Gewählter Paketplan' },
   fl_game_name: { ar:'اسم اللعبة *', en:'Game Name *', zh:'游戏名称 *', ja:'ゲーム名 *', ko:'게임 이름 *', ur:'گیم کا نام *', fr:'Nom du jeu *', it:'Nome del gioco *', es:'Nombre del juego *', pt:'Nome do jogo *', ru:'Название игры *', de:'Spielname *' },
   fl_game_engine: { ar:'محرك اللعبة', en:'Game Engine', zh:'游戏引擎', ja:'ゲームエンジン', ko:'게임 엔진', ur:'گیم انجن', fr:'Moteur de jeu', it:'Motore di gioco', es:'Motor del juego', pt:'Motor do jogo', ru:'Игровой движок', de:'Spiel-Engine' },
   fl_game_desc: { ar:'وصف اللعبة', en:'Game Description', zh:'游戏描述', ja:'ゲームの概要', ko:'게임 설명', ur:'گیم کی تفصیل', fr:'Description du jeu', it:'Descrizione del gioco', es:'Descripción del juego', pt:'Descrição do jogo', ru:'Описание игры', de:'Spielbeschreibung' },
@@ -815,6 +839,26 @@ function handleRoute() {
 }
 
 window.addEventListener('hashchange', handleRoute);
+
+/* ADMIN SHORTCUT (Ctrl + Shift + A) */
+document.addEventListener('keydown', (e) => {
+  if (e.ctrlKey && e.shiftKey && e.key.toLowerCase() === 'a') {
+    openAdminGate();
+  }
+});
+
+function openAdminGate(){ openM('adminGate'); }
+
+async function checkAdminGate(){
+  const v = document.getElementById('gate-pass').value;
+  if(v === adminSecret){
+    closeM('adminGate');
+    alert('مرحباً بالأدمن! جارٍ تجهيز شاشة الإدارة...');
+  } else {
+    document.getElementById('gate-msg').className = 'fmsg err';
+    document.getElementById('gate-msg').textContent = '✕ كلمة السر غير صحيحة';
+  }
+}
 
 /* INNER DASHBOARD NAVIGATION (dPage) */
 function dPage(dash, page, el) {
