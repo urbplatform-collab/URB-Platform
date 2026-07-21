@@ -268,6 +268,8 @@ footer{border-top:1px solid var(--border2);padding:40px 24px;position:relative;z
 }
 .side-item.on{background:rgba(139,92,246,0.1);color:var(--text);border:1px solid var(--border)}
 .dash-main{flex:1;padding:26px;min-width:0}
+.dpage{display:none}
+.dpage.active{display:block}
 
 .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:15px;margin-bottom:26px}
 .stat{background:rgba(11,14,32,0.75);border:1px solid var(--border2);border-radius:15px;padding:19px 20px;}
@@ -275,7 +277,7 @@ footer{border-top:1px solid var(--border2);padding:40px 24px;position:relative;z
 .stat .sv{font-family:'Space Mono',monospace;font-size:1.65rem;font-weight:700}
 .stat .ss{font-size:0.72rem;color:var(--dim);margin-top:4px}
 
-.dcard{background:rgba(11,14,32,0.75);border:1px solid var(--border2);border-radius:17px;overflow:hidden}
+.dcard{background:rgba(11,14,32,0.75);border:1px solid var(--border2);border-radius:17px;overflow:hidden;margin-bottom:20px;}
 .dcard-head{padding:16px 20px;border-bottom:1px solid var(--border2);display:flex;align-items:center;justify-content:space-between;}
 .dcard-body{padding:18px 20px}
 .mini-btn{background:var(--surface3);border:1px solid var(--border2);color:#c3c9e3;padding:7px 13px;border-radius:9px;font-size:0.76rem;cursor:pointer;}
@@ -453,23 +455,65 @@ footer{border-top:1px solid var(--border2);padding:40px 24px;position:relative;z
   <div class="dash-body">
     <div class="dash-side">
       <div class="side-lbl">MAIN</div>
-      <button class="side-item on" onclick="navTo('#dashboard')"><span data-i18n="dash_overview">📊 لوحتي</span></button>
+      <button class="side-item on" onclick="dPage('client','overview',this)"><span data-i18n="dash_overview">📊 لوحتي</span></button>
+      <button class="side-item" onclick="dPage('client','packages',this)"><span data-i18n="dash_pkgs">📦 حزمي</span></button>
       <button class="side-item" onclick="openCreatePkg()"><span data-i18n="dash_new_pkg">➕ حزمة جديدة</span></button>
+      <div class="side-lbl">TOOLS</div>
+      <button class="side-item" onclick="dPage('client','glossary',this)"><span data-i18n="dash_glossary">📖 المصطلحات</span></button>
+      <button class="side-item" onclick="dPage('client','profile',this)"><span data-i18n="dash_profile">👤 ملفي</span></button>
     </div>
     <div class="dash-main">
-      <div class="stats">
-        <div class="stat"><div class="sl" data-i18n="st_pkgs">PACKAGES</div><div class="sv" style="color:var(--purple);" id="cs-total">0</div><div class="ss" data-i18n="st_pkgs_sub">إجمالي الحزم</div></div>
-        <div class="stat"><div class="sl" data-i18n="st_proc">IN PROGRESS</div><div class="sv" style="color:var(--cyan);" id="cs-proc">0</div><div class="ss" data-i18n="st_proc_sub">قيد التنفيذ</div></div>
-        <div class="stat"><div class="sl" data-i18n="st_done">COMPLETED</div><div class="sv" style="color:var(--green);" id="cs-done">0</div><div class="ss" data-i18n="st_done_sub">مكتملة</div></div>
-        <div class="stat"><div class="sl" data-i18n="st_words">WORDS</div><div class="sv" style="color:var(--gold);" id="cs-words">0</div><div class="ss" data-i18n="st_words_sub">كلمة مقدرة</div></div>
-      </div>
-      <div class="dcard">
-        <div class="dcard-head">
-          <div class="dcard-title" data-i18n="recent_pkgs">📦 أحدث الحزم</div>
-          <button class="mini-btn mm" onclick="openCreatePkg()" data-i18n="dash_new_pkg">➕ حزمة جديدة</button>
+      <!-- overview -->
+      <div class="dpage active" id="client-overview">
+        <div class="stats">
+          <div class="stat"><div class="sl" data-i18n="st_pkgs">PACKAGES</div><div class="sv" style="color:var(--purple);" id="cs-total">0</div><div class="ss" data-i18n="st_pkgs_sub">إجمالي الحزم</div></div>
+          <div class="stat"><div class="sl" data-i18n="st_proc">IN PROGRESS</div><div class="sv" style="color:var(--cyan);" id="cs-proc">0</div><div class="ss" data-i18n="st_proc_sub">قيد التنفيذ</div></div>
+          <div class="stat"><div class="sl" data-i18n="st_done">COMPLETED</div><div class="sv" style="color:var(--green);" id="cs-done">0</div><div class="ss" data-i18n="st_done_sub">مكتملة</div></div>
+          <div class="stat"><div class="sl" data-i18n="st_words">WORDS</div><div class="sv" style="color:var(--gold);" id="cs-words">0</div><div class="ss" data-i18n="st_words_sub">كلمة مقدرة</div></div>
         </div>
-        <div class="dcard-body" id="cl-recent"></div>
+        <div class="dcard">
+          <div class="dcard-head">
+            <div class="dcard-title" data-i18n="recent_pkgs">📦 أحدث الحزم</div>
+            <button class="mini-btn mm" onclick="openCreatePkg()" data-i18n="dash_new_pkg">➕ حزمة جديدة</button>
+          </div>
+          <div class="dcard-body" id="cl-recent"></div>
+        </div>
       </div>
+
+      <!-- packages -->
+      <div class="dpage" id="client-packages">
+        <div class="dcard">
+          <div class="dcard-head">
+            <div class="dcard-title" data-i18n="dash_pkgs">📦 كل حزمي</div>
+            <button class="mini-btn" onclick="loadClientPackages()">↻</button>
+          </div>
+          <div class="dcard-body" id="cl-pkg-list"></div>
+        </div>
+      </div>
+
+      <!-- glossary -->
+      <div class="dpage" id="client-glossary">
+        <div class="dcard">
+          <div class="dcard-head"><div class="dcard-title" data-i18n="dash_glossary">📖 مصطلحاتي المخصصة</div></div>
+          <div class="dcard-body">
+            <div class="f2" style="margin-bottom:12px;">
+              <input class="fi" id="g-src" placeholder="المصطلح الأصلي" style="direction:auto;">
+              <input class="fi" id="g-tr" placeholder="الترجمة المعتمدة">
+            </div>
+            <button class="mini-btn mm" style="width:100%;padding:11px;" onclick="addTerm()">+ إضافة مصطلح</button>
+            <div id="g-list" style="margin-top:18px;"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- profile -->
+      <div class="dpage" id="client-profile">
+        <div class="dcard">
+          <div class="dcard-head"><div class="dcard-title" data-i18n="dash_profile">👤 ملفي</div></div>
+          <div class="dcard-body" id="cl-profile-body"></div>
+        </div>
+      </div>
+
     </div>
   </div>
 </div>
@@ -611,6 +655,7 @@ const sb = supabase.createClient(SUPA_URL, SUPA_KEY);
 
 let me = null;
 let lang = localStorage.getItem('gl_lang') || 'ar';
+let C = { pkgs:[], gloss:[] };
 
 /* ALL 12 LANGUAGES LIST */
 const LANGS = {
@@ -674,7 +719,9 @@ const T = {
   dash_overview: { ar:'📊 لوحتي', en:'📊 Dashboard', zh:'📊 控制面板', ja:'📊 ダッシュボード', ko:'📊 대시보드', ur:'📊 ڈیش بورڈ', fr:'📊 Tableau de bord', it:'📊 Dashboard', es:'📊 Panel', pt:'📊 Painel', ru:'📊 Дашборд', de:'📊 Dashboard' },
   dash_pkgs: { ar:'📦 حزمي', en:'📦 My Packages', zh:'📦 我的包', ja:'📦 マイパッケージ', ko:'📦 내 패키지', ur:'📦 میرے پیکجز', fr:'📦 Mes packages', it:'📦 I miei pacchetti', es:'📦 Mis paquetes', pt:'📦 Meus pacotes', ru:'📦 Мои пакеты', de:'📦 Meine Pakete' },
   dash_new_pkg: { ar:'➕ حزمة جديدة', en:'➕ New Package', zh:'➕ 新建包', ja:'➕ パッケージ新規作成', ko:'➕ 새 패키지', ur:'➕ نیا پیکج', fr:'➕ Nouveau package', it:'➕ Nuovo pacchetto', es:'➕ Nuevo paquete', pt:'➕ Novo pacote', ru:'➕ Новый пакет', de:'➕ Neues Paket' },
-  btn_logout: { ar:'خروج ↩', en:'Logout ↩', zh:'退出 ↩', ja:'ログアウト ↩', ko:'로그아웃 ↩', ur:'لاگ آؤٹ ↩', fr:'Déconnexion ↩', it:'Esci ↩', es:'Salir ↩', pt:'Sair ↩', ru:'Выйти ↩', de:'Abmelden ↩' },
+  dash_glossary: { ar:'📖 المصطلحات', en:'📖 Glossary', zh:'📖 术语表', ja:'📖 用語集', ko:'📖 용어집', ur:'📖 الفاظ نامہ', fr:'📖 Glossaire', it:'📖 Glossario', es:'📖 Glosario', pt:'📖 Glossário', ru:'📖 Глоссарий', de:'📖 Glossar' },
+  dash_profile: { ar:'👤 ملفي', en:'👤 Profile', zh:'👤 个人资料', ja:'👤 プロフィール', ko:'👤 프로필', ur:'👤 پروفائل', fr:'👤 Profil', it:'👤 Profilo', es:'👤 Perfil', pt:'👤 Perfil', ru:'👤 Профиль', de:'👤 Profil' },
+  btn_logout: { ar:'خروج ↩', en:'Logout ↩', zh:'退出 ↩', ja:'ログアウト ↩', ko:'로그アウト ↩', ur:'لاگ آؤٹ ↩', fr:'Déconnexion ↩', it:'Esci ↩', es:'Salir ↩', pt:'Sair ↩', ru:'Выйти ↩', de:'Abmelden ↩' },
   
   st_pkgs: { ar:'PACKAGES', en:'PACKAGES', zh:'包裹', ja:'パッケージ', ko:'패키지', ur:'پیکجز', fr:'PACKAGES', it:'PACCHETTI', es:'PAQUETES', pt:'PACOTES', ru:'ПАКЕТЫ', de:'PAKETE' },
   st_pkgs_sub: { ar:'إجمالي الحزم', en:'Total Packages', zh:'总包数', ja:'総パッケージ数', ko:'총 패키지 수', ur:'کل پیکجز', fr:'Total des packages', it:'Pacchetti totali', es:'Total de paquetes', pt:'Total de pacotes', ru:'Всего пакетов', de:'Gesamte Pakete' },
@@ -747,7 +794,7 @@ function toggleLangMenu(e) {
   menu.classList.toggle('open');
 }
 
-/* HASH ROUTING MANAGEMENT */
+/* NAVIGATION & ROUTING */
 function navTo(hash) {
   location.hash = hash;
 }
@@ -768,6 +815,22 @@ function handleRoute() {
 }
 
 window.addEventListener('hashchange', handleRoute);
+
+/* INNER DASHBOARD NAVIGATION (dPage) */
+function dPage(dash, page, el) {
+  document.querySelectorAll(`#dash-${dash} .dpage`).forEach(p => p.classList.remove('active'));
+  const targetPage = document.getElementById(`${dash}-${page}`);
+  if (targetPage) targetPage.classList.add('active');
+  
+  if (el) {
+    document.querySelectorAll(`#dash-${dash} .side-item`).forEach(i => i.classList.remove('on'));
+    el.classList.add('on');
+  }
+
+  if (dash === 'client' && page === 'glossary') loadGlossary();
+  if (dash === 'client' && page === 'profile') renderProfile();
+  if (dash === 'client' && page === 'packages') loadClientPackages();
+}
 
 function closeM(id){ document.getElementById(id).classList.remove('open'); }
 function openM(id){ document.getElementById(id).classList.add('open'); }
@@ -833,7 +896,7 @@ sb.auth.onAuthStateChange((ev, session)=>{
   }
 });
 
-/* PRICING DYNAMIC RENDER WITH DYNAMIC TRANSLATION */
+/* PRICING DYNAMIC RENDER */
 const PKG_TRANS = {
   "الأكثر طلباً": { en: "Most Popular", zh: "最受欢迎", ja: "一番人気", ko: "가장 인기 있음", ur: "سب سے مشہور", fr: "Plus populaire", it: "Più popolare", es: "Más popular", pt: "Mais popular", ru: "Популярный", de: "Beliebtestes" },
   "لكل مشروع": { en: "Per Project", zh: "每个项目", ja: "プロジェクトごと", ko: "프로젝트당", ur: "فی پروجیکٹ", fr: "Par projet", it: "Per progetto", es: "Por proyecto", pt: "Por projeto", ru: "За проект", de: "Pro Projekt" },
@@ -902,19 +965,73 @@ async function loadClientPackages() {
   document.getElementById('cs-done').textContent = pkgs.filter(p => p.status === 'done').length;
   document.getElementById('cs-words').textContent = pkgs.reduce((s, p) => s + (p.est_words || 0), 0).toLocaleString();
 
-  const container = document.getElementById('cl-recent');
-  if (!pkgs.length) {
-    container.innerHTML = `<div class="empty"><div style="font-size:2.2rem;margin-bottom:10px;">📦</div>${t('no_pkgs')}</div>`;
-  } else {
-    container.innerHTML = pkgs.map(p => `
-      <div style="display:flex;justify-content:space-between;align-items:center;padding:12px 16px;background:var(--surface2);border-radius:10px;margin-bottom:8px;border:1px solid var(--border2);">
-        <div>
-          <b>${p.game_name}</b>
-          <div style="font-size:0.75rem;color:var(--dim);margin-top:2px;">${p.plan || '—'}</div>
-        </div>
-        <span class="mini-btn mm">${p.status}</span>
+  const renderItem = p => `
+    <div style="display:flex;justify-content:space-between;align-items:center;padding:12px 16px;background:var(--surface2);border-radius:10px;margin-bottom:8px;border:1px solid var(--border2);">
+      <div>
+        <b>${p.game_name}</b>
+        <div style="font-size:0.75rem;color:var(--dim);margin-top:2px;">${p.plan || '—'}</div>
       </div>
-    `).join('');
+      <span class="mini-btn mm">${p.status}</span>
+    </div>
+  `;
+
+  const recentEl = document.getElementById('cl-recent');
+  const fullListEl = document.getElementById('cl-pkg-list');
+
+  if (!pkgs.length) {
+    const emptyHtml = `<div class="empty"><div style="font-size:2.2rem;margin-bottom:10px;">📦</div>${t('no_pkgs')}</div>`;
+    if(recentEl) recentEl.innerHTML = emptyHtml;
+    if(fullListEl) fullListEl.innerHTML = emptyHtml;
+  } else {
+    if(recentEl) recentEl.innerHTML = pkgs.slice(0, 5).map(renderItem).join('');
+    if(fullListEl) fullListEl.innerHTML = pkgs.map(renderItem).join('');
+  }
+}
+
+/* GLOSSARY FUNCTIONS */
+async function loadGlossary(){
+  if(!me) return;
+  const { data } = await sb.from('glossary').select('*').eq('user_id', me.id).order('created_at',{ascending:false});
+  C.gloss = data||[];
+  const listEl = document.getElementById('g-list');
+  if(!listEl) return;
+  listEl.innerHTML = C.gloss.length ? C.gloss.map(g=>`
+    <div style="display:flex;justify-content:space-between;align-items:center;padding:10px 14px;background:var(--surface2);border-radius:10px;margin-bottom:8px;border:1px solid var(--border2);">
+      <div style="display:flex;gap:12px;align-items:center;">
+        <b>${g.source_term}</b>
+        <span style="color:var(--cyan);">← ${g.translated_term}</span>
+      </div>
+      <button class="mini-btn dg" onclick="delTerm('${g.id}')">حذف</button>
+    </div>`).join('') : '<div class="empty">لم تقم بإضافة أية مصطلحات بعد</div>';
+}
+
+async function addTerm(){
+  const s = document.getElementById('g-src').value.trim();
+  const tr = document.getElementById('g-tr').value.trim();
+  if(!s||!tr) return;
+  await sb.from('glossary').insert([{user_id:me.id, source_term:s, translated_term:tr, language:'ar'}]);
+  document.getElementById('g-src').value=''; 
+  document.getElementById('g-tr').value='';
+  loadGlossary();
+}
+
+async function delTerm(id){ 
+  await sb.from('glossary').delete().eq('id',id); 
+  loadGlossary(); 
+}
+
+function renderProfile(){
+  if(!me) return;
+  const m = me.user_metadata||{};
+  const profEl = document.getElementById('cl-profile-body');
+  if(profEl){
+    profEl.innerHTML = `
+      <div class="f2" style="font-size:0.88rem;">
+        <div><div class="fl">FULL NAME</div><b>${m.full_name||'—'}</b></div>
+        <div><div class="fl">EMAIL</div><span style="direction:ltr;display:inline-block;">${me.email}</span></div>
+        <div style="margin-top:12px;"><div class="fl">COMPANY / STUDIO</div>${m.company||'—'}</div>
+        <div style="margin-top:12px;"><div class="fl">COUNTRY</div>${m.country||'—'}</div>
+      </div>`;
   }
 }
 
