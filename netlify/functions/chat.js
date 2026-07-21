@@ -1,4 +1,3 @@
-// المعرفة الأساسية الثابتة عن المنصة
 const staticKnowledge = `
 أنت المساعد الذكي الرسمي لمنصة "عُرب URB" لتوطين الألعاب.
 
@@ -6,7 +5,7 @@ const staticKnowledge = `
 1. أجب دائماً باللغة التي يحددها العميل فوراً وبشكل كامل دون خلط مع لغات أخرى.
 2. إذا اختار العميل العربية، أجب بلهجة سعودية بيضاء احترافية ولطيفة ومختصرة.
 3. إذا اختار اليابانية، أجب باليابانية الفصيحة والمؤدبة (Desu/Masu).
-4. إذا اختار الإنجليزية أو الإسبانية، أجب بتلك اللغة بدقة.
+4. أجب بدقة بأي لغة أخرى يختارها العميل.
 
 [بيانات منصة عُرب URB الرئيسية]:
 - الشعار: صُنعت للألعاب. دُرّبت بالبشر.
@@ -15,7 +14,7 @@ const staticKnowledge = `
 - التسعير والطلبات: وجه العميل دائماً للضغط على زر "دخول" أو "إنشاء حساب" لرفع ملفاته ومعرفة السعر الدقيق.
 `;
 
-export async function handler(event, context) {
+exports.handler = async function(event, context) {
   if (event.httpMethod !== 'POST') {
     return { statusCode: 405, body: JSON.stringify({ error: 'Method Not Allowed' }) };
   }
@@ -37,7 +36,7 @@ export async function handler(event, context) {
       };
     }
 
-    // جلب البيانات المحدثة من Supabase
+    // جلب البيانات من Supabase
     let dynamicKnowledge = "";
     if (supabaseUrl && supabaseKey) {
       try {
@@ -61,7 +60,6 @@ export async function handler(event, context) {
       }
     }
 
-    // دمج الموجه للذكاء الاصطناعي
     let fullSystemPrompt = staticKnowledge + dynamicKnowledge;
     if (selectedLanguage !== 'auto') {
       fullSystemPrompt += `\n\n[INSTRUCTION]: The user has explicitly selected the language: (${selectedLanguage}). You MUST reply ONLY in ${selectedLanguage}. Do NOT use Arabic unless the selected language is Arabic.`;
@@ -110,4 +108,4 @@ export async function handler(event, context) {
       body: JSON.stringify({ reply: 'حدث خطأ في الاتصال: ' + error.message }) 
     };
   }
-}
+};
