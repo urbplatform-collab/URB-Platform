@@ -42,30 +42,12 @@ body{
 ::-webkit-scrollbar-thumb{background:var(--surface3);border-radius:4px}
 
 /* ═══════════ INTRO SPLASH SCREENS ═══════════ */
-.intro-splash {
-  position: fixed; inset: 0; background: #03040a; z-index: 999999;
-  display: flex; align-items: center; justify-content: center; flex-direction: column;
-  transition: transform 1.8s cubic-bezier(0.8, 0, 0.2, 1), opacity 1.5s ease-in;
-  transform-origin: center center; overflow: hidden;
-}
+.intro-splash { position: fixed; inset: 0; background: #03040a; z-index: 999999; display: flex; align-items: center; justify-content: center; flex-direction: column; transition: transform 1.8s cubic-bezier(0.8, 0, 0.2, 1), opacity 1.5s ease-in; transform-origin: center center; overflow: hidden; }
 .intro-splash.zoomed { transform: scale(80); opacity: 0; pointer-events: none; }
 
-/* 1. Retro Arcade Screen */
-.intro-lang-screen {
-  position: absolute; inset: 0; background: #000; z-index: 20;
-  display: flex; flex-direction: column; align-items: center; justify-content: center;
-  transition: opacity 0.5s, filter 0.2s;
-}
-.crt-overlay {
-  position: absolute; inset: 0; pointer-events: none;
-  background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
-  background-size: 100% 4px, 3px 100%; z-index: 100;
-}
-.retro-title {
-  font-family: 'Press Start 2P', monospace; color: var(--cyan); text-align: center;
-  line-height: 2.2; margin-bottom: 50px; text-shadow: 4px 4px var(--purple);
-  animation: retroPulse 1.5s infinite;
-}
+.intro-lang-screen { position: absolute; inset: 0; background: #000; z-index: 20; display: flex; flex-direction: column; align-items: center; justify-content: center; transition: opacity 0.5s, filter 0.2s; }
+.crt-overlay { position: absolute; inset: 0; pointer-events: none; background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06)); background-size: 100% 4px, 3px 100%; z-index: 100; }
+.retro-title { font-family: 'Press Start 2P', monospace; color: var(--cyan); text-align: center; line-height: 2.2; margin-bottom: 50px; text-shadow: 4px 4px var(--purple); animation: retroPulse 1.5s infinite; }
 .retro-title span.bl { animation: blinkCaret 1s step-end infinite; }
 @keyframes blinkCaret { 50% { opacity: 0; } }
 @keyframes retroPulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.85; } }
@@ -73,37 +55,17 @@ body{
 .retro-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; z-index: 10; max-width: 900px; padding: 20px; }
 @media(max-width:800px){ .retro-grid { grid-template-columns: repeat(2, 1fr); gap: 15px; } .retro-title { font-size: 0.7rem; } }
 
-/* تعديل أزرار الأركيد لتدعم اللغات بالشكل المطلوب */
-.btn-retro {
-  background: #000; border: 4px solid #fff; color: #fff;
-  padding: 16px 10px; cursor: pointer; transition: all 0.1s;
-  box-shadow: 6px 6px 0px var(--purple); display: flex; flex-direction: column; gap: 8px; align-items: center;
-}
+.btn-retro { background: #000; border: 4px solid #fff; color: #fff; padding: 16px 10px; cursor: pointer; transition: all 0.1s; box-shadow: 6px 6px 0px var(--purple); display: flex; flex-direction: column; gap: 8px; align-items: center; }
 .btn-retro .f { font-size: 2rem; }
 .btn-retro .n { font-family: 'Space Grotesk', 'Tajawal', sans-serif; font-size: 1.15rem; font-weight: 700; }
 .btn-retro .c { font-family: 'Space Mono', monospace; font-size: 0.65rem; color: var(--cyan); font-weight: 400; opacity: 0.8; letter-spacing: 2px; }
-
 .btn-retro:hover { background: var(--cyan); color: #000; box-shadow: 6px 6px 0px var(--pink); transform: translate(-2px, -2px); border-color: #000; }
 .btn-retro:active { transform: translate(4px, 4px); box-shadow: 0px 0px 0px transparent; }
 .btn-retro:hover .c { color: #000; }
 
-/* 2. Globe Screen */
-.intro-globe-screen {
-  display: none; flex-direction: column; align-items: center; justify-content: center;
-  width: 100%; height: 100%; z-index: 5; position: absolute; inset: 0;
-}
-.globe-wrapper {
-  position: relative; width: 380px; height: 380px; border-radius: 50%;
-  background: radial-gradient(circle at 30% 30%, rgba(34,211,238,0.05), #03040a 80%);
-  box-shadow: 0 0 80px rgba(34,211,238,0.1), inset 0 0 40px rgba(139,92,246,0.2);
-  border: 1px solid rgba(34,211,238,0.3); margin-bottom: 30px; overflow: hidden;
-}
-.globe-map {
-  position: absolute; width: 450%; height: 220%; top: -15%; left: -190%;
-  background-image: url('https://upload.wikimedia.org/wikipedia/commons/8/80/World_map_-_low_resolution.svg');
-  background-size: cover; background-position: center; background-repeat: no-repeat;
-  opacity: 0.45; filter: invert(1) sepia(1) saturate(10) hue-rotate(180deg) drop-shadow(0 0 2px var(--cyan));
-}
+.intro-globe-screen { display: none; flex-direction: column; align-items: center; justify-content: center; width: 100%; height: 100%; z-index: 5; position: absolute; inset: 0; }
+.globe-wrapper { position: relative; width: 380px; height: 380px; border-radius: 50%; background: radial-gradient(circle at 30% 30%, rgba(34,211,238,0.05), #03040a 80%); box-shadow: 0 0 80px rgba(34,211,238,0.1), inset 0 0 40px rgba(139,92,246,0.2); border: 1px solid rgba(34,211,238,0.3); margin-bottom: 30px; overflow: hidden; }
+.globe-map { position: absolute; width: 450%; height: 220%; top: -15%; left: -190%; background-image: url('https://upload.wikimedia.org/wikipedia/commons/8/80/World_map_-_low_resolution.svg'); background-size: cover; background-position: center; background-repeat: no-repeat; opacity: 0.45; filter: invert(1) sepia(1) saturate(10) hue-rotate(180deg) drop-shadow(0 0 2px var(--cyan)); }
 .g-node { position: absolute; border-radius: 50%; background: var(--cyan); box-shadow: 0 0 15px var(--cyan); }
 .node-ksa { width: 16px; height: 16px; top: 48%; left: 49%; background: var(--green); box-shadow: 0 0 40px var(--green); z-index: 5; }
 .node-ksa::after { content:''; position:absolute; inset:-18px; border:2px solid var(--green); border-radius:50%; animation: introPing 1.2s infinite; }
@@ -114,33 +76,24 @@ body{
 .g-node::before { content:''; position:absolute; inset:-10px; border:1px solid var(--cyan); border-radius:50%; animation: introPing 2s infinite; }
 @keyframes introPing { 0% { transform:scale(0.5); opacity:1; } 100% { transform:scale(2.5); opacity:0; } }
 
-.btn-play-intro {
-  background: rgba(139,92,246,0.15); border: 2px solid var(--purple); color: #fff;
-  padding: 16px 42px; border-radius: 100px; font-family: 'Space Grotesk', 'Tajawal', sans-serif;
-  font-size: 1.3rem; font-weight: 700; cursor: pointer; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  box-shadow: 0 0 25px rgba(139,92,246,0.3); z-index: 999; position: relative;
-  display: flex; align-items: center; justify-content: center; gap: 14px; margin-bottom: 20px;
-}
+.btn-play-intro { background: rgba(139,92,246,0.15); border: 2px solid var(--purple); color: #fff; padding: 16px 42px; border-radius: 100px; font-family: 'Space Grotesk', 'Tajawal', sans-serif; font-size: 1.3rem; font-weight: 700; cursor: pointer; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); box-shadow: 0 0 25px rgba(139,92,246,0.3); z-index: 999; position: relative; display: flex; align-items: center; justify-content: center; gap: 14px; margin-bottom: 20px; }
 .btn-play-intro:hover { background: var(--purple); box-shadow: 0 0 50px rgba(139,92,246,0.6); transform: scale(1.08); }
 .btn-play-intro:active { transform: scale(0.95); }
 .play-icon { font-size: 1.5rem; }
 .play-text { min-width: 150px; text-align: center; transition: opacity 0.2s; }
-
 .intro-counter-box { text-align: center; opacity: 0; transition: opacity 0.4s ease; z-index: 10; }
 .intro-count-val { font-family: 'Space Mono', monospace; font-size: 4rem; font-weight: 700; background: var(--grad); -webkit-background-clip: text; color: transparent; margin-bottom: 5px; text-shadow: var(--glow-p); }
 .intro-count-lbl { font-size: 1.2rem; color: var(--text); letter-spacing: 1px; font-weight: 600; }
 
-/* ═══ STARFIELD ═══ */
+/* ═══ GLOBALS & NAV ═══ */
 #stars{position:fixed;inset:0;z-index:0;pointer-events:none}
 .float-icons{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden}
 .f-icon{position:absolute;opacity:0.06;font-size:2.4rem;animation:floaty 18s ease-in-out infinite}
 @keyframes floaty{ 0%,100%{transform:translateY(0) rotate(-6deg)} 50%{transform:translateY(-34px) rotate(8deg)} }
 
-/* ═══ LAYOUT & COMMON ═══ */
 .view{display:none;position:relative;z-index:1}
 .view.active{display:block}
 .wrap{max-width:1200px;margin:0 auto;padding:0 24px}
-
 nav{position:sticky;top:0;z-index:90;background:rgba(5,6,15,0.75);backdrop-filter:blur(24px);border-bottom:1px solid var(--border2);}
 .nav-inner{max-width:1200px;margin:0 auto;padding:14px 24px;display:flex;align-items:center;justify-content:space-between;gap:14px}
 .logo{display:flex;align-items:center;gap:10px;cursor:pointer}
@@ -156,8 +109,10 @@ nav{position:sticky;top:0;z-index:90;background:rgba(5,6,15,0.75);backdrop-filte
 .btn-grad{background:var(--grad);color:#fff;padding:10px 22px;font-size:0.9rem}
 .btn-grad:hover{transform:translateY(-2px);box-shadow:0 10px 32px rgba(139,92,246,0.45)}
 .btn-ghost{background:rgba(255,255,255,0.04);border:1px solid var(--border2);color:var(--text);padding:10px 20px;font-size:0.88rem}
+.btn-ghost:hover{border-color:var(--purple)}
 .btn-sm{padding:7px 14px;font-size:0.8rem;border-radius:9px}
 
+/* lang picker */
 .lang-pick{position:relative}
 .lang-btn{background:rgba(255,255,255,0.04);border:1px solid var(--border2);color:var(--text);border-radius:10px;padding:8px 14px;font-size:0.82rem;cursor:pointer;display:flex;gap:7px;align-items:center;font-family:inherit}
 .lang-menu{position:absolute;top:110%;inset-inline-end:0;background:var(--surface2);border:1px solid var(--border);border-radius:13px;padding:6px;display:none;flex-direction:column;min-width:160px;z-index:100;box-shadow:0 20px 50px rgba(0,0,0,0.5);max-height:320px;overflow-y:auto;}
@@ -165,12 +120,22 @@ nav{position:sticky;top:0;z-index:90;background:rgba(5,6,15,0.75);backdrop-filte
 .lang-opt{background:none;border:none;color:var(--text);padding:9px 13px;border-radius:8px;cursor:pointer;text-align:start;font-size:0.85rem;font-family:inherit;display:flex;gap:9px;align-items:center}
 .lang-opt:hover{background:var(--surface3)}
 
+/* ═══ NEWS TICKER ═══ */
+.marquee{overflow:hidden;border-block:1px solid var(--border2);padding:13px 0;position:relative;z-index:1;background:rgba(11,14,32,0.5)}
+.marquee-track{display:inline-flex;gap:52px;white-space:nowrap;animation:mq 28s linear infinite;font-family:'Space Mono',monospace;font-size:0.78rem;letter-spacing:2px;color:var(--dim)}
+.marquee-track b{color:var(--purple)}
+.hl-news{color:var(--pink);text-shadow:0 0 10px rgba(244,114,182,0.6);font-weight:700;} /* Highlighted News */
+@keyframes mq{from{transform:translateX(0)}to{transform:translateX(50%)}}
+
 /* ═══ HERO & TERMINAL ═══ */
 .hero{padding:90px 24px 60px;max-width:1200px;margin:0 auto;display:grid;grid-template-columns:1.05fr 0.95fr;gap:48px;align-items:center;}
 .hero-eyebrow{display:inline-flex;align-items:center;gap:8px;border:1px solid var(--border);border-radius:100px;padding:6px 16px;font-size:0.78rem;color:var(--cyan);font-family:'Space Mono',monospace;margin-bottom:26px;background:rgba(34,211,238,0.05);}
 .hero h1{font-family:'Space Grotesk','Tajawal',sans-serif;font-size:clamp(2.4rem,5.4vw,4.2rem);line-height:1.06;font-weight:700;letter-spacing:-1.5px;margin-bottom:24px;}
+.hero h1 .g1{background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+.hero h1 .g2{background:linear-gradient(135deg,#22d3ee,#67e8f9);-webkit-background-clip:text;background-clip:text;color:transparent}
 .hero p{color:var(--dim);font-size:1.05rem;line-height:1.85;max-width:480px;margin-bottom:34px}
 .hero-actions{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:44px}
+.btn-hero{padding:15px 30px;font-size:1rem;border-radius:13px}
 .hero-stats{display:flex;gap:34px;flex-wrap:wrap}
 .hstat .n{font-family:'Space Mono',monospace;font-size:1.7rem;font-weight:700;background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
 .hstat .l{font-size:0.72rem;color:var(--dim);letter-spacing:1.4px;text-transform:uppercase;margin-top:3px;font-family:'Space Mono',monospace}
@@ -182,7 +147,8 @@ nav{position:sticky;top:0;z-index:90;background:rgba(5,6,15,0.75);backdrop-filte
 .term-label{font-family:'Space Mono',monospace;font-size:0.7rem;letter-spacing:1.6px;margin-bottom:9px}
 .term-box{background:rgba(255,255,255,0.025);border:1px solid var(--border2);border-radius:13px;padding:16px 18px;font-family:'Space Mono',monospace;font-size:0.86rem;line-height:1.75;min-height:76px;}
 .term-arrow{width:46px;height:46px;border-radius:50%;background:var(--grad);display:flex;align-items:center;justify-content:center;margin:-2px auto;position:relative;z-index:2;box-shadow:var(--glow-p);font-size:1.1rem;color:#fff;}
-.type-caret::after{content:'▋';animation:pulse 1s infinite}
+.term-status{margin-top:18px;display:flex;justify-content:space-between;gap:12px;background:rgba(52,211,153,0.06);border:1px solid rgba(52,211,153,0.2);border-radius:11px;padding:13px 16px;font-family:'Space Mono',monospace;font-size:0.68rem;color:var(--green);letter-spacing:0.6px;flex-wrap:wrap;}
+.type-caret::after{content:'▋';animation:pulse 1s infinite;}
 
 /* ═══ SECTIONS ═══ */
 section{padding:84px 24px;position:relative;z-index:1}
@@ -197,31 +163,42 @@ section{padding:84px 24px;position:relative;z-index:1}
 .card .num{font-family:'Space Mono',monospace;font-size:0.72rem;color:var(--purple);letter-spacing:2px;margin-bottom:16px}
 .card .ic{width:52px;height:52px;border-radius:14px;font-size:1.5rem;background:rgba(139,92,246,0.1);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;margin-bottom:18px;}
 
+/* SHOWCASE / PARTNERS */
+.partners-strip{display:flex;gap:44px;align-items:center;flex-wrap:wrap;justify-content:center;padding:12px 0}
+.partner-logo{height:44px;opacity:0.55;filter:grayscale(1) brightness(1.6);transition:all 0.3s}
+.partner-logo:hover{opacity:1;filter:none}
+.tm-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:20px}
+.tm-card{text-align:center;background:rgba(11,14,32,0.7);border:1px solid var(--border2);border-radius:18px;padding:28px 18px;transition:all 0.28s}
+.tm-card:hover{border-color:var(--border);transform:translateY(-4px)}
+.tm-photo{width:92px;height:92px;border-radius:50%;object-fit:cover;margin:0 auto 14px;display:block;border:2px solid var(--purple);background:var(--surface3)}
+.tm-photo-fallback{width:92px;height:92px;border-radius:50%;margin:0 auto 14px;display:flex;align-items:center;justify-content:center;font-size:2rem;font-weight:700;background:var(--grad);color:#fff}
+
 /* PRICING */
-.price-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;align-items:stretch}
-.price-card{background:rgba(11,14,32,0.75);border:1px solid var(--border2);border-radius:22px;padding:34px 28px;display:flex;flex-direction:column;backdrop-filter:blur(12px);transition:all 0.28s;position:relative;}
+.price-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;align-items:stretch;justify-content:center;}
+.price-card{background:rgba(11,14,32,0.75);border:1px solid var(--border2);border-radius:22px;padding:34px 28px;display:flex;flex-direction:column;backdrop-filter:blur(12px);transition:all 0.28s;position:relative;overflow:hidden;}
 .price-card.feat{border:1.5px solid var(--purple);box-shadow:var(--glow-p)}
+.price-card.soon{filter:grayscale(0.6); opacity:0.85;}
+.price-card.soon::before { content:''; position:absolute; inset:0; background:rgba(11,14,32,0.5); z-index:1; }
+.soon-badge { position:absolute; top:40%; left:50%; transform:translate(-50%,-50%) rotate(-10deg); background:var(--pink); color:#000; font-family:'Press Start 2P',monospace; font-size:1.2rem; padding:15px 25px; border-radius:10px; z-index:2; box-shadow:0 0 30px var(--pink); white-space:nowrap; text-align:center; animation:pulse 2s infinite; }
 .price-badge{position:absolute;top:-13px;inset-inline-start:50%;transform:translateX(50%);background:var(--grad);color:#fff;border-radius:100px;padding:5px 18px;font-size:0.72rem;font-weight:700;white-space:nowrap;}
 [dir="ltr"] .price-badge{transform:translateX(-50%)}
-.price-plan{font-family:'Space Mono',monospace;font-size:0.72rem;letter-spacing:2.4px;color:var(--dim);margin-bottom:14px}
-.price-amt{font-size:2.2rem;font-weight:700;margin-bottom:4px}
-.price-per{color:var(--dim);font-size:0.8rem;margin-bottom:26px}
-.price-feats{list-style:none;flex:1;margin-bottom:26px}
+.price-plan{font-family:'Space Mono',monospace;font-size:0.72rem;letter-spacing:2.4px;color:var(--dim);margin-bottom:14px; position:relative; z-index:2;}
+.price-amt{font-size:2.2rem;font-weight:700;margin-bottom:4px; position:relative; z-index:2;}
+.price-per{color:var(--dim);font-size:0.8rem;margin-bottom:26px; position:relative; z-index:2;}
+.price-feats{list-style:none;flex:1;margin-bottom:26px; position:relative; z-index:2;}
 .price-feats li{display:flex;gap:10px;padding:9px 0;font-size:0.86rem;color:#c3c9e3;border-bottom:1px solid rgba(255,255,255,0.04)}
 
-/* WORKFLOW */
+/* WORKFLOW & ABOUT */
 .flow{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
 .flow-step{position:relative;padding:26px 20px;background:rgba(11,14,32,0.7);border:1px solid var(--border2);border-radius:16px}
 .flow-step .fnum{font-family:'Space Mono',monospace;width:34px;height:34px;border-radius:10px;background:var(--grad);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:0.85rem;margin-bottom:14px;}
-
-/* ABOUT */
 .about-grid{display:grid;grid-template-columns:1.1fr 0.9fr;gap:44px;align-items:start}
-.about-text{color:#c3c9e3;line-height:2;font-size:0.96rem;}
+.about-text{color:#c3c9e3;line-height:2;font-size:0.96rem; white-space:pre-line;}
 .contact-card{background:rgba(11,14,32,0.75);border:1px solid var(--border);border-radius:20px;padding:30px}
 .c-row{display:flex;gap:13px;align-items:flex-start;padding:13px 0;border-bottom:1px solid rgba(255,255,255,0.05);font-size:0.9rem}
 .c-row .ci{width:38px;height:38px;border-radius:11px;background:rgba(139,92,246,0.1);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;flex-shrink:0}
 
-/* FOOTER FULL */
+/* FOOTER */
 footer{border-top:1px solid var(--border2);padding:52px 24px 34px;position:relative;z-index:1;background:rgba(5,6,15,0.7)}
 .foot-in{max-width:1200px;margin:0 auto}
 .foot-grid{display:grid;grid-template-columns:1.4fr 1fr 1fr;gap:38px;margin-bottom:38px}
@@ -272,9 +249,23 @@ footer{border-top:1px solid var(--border2);padding:52px 24px 34px;position:relat
 .dcard{background:rgba(11,14,32,0.75);border:1px solid var(--border2);border-radius:17px;overflow:hidden;margin-bottom:20px;}
 .dcard-head{padding:16px 20px;border-bottom:1px solid var(--border2);display:flex;align-items:center;justify-content:space-between;}
 .dcard-body{padding:18px 20px}
+.row-item{display:flex;align-items:center;justify-content:space-between;gap:12px;background:var(--surface2);border:1px solid var(--border2);border-radius:13px;padding:15px 17px;margin-bottom:11px;}
 .mini-btn{background:var(--surface3);border:1px solid var(--border2);color:#c3c9e3;padding:7px 13px;border-radius:9px;font-size:0.76rem;cursor:pointer;}
 .mini-btn.mm{background:var(--grad);color:#fff;border:none;font-weight:700}
 .empty{text-align:center;padding:46px 18px;color:var(--dim)}
+.badge{display:inline-flex;padding:4px 11px;border-radius:7px;font-size:0.68rem;font-family:'Space Mono',monospace;font-weight:700;}
+.b-cyan{background:rgba(34,211,238,0.12);color:var(--cyan)}
+.b-green{background:rgba(52,211,153,0.12);color:var(--green)}
+.b-dim{background:rgba(255,255,255,0.06);color:var(--dim)}
+
+/* Toggles */
+.tgl{position:relative;width:44px;height:24px;flex-shrink:0;cursor:pointer}
+.tgl input{opacity:0;width:0;height:0}
+.tgl .tr{position:absolute;inset:0;background:var(--surface3);border:1px solid var(--border2);border-radius:100px;transition:all 0.25s}
+.tgl .tr::after{content:'';position:absolute;top:2px;inset-inline-start:3px;width:17px;height:17px;border-radius:50%;background:#6b7399;transition:all 0.25s}
+.tgl input:checked + .tr{background:rgba(139,92,246,0.3);border-color:var(--purple)}
+.tgl input:checked + .tr::after{transform:translateX(-19px);background:var(--purple)}
+[dir="ltr"] .tgl input:checked + .tr::after{transform:translateX(19px)}
 
 /* BOT */
 .chat-widget-btn{position:fixed;bottom:20px;left:20px;background:linear-gradient(135deg,#6366f1,#a855f7);color:white;border:none;border-radius:50px;padding:12px 20px;font-weight:bold;cursor:pointer;z-index:99999;}
@@ -341,6 +332,7 @@ footer{border-top:1px solid var(--border2);padding:52px 24px 34px;position:relat
     </div>
   </div>
 
+  <!-- Audio SFX -->
   <audio id="retro-blip" src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_51a37c95b7.mp3?filename=8-bit-select-104930.mp3" preload="auto"></audio>
   <audio id="intro-sfx" src="https://cdn.pixabay.com/download/audio/2021/08/04/audio_12b0c7443c.mp3?filename=epic-whoosh-104812.mp3" preload="auto"></audio>
 </div>
@@ -361,6 +353,8 @@ footer{border-top:1px solid var(--border2);padding:52px 24px 34px;position:relat
       <a href="#tech" data-i18n="nav_engine">التقنية</a>
       <a href="#packages" data-i18n="nav_packages">الباقات</a>
       <a href="#workflow" data-i18n="nav_workflow">آلية العمل</a>
+      <a href="#portfolio" id="nav-portfolio" style="display:none" data-i18n="nav_portfolio">أعمالنا</a>
+      <a href="#teamshow" id="nav-teamshow" style="display:none" data-i18n="ts_title">أبرز الكوادر</a>
       <a href="#about" data-i18n="nav_about">من نحن</a>
     </div>
     <div class="nav-cta">
@@ -372,6 +366,11 @@ footer{border-top:1px solid var(--border2);padding:52px 24px 34px;position:relat
     </div>
   </div>
 </nav>
+
+<!-- NEWS BAR -->
+<div class="marquee" id="newsBar" style="display:none;background:rgba(34,211,238,0.05);border-block-color:rgba(34,211,238,0.15);">
+  <div class="marquee-track" id="newsTrack" style="color:var(--cyan);"></div>
+</div>
 
 <div class="hero">
   <div>
@@ -407,6 +406,14 @@ footer{border-top:1px solid var(--border2);padding:52px 24px 34px;position:relat
     </div>
   </div>
 </div>
+
+<!-- PARTNERS -->
+<section id="partners-sec" style="padding:34px 24px;display:none;">
+  <div class="sec-in">
+    <div style="text-align:center;font-family:'Space Mono',monospace;font-size:0.7rem;letter-spacing:3px;color:var(--dim);margin-bottom:26px;" data-i18n="partners_title">شركاء النجاح — TRUSTED BY</div>
+    <div class="partners-strip" id="partnersStrip"></div>
+  </div>
+</section>
 
 <section id="tech">
   <div class="sec-in">
@@ -456,6 +463,26 @@ footer{border-top:1px solid var(--border2);padding:52px 24px 34px;position:relat
   </div>
 </section>
 
+<!-- PORTFOLIO -->
+<section id="portfolio" style="display:none;background:rgba(11,14,32,0.4);">
+  <div class="sec-in">
+    <div class="sec-tag">// PORTFOLIO</div>
+    <h2 class="sec-title" data-i18n="nav_portfolio">أعمالنا</h2>
+    <p class="sec-sub" data-i18n="pf_sub">مشاريع وطّناها بفخر.</p>
+    <div class="pf-grid" id="pfGrid"></div>
+  </div>
+</section>
+
+<!-- TEAM SHOWCASE -->
+<section id="teamshow" style="display:none;">
+  <div class="sec-in">
+    <div class="sec-tag">// OUR PEOPLE</div>
+    <h2 class="sec-title" data-i18n="ts_title">أبرز الكوادر</h2>
+    <p class="sec-sub" data-i18n="ts_sub">العقول خلف كل حزمة ناجحة.</p>
+    <div class="tm-grid" id="tsGrid"></div>
+  </div>
+</section>
+
 <section id="about" style="background:rgba(11,14,32,0.4);">
   <div class="sec-in">
     <div class="about-grid">
@@ -474,6 +501,7 @@ footer{border-top:1px solid var(--border2);padding:52px 24px 34px;position:relat
   </div>
 </section>
 
+<!-- FOOTER FULL -->
 <footer>
   <div class="foot-in">
     <div class="foot-grid">
@@ -495,6 +523,7 @@ footer{border-top:1px solid var(--border2);padding:52px 24px 34px;position:relat
         <h5>COMPANY</h5>
         <a href="#about" data-i18n="nav_about">من نحن</a>
         <a href="#" onclick="openVendorApply();return false;" style="color:var(--gold);" data-i18n="foot_apply">🤝 قدّم كمتعهد / Freelancer</a>
+        <a href="#" onclick="openPolicy();return false;" data-i18n="foot_policy">سياسة الخصوصية</a>
       </div>
     </div>
     <div class="foot-bottom">
@@ -589,26 +618,111 @@ footer{border-top:1px solid var(--border2);padding:52px 24px 34px;position:relat
       <button class="side-item on" onclick="dPage('admin','overview',this)">📊 <span>نظرة عامة</span></button>
       <button class="side-item" onclick="dPage('admin','packages',this)">📦 <span>الحزم</span></button>
       <button class="side-item" onclick="dPage('admin','clients',this)">👤 <span>العملاء</span></button>
-      <button class="side-item" onclick="dPage('admin','vendors',this)">🤝 <span>المتعهدون</span></button>
+      <div class="side-lbl">SITE CONTENT</div>
+      <button class="side-item" onclick="dPage('admin','pricing',this)">💰 <span>الباقات</span></button>
+      <button class="side-item" onclick="dPage('admin','news',this)">📢 <span>شريط الأخبار</span></button>
+      <button class="side-item" onclick="dPage('admin','partners',this)">🏆 <span>شركاء النجاح</span></button>
+      <button class="side-item" onclick="dPage('admin','showcase',this)">⭐ <span>أبرز الكوادر</span></button>
     </div>
     <div class="dash-main">
+      <!-- Admin Overview -->
       <div class="dpage active" id="admin-overview">
         <div class="stats">
           <div class="stat"><div class="sl">PACKAGES</div><div class="sv" style="color:var(--purple);" id="as-pkgs">0</div></div>
           <div class="stat"><div class="sl">CLIENTS</div><div class="sv" style="color:var(--cyan);" id="as-clients">0</div></div>
-          <div class="stat"><div class="sl">PENDING</div><div class="sv" style="color:var(--gold);" id="as-pending">0</div></div>
         </div>
         <div class="dcard">
           <div class="dcard-head"><div class="dcard-title">📦 أحدث الحزم</div></div>
           <div class="dcard-body" id="ad-recent"></div>
         </div>
       </div>
+
+      <!-- Admin Pricing -->
+      <div class="dpage" id="admin-pricing">
+        <div class="dcard">
+          <div class="dcard-head"><div class="dcard-title">💰 إدارة الباقات</div>
+            <button class="mini-btn mm" onclick="editPlan(null)">➕ باقة جديدة</button></div>
+          <div class="dcard-body" id="ad-pricing"></div>
+        </div>
+      </div>
+
+      <!-- Admin News -->
+      <div class="dpage" id="admin-news">
+        <div class="dcard">
+          <div class="dcard-head"><div class="dcard-title">📢 شريط الأخبار</div></div>
+          <div class="dcard-body">
+            <div class="f2" style="align-items:end;">
+              <div class="fg"><label class="fl">نص الخبر</label><input class="fi" id="nw-text"></div>
+              <div class="fg" style="display:flex;gap:10px;align-items:center;padding-bottom:12px;">
+                <input type="checkbox" id="nw-hl" style="width:18px;height:18px;"> 
+                <label for="nw-hl">خبر مضيء (عاجل / خصم)</label>
+              </div>
+            </div>
+            <button class="mini-btn mm" style="width:100%;padding:10px;" onclick="addNews()">➕ نشر الخبر</button>
+            <div id="ad-news" style="margin-top:16px;"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Admin Partners -->
+      <div class="dpage" id="admin-partners">
+        <div class="dcard">
+          <div class="dcard-head">
+            <div class="dcard-title">🏆 شركاء النجاح / العملاء</div>
+            <label class="tgl" title="إظهار القسم"><input type="checkbox" id="tgl-partners" onchange="setSiteToggle('show_partners',this.checked)"><span class="tr"></span></label>
+          </div>
+          <div class="dcard-body">
+            <div class="f2">
+              <div class="fg"><label class="fl">اسم الشريك</label><input class="fi" id="pt-name"></div>
+              <div class="fg"><label class="fl">رابط الشعار (اختياري)</label><input class="fi" id="pt-logo" style="direction:ltr;"></div>
+            </div>
+            <button class="mini-btn mm" style="width:100%;padding:10px;" onclick="addPartner()">➕ إضافة</button>
+            <div id="ad-partners" style="margin-top:16px;"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Admin Showcase -->
+      <div class="dpage" id="admin-showcase">
+        <div class="dcard">
+          <div class="dcard-head">
+            <div class="dcard-title">⭐ أبرز الكوادر (مترجمين / مؤثرين)</div>
+            <label class="tgl" title="إظهار القسم"><input type="checkbox" id="tgl-showcase" onchange="setSiteToggle('show_team_showcase',this.checked)"><span class="tr"></span></label>
+          </div>
+          <div class="dcard-body">
+            <div class="f2">
+              <div class="fg"><label class="fl">الاسم</label><input class="fi" id="sh-name"></div>
+              <div class="fg"><label class="fl">الدور (مثال: مترجم ياباني)</label><input class="fi" id="sh-role"></div>
+              <div class="fg" style="grid-column:span 2;"><label class="fl">رابط الصورة</label><input class="fi" id="sh-img" style="direction:ltr;"></div>
+            </div>
+            <button class="mini-btn mm" style="width:100%;padding:10px;" onclick="addShowcase()">➕ إضافة</button>
+            <div id="ad-showcase" style="margin-top:16px;"></div>
+          </div>
+        </div>
+      </div>
+
     </div>
   </div>
 </div>
 
 <!-- ═══════════ MODALS ═══════════ -->
 
+<!-- Reset Password Modal -->
+<div class="overlay" id="resetModal">
+  <div class="panel" style="width:400px;">
+    <div class="panel-head">
+      <div class="panel-title">🔑 تعيين كلمة مرور جديدة</div>
+    </div>
+    <div class="panel-body">
+      <div class="fg"><label class="fl">NEW PASSWORD</label><input class="fi" type="password" id="new-pwd" placeholder="6+ characters"></div>
+      <div class="fg"><label class="fl">CONFIRM PASSWORD</label><input class="fi" type="password" id="conf-pwd"></div>
+      <button class="btn btn-grad" style="width:100%;padding:13px;" onclick="updatePassword()">💾 حفظ والتسجيل</button>
+      <div class="fmsg" id="reset-msg"></div>
+    </div>
+  </div>
+</div>
+
+<!-- AUTH MODAL -->
 <div class="overlay" id="authModal">
   <div class="panel" style="width:460px;">
     <div class="panel-head">
@@ -621,6 +735,7 @@ footer{border-top:1px solid var(--border2);padding:52px 24px 34px;position:relat
         <button class="atab" id="at-signup" onclick="authTab('signup')" data-i18n="tab_signup">حساب جديد</button>
       </div>
       
+      <!-- Login -->
       <div id="f-login">
         <div class="fg"><label class="fl">EMAIL</label><input class="fi" type="email" id="li-email" style="direction:ltr;" placeholder="you@studio.com"></div>
         <div class="fg">
@@ -633,12 +748,14 @@ footer{border-top:1px solid var(--border2);padding:52px 24px 34px;position:relat
         <button class="btn btn-grad" style="width:100%;padding:13px;" id="li-btn" onclick="doLogin()" data-i18n="tab_login">🔐 دخول</button>
       </div>
 
+      <!-- Forgot Password -->
       <div id="f-forgot" style="display:none;">
         <div class="fg"><label class="fl">EMAIL</label><input class="fi" type="email" id="fg-email" style="direction:ltr;" placeholder="you@studio.com"></div>
         <button class="btn btn-grad" style="width:100%;padding:13px;" onclick="doForgot()" data-i18n="send_reset">إرسال رابط الاستعادة</button>
         <div style="text-align:center;margin-top:15px;"><a href="#" onclick="showForgot(false)" style="font-size:0.8rem;color:var(--dim);text-decoration:none;" data-i18n="back_login">العودة لتسجيل الدخول</a></div>
       </div>
 
+      <!-- Signup -->
       <div id="f-signup" style="display:none;">
         <div class="f2">
           <div class="fg"><label class="fl">FULL NAME</label><input class="fi" id="su-name"></div>
@@ -656,6 +773,7 @@ footer{border-top:1px solid var(--border2);padding:52px 24px 34px;position:relat
   </div>
 </div>
 
+<!-- ADMIN GATE MODAL -->
 <div class="overlay" id="adminGate">
   <div class="panel" style="width:400px;">
     <div class="panel-head">
@@ -673,13 +791,14 @@ footer{border-top:1px solid var(--border2);padding:52px 24px 34px;position:relat
   </div>
 </div>
 
+<!-- VENDOR APPLY MODAL -->
 <div class="overlay" id="vendorApplyModal">
   <div class="panel" style="width:560px;">
     <div class="panel-head"><div class="panel-title" data-i18n="foot_apply">🤝 التقديم كمتعهد / Freelancer</div>
       <button class="x-btn" onclick="closeM('vendorApplyModal')">✕</button></div>
     <div class="panel-body">
       <div class="fmsg info" style="display:block;margin:0 0 18px;line-height:1.8;" data-i18n="vendor_info">
-        انضم لشبكة عُرب! عبّي النموذج وسيتم التواصل معك لعمل مقابلة، ومن ثم تفعيل حسابك وتزويدك ببيانات الدخول.
+        انضم لشبكة عُرب! عبّي النموذج وسنتواصل معك لعمل مقابلة، ثم نقوم بتفعيل حسابك وتزويدك ببيانات الدخول.
       </div>
       <div class="f2">
         <div class="fg"><label class="fl">FULL NAME *</label><input class="fi" id="va-name"></div>
@@ -693,6 +812,16 @@ footer{border-top:1px solid var(--border2);padding:52px 24px 34px;position:relat
   </div>
 </div>
 
+<!-- DETAIL / EDIT MODAL -->
+<div class="overlay" id="detailModal">
+  <div class="panel" style="width:620px;">
+    <div class="panel-head"><div class="panel-title" id="dm-title">تفاصيل</div>
+      <button class="x-btn" onclick="closeM('detailModal')">✕</button></div>
+    <div class="panel-body" id="dm-body"></div>
+  </div>
+</div>
+
+<!-- CREATE PACKAGE MODAL -->
 <div class="overlay" id="pkgModal">
   <div class="panel" style="width:600px;">
     <div class="panel-head">
@@ -736,6 +865,8 @@ footer{border-top:1px solid var(--border2);padding:52px 24px 34px;position:relat
   </div>
 </div>
 
+<div class="toast" id="toast"></div>
+
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
 /* ═══ SUPABASE ═══ */
@@ -746,6 +877,7 @@ const sb = supabase.createClient(SUPA_URL, SUPA_KEY);
 let me = null;          
 let myRole = 'guest';   
 let adminSecret = 'Urb@2026';
+let siteCfg = {};
 let A = { pkgs:[], team:[], vendors:[], rfqs:[], quotes:[], pricing:[] };
 let C = { pkgs:[], gloss:[] };
 let lang = localStorage.getItem('gl_lang') || 'ar';
@@ -867,7 +999,6 @@ function startTerminalTyping(){
   }
   tick();
 }
-// تشغيل الأنميشن في الخلفية مباشرة
 setTimeout(startTerminalTyping, 1000);
 
 /* ═══ i18n — 12 LANGS ═══ */
@@ -885,6 +1016,8 @@ const T = {
   nav_engine: { ar:'التقنية', en:'Engine', zh:'技术引擎', ja:'エンジン', ko:'엔진', ur:'ٹیکنالوجی', fr:'Technologie', it:'Tecnologia', es:'Tecnología', pt:'Tecnologia', ru:'Технология', de:'Engine' },
   nav_packages: { ar:'الباقات', en:'Packages', zh:'套餐', ja:'パッケージ', ko:'패키지', ur:'پیکجز', fr:'Offres', it:'Pacchetti', es:'Paquetes', pt:'Pacotes', ru:'Пакеты', de:'Pakete' },
   nav_workflow: { ar:'آلية العمل', en:'Workflow', zh:'工作流程', ja:'ワークフロー', ko:'워크플로우', ur:'ورک فلو', fr:'Processus', it:'Processo', es:'Proceso', pt:'Processo', ru:'Процесс', de:'Ablauf' },
+  nav_portfolio: { ar:'أعمالنا', en:'Portfolio', zh:'作品集', ja:'実績', ko:'포트폴리오', ur:'پورٹ فولیو', fr:'Portfolio', it:'Portfolio', es:'Portafolio', pt:'Portfólio', ru:'Портфолио', de:'Portfolio' },
+  ts_title: { ar:'أبرز الكوادر', en:'Top Talents', zh:'顶尖人才', ja:'トップタレント', ko:'최고의 인재', ur:'بہترین ٹیلنٹ', fr:'Talents', it:'Talenti', es:'Talentos', pt:'Talentos', ru:'Таланты', de:'Talente' },
   nav_about: { ar:'من نحن', en:'About', zh:'关于我们', ja:'会社概要', ko:'소개', ur:'ہمارے بارے', fr:'À propos', it:'Chi siamo', es:'Nosotros', pt:'Sobre', ru:'О нас', de:'Über uns' },
   nav_contact: { ar:'تواصل', en:'Contact', zh:'联系', ja:'お問い合わせ', ko:'문의', ur:'رابطہ', fr:'Contact', it:'Contatti', es:'Contacto', pt:'Contato', ru:'Контакты', de:'Kontakt' },
   nav_login: { ar:'🔐 دخول', en:'🔐 Login', zh:'🔐 登录', ja:'🔐 ログイン', ko:'🔐 로그인', ur:'🔐 لاگ ان', fr:'🔐 Connexion', it:'🔐 Accedi', es:'🔐 Entrar', pt:'🔐 Entrar', ru:'🔐 Войти', de:'🔐 Anmelden' },
@@ -892,7 +1025,7 @@ const T = {
   hero_1: { ar:'صُنعت للألعاب.', en:'Built for Games.', zh:'为游戏而生。', ja:'ゲームのために。', ko:'게임을 위해.', ur:'گیمز کے لیے۔', fr:'Conçu pour jeux.', it:'Nato per giochi.', es:'Hecho para juegos.', pt:'Feito para jogos.', ru:'Создано для игр.', de:'Für Spiele gebaut.' },
   hero_2: { ar:'دُرّبت', en:'Trained', zh:'由人类', ja:'人間が', ko:'인간이', ur:'انسانوں کی', fr:'Entraîné', it:'Addestrato', es:'Entrenado', pt:'Treinado', ru:'Обучено', de:'Trainiert' },
   hero_3: { ar:'بالبشر.', en:'by Humans.', zh:'训练。', ja:'訓練。', ko:'훈련.', ur:'تربیت۔', fr:'par des humains.', it:'da umani.', es:'por humanos.', pt:'por humanos.', ru:'людьми.', de:'von Menschen.' },
-  hero_sub: { ar:'منصة توطين ذكية تجمع قوة الذكاء الاصطناعي مع الدقة الثقافية السعودية — لتجعل العربية لغةً أصيلة في كل عالم افتراضي.', en:'Smart localization platform combining AI with Saudi cultural accuracy.', zh:'结合AI与沙特文化精准度的智能本地化平台。', ja:'AIとサウジの文化的正確性を組み合わせたローカライズ基盤。', ko:'AI와 사우디 문화적 정밀함을 결합한 플랫폼.', ur:'ذہین لوکلائزیشن پلیٹ فارم۔', fr:'Plateforme de localisation combinant IA et précision culturelle saoudienne.', it:'Piattaforma di localizzazione con IA e accuratezza culturale.', es:'Plataforma de localización con IA y precisión cultural.', pt:'Plataforma de localização com IA e precisão cultural.', ru:'Интеллектуальная платформа локализации с ИИ.', de:'Intelligente Lokalisierungsplattform mit KI.' },
+  hero_sub: { ar:'منصة توطين ذكية تدمج قوة الذكاء الاصطناعي مع الدقة الثقافية السعودية — لتجعل العربية لغةً أصيلة في كل عالم افتراضي.', en:'Smart localization platform combining AI with Saudi cultural accuracy.', zh:'结合AI与沙特文化精准度的智能本地化平台。', ja:'AIとサウジの文化的正確性を組み合わせたローカライズ基盤。', ko:'AI와 사우디 문화적 정밀함을 결합한 플랫폼.', ur:'ذہین لوکلائزیشن پلیٹ فارم۔', fr:'Plateforme de localisation combinant IA et précision culturelle saoudienne.', it:'Piattaforma di localizzazione con IA e accuratezza culturale.', es:'Plataforma de localización con IA y precisión cultural.', pt:'Plataforma de localização com IA e precisão cultural.', ru:'Интеллектуальная платформа локализации с ИИ.', de:'Intelligente Lokalisierungsplattform mit KI.' },
   hero_cta1: { ar:'🚀 أطلق حزمة جديدة', en:'🚀 Launch Package', zh:'🚀 启动包', ja:'🚀 パッケージ作成', ko:'🚀 패키지 시작', ur:'🚀 نیا پیکج', fr:'🚀 Lancer un package', it:'🚀 Nuovo pacchetto', es:'🚀 Lanzar paquete', pt:'🚀 Novo pacote', ru:'🚀 Создать пакет', de:'🚀 Paket starten' },
   hero_cta2: { ar:'شاهد التقنية ›_', en:'View Tech ›_', zh:'查看技术 ›_', ja:'技術を見る ›_', ko:'기술 보기 ›_', ur:'ٹیکنالوجی دیکھیں ›_', fr:'Voir la technologie ›_', it:'Vedi tecnologia ›_', es:'Ver tecnología ›_', pt:'Ver tecnologia ›_', ru:'Посмотреть технологию ›_', de:'Technologie ansehen ›_' },
   
@@ -986,7 +1119,7 @@ function applyLang() {
   });
   
   buildLangMenus();
-  renderPricingGrid();
+  loadPublicPricing();
   if (me && myRole==='client') loadClientPackages();
 }
 
@@ -1072,6 +1205,10 @@ function dPage(dash, page, el) {
 
   if (dash === 'admin') {
     if(page==='pricing') adminLoadPricing();
+    if(page==='partners') adminLoadPartners();
+    if(page==='news') adminLoadNews();
+    if(page==='portfolio') adminLoadPortfolio();
+    if(page==='showcase') adminLoadShowcase();
     if(page==='team') adminLoadTeam();
     if(page==='clients') adminLoadClients();
   }
@@ -1165,6 +1302,9 @@ async function doLogout(){
 }
 
 sb.auth.onAuthStateChange((ev, session)=>{
+  if (ev === 'PASSWORD_RECOVERY') {
+    openM('resetModal');
+  }
   if(session?.user) {
     me = session.user;
     if(document.getElementById('cl-name')) document.getElementById('cl-name').textContent = me.user_metadata?.full_name || me.email;
@@ -1173,60 +1313,105 @@ sb.auth.onAuthStateChange((ev, session)=>{
   }
 });
 
-/* ═══ PRICING DYNAMIC RENDER ═══ */
-const PKG_TRANS = {
-  "الأكثر طلباً": { en: "Most Popular", zh: "最受欢迎", ja: "一番人気", ko: "가장 인기 있음", ur: "سب سے مشہور", fr: "Plus populaire", it: "Più popolare", es: "Más popular", pt: "Mais popular", ru: "Популярный", de: "Beliebtestes" },
-  "لكل مشروع": { en: "Per Project", zh: "每个项目", ja: "プロジェクトごと", ko: "프로젝트당", ur: "فی پروجیکٹ", fr: "Par projet", it: "Per progetto", es: "Por proyecto", pt: "Por projeto", ru: "За проект", de: "Pro Projekt" },
-  "فوري AI توطين": { en: "Instant AI Localization", zh: "即时AI本地化", ja: "即時AIローカライズ", ko: "즉각적인 AI 로컬라이제이션", ur: "فوری AI لوکلائزیشن", fr: "Localisation IA instantanée", it: "Localizzazione IA istantanea", es: "Localización IA instantánea", pt: "Localização IA instantânea", ru: "Мгновенная ИИ-локализация", de: "Sofortige KI-Lokalisierung" },
-  "تسليم سريع": { en: "Fast Delivery", zh: "快速交付", ja: "迅速な納品", ko: "빠른 배송", ur: "تیز ڈیلیوری", fr: "Livraison rapide", it: "Consegna rapida", es: "Entrega rápida", pt: "Entrega rápida", ru: "Быстрая доставка", de: "Schnelle Lieferung" },
-  "توليد المصطلحات تلقائياً": { en: "Auto Glossary Generation", zh: "自动术语生成", ja: "自動用語集生成", ko: "자동 용어집 생성", ur: "خودکار الفاظ کی تخلیق", fr: "Génération auto de glossaire", it: "Generazione automatica glossario", es: "Generación auto de glosario", pt: "Geração auto de glossário", ru: "Авто-генерация глоссария", de: "Automatische Glossarerstellung" },
-  "ذاكرة الترجمة": { en: "Translation Memory", zh: "翻译记忆库", ja: "翻訳メモリ", ko: "번역 메모리", ur: "ترجمہ میموری", fr: "Mémoire de traduction", it: "Memoria di traduzione", es: "Memoria de traducción", pt: "Memória de tradução", ru: "Память переводов", de: "Übersetzungsspeicher" },
-  "فحص جودة آلي": { en: "Automated QA", zh: "自动质量检查", ja: "自動QAチェック", ko: "자동 QA 검사", ur: "خودکار کوالٹی چیک", fr: "Assurance qualité auto", it: "QA automatico", es: "Control de calidad auto", pt: "Controle de qualidade auto", ru: "Автоматическая проверка качества", de: "Automatische QS" },
-  "كل مميزات URB AI System": { en: "All URB AI System Features", zh: "包含URB AI所有功能", ja: "URB AIの全機能", ko: "URB AI의 모든 기능", ur: "تمام URB AI خصوصیات", fr: "Toutes les fonctions IA URB", it: "Tutte le funzioni URB AI", es: "Todas las funciones URB AI", pt: "Todas as funções URB AI", ru: "Все функции URB AI", de: "Alle URB KI-Funktionen" },
-  "مراجعة بشرية متخصصة": { en: "Expert Human Review", zh: "专家人工审校", ja: "専門家によるレビュー", ko: "전문가 휴먼 리뷰", ur: "ماہرانہ انسانی جائزہ", fr: "Révision humaine experte", it: "Revisione umana esperta", es: "Revisión humana experta", pt: "Revisão humana especializada", ru: "Экспертная проверка человеком", de: "Experten-Prüfung" },
-  "LQA تدقيق جودة التوطين": { en: "LQA Localization QA", zh: "LQA本地化质检", ja: "LQA品質チェック", ko: "LQA 로컬라이제이션 품질 검사", ur: "LQA کوالٹی چیک", fr: "Assurance qualité LQA", it: "Controllo qualità LQA", es: "Control de calidad LQA", pt: "Garantia de qualidade LQA", ru: "LQA проверка качества", de: "LQA-Qualitätsprüfung" },
-  "تكيف ثقافي كامل": { en: "Full Cultural Adaptation", zh: "完全文化适应", ja: "完全な文化的適応", ko: "완벽한 문화적 적응", ur: "مکمل ثقافتی مطابقت", fr: "Adaptation culturelle complète", it: "Adattamento culturale completo", es: "Adaptación cultural completa", pt: "Adaptação cultural completa", ru: "Полная адаптация", de: "Vollständige kulturelle Anpassung" },
-  "مراجعة المصطلحات": { en: "Glossary Review", zh: "术语审校", ja: "用語集レビュー", ko: "용어집 검토", ur: "الفاظ ਦਾ جائزہ", fr: "Révision du glossaire", it: "Revisione del glossario", es: "Revisión de glosario", pt: "Revisão de glossário", ru: "Проверка глоссария", de: "Glossar-Prüfung" },
-  "مراجعة تجربة اللعب": { en: "Gameplay Experience Review", zh: "游戏体验审校", ja: "ゲームプレイ体験レビュー", ko: "게임플레이 체험 검토", ur: "گیم پلے تجربے کا جائزہ", fr: "Révision expérience de jeu", it: "Revisione esperienza di gioco", es: "Revisión de experiencia de juego", pt: "Revisão de experiencia de jogo", ru: "Проверка игрового опыта", de: "Gameplay-Prüfung" },
-  "كل مميزات الباقتين": { en: "All Features of Both Plans", zh: "包含前两款套餐所有功能", ja: "両プランの全機能", ko: "두 플랜의 모든 기능", ur: "دونوں پلانز کی تمام خصوصیات", fr: "Toutes les fonctionnalités", it: "Tutte le funzionalità", es: "Todas las funciones de ambos planes", pt: "Todas as funções de ambos os planos", ru: "Все функции обоих пакетов", de: "Alle Funktionen aller Pakete" },
-  "تسويق عبر مؤثري الألعاب": { en: "Game Influencer Marketing", zh: "游戏网红营销", ja: "インフルエンサーマーケティング", ko: "게임 인플루언서 마케팅", ur: "گیم انفلوئنسر مارکیٹنگ", fr: "Marketing d'influenceurs", it: "Marketing con influencer", es: "Marketing de influencers", pt: "Marketing de influenciadores", ru: "Маркетинг с инфлюенсерами", de: "Influencer-Marketing" },
-  "حملات ستريمرز": { en: "Streamer Campaigns", zh: "主播推广活动", ja: "配信者キャンペーン", ko: "스트리머 캠페인", ur: "سٹریمرز مہمات", fr: "Campagnes de streamers", it: "Campagne streamer", es: "Campañas de streamers", pt: "Campanhas de streamers", ru: "Кампании со стримерами", de: "Streamer-Kampagnen" },
-  "تغطية يوتيوب": { en: "YouTube Coverage", zh: "YouTube视频覆盖", ja: "YouTubeカバー", ko: "유튜브 커버리지", ur: "یوٹیوب کوریج", fr: "Couverture YouTube", es: "Cobertura en YouTube", pt: "Cobertura no YouTube", ru: "Освещение на YouTube", de: "YouTube-Abdeckung" },
-  "حملة تيك توك": { en: "TikTok Campaign", zh: "TikTok营销活动", ja: "TikTokキャンペーン", ko: "틱톡 캠페인", ur: "ٹک ٹاک مہم", fr: "Campagne TikTok", it: "Campagna TikTok", es: "Campaña de TikTok", pt: "Campanha no TikTok", ru: "Кампания в TikTok", de: "TikTok-Kampagne" },
-  "محتوى سوشيال ميديا": { en: "Social Media Content", zh: "社交媒体内容", ja: "SNSコンテンツ", ko: "소셜 미디어 콘텐츠", ur: "سوشل میڈیا مواد", fr: "Contenu réseaux sociaux", it: "Contenuti social media", es: "Contenido para redes sociales", pt: "Conteúdo para redes sociais", ru: "Контент для соцсетей", de: "Social-Media-Inhalte" },
-  "دعم الإطلاق": { en: "Launch Support", zh: "发布全程支持", ja: "ローンチサポート", ko: "출시 지원", ur: "لانچ سپورٹ", fr: "Support de lancement", it: "Supporto al lancio", es: "Soporte de lanzamiento", pt: "Suporte de lançamento", ru: "Поддержка запуска", de: "Launch-Support" },
-  "اطلب عرض سعر": { en: "Request Quote", zh: "索取报价", ja: "見積もりをリクエスト", ko: "견적 요청", ur: "قیمت معلوم کریں", fr: "Demander un devis", it: "Richiedi preventivo", es: "Solicitar cotización", pt: "Solicitar orçamento", ru: "Запросить цену", de: "Angebot anfordern" }
-};
-
-function translateText(text) {
-  if (lang === 'ar') return text;
-  return PKG_TRANS[text]?.[lang] || PKG_TRANS[text]?.en || text;
+async function updatePassword() {
+  const newPass = document.getElementById('new-pwd').value;
+  const confPass = document.getElementById('conf-pwd').value;
+  const msgEl = document.getElementById('reset-msg');
+  if(!newPass || newPass.length < 6) {
+    msgEl.className = 'fmsg err'; msgEl.textContent = 'يجب أن تكون كلمة المرور 6 أحرف على الأقل'; return;
+  }
+  if(newPass !== confPass) {
+    msgEl.className = 'fmsg err'; msgEl.textContent = 'كلمتا المرور غير متطابقتين'; return;
+  }
+  const { error } = await sb.auth.updateUser({ password: newPass });
+  if (error) {
+    msgEl.className = 'fmsg err'; msgEl.textContent = error.message;
+  } else {
+    msgEl.className = 'fmsg ok'; msgEl.textContent = 'تم تغيير كلمة المرور بنجاح!';
+    setTimeout(() => { closeM('resetModal'); navTo('#dashboard'); }, 1500);
+  }
 }
 
+/* ═══ PUBLIC FETCHERS (Dynamic Content) ═══ */
 const DEFAULT_PLANS = [
   { name: "URB AI System", period: "لكل مشروع", features: ["فوري AI توطين", "تسليم سريع", "توليد المصطلحات تلقائياً", "ذاكرة الترجمة", "فحص جودة آلي"] },
   { name: "URB AI + Human Auditing", period: "لكل مشروع", is_featured: true, features: ["كل مميزات URB AI System", "مراجعة بشرية متخصصة", "LQA تدقيق جودة التوطين", "تكيف ثقافي كامل", "مراجعة المصطلحات", "مراجعة تجربة اللعب"] },
   { name: "URB PLUS", period: "لكل مشروع", features: ["كل مميزات الباقتين", "تسويق عبر مؤثري الألعاب", "حملات ستريمرز", "تغطية يوتيوب", "حملة تيك توك", "محتوى سوشيال ميديا", "دعم الإطلاق"] }
 ];
 
-function renderPricingGrid() {
+async function loadPublicPricing() {
+  let plans = [];
+  try {
+    const { data } = await sb.from('pricing').select('*').order('sort_order');
+    plans = data || [];
+  } catch (e) {}
+
+  if (!plans.length) plans = DEFAULT_PLANS;
+  
   const g = document.getElementById('priceGrid');
   if (!g) return;
-  g.innerHTML = DEFAULT_PLANS.map(p => {
-    const translatedFeats = p.features.map(f => translateText(f));
+  
+  g.innerHTML = plans.map(p => {
+    const feats = Array.isArray(p.features) ? p.features : JSON.parse(p.features || '[]');
+    const isSoon = p.is_soon === true;
+    const translatedFeats = feats.map(f => translateText(f));
     const translatedPeriod = translateText(p.period);
     const translatedBtn = translateText('اطلب عرض سعر');
-    return `<div class="price-card ${p.is_featured ? 'feat' : ''}">
+    
+    return `<div class="price-card ${p.is_featured ? 'feat' : ''} ${isSoon ? 'soon' : ''}">
       ${p.is_featured ? `<div class="price-badge">⭐ ${translateText('الأكثر طلباً')}</div>` : ''}
+      ${isSoon ? `<div class="soon-badge">قريباً / SOON</div>` : ''}
       <div class="price-plan">${p.name}</div>
       <div class="price-amt"><span style="font-size:1.4rem;">${translatedBtn}</span></div>
       <div class="price-per">${translatedPeriod}</div>
       <ul class="price-feats">
         ${translatedFeats.map(f => `<li><span class="ck">✓</span> ${f}</li>`).join('')}
       </ul>
-      <button class="btn ${p.is_featured ? 'btn-grad' : 'btn-ghost'}" style="padding:13px;" onclick="openAuth('signup')">${translatedBtn}</button>
+      <button class="btn ${p.is_featured ? 'btn-grad' : 'btn-ghost'}" style="padding:13px;" ${isSoon ? 'disabled' : `onclick="openAuth('signup')"`}>
+        ${isSoon ? 'SOON' : translatedBtn}
+      </button>
     </div>`;
   }).join('');
+}
+
+async function loadPublicNews() {
+  try {
+    const { data } = await sb.from('announcements').select('*').eq('is_active', true);
+    const bar = document.getElementById('newsBar');
+    if (!data?.length) { bar.style.display = 'none'; return; }
+    bar.style.display = 'block';
+    
+    const items = data.map(n => `<span class="${n.is_highlighted ? 'hl-news' : ''}">📢 ${n.text}</span>`).join(' &nbsp;★&nbsp; ') + ' &nbsp;★&nbsp; ';
+    document.getElementById('newsTrack').innerHTML = `<span>${items}</span><span>${items}</span>`;
+  } catch (e) {}
+}
+
+async function loadPublicPartners() {
+  try {
+    const { data } = await sb.from('partners').select('*').eq('is_visible', true).order('sort_order');
+    const sec = document.getElementById('partners-sec');
+    if (!data?.length) { sec.style.display = 'none'; return; }
+    sec.style.display = 'block';
+    document.getElementById('partnersStrip').innerHTML = data.map(p => 
+      p.logo_url ? `<img class="partner-logo" src="${p.logo_url}" alt="${p.name}">` : `<span class="partner-name">${p.name}</span>`
+    ).join('');
+  } catch (e) {}
+}
+
+async function loadPublicShowcase() {
+  try {
+    const { data } = await sb.from('team_showcase').select('*').eq('is_visible', true).order('sort_order');
+    const sec = document.getElementById('teamshow');
+    const nav = document.getElementById('nav-teamshow');
+    if (!data?.length) { sec.style.display = 'none'; if(nav) nav.style.display='none'; return; }
+    sec.style.display = 'block'; if(nav) nav.style.display='inline';
+    document.getElementById('tsGrid').innerHTML = data.map(m => `
+      <div class="tm-card">
+        ${m.photo_url ? `<img class="tm-photo" src="${m.photo_url}" alt="${m.name}">` : `<div class="tm-photo-fallback">${m.name?.[0]||'?'}</div>`}
+        <div class="tm-name">${m.name}</div>
+        <div class="tm-role">${m.role||''}</div>
+      </div>`).join('');
+  } catch (e) {}
 }
 
 /* ═══ CLIENT FUNCTIONS ═══ */
@@ -1346,22 +1531,23 @@ async function submitPackage(){
 
 /* ═══ ADMIN FUNCTIONS ═══ */
 async function adminLoadAll(){
-  const [pk, tm, vn, rf] = await Promise.all([
-    sb.from('packages').select('*').order('created_at',{ascending:false}),
-    sb.from('team_members').select('*').order('created_at'),
-    sb.from('vendors').select('*').order('created_at'),
-    sb.from('rfqs').select('*').order('created_at',{ascending:false}),
-  ]);
-  A.pkgs = pk.data||[]; A.team = tm.data||[]; A.vendors = vn.data||[]; A.rfqs = rf.data||[];
-  
-  const elTotal = document.getElementById('as-pkgs');
-  if(elTotal) {
-    elTotal.textContent = A.pkgs.length;
-    document.getElementById('as-pkgs-s').textContent = A.pkgs.filter(p=>p.status==='done').length + ' مكتملة';
-    document.getElementById('as-clients').textContent = new Set(A.pkgs.map(p=>p.user_id)).size;
-    document.getElementById('as-pending').textContent = A.pkgs.filter(p=>['submitted','queue'].includes(p.status) && !p.assigned_to && !p.vendor_id).length;
-    document.getElementById('ad-recent').innerHTML = renderAdminPkgs(A.pkgs.slice(0,5));
-  }
+  try {
+    const [pk, tm, vn] = await Promise.all([
+      sb.from('packages').select('*').order('created_at',{ascending:false}),
+      sb.from('team_members').select('*').order('created_at'),
+      sb.from('vendors').select('*').order('created_at')
+    ]);
+    A.pkgs = pk.data||[]; A.team = tm.data||[]; A.vendors = vn.data||[];
+    
+    const elTotal = document.getElementById('as-pkgs');
+    if(elTotal) {
+      elTotal.textContent = A.pkgs.length;
+      document.getElementById('as-pkgs-s').textContent = A.pkgs.filter(p=>p.status==='done').length + ' مكتملة';
+      document.getElementById('as-clients').textContent = new Set(A.pkgs.map(p=>p.user_id)).size;
+      document.getElementById('as-pending').textContent = A.pkgs.filter(p=>['submitted','queue'].includes(p.status) && !p.assigned_to && !p.vendor_id).length;
+      document.getElementById('ad-recent').innerHTML = renderAdminPkgs(A.pkgs.slice(0,5));
+    }
+  } catch(e) { console.error(e); }
 }
 
 function renderAdminPkgs(list){
@@ -1372,33 +1558,111 @@ function renderAdminPkgs(list){
     done:{l:'✓ مكتملة', c:'b-green'}
   };
   return list.map(p=>{
-    const tm = A.team.find(m=>m.id===p.assigned_to);
-    const vn = A.vendors.find(v=>v.id===p.vendor_id);
     const badge = ST[p.status] || ST.queue;
     return `<div class="row-item">
       <div style="min-width:0;flex:1;">
         <div style="font-weight:700;">${p.game_name}</div>
-        <div style="font-size:0.72rem;color:var(--dim);margin-top:3px;">
-          ${p.plan||'—'}
-          ${tm?` • 👥 ${tm.name}`:''}${vn?` • 🤝 ${vn.name}`:''}
-        </div>
+        <div style="font-size:0.72rem;color:var(--dim);margin-top:3px;">${p.plan||'—'}</div>
       </div>
       <div class="row-actions" style="display:flex;gap:6px;align-items:center;">
         <span class="badge ${badge.c}">${badge.l}</span>
-        <button class="mini-btn dg" onclick="adminDelPkg('${p.id}')">🗑</button>
       </div>
     </div>`;
   }).join('');
 }
-async function adminDelPkg(id){
-  if(!confirm('حذف هذه الحزمة نهائياً؟')) return;
-  await sb.from('packages').delete().eq('id',id);
-  adminLoadAll();
+
+/* Admin Pricing */
+async function adminLoadPricing(){
+  let data = [];
+  try { const res = await sb.from('pricing').select('*').order('sort_order'); data = res.data||[]; } catch(e){}
+  const cont = document.getElementById('ad-pricing');
+  if(!cont) return;
+  cont.innerHTML = data.length ? data.map(p=>`
+    <div class="row-item" style="flex-direction:column;align-items:stretch;">
+      <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;">
+        <div><b>${p.name}</b> ${p.is_featured?'⭐':''} ${p.is_soon?'<span class="badge b-gold">قريباً</span>':''} — <span style="color:var(--gold);">${p.price}</span></div>
+        <div style="display:flex;gap:6px;">
+          <button class="mini-btn dg" onclick="delRow('pricing','${p.id}');setTimeout(adminLoadPricing,400);setTimeout(loadPublicPricing,600)">🗑</button>
+        </div>
+      </div>
+    </div>`).join('') : '<div class="empty">لا توجد باقات (يتم عرض الأساسية للجمهور)</div>';
 }
 
-function toast(m){
-  const el = document.getElementById('toast'); el.textContent = m; el.classList.add('show');
-  setTimeout(()=>el.classList.remove('show'), 3000);
+/* Admin News */
+async function adminLoadNews(){
+  let data = [];
+  try { const res = await sb.from('announcements').select('*').order('created_at',{ascending:false}); data = res.data||[]; } catch(e){}
+  const cont = document.getElementById('ad-news');
+  if(!cont) return;
+  cont.innerHTML = data.length ? data.map(n=>`
+    <div class="row-item" style="padding:11px 15px;">
+      <div style="min-width:0;font-size:0.85rem;" class="${n.is_highlighted?'hl-news':''}">${n.text}</div>
+      <div style="display:flex;gap:6px;align-items:center;">
+        <span class="badge ${n.is_active?'b-green':'b-dim'}">${n.is_active?'ظاهر':'مخفي'}</span>
+        <button class="mini-btn dg" onclick="delRow('announcements','${n.id}');setTimeout(adminLoadNews,400);setTimeout(loadPublicNews,600)">🗑</button>
+      </div>
+    </div>`).join('') : '<div class="empty">ما فيه إعلانات للحين</div>';
+}
+async function addNews(){
+  const txt = document.getElementById('nw-text').value.trim();
+  const hl = document.getElementById('nw-hl').checked;
+  if(!txt) return;
+  try { await sb.from('announcements').insert([{text:txt, is_highlighted:hl}]); } catch(e){}
+  document.getElementById('nw-text').value=''; document.getElementById('nw-hl').checked=false;
+  adminLoadNews(); loadPublicNews();
+}
+
+/* Admin Partners */
+async function adminLoadPartners(){
+  let data = [];
+  try { const res = await sb.from('partners').select('*').order('sort_order'); data = res.data||[]; } catch(e){}
+  const cont = document.getElementById('ad-partners');
+  if(!cont) return;
+  cont.innerHTML = data.length ? data.map(p=>`
+    <div class="row-item" style="padding:11px 15px;">
+      <div style="display:flex;gap:10px;align-items:center;">
+        ${p.logo_url?`<img src="${p.logo_url}" style="height:28px;">`:''}
+        <b>${p.name}</b>
+      </div>
+      <button class="mini-btn dg" onclick="delRow('partners','${p.id}');setTimeout(adminLoadPartners,400);setTimeout(loadPublicPartners,600)">🗑</button>
+    </div>`).join('') : '<div class="empty">لا يوجد شركاء</div>';
+}
+async function addPartner(){
+  const name = document.getElementById('pt-name').value.trim();
+  const logo = document.getElementById('pt-logo').value.trim();
+  if(!name) return;
+  try { await sb.from('partners').insert([{name, logo_url:logo||null}]); } catch(e){}
+  document.getElementById('pt-name').value=''; document.getElementById('pt-logo').value='';
+  adminLoadPartners(); loadPublicPartners();
+}
+
+/* Admin Showcase */
+async function adminLoadShowcase(){
+  let data = [];
+  try { const res = await sb.from('team_showcase').select('*').order('sort_order'); data = res.data||[]; } catch(e){}
+  const cont = document.getElementById('ad-showcase');
+  if(!cont) return;
+  cont.innerHTML = data.length ? data.map(m=>`
+    <div class="row-item" style="padding:11px 15px;">
+      <div style="display:flex;gap:10px;align-items:center;">
+        ${m.photo_url?`<img src="${m.photo_url}" style="width:32px;border-radius:50%;">`:''}
+        <div><b>${m.name}</b> <span style="font-size:0.7rem;color:var(--dim);">— ${m.role}</span></div>
+      </div>
+      <button class="mini-btn dg" onclick="delRow('team_showcase','${m.id}');setTimeout(adminLoadShowcase,400);setTimeout(loadPublicShowcase,600)">🗑</button>
+    </div>`).join('') : '<div class="empty">لا توجد كوادر مسجلة</div>';
+}
+async function addShowcase(){
+  const name = document.getElementById('sh-name').value.trim();
+  const role = document.getElementById('sh-role').value.trim();
+  const img = document.getElementById('sh-img').value.trim();
+  if(!name) return;
+  try { await sb.from('team_showcase').insert([{name, role:role||null, photo_url:img||null}]); } catch(e){}
+  document.getElementById('sh-name').value=''; document.getElementById('sh-role').value=''; document.getElementById('sh-img').value='';
+  adminLoadShowcase(); loadPublicShowcase();
+}
+
+async function delRow(table, id){
+  if(confirm('تأكيد الحذف؟')) try { await sb.from(table).delete().eq('id',id); } catch(e){}
 }
 
 /* ═══ VENDOR APPLY ═══ */
@@ -1406,54 +1670,29 @@ async function submitVendorApply(){
   const name = document.getElementById('va-name').value.trim();
   const email = document.getElementById('va-email').value.trim();
   if(!name||!email) return;
-  await sb.from('vendor_applications').insert([{
-    name, email, company: document.getElementById('va-company').value.trim()||null,
-    phone: document.getElementById('va-phone').value.trim()||null,
-    specialties: document.getElementById('va-spec').value.trim()||null,
-    languages: document.getElementById('va-langs').value.trim()||null,
-    experience: document.getElementById('va-exp').value.trim()||null,
-    portfolio_link: document.getElementById('va-link').value.trim()||null
-  }]);
+  try {
+    await sb.from('vendor_applications').insert([{
+      name, email, company: document.getElementById('va-company').value.trim()||null,
+      phone: document.getElementById('va-phone').value.trim()||null
+    }]);
+  } catch(e){}
   document.getElementById('va-msg').className = 'fmsg ok';
   document.getElementById('va-msg').textContent = '✓ وصلنا طلبك! سنتواصل معك لعمل المقابلة وتفعيل الحساب.';
   setTimeout(()=>closeM('vendorApplyModal'), 3000);
 }
 
-/* ═══ BOT FUNCTIONS ═══ */
-function setBotLanguage(langCode, langName) {
-  selectedLang = langCode;
-  document.getElementById('langContainer').style.display = 'none';
-  const welcomeText = `Welcome! Language set to: ${langName}. How can I assist you?`;
-  const messagesDiv = document.getElementById('chatMessages');
-  messagesDiv.innerHTML += `<div class="message bot">${welcomeText}</div>`;
-}
-
-function toggleChat() {
-  const box = document.getElementById('chatBox');
-  box.style.display = (box.style.display === 'flex') ? 'none' : 'flex';
-}
-async function sendMessage() {
-  const input = document.getElementById('userInput');
-  const text = input.value.trim();
-  if (!text) return;
-  const messagesDiv = document.getElementById('chatMessages');
-  messagesDiv.innerHTML += `<div class="message user">${text}</div>`;
-  input.value = '';
-  try {
-    const response = await fetch('/api/chat', {
-      method: 'POST', headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ message: text, language: selectedLang })
-    });
-    const data = await response.json();
-    messagesDiv.innerHTML += `<div class="message bot">${data.reply || '...'}</div>`;
-  } catch (err) {
-    messagesDiv.innerHTML += `<div class="message bot">⚠️ خطأ بالاتصال.</div>`;
-  }
+function toast(m){
+  const el = document.getElementById('toast'); el.textContent = m; el.classList.add('show');
+  setTimeout(()=>el.classList.remove('show'), 3000);
 }
 
 /* ═══ INIT ═══ */
 applyLang();
 handleRoute();
+loadPublicPricing();
+loadPublicNews();
+loadPublicPartners();
+loadPublicShowcase();
 sb.auth.getSession().then(({data:{session}})=>{ 
   if(session){ me=session.user; applyLang(); handleRoute(); } 
 });
