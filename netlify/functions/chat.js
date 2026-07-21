@@ -36,40 +36,47 @@ export async function handler(event, context) {
   try {
     const body = JSON.parse(event.body || '{}');
     const message = body.message;
-    const apiKey = process.env.GEMINI_API_KEY;
+    // نقرأ المفتاح سواء تسميته GEMINI_API_KEY أو GROQ_API_KEY للتيسير
+    const apiKey = process.env.GROQ_API_KEY || process.env.GEMINI_API_KEY;
 
     if (!apiKey) {
       return {
         statusCode: 200,
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ reply: '⚠️ مفتاح GEMINI_API_KEY غير مضاف في إعدادات البيئة Netlify.' })
+        body: JSON.stringify({ reply: '⚠️ مفتاح الـ API غير مضاف في إعدادات البيئة Netlify.' })
       };
     }
 
-    // اعتماد النموذج الأحدث والمستقر جافاسكريبت/REST
-    const geminiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey}`;
+    // نقطة النهاية المستقرة لـ Groq المعتمدة على Llama 3.3
+    const groqUrl = "https://api.groq.com/openai/v1/chat/completions";
 
-    const geminiResponse = await fetch(geminiUrl, {
+    const response = await fetch(groqUrl, {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
+      headers: {
+        "Authorization": `Bearer ${apiKey}`,
+        "Content-Type": "application/json"
+      },
       body: JSON.stringify({
-        contents: [{ parts: [{ text: message }] }],
-        systemInstruction: { parts: [{ text: urbKnowledge }] },
-        generationConfig: { temperature: 0.3 }
+        model: "llama-3.3-70b-versatile",
+        messages: [
+          { role: "system", content: urbKnowledge },
+          { role: "user", content: message }
+        ],
+        temperature: 0.3
       })
     });
 
-    const data = await geminiResponse.json();
+    const data = await response.json();
 
     if (data.error) {
       return {
         statusCode: 200,
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ reply: `⚠️ خطأ من سيرفر جوجل: ${data.error.message}` })
+        body: JSON.stringify({ reply: `⚠️ خطأ من السيرفر: ${data.error.message}` })
       };
     }
 
-    const reply = data.candidates?.[0]?.content?.parts?.[0]?.text || "لم يتم استلام رد من الذكاء الاصطناعي.";
+    const reply = data.choices?.[0]?.message?.content || "لم يتم استلام رد.";
 
     return {
       statusCode: 200,
