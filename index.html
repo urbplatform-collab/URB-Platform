@@ -14,7 +14,10 @@
   --surface2:#10142c;
   --surface3:#161b3a;
   --purple:#8b5cf6;
+  --purple2:#7c4dff;
   --cyan:#22d3ee;
+  --cyan2:#00e5ff;
+  --pink:#f472b6;
   --gold:#fbbf24;
   --red:#f87171;
   --green:#34d399;
@@ -24,6 +27,7 @@
   --border2:rgba(255,255,255,0.07);
   --grad:linear-gradient(135deg,var(--purple) 0%,var(--cyan) 100%);
   --glow-p:0 0 40px rgba(139,92,246,0.25);
+  --glow-c:0 0 40px rgba(34,211,238,0.2);
 }
 *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 html{scroll-behavior:smooth}
@@ -32,12 +36,27 @@ body{
   font-family:'Tajawal',sans-serif;
   min-height:100vh;overflow-x:hidden;
 }
-[lang="en"] body, .ltr{font-family:'Space Grotesk','Tajawal',sans-serif}
+[lang="en"] body, [lang="zh"] body, [lang="ja"] body, [lang="ko"] body, .ltr{font-family:'Space Grotesk','Tajawal',sans-serif}
+::selection{background:rgba(139,92,246,0.4)}
+::-webkit-scrollbar{width:8px;height:8px}
+::-webkit-scrollbar-track{background:var(--bg)}
+::-webkit-scrollbar-thumb{background:var(--surface3);border-radius:4px}
 
-/* LAYOUT & NAV */
+/* ═══ STARFIELD ═══ */
+#stars{position:fixed;inset:0;z-index:0;pointer-events:none}
+.float-icons{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden}
+.f-icon{position:absolute;opacity:0.06;font-size:2.4rem;animation:floaty 18s ease-in-out infinite}
+@keyframes floaty{
+  0%,100%{transform:translateY(0) rotate(-6deg)}
+  50%{transform:translateY(-34px) rotate(8deg)}
+}
+
+/* ═══ LAYOUT ═══ */
 .view{display:none;position:relative;z-index:1}
 .view.active{display:block}
+.wrap{max-width:1200px;margin:0 auto;padding:0 24px}
 
+/* ═══ NAV ═══ */
 nav{
   position:sticky;top:0;z-index:90;
   background:rgba(5,6,15,0.75);backdrop-filter:blur(24px);
@@ -48,154 +67,648 @@ nav{
 .logo-mark{
   width:34px;height:34px;border-radius:10px;background:var(--grad);
   display:flex;align-items:center;justify-content:center;font-size:1.05rem;
+  box-shadow:var(--glow-p);
 }
-.logo-name{font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:1.25rem;}
+.logo-name{font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:1.25rem;letter-spacing:-0.5px}
 .logo-name b{background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+.nav-links{display:flex;gap:22px;align-items:center}
+.nav-links a{color:var(--dim);text-decoration:none;font-size:0.88rem;transition:color 0.2s}
+.nav-links a:hover{color:var(--text)}
 .nav-cta{display:flex;gap:10px;align-items:center}
-.btn{border:none;cursor:pointer;font-family:inherit;border-radius:11px;font-weight:700;transition:all 0.22s;display:inline-flex;align-items:center;justify-content:center;gap:8px;}
+.btn{
+  border:none;cursor:pointer;font-family:inherit;border-radius:11px;
+  font-weight:700;transition:all 0.22s;text-decoration:none;
+  display:inline-flex;align-items:center;justify-content:center;gap:8px;
+}
 .btn-grad{background:var(--grad);color:#fff;padding:10px 22px;font-size:0.9rem}
+.btn-grad:hover{transform:translateY(-2px);box-shadow:0 10px 32px rgba(139,92,246,0.45)}
+.btn-ghost{background:rgba(255,255,255,0.04);border:1px solid var(--border2);color:var(--text);padding:10px 20px;font-size:0.88rem}
+.btn-ghost:hover{border-color:var(--purple)}
+.btn-sm{padding:7px 14px;font-size:0.8rem;border-radius:9px}
+.dash-burger{display:none}
+.side-close{display:none}
+@media(max-width:760px){.dash-burger{display:block!important}}
+.hamburger{display:none;background:none;border:1px solid var(--border2);color:var(--text);border-radius:9px;padding:7px 12px;font-size:1.1rem;cursor:pointer}
 
-/* LANG PICKER */
+/* lang picker */
 .lang-pick{position:relative}
 .lang-btn{background:rgba(255,255,255,0.04);border:1px solid var(--border2);color:var(--text);border-radius:10px;padding:8px 14px;font-size:0.82rem;cursor:pointer;display:flex;gap:7px;align-items:center;font-family:inherit}
-.lang-menu{position:absolute;top:110%;inset-inline-end:0;background:var(--surface2);border:1px solid var(--border);border-radius:13px;padding:6px;display:none;flex-direction:column;min-width:160px;z-index:100;max-height:300px;overflow-y:auto;}
+.lang-menu{
+  position:absolute;top:110%;inset-inline-end:0;background:var(--surface2);
+  border:1px solid var(--border);border-radius:13px;padding:6px;
+  display:none;flex-direction:column;min-width:160px;z-index:100;
+  box-shadow:0 20px 50px rgba(0,0,0,0.5);max-height:320px;overflow-y:auto;
+}
 .lang-menu.open{display:flex}
 .lang-opt{background:none;border:none;color:var(--text);padding:9px 13px;border-radius:8px;cursor:pointer;text-align:start;font-size:0.85rem;font-family:inherit;display:flex;gap:9px;align-items:center}
 .lang-opt:hover{background:var(--surface3)}
+.lang-opt.on{background:rgba(139,92,246,0.15);color:var(--purple)}
 
-/* HERO & PRICING */
-.hero{padding:90px 24px 60px;max-width:1200px;margin:0 auto;text-align:center;}
-.hero h1{font-size:3rem;font-weight:700;margin-bottom:20px;}
-.price-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;max-width:1200px;margin:0 auto;padding:40px 24px;}
-.price-card{background:rgba(11,14,32,0.75);border:1px solid var(--border2);border-radius:22px;padding:34px 28px;display:flex;flex-direction:column;position:relative;}
+/* ═══ HERO ═══ */
+.hero{padding:90px 24px 60px;max-width:1200px;margin:0 auto;display:grid;grid-template-columns:1.05fr 0.95fr;gap:48px;align-items:center;min-height:82vh}
+.hero-eyebrow{
+  display:inline-flex;align-items:center;gap:8px;
+  border:1px solid var(--border);border-radius:100px;
+  padding:6px 16px;font-size:0.78rem;color:var(--cyan);
+  font-family:'Space Mono',monospace;margin-bottom:26px;
+  background:rgba(34,211,238,0.05);
+}
+.hero-eyebrow .dot{width:7px;height:7px;border-radius:50%;background:var(--cyan);animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:0.3}}
+.hero h1{
+  font-family:'Space Grotesk','Tajawal',sans-serif;
+  font-size:clamp(2.4rem,5.4vw,4.2rem);
+  line-height:1.06;font-weight:700;letter-spacing:-1.5px;margin-bottom:24px;
+}
+.hero h1 .g1{background:linear-gradient(135deg,#a78bfa,#8b5cf6);-webkit-background-clip:text;background-clip:text;color:transparent}
+.hero h1 .g2{background:linear-gradient(135deg,#22d3ee,#67e8f9);-webkit-background-clip:text;background-clip:text;color:transparent}
+.hero p{color:var(--dim);font-size:1.05rem;line-height:1.85;max-width:480px;margin-bottom:34px}
+.hero-actions{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:44px}
+.btn-hero{padding:15px 30px;font-size:1rem;border-radius:13px}
+.hero-stats{display:flex;gap:34px;flex-wrap:wrap}
+.hstat .n{font-family:'Space Mono',monospace;font-size:1.7rem;font-weight:700;background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+.hstat .l{font-size:0.72rem;color:var(--dim);letter-spacing:1.4px;text-transform:uppercase;margin-top:3px;font-family:'Space Mono',monospace}
 
-/* MODALS */
-.overlay{position:fixed;inset:0;background:rgba(3,4,10,0.82);backdrop-filter:blur(10px);z-index:200;display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity 0.3s;padding:20px;}
+/* terminal demo */
+.term{
+  background:rgba(11,14,32,0.85);border:1px solid var(--border);
+  border-radius:20px;overflow:hidden;backdrop-filter:blur(16px);
+  box-shadow:0 30px 90px rgba(0,0,0,0.55),var(--glow-p);
+}
+.term-bar{display:flex;align-items:center;gap:10px;padding:15px 20px;border-bottom:1px solid var(--border2)}
+.term-dots{display:flex;gap:6px}
+.term-dots span{width:11px;height:11px;border-radius:50%}
+.term-title{font-family:'Space Mono',monospace;font-size:0.72rem;letter-spacing:2px;color:var(--dim)}
+.term-body{padding:24px 22px}
+.term-label{font-family:'Space Mono',monospace;font-size:0.7rem;letter-spacing:1.6px;margin-bottom:9px}
+.term-box{
+  background:rgba(255,255,255,0.025);border:1px solid var(--border2);
+  border-radius:13px;padding:16px 18px;font-family:'Space Mono',monospace;
+  font-size:0.86rem;line-height:1.75;min-height:76px;
+}
+.term-arrow{
+  width:46px;height:46px;border-radius:50%;background:var(--grad);
+  display:flex;align-items:center;justify-content:center;margin:-2px auto;
+  position:relative;z-index:2;box-shadow:var(--glow-p);font-size:1.1rem;color:#fff;
+}
+.term-status{
+  margin-top:18px;display:flex;justify-content:space-between;gap:12px;
+  background:rgba(52,211,153,0.06);border:1px solid rgba(52,211,153,0.2);
+  border-radius:11px;padding:13px 16px;
+  font-family:'Space Mono',monospace;font-size:0.68rem;color:var(--green);
+  letter-spacing:0.6px;flex-wrap:wrap;
+}
+.type-caret::after{content:'▋';animation:pulse 1s infinite}
+
+/* marquee */
+.marquee{overflow:hidden;border-block:1px solid var(--border2);padding:13px 0;position:relative;z-index:1;background:rgba(11,14,32,0.5)}
+.marquee-track{display:inline-flex;gap:52px;white-space:nowrap;animation:mq 28s linear infinite;font-family:'Space Mono',monospace;font-size:0.78rem;letter-spacing:2px;color:var(--dim)}
+.marquee-track b{color:var(--purple)}
+@keyframes mq{from{transform:translateX(0)}to{transform:translateX(50%)}}
+
+/* ═══ SECTIONS ═══ */
+section{padding:84px 24px;position:relative;z-index:1}
+.sec-in{max-width:1200px;margin:0 auto}
+.sec-tag{font-family:'Space Mono',monospace;font-size:0.75rem;letter-spacing:3px;color:var(--cyan);margin-bottom:14px}
+.sec-title{font-family:'Space Grotesk','Tajawal',sans-serif;font-size:clamp(1.7rem,3.4vw,2.6rem);font-weight:700;letter-spacing:-1px;margin-bottom:14px}
+.sec-sub{color:var(--dim);font-size:1rem;max-width:560px;line-height:1.8;margin-bottom:44px}
+
+/* partners strip */
+.partners-strip{display:flex;gap:44px;align-items:center;flex-wrap:wrap;justify-content:center;padding:12px 0}
+.partner-logo{height:44px;opacity:0.55;filter:grayscale(1) brightness(1.6);transition:all 0.3s}
+.partner-logo:hover{opacity:1;filter:none}
+.partner-name{font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:1.05rem;color:var(--dim);opacity:0.7}
+
+/* features */
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.grid2{display:grid;grid-template-columns:repeat(2,1fr);gap:20px}
+.card{
+  background:rgba(11,14,32,0.7);border:1px solid var(--border2);
+  border-radius:18px;padding:30px 26px;backdrop-filter:blur(12px);
+  transition:all 0.28s;position:relative;overflow:hidden;
+}
+.card:hover{border-color:var(--border);transform:translateY(-4px);box-shadow:0 18px 46px rgba(0,0,0,0.4)}
+.card .num{font-family:'Space Mono',monospace;font-size:0.72rem;color:var(--purple);letter-spacing:2px;margin-bottom:16px}
+.card .ic{
+  width:52px;height:52px;border-radius:14px;font-size:1.5rem;
+  background:rgba(139,92,246,0.1);border:1px solid var(--border);
+  display:flex;align-items:center;justify-content:center;margin-bottom:18px;
+}
+.card h3{font-family:'Space Grotesk','Tajawal',sans-serif;font-size:1.15rem;margin-bottom:10px}
+.card p{color:var(--dim);font-size:0.88rem;line-height:1.8}
+
+/* pricing */
+.price-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;align-items:stretch}
+.price-card{
+  background:rgba(11,14,32,0.75);border:1px solid var(--border2);
+  border-radius:22px;padding:34px 28px;display:flex;flex-direction:column;
+  backdrop-filter:blur(12px);transition:all 0.28s;position:relative;
+}
+.price-card:hover{transform:translateY(-5px)}
+.price-card.feat{border:1.5px solid var(--purple);box-shadow:var(--glow-p)}
+.price-badge{
+  position:absolute;top:-13px;inset-inline-start:50%;transform:translateX(50%);
+  background:var(--grad);color:#fff;border-radius:100px;
+  padding:5px 18px;font-size:0.72rem;font-weight:700;white-space:nowrap;
+}
+[dir="ltr"] .price-badge{transform:translateX(-50%)}
+.price-plan{font-family:'Space Mono',monospace;font-size:0.72rem;letter-spacing:2.4px;color:var(--dim);margin-bottom:14px}
+.price-amt{font-family:'Space Grotesk',sans-serif;font-size:2.5rem;font-weight:700;margin-bottom:4px}
+.price-amt .cur{font-size:1.1rem;color:var(--purple);vertical-align:top}
+.price-per{color:var(--dim);font-size:0.8rem;margin-bottom:26px}
+.price-feats{list-style:none;flex:1;margin-bottom:26px}
+.price-feats li{display:flex;gap:10px;padding:9px 0;font-size:0.86rem;color:#c3c9e3;border-bottom:1px solid rgba(255,255,255,0.04)}
+.price-feats li .ck{color:var(--cyan);font-weight:700}
+
+/* workflow */
+.flow{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;counter-reset:step}
+.flow-step{position:relative;padding:26px 20px;background:rgba(11,14,32,0.7);border:1px solid var(--border2);border-radius:16px}
+.flow-step .fnum{
+  font-family:'Space Mono',monospace;width:34px;height:34px;border-radius:10px;
+  background:var(--grad);color:#fff;display:flex;align-items:center;justify-content:center;
+  font-weight:700;font-size:0.85rem;margin-bottom:14px;
+}
+.flow-step h4{font-size:0.98rem;margin-bottom:7px}
+.flow-step p{font-size:0.8rem;color:var(--dim);line-height:1.7}
+
+/* portfolio */
+.pf-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.pf-card{border-radius:18px;overflow:hidden;border:1px solid var(--border2);background:var(--surface);transition:all 0.28s;cursor:pointer}
+.pf-card:hover{transform:translateY(-4px);border-color:var(--border)}
+.pf-img{width:100%;height:190px;object-fit:cover;display:block;background:var(--surface3)}
+.pf-body{padding:18px 20px}
+.pf-cat{font-family:'Space Mono',monospace;font-size:0.68rem;color:var(--cyan);letter-spacing:1.6px;margin-bottom:7px}
+.pf-title{font-weight:700;font-size:1rem}
+
+/* team showcase */
+.tm-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:20px}
+.tm-card{text-align:center;background:rgba(11,14,32,0.7);border:1px solid var(--border2);border-radius:18px;padding:28px 18px;transition:all 0.28s}
+.tm-card:hover{border-color:var(--border);transform:translateY(-4px)}
+.tm-photo{width:92px;height:92px;border-radius:50%;object-fit:cover;margin:0 auto 14px;display:block;border:2px solid var(--purple);background:var(--surface3)}
+.tm-photo-fallback{width:92px;height:92px;border-radius:50%;margin:0 auto 14px;display:flex;align-items:center;justify-content:center;font-size:2rem;font-weight:700;background:var(--grad);color:#fff}
+.tm-name{font-weight:700;margin-bottom:4px}
+.tm-role{font-size:0.78rem;color:var(--dim)}
+
+/* about + contact */
+.about-grid{display:grid;grid-template-columns:1.1fr 0.9fr;gap:44px;align-items:start}
+.about-text{color:#c3c9e3;line-height:2;font-size:0.96rem;white-space:pre-line}
+.contact-card{background:rgba(11,14,32,0.75);border:1px solid var(--border);border-radius:20px;padding:30px}
+.c-row{display:flex;gap:13px;align-items:flex-start;padding:13px 0;border-bottom:1px solid rgba(255,255,255,0.05);font-size:0.9rem}
+.c-row .ci{width:38px;height:38px;border-radius:11px;background:rgba(139,92,246,0.1);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.c-row a{color:var(--cyan);text-decoration:none}
+
+/* footer */
+footer{border-top:1px solid var(--border2);padding:52px 24px 34px;position:relative;z-index:1;background:rgba(5,6,15,0.7)}
+.foot-in{max-width:1200px;margin:0 auto}
+.foot-grid{display:grid;grid-template-columns:1.4fr 1fr 1fr;gap:38px;margin-bottom:38px}
+.foot-col h5{font-family:'Space Mono',monospace;font-size:0.72rem;letter-spacing:2px;color:var(--dim);margin-bottom:16px}
+.foot-col a{display:block;color:#aab2d4;text-decoration:none;font-size:0.86rem;padding:5px 0;transition:color 0.2s}
+.foot-col a:hover{color:var(--cyan)}
+.socials{display:flex;gap:10px;margin-top:18px;flex-wrap:wrap}
+.soc{
+  width:40px;height:40px;border-radius:11px;
+  background:rgba(255,255,255,0.04);border:1px solid var(--border2);
+  display:flex;align-items:center;justify-content:center;
+  color:var(--text);text-decoration:none;font-size:1.05rem;transition:all 0.22s;
+}
+.soc:hover{border-color:var(--purple);transform:translateY(-3px);box-shadow:var(--glow-p)}
+.foot-bottom{display:flex;justify-content:space-between;align-items:center;gap:14px;padding-top:24px;border-top:1px solid rgba(255,255,255,0.05);font-size:0.78rem;color:var(--dim);flex-wrap:wrap}
+.foot-bottom a{color:var(--dim);text-decoration:none}
+.foot-bottom a:hover{color:var(--cyan)}
+
+/* ═══ MODALS ═══ */
+.overlay{
+  position:fixed;inset:0;background:rgba(3,4,10,0.82);backdrop-filter:blur(10px);
+  z-index:200;display:flex;align-items:center;justify-content:center;
+  opacity:0;pointer-events:none;transition:opacity 0.3s;padding:20px;
+}
 .overlay.open{opacity:1;pointer-events:all}
-.panel{background:var(--surface);border:1px solid var(--border);border-radius:22px;width:580px;max-width:96vw;max-height:90vh;overflow-y:auto;box-shadow:0 40px 100px rgba(0,0,0,0.6);}
-.panel-head{padding:19px 24px;border-bottom:1px solid var(--border2);display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;background:var(--surface);z-index:2;}
+.panel{
+  background:var(--surface);border:1px solid var(--border);border-radius:22px;
+  width:580px;max-width:96vw;max-height:90vh;overflow-y:auto;
+  transform:scale(0.96);transition:transform 0.3s;
+  box-shadow:0 40px 100px rgba(0,0,0,0.6);
+}
+.overlay.open .panel{transform:scale(1)}
+.panel-head{
+  padding:19px 24px;border-bottom:1px solid var(--border2);
+  display:flex;align-items:center;justify-content:space-between;
+  position:sticky;top:0;background:var(--surface);z-index:2;border-radius:22px 22px 0 0;
+}
 .panel-title{font-weight:700;font-size:1rem}
-.x-btn{background:none;border:none;color:var(--dim);font-size:1.15rem;cursor:pointer;padding:4px 9px;}
+.x-btn{background:none;border:none;color:var(--dim);font-size:1.15rem;cursor:pointer;padding:4px 9px;border-radius:8px}
+.x-btn:hover{color:var(--text);background:var(--surface3)}
 .panel-body{padding:24px}
 
+/* forms */
 .fg{margin-bottom:16px}
 .fl{display:block;font-family:'Space Mono',monospace;font-size:0.68rem;letter-spacing:1.2px;color:var(--dim);margin-bottom:7px}
-.fi{width:100%;background:var(--surface2);border:1px solid var(--border2);border-radius:11px;padding:12px 15px;color:var(--text);font-size:0.92rem;outline:none;}
+.fi{
+  width:100%;background:var(--surface2);border:1px solid var(--border2);
+  border-radius:11px;padding:12px 15px;color:var(--text);font-size:0.92rem;
+  font-family:'Tajawal',sans-serif;outline:none;transition:all 0.2s;
+}
+.fi:focus{border-color:var(--purple);box-shadow:0 0 0 3px rgba(139,92,246,0.12)}
+.fi::placeholder{color:#5a6285}
+select.fi{cursor:pointer}
+textarea.fi{resize:vertical;min-height:80px}
 .f2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
 .fmsg{display:none;margin-top:12px;padding:11px 15px;border-radius:10px;font-size:0.83rem}
 .fmsg.err{display:block;background:rgba(248,113,113,0.09);border:1px solid rgba(248,113,113,0.3);color:var(--red)}
 .fmsg.ok{display:block;background:rgba(52,211,153,0.09);border:1px solid rgba(52,211,153,0.3);color:var(--green)}
+.fmsg.info{display:block;background:rgba(34,211,238,0.08);border:1px solid rgba(34,211,238,0.25);color:var(--cyan)}
 
-/* DASHBOARDS */
-.dash{display:none;min-height:100vh;}
+/* auth tabs */
+.atabs{display:flex;background:var(--surface2);border-radius:12px;padding:4px;gap:4px;margin-bottom:22px}
+.atab{flex:1;padding:10px;border:none;background:transparent;color:var(--dim);border-radius:9px;cursor:pointer;font-family:inherit;font-size:0.9rem;font-weight:600;transition:all 0.2s}
+.atab.on{background:var(--surface3);color:var(--text);box-shadow:0 2px 10px rgba(0,0,0,0.3)}
+
+/* ═══ DASHBOARDS ═══ */
+.dash{display:none;min-height:100vh;position:relative;z-index:1}
 .dash.active{display:flex;flex-direction:column}
-.dash-top{position:sticky;top:0;z-index:80;background:rgba(5,6,15,0.85);backdrop-filter:blur(20px);border-bottom:1px solid var(--border2);padding:13px 22px;display:flex;align-items:center;justify-content:space-between;}
+.dash-top{
+  position:sticky;top:0;z-index:80;
+  background:rgba(5,6,15,0.85);backdrop-filter:blur(20px);
+  border-bottom:1px solid var(--border2);
+  padding:13px 22px;display:flex;align-items:center;justify-content:space-between;gap:12px;
+}
+.dash-title{font-weight:700;font-size:0.95rem;display:flex;gap:9px;align-items:center}
+.role-chip{font-family:'Space Mono',monospace;font-size:0.62rem;letter-spacing:1.4px;padding:4px 11px;border-radius:100px}
+.role-client{background:rgba(34,211,238,0.12);color:var(--cyan);border:1px solid rgba(34,211,238,0.3)}
+.role-team{background:rgba(139,92,246,0.12);color:var(--purple);border:1px solid rgba(139,92,246,0.35)}
+.role-vendor{background:rgba(251,191,36,0.1);color:var(--gold);border:1px solid rgba(251,191,36,0.3)}
+.role-admin{background:rgba(248,113,113,0.1);color:var(--red);border:1px solid rgba(248,113,113,0.3)}
 .dash-body{flex:1;display:flex;max-width:1400px;width:100%;margin:0 auto}
-.dash-side{width:230px;flex-shrink:0;border-inline-end:1px solid var(--border2);padding:20px 14px;display:flex;flex-direction:column;gap:4px;}
-.side-item{display:flex;align-items:center;gap:11px;padding:11px 15px;border-radius:11px;color:var(--dim);cursor:pointer;font-size:0.88rem;background:none;border:none;width:100%;text-align:start;}
-.side-item.on{background:rgba(139,92,246,0.1);color:var(--text);border:1px solid var(--border)}
-.dash-main{flex:1;padding:26px;min-width:0}
+.dash-side{
+  width:230px;flex-shrink:0;border-inline-end:1px solid var(--border2);
+  padding:20px 14px;display:flex;flex-direction:column;gap:4px;
+}
+.side-item{
+  display:flex;align-items:center;gap:11px;padding:11px 15px;border-radius:11px;
+  color:var(--dim);cursor:pointer;font-size:0.88rem;transition:all 0.2s;border:1px solid transparent;
+  background:none;font-family:inherit;text-align:start;width:100%;
+}
+.side-item:hover{color:var(--text);background:rgba(255,255,255,0.03)}
+.side-item.on{background:rgba(139,92,246,0.1);color:var(--text);border-color:var(--border)}
+.side-lbl{font-family:'Space Mono',monospace;font-size:0.62rem;letter-spacing:2px;color:#4a5378;padding:14px 15px 5px}
+.dash-main{flex:1;padding:26px 26px 60px;min-width:0}
+.dpage{display:none}
+.dpage.active{display:block}
 
+/* stat cards */
 .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:15px;margin-bottom:26px}
-.stat{background:rgba(11,14,32,0.75);border:1px solid var(--border2);border-radius:15px;padding:19px 20px;}
-.stat .sl{font-family:'Space Mono',monospace;font-size:0.62rem;color:var(--dim);}
+.stat{
+  background:rgba(11,14,32,0.75);border:1px solid var(--border2);
+  border-radius:15px;padding:19px 20px;position:relative;overflow:hidden;
+}
+.stat::after{content:'';position:absolute;top:0;inset-inline-start:0;width:3px;height:100%;background:var(--grad)}
+.stat .sl{font-family:'Space Mono',monospace;font-size:0.62rem;letter-spacing:1.6px;color:var(--dim);margin-bottom:9px}
 .stat .sv{font-family:'Space Mono',monospace;font-size:1.65rem;font-weight:700}
+.stat .ss{font-size:0.72rem;color:var(--dim);margin-top:4px}
 
-.dcard{background:rgba(11,14,32,0.75);border:1px solid var(--border2);border-radius:17px;overflow:hidden}
-.dcard-head{padding:16px 20px;border-bottom:1px solid var(--border2);display:flex;align-items:center;justify-content:space-between;}
+/* data cards / rows */
+.dcard{background:rgba(11,14,32,0.75);border:1px solid var(--border2);border-radius:17px;margin-bottom:20px;overflow:hidden}
+.dcard-head{padding:16px 20px;border-bottom:1px solid var(--border2);display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap}
+.dcard-title{font-weight:700;font-size:0.92rem}
 .dcard-body{padding:18px 20px}
-.mini-btn{background:var(--surface3);border:1px solid var(--border2);color:#c3c9e3;padding:7px 13px;border-radius:9px;font-size:0.76rem;cursor:pointer;}
+.row-item{
+  display:flex;align-items:center;justify-content:space-between;gap:12px;
+  background:var(--surface2);border:1px solid var(--border2);
+  border-radius:13px;padding:15px 17px;margin-bottom:11px;transition:all 0.2s;
+}
+.row-item:hover{border-color:var(--border)}
+.badge{display:inline-flex;align-items:center;gap:5px;padding:4px 11px;border-radius:7px;font-size:0.68rem;font-family:'Space Mono',monospace;font-weight:700;white-space:nowrap}
+.b-purple{background:rgba(139,92,246,0.13);color:#b79cff}
+.b-cyan{background:rgba(34,211,238,0.12);color:var(--cyan)}
+.b-gold{background:rgba(251,191,36,0.12);color:var(--gold)}
+.b-green{background:rgba(52,211,153,0.12);color:var(--green)}
+.b-red{background:rgba(248,113,113,0.12);color:var(--red)}
+.b-dim{background:rgba(255,255,255,0.06);color:var(--dim)}
+.mini-btn{
+  background:var(--surface3);border:1px solid var(--border2);color:#c3c9e3;
+  padding:7px 13px;border-radius:9px;font-size:0.76rem;cursor:pointer;
+  font-family:'Tajawal',sans-serif;transition:all 0.2s;white-space:nowrap;
+}
+.mini-btn:hover{border-color:var(--purple);color:var(--text)}
 .mini-btn.mm{background:var(--grad);color:#fff;border:none;font-weight:700}
+.mini-btn.dg:hover{border-color:var(--red);color:var(--red)}
+.prog{height:5px;background:rgba(255,255,255,0.07);border-radius:3px;overflow:hidden;margin:10px 0}
+.prog i{display:block;height:100%;background:var(--grad);border-radius:3px;transition:width 0.7s}
+.empty{text-align:center;padding:46px 18px;color:var(--dim)}
+.empty .ei{font-size:2.4rem;margin-bottom:12px;opacity:0.5}
 
-/* BOT */
-.chat-widget-btn{position:fixed;bottom:20px;left:20px;background:linear-gradient(135deg,#6366f1,#a855f7);color:white;border:none;border-radius:50px;padding:12px 20px;font-weight:bold;cursor:pointer;z-index:99999;}
-.chat-box{position:fixed;bottom:80px;left:20px;width:360px;height:500px;background:#131525;border:1px solid rgba(255,255,255,0.1);border-radius:16px;display:none;flex-direction:column;z-index:99999;color:#fff;}
-.chat-header{background:#1a1d36;padding:16px;display:flex;justify-content:space-between;}
-.chat-messages{flex:1;padding:16px;overflow-y:auto;display:flex;flex-direction:column;gap:12px;}
-.message{max-width:80%;padding:10px 14px;border-radius:12px;font-size:14px;}
-.message.user{background:#6366f1;color:white;align-self:flex-start;}
-.message.bot{background:#222643;color:#e2e8f0;align-self:flex-end;}
-.chat-input-area{padding:12px;background:#1a1d36;display:flex;gap:8px;}
-.chat-input{flex:1;background:#0b0d17;border:1px solid rgba(255,255,255,0.1);border-radius:8px;padding:10px;color:white;outline:none;}
-.send-btn{background:linear-gradient(135deg,#6366f1,#a855f7);color:white;border:none;border-radius:8px;width:42px;cursor:pointer;}
+/* toast */
+.toast{
+  position:fixed;bottom:26px;left:50%;transform:translateX(-50%) translateY(80px);
+  background:var(--surface3);border:1px solid var(--purple);color:#d9ccff;
+  padding:12px 26px;border-radius:12px;font-size:0.85rem;z-index:999;
+  transition:transform 0.32s;box-shadow:var(--glow-p);white-space:nowrap;max-width:92vw;
+  overflow:hidden;text-overflow:ellipsis;
+}
+.toast.show{transform:translateX(-50%) translateY(0)}
+
+/* ═══ URB BOT STYLES ═══ */
+.chat-widget-btn {
+  position: fixed;
+  bottom: 20px;
+  left: 20px;
+  background: linear-gradient(135deg, #6366f1, #a855f7);
+  color: white;
+  border: none;
+  border-radius: 50px;
+  padding: 12px 20px;
+  font-size: 15px;
+  font-weight: bold;
+  cursor: pointer;
+  box-shadow: 0 10px 25px rgba(99, 102, 241, 0.4);
+  z-index: 99999;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-family: sans-serif;
+}
+.chat-widget-btn:hover { transform: translateY(-3px); }
+.chat-box {
+  position: fixed;
+  bottom: 80px;
+  left: 20px;
+  width: 360px;
+  max-width: 90vw;
+  height: 500px;
+  background: #131525;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 16px;
+  box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+  display: none;
+  flex-direction: column;
+  z-index: 99999;
+  overflow: hidden;
+  font-family: sans-serif;
+  color: #fff;
+}
+.chat-header { background: #1a1d36; padding: 16px; display: flex; justify-content: space-between; align-items: center; }
+.chat-header h3 { margin: 0; font-size: 16px; color: #fff; display: flex; align-items: center; gap: 8px; }
+.close-btn { background: none; border: none; color: #a0a5ba; font-size: 20px; cursor: pointer; }
+.chat-messages { flex: 1; padding: 16px; overflow-y: auto; display: flex; flex-direction: column; gap: 12px; }
+.message { max-width: 80%; padding: 10px 14px; border-radius: 12px; font-size: 14px; line-height: 1.5; }
+.message.user { background: #6366f1; color: white; align-self: flex-start; border-bottom-left-radius: 2px; }
+.message.bot { background: #222643; color: #e2e8f0; align-self: flex-end; border-bottom-right-radius: 2px; }
+.chat-input-area { padding: 12px; background: #1a1d36; display: flex; gap: 8px; align-items: center; }
+.chat-input { flex: 1; background: #0b0d17; border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 8px; padding: 10px 12px; color: white; outline: none; font-size: 14px; }
+.send-btn { 
+  background: linear-gradient(135deg, #6366f1, #a855f7); 
+  color: white; border: none; border-radius: 8px; width: 42px; height: 38px;
+  display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 16px; transition: 0.2s;
+}
 </style>
 </head>
 <body>
 
-<!-- LANDING VIEW -->
+<canvas id="stars"></canvas>
+<div class="float-icons" id="floatIcons"></div>
+
+<!-- ═══════════ LANDING VIEW ═══════════ -->
 <div class="view active" id="view-landing">
+
 <nav>
   <div class="nav-inner">
-    <div class="logo">
+    <div class="logo" onclick="scrollTo({top:0,behavior:'smooth'})">
       <div class="logo-mark">🎮</div>
       <div class="logo-name">عُرب <b>URB</b></div>
+    </div>
+    <div class="nav-links" id="navLinks" onclick="if(event.target.tagName==='A')this.classList.remove('mob-open')">
+      <a href="#tech" data-i18n="nav_engine">التقنية</a>
+      <a href="#packages" data-i18n="nav_packages">الباقات</a>
+      <a href="#workflow" data-i18n="nav_workflow">آلية العمل</a>
+      <a href="#portfolio" id="nav-portfolio" style="display:none" data-i18n="nav_portfolio">أعمالنا</a>
+      <a href="#about" data-i18n="nav_about">من نحن</a>
+      <a href="#contact" data-i18n="nav_contact">تواصل</a>
     </div>
     <div class="nav-cta">
       <div class="lang-pick">
         <button class="lang-btn" onclick="toggleLangMenu(event)"><span id="langFlag">🇸🇦</span> <span id="langName">العربية</span> ▾</button>
         <div class="lang-menu" id="langMenu"></div>
       </div>
-      <button class="btn btn-grad" onclick="openAuth()" data-i18n="nav_login">🔐 دخول</button>
+      <button class="btn btn-grad btn-sm" onclick="openAuth()" data-i18n="nav_login">🔐 دخول</button>
+      <button class="hamburger" onclick="document.getElementById('navLinks').classList.toggle('mob-open')">☰</button>
     </div>
   </div>
 </nav>
 
+<!-- NEWS BAR -->
+<div class="marquee" id="newsBar" style="display:none;background:rgba(34,211,238,0.05);border-block-color:rgba(34,211,238,0.15);">
+  <div class="marquee-track" id="newsTrack" style="color:var(--cyan);"></div>
+</div>
+
+<!-- HERO -->
 <div class="hero">
-  <h1><span data-i18n="hero_1">صُنعت للألعاب.</span> <span style="color:var(--cyan);" data-i18n="hero_2">دُرّبت بالبشر.</span></h1>
-  <p data-i18n="hero_sub">منصة توطين ذكية تجمع قوة الذكاء الاصطناعي مع الدقة الثقافية السعودية.</p>
-  <button class="btn btn-grad" onclick="openAuth('signup')" data-i18n="hero_cta1">🚀 أطلق حزمة جديدة</button>
+  <div>
+    <div class="hero-eyebrow"><span class="dot"></span> AI-POWERED LOCALIZATION</div>
+    <h1><span data-i18n="hero_1">صُنعت للألعاب.</span><br><span class="g1" data-i18n="hero_2">دُرّبت</span> <span class="g2" data-i18n="hero_3">بالبشر.</span></h1>
+    <p data-i18n="hero_sub">منصة توطين ذكية تدمج قوة الذكاء الاصطناعي مع الدقة الثقافية السعودية — لتجعل العربية لغةً أصيلة في كل عالم افتراضي.</p>
+    <div class="hero-actions">
+      <button class="btn btn-grad btn-hero" onclick="openAuth('signup')" data-i18n="hero_cta1">🚀 أطلق حزمة جديدة</button>
+      <a href="#tech" class="btn btn-ghost btn-hero" data-i18n="hero_cta2">شاهد التقنية ›_</a>
+    </div>
+    <div class="hero-stats">
+      <div class="hstat"><div class="n">99.8%</div><div class="l" data-i18n="hs1">Context Accuracy</div></div>
+      <div class="hstat"><div class="n">450M+</div><div class="l" data-i18n="hs2">Words Trained</div></div>
+      <div class="hstat"><div class="n">14ms</div><div class="l" data-i18n="hs3">Engine Latency</div></div>
+    </div>
+  </div>
+
+  <div class="term">
+    <div class="term-bar">
+      <span style="color:var(--cyan);font-size:1.1rem;">⛶</span>
+      <span class="term-title">URB_LOCALIZATION</span>
+      <div class="term-dots" style="margin-inline-start:auto;">
+        <span style="background:#f87171"></span><span style="background:#fbbf24"></span><span style="background:#34d399"></span>
+      </div>
+    </div>
+    <div class="term-body">
+      <div class="term-label" style="color:var(--purple);">// SOURCE_EN</div>
+      <div class="term-box" dir="ltr" id="demoSrc">Critical biological failure detected. Re-initiating neural link...</div>
+      <div class="term-arrow">↓</div>
+      <div class="term-label" style="color:var(--cyan);margin-top:9px;" id="demoLabel">// URB PROPOSAL_AR (Saudi dialect)</div>
+      <div class="term-box" dir="rtl"><span id="demoOut" class="type-caret" style="color:#a5f3fc;"></span></div>
+      <div class="term-status">
+        <span>● HUMAN_IN_THE_LOOP: ENABLED</span>
+        <span>ENGINE_STATUS: READY</span>
+      </div>
+    </div>
+  </div>
 </div>
 
-<div class="price-grid" id="priceGrid"></div>
-</div>
+<!-- MARQUEE -->
+<div class="marquee"><div class="marquee-track"><span>عُرب <b>URB</b> ★ BUILT FOR GAMES ★ TRAINED BY HUMANS ★ توطين بروح عربية ★ AI + HUMAN REVIEW ★ 12 LANGUAGES ★ SAUDI • EGYPTIAN • ALGERIAN DIALECTS ★&nbsp;</span><span>عُرب <b>URB</b> ★ BUILT FOR GAMES ★ TRAINED BY HUMANS ★ توطين بروح عربية ★ AI + HUMAN REVIEW ★ 12 LANGUAGES ★ SAUDI • EGYPTIAN • ALGERIAN DIALECTS ★&nbsp;</span></div></div>
 
-<!-- CLIENT DASHBOARD -->
+<!-- TECH / ENGINE -->
+<section id="tech">
+  <div class="sec-in">
+    <div class="sec-tag">// THE ENGINE</div>
+    <h2 class="sec-title" data-i18n="tech_title">ثلاثة محاور، قوة واحدة</h2>
+    <p class="sec-sub" data-i18n="tech_sub">بنية توطين متكاملة تضمن أعلى جودة للألعاب العربية.</p>
+    <div class="grid3" id="pillarsGrid">
+      <div class="card">
+        <div class="num">01</div><div class="ic">🧠</div>
+        <h3>URB-AI</h3>
+        <p data-i18n="tech_1">نموذج مخصص لعالم الألعاب يتعلم من كل مشروع ويحسّن دقته أسبوعياً — بفهم عميق لسياق وثقافة اللعب العربي.</p>
+      </div>
+      <div class="card">
+        <div class="num">02</div><div class="ic">🎭</div>
+        <h3>Multimodal AI</h3>
+        <p data-i18n="tech_2">معالجة متكاملة للنصوص والصوت والصور — استخراج النصوص من الصور مع الحفاظ على التصميم الأصلي تماماً.</p>
+      </div>
+      <div class="card">
+        <div class="num">03</div><div class="ic">🔄</div>
+        <h3>Human-in-the-Loop</h3>
+        <p data-i18n="tech_3">بيئة عمل موحدة تُمكّن المترجم من المراجعة والتعديل وإعادة التدريب — الآلة تقترح والإنسان يقرر.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PACKAGES -->
+<section id="packages" style="background:rgba(11,14,32,0.4);">
+  <div class="sec-in">
+    <div class="sec-tag">// PACKAGES</div>
+    <h2 class="sec-title" data-i18n="pk_title">باقة لكل طموح</h2>
+    <p class="sec-sub" data-i18n="pk_sub">من التوطين الآلي السريع إلى حملات الإطلاق الكاملة.</p>
+    <div class="price-grid" id="priceGrid">
+      <div class="empty" style="grid-column:1/-1;">⟳</div>
+    </div>
+  </div>
+</section>
+
+<!-- WORKFLOW -->
+<section id="workflow">
+  <div class="sec-in">
+    <div class="sec-tag">// WORKFLOW</div>
+    <h2 class="sec-title" data-i18n="wf_title">من الرفع إلى الإطلاق</h2>
+    <p class="sec-sub" data-i18n="wf_sub">رحلة حزمتك عبر منظومة عُرب.</p>
+    <div class="flow">
+      <div class="flow-step"><div class="fnum">1</div><h4 data-i18n="wf_1">أرسل حزمتك</h4><p data-i18n="wf_1s">ارفع ملفات لعبتك وحدد اللغات المستهدفة والموعد.</p></div>
+      <div class="flow-step"><div class="fnum">2</div><h4 data-i18n="wf_2">معالجة AI</h4><p data-i18n="wf_2s">محرك URB يترجم مع الحفاظ على السياق والمصطلحات.</p></div>
+      <div class="flow-step"><div class="fnum">3</div><h4 data-i18n="wf_3">مراجعة بشرية</h4><p data-i18n="wf_3s">خبراء لغويون يدققون الدقة الثقافية وجودة التجربة.</p></div>
+      <div class="flow-step"><div class="fnum">4</div><h4 data-i18n="wf_4">تسليم وإطلاق</h4><p data-i18n="wf_4s">حزمة جاهزة للدمج — مع دعم تسويقي في باقة PLUS.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT + CONTACT -->
+<section id="about" style="background:rgba(11,14,32,0.4);">
+  <div class="sec-in">
+    <div class="about-grid">
+      <div>
+        <div class="sec-tag">// ABOUT US</div>
+        <h2 class="sec-title" data-i18n="ab_title">من نحن</h2>
+        <div class="about-text" id="aboutText" data-i18n="ab_default">عُرب URB منصة سعودية متخصصة في توطين ألعاب الفيديو، تجمع بين قوة الذكاء الاصطناعي والخبرة البشرية عشان توصلك تجربة عربية أصيلة لكل لاعب.</div>
+      </div>
+      <div class="contact-card" id="contact">
+        <h3 style="margin-bottom:16px;font-size:1.05rem;" data-i18n="ct_title">📡 تواصل معنا</h3>
+        <div class="c-row"><div class="ci">✉️</div><div><div style="font-size:0.7rem;color:var(--dim);font-family:'Space Mono',monospace;margin-bottom:3px;">EMAIL</div><a id="ctEmail" href="#">—</a></div></div>
+        <div class="c-row"><div class="ci">📞</div><div><div style="font-size:0.7rem;color:var(--dim);font-family:'Space Mono',monospace;margin-bottom:3px;">PHONE</div><a id="ctPhone" href="#">—</a></div></div>
+        <div class="c-row" style="border-bottom:none;"><div class="ci">📍</div><div><div style="font-size:0.7rem;color:var(--dim);font-family:'Space Mono',monospace;margin-bottom:3px;">ADDRESS</div><span id="ctAddress" style="color:#c3c9e3;">—</span></div></div>
+        <div class="socials" id="socialIcons"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="foot-in">
+    <div class="foot-bottom">
+      <span>© 2026 عُرب URB — All rights reserved</span>
+      <span style="font-family:'Space Mono',monospace;font-size:0.68rem;">ENGINE_STATUS: <span style="color:var(--green);">ONLINE ●</span></span>
+    </div>
+  </div>
+</footer>
+
+</div><!-- /landing -->
+
+<!-- ═══════════ CLIENT DASHBOARD ═══════════ -->
 <div class="dash" id="dash-client">
   <div class="dash-top">
-    <div style="font-weight:700;"><span>URB</span> <span style="color:var(--cyan);">CLIENT</span></div>
+    <div class="dash-title"><button class="hamburger dash-burger" onclick="toggleSide('client')">☰</button> <span>URB</span> <span class="role-chip role-client">CLIENT</span></div>
     <div style="display:flex;gap:12px;align-items:center;">
       <div class="lang-pick">
         <button class="lang-btn" onclick="toggleLangMenu(event)"><span id="clLangFlag">🇸🇦</span> <span id="clLangName">العربية</span> ▾</button>
         <div class="lang-menu" id="clLangMenu"></div>
       </div>
       <span id="cl-name" style="font-size:0.82rem;color:var(--dim);"></span>
-      <button class="mini-btn" onclick="doLogout()"><span data-i18n="btn_logout">خروج ↩</span></button>
+      <button class="mini-btn dg" onclick="doLogout()"><span data-i18n="btn_logout">خروج ↩</span></button>
     </div>
   </div>
   <div class="dash-body">
-    <div class="dash-side">
-      <button class="side-item on"><span data-i18n="dash_overview">📊 لوحتي</span></button>
+    <div class="dash-side" id="side-client">
+      <div class="side-close"><b style="font-size:0.9rem;">عُرب URB</b><button class="x-btn" onclick="toggleSide('client')">✕</button></div>
+      <div class="side-lbl">MAIN</div>
+      <button class="side-item on" onclick="dPage('client','overview',this)"><span data-i18n="dash_overview">📊 لوحتي</span></button>
+      <button class="side-item" onclick="dPage('client','packages',this)"><span data-i18n="dash_pkgs">📦 حزمي</span></button>
       <button class="side-item" onclick="openCreatePkg()"><span data-i18n="dash_new_pkg">➕ حزمة جديدة</span></button>
+      <div class="side-lbl">TOOLS</div>
+      <button class="side-item" onclick="dPage('client','glossary',this)"><span data-i18n="dash_glossary">📖 المصطلحات</span></button>
+      <button class="side-item" onclick="dPage('client','profile',this)"><span data-i18n="dash_profile">👤 ملفي</span></button>
     </div>
+    <div class="side-overlay" id="sideov-client" onclick="toggleSide('client')"></div>
     <div class="dash-main">
-      <div class="stats">
-        <div class="stat"><div class="sl" data-i18n="st_pkgs">PACKAGES</div><div class="sv" id="cs-total">0</div></div>
-        <div class="stat"><div class="sl" data-i18n="st_proc">IN PROGRESS</div><div class="sv" id="cs-proc">0</div></div>
-        <div class="stat"><div class="sl" data-i18n="st_done">COMPLETED</div><div class="sv" id="cs-done">0</div></div>
-        <div class="stat"><div class="sl" data-i18n="st_words">WORDS</div><div class="sv" id="cs-words">0</div></div>
-      </div>
-      <div class="dcard">
-        <div class="dcard-head"><div style="font-weight:700;" data-i18n="recent_pkgs">📦 أحدث الحزم</div><button class="mini-btn mm" onclick="openCreatePkg()" data-i18n="dash_new_pkg">➕ حزمة جديدة</button></div>
-        <div class="dcard-body" id="cl-recent"></div>
+      <div class="dpage active" id="client-overview">
+        <div class="stats">
+          <div class="stat"><div class="sl" data-i18n="st_pkgs">PACKAGES</div><div class="sv" style="color:var(--purple);" id="cs-total">0</div><div class="ss" data-i18n="st_pkgs_sub">إجمالي الحزم</div></div>
+          <div class="stat"><div class="sl" data-i18n="st_proc">IN PROGRESS</div><div class="sv" style="color:var(--cyan);" id="cs-proc">0</div><div class="ss" data-i18n="st_proc_sub">قيد التنفيذ</div></div>
+          <div class="stat"><div class="sl" data-i18n="st_done">COMPLETED</div><div class="sv" style="color:var(--green);" id="cs-done">0</div><div class="ss" data-i18n="st_done_sub">مكتملة</div></div>
+          <div class="stat"><div class="sl" data-i18n="st_words">WORDS</div><div class="sv" style="color:var(--gold);" id="cs-words">0</div><div class="ss" data-i18n="st_words_sub">كلمة مقدرة</div></div>
+        </div>
+        <div class="dcard">
+          <div class="dcard-head">
+            <div class="dcard-title" data-i18n="recent_pkgs">📦 أحدث الحزم</div>
+            <button class="mini-btn mm" onclick="openCreatePkg()" data-i18n="dash_new_pkg">➕ حزمة جديدة</button>
+          </div>
+          <div class="dcard-body" id="cl-recent"></div>
+        </div>
       </div>
     </div>
   </div>
 </div>
 
+<!-- ═══════════ MODALS ═══════════ -->
+
 <!-- AUTH MODAL -->
 <div class="overlay" id="authModal">
-  <div class="panel">
-    <div class="panel-head"><div class="panel-title">🔐 <span data-i18n="auth_title">الدخول إلى عُرب URB</span></div><button class="x-btn" onclick="closeM('authModal')">✕</button></div>
+  <div class="panel" style="width:460px;">
+    <div class="panel-head">
+      <div class="panel-title">🔐 <span data-i18n="auth_title">الدخول إلى عُرب URB</span></div>
+      <button class="x-btn" onclick="closeM('authModal')">✕</button>
+    </div>
     <div class="panel-body">
-      <div class="fg"><label class="fl">EMAIL</label><input class="fi" type="email" id="li-email"></div>
-      <div class="fg"><label class="fl">PASSWORD</label><input class="fi" type="password" id="li-pass"></div>
-      <button class="btn btn-grad" style="width:100%;padding:13px;" onclick="doLogin()" data-i18n="tab_login">🔐 دخول</button>
+      <div class="atabs">
+        <button class="atab on" id="at-login" onclick="authTab('login')" data-i18n="tab_login">دخول</button>
+        <button class="atab" id="at-signup" onclick="authTab('signup')" data-i18n="tab_signup">حساب جديد</button>
+      </div>
+      <div id="f-login">
+        <div class="fg"><label class="fl">EMAIL</label><input class="fi" type="email" id="li-email" style="direction:ltr;" placeholder="you@studio.com"></div>
+        <div class="fg"><label class="fl">PASSWORD</label><input class="fi" type="password" id="li-pass" onkeydown="if(event.key==='Enter')doLogin()"></div>
+        <button class="btn btn-grad" style="width:100%;padding:13px;" id="li-btn" onclick="doLogin()" data-i18n="tab_login">🔐 دخول</button>
+      </div>
+      <div id="f-signup" style="display:none;">
+        <div class="f2">
+          <div class="fg"><label class="fl">FULL NAME</label><input class="fi" id="su-name"></div>
+          <div class="fg"><label class="fl">COMPANY / STUDIO</label><input class="fi" id="su-company"></div>
+        </div>
+        <div class="fg"><label class="fl">EMAIL</label><input class="fi" type="email" id="su-email" style="direction:ltr;"></div>
+        <div class="f2">
+          <div class="fg"><label class="fl">COUNTRY</label><input class="fi" id="su-country" placeholder="Saudi Arabia"></div>
+          <div class="fg"><label class="fl">PASSWORD</label><input class="fi" type="password" id="su-pass" placeholder="6+"></div>
+        </div>
+        <button class="btn btn-grad" style="width:100%;padding:13px;" id="su-btn" onclick="doSignup()" data-i18n="signup_btn">🚀 إنشاء حساب</button>
+      </div>
       <div class="fmsg" id="auth-msg"></div>
     </div>
   </div>
 </div>
 
-<!-- CREATE PACKAGE MODAL (FULL 12 LANGUAGES SUPPORT) -->
+<!-- CREATE PACKAGE MODAL (FILES LINK OPTION INSTEAD OF DIRECT UPLOAD) -->
 <div class="overlay" id="pkgModal">
   <div class="panel" style="width:600px;">
     <div class="panel-head">
@@ -204,7 +717,7 @@ nav{
     </div>
     <div class="panel-body">
       <div class="fg">
-        <label class="fl" data-i18n="fl_pkg_plan">PACKAGE PLAN</label>
+        <label class="fl" data-i18n="fl_pkg_plan">PACKAGE PLAN / الباقة</label>
         <select class="fi" id="np-plan">
           <option value="URB AI System">URB AI System</option>
           <option value="URB AI + Human Auditing">URB AI + Human Auditing</option>
@@ -213,11 +726,11 @@ nav{
       </div>
       <div class="f2">
         <div class="fg">
-          <label class="fl" data-i18n="fl_game_name">GAME NAME *</label>
+          <label class="fl" data-i18n="fl_game_name">GAME NAME / اسم اللعبة *</label>
           <input class="fi" id="np-name">
         </div>
         <div class="fg">
-          <label class="fl" data-i18n="fl_game_engine">GAME ENGINE</label>
+          <label class="fl" data-i18n="fl_game_engine">GAME ENGINE / محرك اللعبة</label>
           <select class="fi" id="np-engine">
             <option value="">— Select Engine —</option>
             <option>Unity</option>
@@ -229,38 +742,38 @@ nav{
         </div>
       </div>
       <div class="fg">
-        <label class="fl" data-i18n="fl_game_desc">GAME DESCRIPTION</label>
+        <label class="fl" data-i18n="fl_game_desc">GAME DESCRIPTION / وصف اللعبة</label>
         <textarea class="fi" id="np-desc" rows="2"></textarea>
       </div>
       <div class="f2">
         <div class="fg">
-          <label class="fl" data-i18n="fl_platforms">PLATFORMS</label>
+          <label class="fl" data-i18n="fl_platforms">PLATFORMS / المنصات</label>
           <input class="fi" id="np-platforms" placeholder="PC, PS5, Mobile">
         </div>
         <div class="fg">
-          <label class="fl" data-i18n="fl_langs">TARGET LANGUAGES</label>
+          <label class="fl" data-i18n="fl_langs">TARGET LANGUAGES / اللغات المستهدفة</label>
           <input class="fi" id="np-langs" placeholder="Arabic, Japanese...">
         </div>
       </div>
       <div class="f2">
         <div class="fg">
-          <label class="fl" data-i18n="fl_words">ESTIMATED WORDS</label>
+          <label class="fl" data-i18n="fl_words">ESTIMATED WORDS / الكلمات المقدرة</label>
           <input class="fi" type="number" id="np-words">
         </div>
         <div class="fg">
-          <label class="fl" data-i18n="fl_deadline">DEADLINE</label>
+          <label class="fl" data-i18n="fl_deadline">DEADLINE / الموعد النهائي</label>
           <input class="fi" type="date" id="np-deadline">
         </div>
       </div>
       
-      <!-- FILES LINK -->
+      <!-- LINK FIELD FOR FILES (PREVENTS STORAGE ISSUES) -->
       <div class="fg">
-        <label class="fl" data-i18n="fl_files_link">FILES LINK (Google Drive / Dropbox / WeTransfer)</label>
+        <label class="fl" data-i18n="fl_files_link">FILES LINK / رابط ملفات اللعبة (Google Drive, Dropbox, WeTransfer)</label>
         <input class="fi" id="np-filelink" placeholder="https://drive.google.com/..." style="direction:ltr;">
       </div>
 
       <div class="fg">
-        <label class="fl" data-i18n="fl_notes">NOTES</label>
+        <label class="fl" data-i18n="fl_notes">NOTES / ملاحظات إضافية</label>
         <textarea class="fi" id="np-notes" rows="2"></textarea>
       </div>
       
@@ -270,16 +783,25 @@ nav{
   </div>
 </div>
 
-<!-- BOT -->
-<button class="chat-widget-btn" onclick="toggleChat()">🤖 URB bot</button>
+<!-- ═══════════ URB BOT COMPONENT (12 LANGUAGES) ═══════════ -->
+<button class="chat-widget-btn" onclick="toggleChat()">
+  <span>🤖</span>
+  <span>URB bot</span>
+</button>
+
 <div class="chat-box" id="chatBox">
-  <div class="chat-header"><h3>🤖 URB bot</h3><button style="background:none;border:none;color:#fff;cursor:pointer;" onclick="toggleChat()">✕</button></div>
+  <div class="chat-header">
+    <h3>🤖 URB bot</h3>
+    <button class="close-btn" onclick="toggleChat()">✕</button>
+  </div>
   <div class="chat-messages" id="chatMessages"></div>
   <div class="chat-input-area">
-    <input type="text" id="userInput" class="chat-input" placeholder="Ask something...">
-    <button class="send-btn" onclick="sendMessage()">➤</button>
+    <input type="text" id="userInput" class="chat-input" placeholder="اكتب سؤالك هنا..." onkeypress="if(event.key==='Enter') sendMessage()">
+    <button class="send-btn" id="sendBtn" onclick="sendMessage()" title="إرسال">➤</button>
   </div>
 </div>
+
+<div class="toast" id="toast"></div>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
@@ -300,15 +822,47 @@ const LANGS = {
   ru:{n:'Русский',f:'🇷🇺',d:'ltr'}, de:{n:'Deutsch',f:'🇩🇪',d:'ltr'}
 };
 
-/* COMPREHENSIVE DICTIONARY FOR 12 LANGUAGES */
+/* COMPREHENSIVE DICTIONARY FOR 12 LANGUAGES FOR ALL UI ELEMENTS */
 const T = {
+  nav_engine: { ar:'التقنية', en:'Engine', zh:'技术引擎', ja:'エンジン', ko:'엔진', ur:'ٹیکنالوجی', fr:'Technologie', it:'Tecnologia', es:'Tecnología', pt:'Tecnologia', ru:'Технология', de:'Engine' },
+  nav_packages: { ar:'الباقات', en:'Packages', zh:'套餐', ja:'パッケージ', ko:'패키지', ur:'پیکجز', fr:'Offres', it:'Pacchetti', es:'Paquetes', pt:'Pacotes', ru:'Пакеты', de:'Pakete' },
+  nav_workflow: { ar:'آلية العمل', en:'Workflow', zh:'工作流程', ja:'ワークフロー', ko:'워크플로우', ur:'ورک فلو', fr:'Processus', it:'Processo', es:'Proceso', pt:'Processo', ru:'Процесс', de:'Ablauf' },
+  nav_about: { ar:'من نحن', en:'About', zh:'关于我们', ja:'会社概要', ko:'소개', ur:'ہمارے بارے', fr:'À propos', it:'Chi siamo', es:'Nosotros', pt:'Sobre', ru:'О нас', de:'Über uns' },
+  nav_contact: { ar:'تواصل', en:'Contact', zh:'联系', ja:'お問い合わせ', ko:'문의', ur:'رابطہ', fr:'Contact', it:'Contatti', es:'Contacto', pt:'Contato', ru:'Контакты', de:'Kontakt' },
   nav_login: { ar:'🔐 دخول', en:'🔐 Login', zh:'🔐 登录', ja:'🔐 ログイン', ko:'🔐 로그인', ur:'🔐 لاگ ان', fr:'🔐 Connexion', it:'🔐 Accedi', es:'🔐 Entrar', pt:'🔐 Entrar', ru:'🔐 Войти', de:'🔐 Anmelden' },
   hero_1: { ar:'صُنعت للألعاب.', en:'Built for Games.', zh:'为游戏而生。', ja:'ゲームのために。', ko:'게임을 위해.', ur:'گیمز کے لیے۔', fr:'Conçu pour les jeux.', it:'Nato per i giochi.', es:'Hecho para juegos.', pt:'Feito para jogos.', ru:'Создано для игр.', de:'Für Spiele gebaut.' },
-  hero_2: { ar:'دُرّبت بالبشر.', en:'Trained by Humans.', zh:'由人类训练。', ja:'人間が訓練。', ko:'인간이 훈련.', ur:'انسانوں کی تربیت۔', fr:'Entraîné par des humains.', it:'Addestrato da umani.', es:'Entrenado por humanos.', pt:'Treinado por humanos.', ru:'Обучено людьми.', de:'Von Menschen trainiert.' },
+  hero_2: { ar:'دُرّبت', en:'Trained', zh:'由人类', ja:'人間が', ko:'인간이', ur:'انسانوں کی', fr:'Entraîné', it:'Addestrato', es:'Entrenado', pt:'Treinado', ru:'Обучено', de:'Trainiert' },
+  hero_3: { ar:'بالبشر.', en:'by Humans.', zh:'训练。', ja:'訓練。', ko:'훈련.', ur:'تربیت۔', fr:'par des humains.', it:'da umani.', es:'por humanos.', pt:'por humanos.', ru:'людьми.', de:'von Menschen.' },
   hero_sub: { ar:'منصة توطين ذكية تجمع قوة الذكاء الاصطناعي مع الدقة الثقافية.', en:'Smart localization platform combining AI with cultural accuracy.', zh:'结合AI与文化精准度的智能本地化平台。', ja:'AIと文化的正確性を組み合わせたローカライズ基盤。', ko:'AI와 문화적 정밀함을 결합한 플랫폼.', ur:'ذہین لوکلائزیشن پلیٹ فارم۔', fr:'Plateforme de localisation combinant IA et précision culturelle.', it:'Piattaforma di localizzazione con IA e accuratezza culturale.', es:'Plataforma de localización con IA y precisión cultural.', pt:'Plataforma de localização com IA e precisão cultural.', ru:'Интеллектуальная платформа локализации с ИИ.', de:'Intelligente Lokalisierungsplattform mit KI.' },
   hero_cta1: { ar:'🚀 أطلق حزمة جديدة', en:'🚀 Launch Package', zh:'🚀 启动包', ja:'🚀 パッケージ作成', ko:'🚀 패키지 시작', ur:'🚀 نیا پیکج', fr:'🚀 Lancer un package', it:'🚀 Nuovo pacchetto', es:'🚀 Lanzar paquete', pt:'🚀 Novo pacote', ru:'🚀 Создать пакет', de:'🚀 Paket starten' },
-  btn_logout: { ar:'خروج ↩', en:'Logout ↩', zh:'退出 ↩', ja:'ログアウト ↩', ko:'로그아웃 ↩', ur:'لاگ آؤٹ ↩', fr:'Déconnexion ↩', it:'Esci ↩', es:'Salir ↩', pt:'Sair ↩', ru:'Выйти ↩', de:'Abmelden ↩' },
+  pk_title: { ar:'باقة لكل طموح', en:'A package for every ambition', zh:'满足每个雄心的套餐', ja:'あらゆる目標に対応', ko:'모든 야망을 위한 패키지', ur:'ہر عزم کے لیے پیکج', fr:'Une offre pour chaque ambition', it:'Un pacchetto per ogni ambizione', es:'Un paquete para cada ambición', pt:'Um pacote para cada ambição', ru:'Пакет для любых амбиций', de:'Ein Paket für jede Ambition' },
+  pk_sub: { ar:'من التوطين الآلي السريع إلى حملات الإطلاق الكاملة.', en:'From fast AI localization to full launch campaigns.', zh:'从快速AI本地化到完整发布活动。', ja:'高速AIローカライズからフルローンチまで。', ko:'빠른 AI 로컬라이제이션부터 풀 런칭까지.', ur:'تیز AI لوکلائزیشن سے مکمل لانچ تک۔', fr:'De la localisation IA rapide aux campagnes complètes.', it:'Dalla localizzazione IA rapida alle campagne complete.', es:'De la localización IA rápida a campañas completas.', pt:'Da localização IA rápida a campanhas completas.', ru:'От быстрой ИИ-локализации до полных кампаний.', de:'Von schneller KI-Lokalisierung bis zur Launch-Kampagne.' },
   
+  /* CLIENT DASHBOARD ITEMS */
+  dash_overview: { ar:'📊 لوحتي', en:'📊 Dashboard', zh:'📊 控制面板', ja:'📊 ダッシュボード', ko:'📊 대시보드', ur:'📊 ڈیش بورڈ', fr:'📊 Tableau de bord', it:'📊 Dashboard', es:'📊 Panel', pt:'📊 Painel', ru:'📊 Дашборд', de:'📊 Dashboard' },
+  dash_pkgs: { ar:'📦 حزمي', en:'📦 My Packages', zh:'📦 我的包', ja:'📦 マイパッケージ', ko:'📦 내 패키지', ur:'📦 میرے پیکجز', fr:'📦 Mes packages', it:'📦 I miei pacchetti', es:'📦 Mis paquetes', pt:'📦 Meus pacotes', ru:'📦 Мои пакеты', de:'📦 Meine Pakete' },
+  dash_new_pkg: { ar:'➕ حزمة جديدة', en:'➕ New Package', zh:'➕ 新建包', ja:'➕ パッケージ新規作成', ko:'➕ 새 패키지', ur:'➕ نیا پیکج', fr:'➕ Nouveau package', it:'➕ Nuovo pacchetto', es:'➕ Nuevo paquete', pt:'➕ Novo pacote', ru:'➕ Новый пакет', de:'➕ Neues Paket' },
+  dash_glossary: { ar:'📖 المصطلحات', en:'📖 Glossary', zh:'📖 术语表', ja:'📖 用語集', ko:'📖 용어집', ur:'📖 الفاظ نامہ', fr:'📖 Glossaire', it:'📖 Glossario', es:'📖 Glosario', pt:'📖 Glossário', ru:'📖 Глоссарий', de:'📖 Glossar' },
+  dash_profile: { ar:'👤 ملفي', en:'👤 Profile', zh:'👤 个人资料', ja:'👤 プロフィール', ko:'👤 프로필', ur:'👤 پروفائل', fr:'👤 Profil', it:'👤 Profilo', es:'👤 Perfil', pt:'👤 Perfil', ru:'👤 Профиль', de:'👤 Profil' },
+  btn_logout: { ar:'خروج ↩', en:'Logout ↩', zh:'退出 ↩', ja:'ログアウト ↩', ko:'로그アウト ↩', ur:'لاگ آؤٹ ↩', fr:'Déconnexion ↩', it:'Esci ↩', es:'Salir ↩', pt:'Sair ↩', ru:'Выйти ↩', de:'Abmelden ↩' },
+  
+  st_pkgs: { ar:'PACKAGES', en:'PACKAGES', zh:'包裹', ja:'パッケージ', ko:'패키지', ur:'پیکجز', fr:'PACKAGES', it:'PACCHETTI', es:'PAQUETES', pt:'PACOTES', ru:'ПАКЕТЫ', de:'PAKETE' },
+  st_pkgs_sub: { ar:'إجمالي الحزم', en:'Total Packages', zh:'总包数', ja:'総パッケージ数', ko:'총 패키지 수', ur:'کل پیکجز', fr:'Total des packages', it:'Pacchetti totali', es:'Total de paquetes', pt:'Total de pacotes', ru:'Всего пакетов', de:'Gesamte Pakete' },
+  st_proc: { ar:'IN PROGRESS', en:'IN PROGRESS', zh:'处理中', ja:'進行中', ko:'진행 중', ur:'جاری ہے', fr:'EN COURS', it:'IN CORSO', es:'EN PROCESO', pt:'EM ANDAMENTO', ru:'В ОБРАБОТКЕ', de:'IN BEARBEITUNG' },
+  st_proc_sub: { ar:'قيد التنفيذ', en:'In Progress', zh:'进行中', ja:'進行中', ko:'진행 중', ur:'جاری ہے', fr:'En cours', it:'In corso', es:'En proceso', pt:'Em andamento', ru:'В процессе', de:'In Bearbeitung' },
+  st_done: { ar:'COMPLETED', en:'COMPLETED', zh:'已完成', ja:'完了', ko:'완료됨', ur:'مكمل', fr:'TERMINÉ', it:'COMPLETATO', es:'COMPLETADO', pt:'CONCLUÍDO', ru:'ЗАВЕРШЕНО', de:'ABGESCHLOSSEN' },
+  st_done_sub: { ar:'مكتملة', en:'Completed', zh:'已完成', ja:'完了', ko:'완료됨', ur:'مکمل', fr:'Terminé', it:'Completato', es:'Completado', pt:'Concluído', ru:'Завершено', de:'Abgeschlossen' },
+  st_words: { ar:'WORDS', en:'WORDS', zh:'字数', ja:'単語数', ko:'단어 수', ur:'الفاظ', fr:'MOTS', it:'PAROLE', es:'PALABRAS', pt:'PALAVRAS', ru:'СЛОВА', de:'WÖRTER' },
+  st_words_sub: { ar:'كلمة مقدرة', en:'Estimated Words', zh:'预计字数', ja:'推定単語数', ko:'예상 단어 수', ur:'تخمینی الفاظ', fr:'Mots estimés', it:'Parole stimate', es:'Palabras estimadas', pt:'Palavras estimadas', ru:'Оценка слов', de:'Geschätzte Wörter' },
+  recent_pkgs: { ar:'📦 أحدث الحزم', en:'📦 Recent Packages', zh:'📦 最新包', ja:'📦 最近のパッケージ', ko:'📦 최근 패키지', ur:'📦 حالیہ پیکجز', fr:'📦 Packages récents', it:'📦 Pacchetti recenti', es:'📦 Paquetes recientes', pt:'📦 Pacotes recentes', ru:'📦 Последние пакеты', de:'📦 Neueste Pakete' },
+  no_pkgs: { ar:'ما عندك حزم للحين — يلا أطلق أول وحدة!', en:'No packages yet — launch your first!', zh:'暂无包裹 — 立即启动第一个！', ja:'パッケージがありません — 最初のパッケージを作成しましょう！', ko:'아직 패키지가 없습니다 — 첫 번째 패키지를 시작하세요!', ur:'ابھی کوئی پیکج نہیں — اپنا پہلا پیکج شروع کریں!', fr:'Aucun package pour le moment — lancez le premier !', it:'Nessun pacchetto ancora — lancia il tuo primo!', es:'¡Aún no hay paquetes — lanza el primero!', pt:'Nenhum pacote ainda — lance o seu primeiro!', ru:'Пока нет пакетов — создайте первый!', de:'Noch keine Pakete — starten Sie Ihr erstes!' },
+
+  /* MODALS */
+  auth_title: { ar:'الدخول إلى عُرب URB', en:'Sign in to URB', zh:'登录 URB', ja:'URBにサインイン', ko:'URB 로그인', ur:'URB میں لاگ ان کریں', fr:'Connexion à URB', it:'Accedi a URB', es:'Iniciar sesión en URB', pt:'Entrar no URB', ru:'Вход в URB', de:'Bei URB anmelden' },
+  tab_login: { ar:'دخول', en:'Login', zh:'登录', ja:'ログイン', ko:'로그인', ur:'لاگ ان', fr:'Connexion', it:'Accedi', es:'Entrar', pt:'Entrar', ru:'Войти', de:'Anmelden' },
+  tab_signup: { ar:'حساب جديد', en:'Sign Up', zh:'注册', ja:'登録', ko:'가입', ur:'رجسٹر', fr:'Inscription', it:'Registrati', es:'Registro', pt:'Cadastro', ru:'Регистрация', de:'Registrieren' },
+  signup_btn: { ar:'🚀 إنشاء حساب', en:'🚀 Create Account', zh:'🚀 创建账户', ja:'🚀 アカウント作成', ko:'🚀 계정 만들기', ur:'🚀 اکاؤنٹ بنائیں', fr:'🚀 Créer un compte', it:'🚀 Crea account', es:'🚀 Crear cuenta', pt:'🚀 Criar conta', ru:'🚀 Создать аккаунт', de:'🚀 Konto erstellen' },
+  signup_ok: { ar:'✓ تم! سوّينا حسابك — افحص بريدك وبعدها سجّل دخول.', en:'✓ Success! Account created — please check your email to log in.', zh:'✓ 成功！账户已创建 — 请检查邮箱以登录。', ja:'✓ 成功！アカウントが作成されました — メールを確認してログインしてください。', ko:'✓ 성공! 계정이 생성되었습니다 — 이메일을 확인하고 로그인하세요.', ur:'✓ کامیاب! اکاؤنٹ بن گیا — لاگ ان کرنے کے لیے اپنا ای میل چیک کریں۔', fr:'✓ Succès ! Compte créé — veuillez vérifier votre e-mail pour vous connecter.', it:'✓ Fatto! Account creato — controlla la tua email per accedere.', es:'✓ ¡Éxito! Cuenta creada — revisa tu correo para iniciar sesión.', pt:'✓ Sucesso! Conta criada — verifique seu e-mail para entrar.', ru:'✓ Успешно! Аккаунт создан — проверьте почту для входа.', de:'✓ Erfolgreich! Konto erstellt — bitte überprüfen Sie Ihre E-Mails zum Anmelden.' },
   modal_pkg_title: { ar:'حزمة توطين جديدة', en:'New Localization Package', zh:'新本地化包', ja:'新規ローカライズパッケージ', ko:'새 로컬라이제이션 패키지', ur:'نیا لوکلائزیشن پیکج', fr:'Nouveau package de localisation', it:'Nuovo pacchetto di localizzazione', es:'Nuevo paquete de localización', pt:'Novo pacote de localização', ru:'Новый пакет локализации', de:'Neues Lokalisierungspaket' },
   fl_pkg_plan: { ar:'الباقة المختارة', en:'Selected Package Plan', zh:'选择的套餐', ja:'選択したプラン', ko:'선택한 플랜', ur:'منتخب کردہ پلان', fr:'Offre sélectionnée', it:'Piano selezionato', es:'Plan seleccionado', pt:'Plano selecionado', ru:'Выбранный план', de:'Gewählter Paketplan' },
   fl_game_name: { ar:'اسم اللعبة *', en:'Game Name *', zh:'游戏名称 *', ja:'ゲーム名 *', ko:'게임 이름 *', ur:'گیم کا نام *', fr:'Nom du jeu *', it:'Nome del gioco *', es:'Nombre del juego *', pt:'Nome do jogo *', ru:'Название игры *', de:'Spielname *' },
@@ -339,6 +893,8 @@ function applyLang() {
   });
   
   buildLangMenus();
+  renderPricingGrid();
+  if (me) loadClientPackages();
 }
 
 function buildLangMenus() {
@@ -363,13 +919,153 @@ function toggleLangMenu(e) {
 
 function closeM(id){ document.getElementById(id).classList.remove('open'); }
 function openM(id){ document.getElementById(id).classList.add('open'); }
+function openCreatePkg(){ if(!me){ openAuth(); return; } openM('pkgModal'); }
+function openAuth(tab){ openM('authModal'); if(tab) authTab(tab); }
 
-function openCreatePkg(){
-  if(!me){ openAuth(); return; }
-  openM('pkgModal');
+function authTab(t){
+  document.getElementById('at-login').classList.toggle('on', t==='login');
+  document.getElementById('at-signup').classList.toggle('on', t==='signup');
+  document.getElementById('f-login').style.display = t==='login'?'block':'none';
+  document.getElementById('f-signup').style.display = t==='signup'?'block':'none';
 }
 
-function openAuth(){ openM('authModal'); }
+async function doSignup(){
+  const name = document.getElementById('su-name').value.trim();
+  const company = document.getElementById('su-company').value.trim();
+  const country = document.getElementById('su-country').value.trim();
+  const email = document.getElementById('su-email').value.trim();
+  const pass = document.getElementById('su-pass').value;
+  const msgEl = document.getElementById('auth-msg');
+  if(!email || !pass || !name){
+    msgEl.className = 'fmsg err';
+    msgEl.textContent = (lang === 'ar') ? 'الاسم والبريد وكلمة المرور مطلوبة' : 'Name, email and password are required';
+    return;
+  }
+  
+  const { error } = await sb.auth.signUp({ email, password: pass, options:{ data:{ full_name:name, company, country } } });
+  if(error) {
+    msgEl.className = 'fmsg err';
+    msgEl.textContent = error.message;
+  } else {
+    msgEl.className = 'fmsg ok';
+    msgEl.textContent = t('signup_ok');
+  }
+}
+
+async function doLogin(){
+  const email = document.getElementById('li-email').value.trim();
+  const pass = document.getElementById('li-pass').value;
+  const msgEl = document.getElementById('auth-msg');
+  const { error } = await sb.auth.signInWithPassword({ email, password: pass });
+  if(error){
+    msgEl.className = 'fmsg err';
+    msgEl.textContent = error.message;
+  } else {
+    closeM('authModal');
+  }
+}
+
+async function doLogout(){
+  await sb.auth.signOut();
+  me = null;
+  document.getElementById('dash-client').classList.remove('active');
+  document.getElementById('view-landing').classList.add('active');
+}
+
+sb.auth.onAuthStateChange((ev, session)=>{
+  if(session?.user) {
+    me = session.user;
+    document.getElementById('view-landing').classList.remove('active');
+    document.getElementById('dash-client').classList.add('active');
+    document.getElementById('cl-name').textContent = me.user_metadata?.full_name || me.email;
+    applyLang();
+  }
+});
+
+/* PRICING DYNAMIC RENDER WITH DYNAMIC TRANSLATION */
+const PKG_TRANS = {
+  "الأكثر طلباً": { en: "Most Popular", zh: "最受欢迎", ja: "一番人気", ko: "가장 인기 있음", ur: "سب سے مشہور", fr: "Plus populaire", it: "Più popolare", es: "Más popular", pt: "Mais popular", ru: "Популярный", de: "Beliebtestes" },
+  "لكل مشروع": { en: "Per Project", zh: "每个项目", ja: "プロジェクトごと", ko: "프로젝트당", ur: "فی پروجیکٹ", fr: "Par projet", it: "Per progetto", es: "Por proyecto", pt: "Por projeto", ru: "За проект", de: "Pro Projekt" },
+  "فوري AI توطين": { en: "Instant AI Localization", zh: "即时AI本地化", ja: "即時AIローカライズ", ko: "즉각적인 AI 로컬라이제이션", ur: "فوری AI لوکلائزیشن", fr: "Localisation IA instantanée", it: "Localizzazione IA istantanea", es: "Localización IA instantánea", pt: "Localização IA instantânea", ru: "Мгновенная ИИ-локализация", de: "Sofortige KI-Lokalisierung" },
+  "تسليم سريع": { en: "Fast Delivery", zh: "快速交付", ja: "迅速な納品", ko: "빠른 배송", ur: "تیز ڈیلیوری", fr: "Livraison rapide", it: "Consegna rapida", es: "Entrega rápida", pt: "Entrega rápida", ru: "Быстрая доставка", de: "Schnelle Lieferung" },
+  "توليد المصطلحات تلقائياً": { en: "Auto Glossary Generation", zh: "自动术语生成", ja: "自動用語集生成", ko: "자동 용어집 생성", ur: "خودکار الفاظ کی تخلیق", fr: "Génération auto de glossaire", it: "Generazione automatica glossario", es: "Generación auto de glosario", pt: "Geração auto de glossário", ru: "Авто-генерация глоссария", de: "Automatische Glossarerstellung" },
+  "ذاكرة الترجمة": { en: "Translation Memory", zh: "翻译记忆库", ja: "翻訳メモリ", ko: "번역 메모리", ur: "ترجمہ میموری", fr: "Mémoire de traduction", it: "Memoria di traduzione", es: "Memoria de traducción", pt: "Memória de tradução", ru: "Память переводов", de: "Übersetzungsspeicher" },
+  "فحص جودة آلي": { en: "Automated QA", zh: "自动质量检查", ja: "自動QAチェック", ko: "자동 QA 검사", ur: "خودکار کوالٹی چیک", fr: "Assurance qualité auto", it: "QA automatico", es: "Control de calidad auto", pt: "Controle de qualidade auto", ru: "Автоматическая проверка качества", de: "Automatische QS" },
+  "كل مميزات URB AI System": { en: "All URB AI System Features", zh: "包含URB AI所有功能", ja: "URB AIの全機能", ko: "URB AI의 모든 기능", ur: "تمام URB AI خصوصیات", fr: "Toutes les fonctions IA URB", it: "Tutte le funzioni URB AI", es: "Todas las funciones URB AI", pt: "Todas as funções URB AI", ru: "Все функции URB AI", de: "Alle URB KI-Funktionen" },
+  "مراجعة بشرية متخصصة": { en: "Expert Human Review", zh: "专家人工审校", ja: "専門家によるレビュー", ko: "전문가 휴먼 리뷰", ur: "ماہرانہ انسانی جائزہ", fr: "Révision humaine experte", it: "Revisione umana esperta", es: "Revisión humana experta", pt: "Revisão humana especializada", ru: "Экспертная проверка человеком", de: "Experten-Prüfung" },
+  "LQA تدقيق جودة التوطين": { en: "LQA Localization QA", zh: "LQA本地化质检", ja: "LQA品質チェック", ko: "LQA 로컬라이제이션 품질 검사", ur: "LQA کوالٹی چیک", fr: "Assurance qualité LQA", it: "Controllo qualità LQA", es: "Control de calidad LQA", pt: "Garantia de qualidade LQA", ru: "LQA проверка качества", de: "LQA-Qualitätsprüfung" },
+  "تكيف ثقافي كامل": { en: "Full Cultural Adaptation", zh: "完全文化适应", ja: "完全な文化的適応", ko: "완벽한 문화적 적응", ur: "مکمل ثقافتی مطابقت", fr: "Adaptation culturelle complète", it: "Adattamento culturale completo", es: "Adaptación cultural completa", pt: "Adaptação cultural completa", ru: "Полная адаптация", de: "Vollständige kulturelle Anpassung" },
+  "مراجعة المصطلحات": { en: "Glossary Review", zh: "术语审校", ja: "用語集レビュー", ko: "용어집 검تو", ur: "الفاظ ਦਾ جائزہ", fr: "Révision du glossaire", it: "Revisione del glossario", es: "Revisión de glosario", pt: "Revisão de glossário", ru: "Проверка глоссария", de: "Glossar-Prüfung" },
+  "مراجعة تجربة اللعب": { en: "Gameplay Experience Review", zh: "游戏体验审校", ja: "ゲームプレイ体験レビュー", ko: "게임플레이 체험 검تو", ur: "گیم پلے تجربے کا جائزہ", fr: "Révision expérience de jeu", it: "Revisione esperienza di gioco", es: "Revisión de experiencia de juego", pt: "Revisão de experiência de jogo", ru: "Проверка игрового опыта", de: "Gameplay-Prüfung" },
+  "كل مميزات الباقتين": { en: "All Features of Both Plans", zh: "包含前两款套餐所有功能", ja: "両プランの全機能", ko: "두 플랜의 모든 기능", ur: "دونوں پلانز کی تمام خصوصیات", fr: "Toutes les fonctionnalités", it: "Tutte le funzionalità", es: "Todas las funciones de ambos planes", pt: "Todas as funções de ambos os planos", ru: "Все функции обоих пакетов", de: "Alle Funktionen aller Pakete" },
+  "تسويق عبر مؤثري الألعاب": { en: "Game Influencer Marketing", zh: "游戏网红营销", ja: "インフルエンサーマーケティング", ko: "게임 인플루언서 마케팅", ur: "گیم انفلوئنسر مارکیٹنگ", fr: "Marketing d'influenceurs", it: "Marketing con influencer", es: "Marketing de influencers", pt: "Marketing de influenciadores", ru: "Маркетинг с инфлюенсерами", de: "Influencer-Marketing" },
+  "حملات ستريمرز": { en: "Streamer Campaigns", zh: "主播推广活动", ja: "配信者キャンペーン", ko: "스트리머 캠페인", ur: "سٹریمرز مہمات", fr: "Campagnes de streamers", it: "Campagne streamer", es: "Campañas de streamers", pt: "Campanhas de streamers", ru: "Кампании со стримерами", de: "Streamer-Kampagnen" },
+  "تغطية يوتيوب": { en: "YouTube Coverage", zh: "YouTube视频覆盖", ja: "YouTubeカバー", ko: "유튜브 커버리지", ur: "یوٹیوب کوریج", fr: "Couverture YouTube", es: "Cobertura en YouTube", pt: "Cobertura no YouTube", ru: "Освещение на YouTube", de: "YouTube-Abdeckung" },
+  "حملة تيك توك": { en: "TikTok Campaign", zh: "TikTok营销活动", ja: "TikTokキャンペーン", ko: "틱톡 캠페인", ur: "ٹک ٹاک مہم", fr: "Campagne TikTok", it: "Campagna TikTok", es: "Campaña de TikTok", pt: "Campanha no TikTok", ru: "Кампания в TikTok", de: "TikTok-Kampagne" },
+  "محتوى سوشيال ميديا": { en: "Social Media Content", zh: "社交媒体内容", ja: "SNSコンテンツ", ko: "소셜 미디어 콘텐츠", ur: "سوشل میڈیا مواد", fr: "Contenu réseaux sociaux", it: "Contenuti social media", es: "Contenido para redes sociales", pt: "Conteúdo para redes sociais", ru: "Контент для соцсетей", de: "Social-Media-Inhalte" },
+  "دعم الإطلاق": { en: "Launch Support", zh: "发布全程支持", ja: "ローンチサポート", ko: "출시 지원", ur: "لانچ سپورٹ", fr: "Support de lancement", it: "Supporto al lancio", es: "Soporte de lanzamiento", pt: "Suporte de lançamento", ru: "Поддержка запуска", de: "Launch-Support" },
+  "اطلب عرض سعر": { en: "Request Quote", zh: "索取报价", ja: "見積もりをリクエスト", ko: "견적 요청", ur: "قیمت معلوم کریں", fr: "Demander un devis", it: "Richiedi preventivo", es: "Solicitar cotización", pt: "Solicitar orçamento", ru: "Запросить цену", de: "Angebot anfordern" }
+};
+
+function translateText(text) {
+  if (lang === 'ar') return text;
+  return PKG_TRANS[text]?.[lang] || PKG_TRANS[text]?.en || text;
+}
+
+const DEFAULT_PLANS = [
+  { name: "URB AI System", period: "لكل مشروع", features: ["فوري AI توطين", "تسليم سريع", "توليد المصطلحات تلقائياً", "ذاكرة الترجمة", "فحص جودة آلي"] },
+  { name: "URB AI + Human Auditing", period: "لكل مشروع", is_featured: true, features: ["كل مميزات URB AI System", "مراجعة بشرية متخصصة", "LQA تدقيق جودة التوطين", "تكيف ثقافي كامل", "مراجعة المصطلحات", "مراجعة تجربة اللعب"] },
+  { name: "URB PLUS", period: "لكل مشروع", features: ["كل مميزات الباقتين", "تسويق عبر مؤثري الألعاب", "حملات ستريمرز", "تغطية يوتيوب", "حملة تيك توك", "محتوى سوشيال ميديا", "دعم الإطلاق"] }
+];
+
+function renderPricingGrid() {
+  const g = document.getElementById('priceGrid');
+  if (!g) return;
+  
+  g.innerHTML = DEFAULT_PLANS.map(p => {
+    const translatedFeats = p.features.map(f => translateText(f));
+    const translatedPeriod = translateText(p.period);
+    const translatedBtn = translateText('اطلب عرض سعر');
+    
+    return `<div class="price-card ${p.is_featured ? 'feat' : ''}">
+      ${p.is_featured ? `<div class="price-badge">⭐ ${translateText('الأكثر طلباً')}</div>` : ''}
+      <div class="price-plan">${p.name}</div>
+      <div class="price-amt"><span style="font-size:1.4rem;">${translatedBtn}</span></div>
+      <div class="price-per">${translatedPeriod}</div>
+      <ul class="price-feats">
+        ${translatedFeats.map(f => `<li><span class="ck">✓</span> ${f}</li>`).join('')}
+      </ul>
+      <button class="btn ${p.is_featured ? 'btn-grad' : 'btn-ghost'}" style="padding:13px;" onclick="openAuth('signup')">${translatedBtn}</button>
+    </div>`;
+  }).join('');
+}
+
+/* CLIENT PACKAGES FETCH */
+async function loadClientPackages() {
+  if (!me) return;
+  const { data } = await sb.from('packages').select('*').eq('user_id', me.id).order('created_at', { ascending: false });
+  const pkgs = data || [];
+  
+  document.getElementById('cs-total').textContent = pkgs.length;
+  document.getElementById('cs-proc').textContent = pkgs.filter(p => ['processing', 'submitted'].includes(p.status)).length;
+  document.getElementById('cs-done').textContent = pkgs.filter(p => p.status === 'done').length;
+  document.getElementById('cs-words').textContent = pkgs.reduce((s, p) => s + (p.est_words || 0), 0).toLocaleString();
+
+  const container = document.getElementById('cl-recent');
+  if (!pkgs.length) {
+    container.innerHTML = `<div class="empty"><div style="font-size:2.2rem;margin-bottom:10px;">📦</div>${t('no_pkgs')}</div>`;
+  } else {
+    container.innerHTML = pkgs.map(p => `
+      <div style="display:flex;justify-content:space-between;align-items:center;padding:12px 16px;background:var(--surface2);border-radius:10px;margin-bottom:8px;border:1px solid var(--border2);">
+        <div>
+          <b>${p.game_name}</b>
+          <div style="font-size:0.75rem;color:var(--dim);margin-top:2px;">${p.plan || '—'}</div>
+        </div>
+        <span class="badge b-cyan">${p.status}</span>
+      </div>
+    `).join('');
+  }
+}
 
 async function submitPackage(){
   const name = document.getElementById('np-name').value.trim();
@@ -405,42 +1101,41 @@ async function submitPackage(){
   } else {
     msgEl.className = 'fmsg ok'; 
     msgEl.textContent = (lang === 'ar') ? '✓ تم إرسال الحزمة بنجاح!' : '✓ Package submitted successfully!';
-    setTimeout(() => { closeM('pkgModal'); location.reload(); }, 1500);
+    setTimeout(() => { closeM('pkgModal'); loadClientPackages(); }, 1500);
   }
 }
 
-async function doLogin(){
-  const email = document.getElementById('li-email').value.trim();
-  const pass = document.getElementById('li-pass').value;
-  const { error } = await sb.auth.signInWithPassword({ email, password: pass });
-  if(!error) closeM('authModal');
-}
-
-async function doLogout(){
-  await sb.auth.signOut();
-  document.getElementById('dash-client').classList.remove('active');
-  document.getElementById('view-landing').classList.add('active');
-}
-
-sb.auth.onAuthStateChange((ev, session)=>{
-  if(session?.user) {
-    me = session.user;
-    document.getElementById('view-landing').classList.remove('active');
-    document.getElementById('dash-client').classList.add('active');
-    document.getElementById('cl-name').textContent = me.user_metadata?.full_name || me.email;
-    applyLang();
-  }
-});
-
+/* BOT FUNCTIONS */
 function toggleChat() {
   const box = document.getElementById('chatBox');
   box.style.display = (box.style.display === 'flex') ? 'none' : 'flex';
 }
 
+async function sendMessage() {
+  const input = document.getElementById('userInput');
+  const text = input.value.trim();
+  if (!text) return;
+
+  const messagesDiv = document.getElementById('chatMessages');
+  messagesDiv.innerHTML += `<div class="message user">${text}</div>`;
+  input.value = '';
+
+  try {
+    const response = await fetch('/api/chat', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ message: text, language: lang })
+    });
+    const data = await response.json();
+    messagesDiv.innerHTML += `<div class="message bot">${data.reply || 'تم استلام الرد.'}</div>`;
+  } catch (err) {
+    messagesDiv.innerHTML += `<div class="message bot">⚠️ خطأ بالاتصال.</div>`;
+  }
+}
+
 // Init
 applyLang();
+sb.auth.getSession().then(({data:{session}})=>{ if(session){ me=session.user; applyLang(); } });
 </script>
 </body>
 </html>
-
-```
