@@ -1,53 +1,73 @@
-// معرفة وعقل البوت
-const urbKnowledge = `
-أنت موظف خدمة عملاء متميز وذكي تعمل في منصة "عُرب URB".
-مهمتك الرد على الزوار بنفس اللغة التي يتحدثون بها. وإذا كان الزائر يتحدث العربية، فأجب بلهجة سعودية احترافية، لطيفة، ومختصرة.
+// المعرفة الأساسية الثابتة عن المنصة
+const staticKnowledge = `
+أنت المساعد الذكي الرسمي لمنصة "عُرب URB" لتوطين الألعاب.
 
-معلومات عن منصة عُرب URB:
+[قوانين التحدث واللغة - مهم جداً]:
+1. أجب دائماً باللغة التي يحددها العميل فوراً وبشكل كامل دون خلط مع لغات أخرى.
+2. إذا اختار العميل العربية، أجب بلهجة سعودية بيضاء احترافية ولطيفة ومختصرة.
+3. إذا اختار اليابانية، أجب باليابانية الفصيحة والمؤدبة (Desu/Masu).
+4. إذا اختار الإنجليزية أو الإسبانية، أجب بتلك اللغة بدقة.
+
+[بيانات منصة عُرب URB الرئيسية]:
 - الشعار: صُنعت للألعاب. دُرّبت بالبشر.
-- نحن منصة توطين ذكية تدمج قوة الذكاء الاصطناعي مع الدقة الثقافية.
-- ندعم 12 لغة مختلفة، واللهجات العربية (السعودية، المصرية، والجزائرية).
-- إحصائياتنا: دقة السياق 99.8%، تدربنا على أكثر من 450 مليون كلمة.
-
-التقنية:
-1. URB-AI: نموذج مخصص للألعاب.
-2. Multimodal AI: معالجة متكاملة للنصوص والصوت والصور.
-3. Human-in-the-Loop: بيئة تمكن المترجم من المراجعة والتعديل.
-
-آلية العمل:
-1. إرسال الحزمة.
-2. معالجة AI.
-3. مراجعة بشرية.
-4. تسليم وإطلاق.
-
-قوانين البوت:
-- لا تجاوب على أي سؤال خارج مجال الألعاب والتوطين.
-- وجه العميل دائماً للضغط على زر "دخول" أو "إنشاء حساب" لرفع ملفاته ومعرفة السعر الدقيق.
+- التعريف: منصة توطين ذكية تدمج قوة الذكاء الاصطناعي مع الدقة الثقافية واللغوية.
+- اللغات المدعومة: 12 لغة مع اللهجات العربية (السعودية، المصرية، والجزائرية).
+- التسعير والطلبات: وجه العميل دائماً للضغط على زر "دخول" أو "إنشاء حساب" لرفع ملفاته ومعرفة السعر الدقيق.
 `;
 
 export async function handler(event, context) {
   if (event.httpMethod !== 'POST') {
-    return { 
-      statusCode: 405, 
-      body: JSON.stringify({ error: 'Method Not Allowed' }) 
-    };
+    return { statusCode: 405, body: JSON.stringify({ error: 'Method Not Allowed' }) };
   }
 
   try {
     const body = JSON.parse(event.body || '{}');
     const message = body.message;
-    // نقرأ المفتاح سواء تسميته GEMINI_API_KEY أو GROQ_API_KEY للتيسير
+    const selectedLanguage = body.language || 'auto';
+
     const apiKey = process.env.GROQ_API_KEY || process.env.GEMINI_API_KEY;
+    const supabaseUrl = process.env.SUPABASE_URL;
+    const supabaseKey = process.env.SUPABASE_KEY;
 
     if (!apiKey) {
       return {
         statusCode: 200,
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ reply: '⚠️ مفتاح الـ API غير مضاف في إعدادات البيئة Netlify.' })
+        body: JSON.stringify({ reply: '⚠️ مفتاح GROQ_API_KEY غير مضاف في Netlify.' })
       };
     }
 
-    // نقطة النهاية المستقرة لـ Groq المعتمدة على Llama 3.3
+    // جلب البيانات المحدثة من Supabase
+    let dynamicKnowledge = "";
+    if (supabaseUrl && supabaseKey) {
+      try {
+        const fetchUrl = `${supabaseUrl}/rest/v1/bot_knowledge?select=title,content`;
+        const supaRes = await fetch(fetchUrl, {
+          headers: {
+            "apikey": supabaseKey,
+            "Authorization": `Bearer ${supabaseKey}`
+          }
+        });
+        
+        if (supaRes.ok) {
+          const rows = await supaRes.json();
+          if (rows && rows.length > 0) {
+            dynamicKnowledge = "\n\n[معلومات محدثة وحصرية من لوحة تحكم الأدمن والمدونة]:\n" + 
+              rows.map(r => `- ${r.title}: ${r.content}`).join("\n");
+          }
+        }
+      } catch (e) {
+        console.log("تعذر جلب بيانات Supabase:", e.message);
+      }
+    }
+
+    // دمج الموجه للذكاء الاصطناعي
+    let fullSystemPrompt = staticKnowledge + dynamicKnowledge;
+    if (selectedLanguage !== 'auto') {
+      fullSystemPrompt += `\n\n[INSTRUCTION]: The user has explicitly selected the language: (${selectedLanguage}). You MUST reply ONLY in ${selectedLanguage}. Do NOT use Arabic unless the selected language is Arabic.`;
+    }
+
+    // الاتصال بـ Groq API
     const groqUrl = "https://api.groq.com/openai/v1/chat/completions";
 
     const response = await fetch(groqUrl, {
@@ -59,7 +79,7 @@ export async function handler(event, context) {
       body: JSON.stringify({
         model: "llama-3.3-70b-versatile",
         messages: [
-          { role: "system", content: urbKnowledge },
+          { role: "system", content: fullSystemPrompt },
           { role: "user", content: message }
         ],
         temperature: 0.3
