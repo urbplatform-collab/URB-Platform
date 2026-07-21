@@ -49,7 +49,7 @@ body{
   transition: all 1.2s cubic-bezier(0.7, 0, 0.2, 1);
 }
 .intro-splash.zoomed {
-  transform: scale(40); /* الزوم الخارق للسعودية */
+  transform: scale(40);
   opacity: 0;
   pointer-events: none;
 }
@@ -66,7 +66,6 @@ body{
   background-image: linear-gradient(rgba(34,211,238,0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(34,211,238,0.1) 1px, transparent 1px);
   background-size: 20px 20px; opacity: 0.4; clip-path: circle(50%);
 }
-/* إضاءات الدول */
 .g-node { position: absolute; border-radius: 50%; background: var(--cyan); box-shadow: 0 0 10px var(--cyan); }
 .node-ksa { width: 14px; height: 14px; top: 50%; left: 50%; transform: translate(-50%, -50%); background: var(--green); box-shadow: 0 0 25px var(--green); z-index: 2; }
 .node-ksa::after { content:''; position:absolute; inset:-12px; border:2px solid var(--green); border-radius:50%; animation: introPing 1.2s infinite; }
@@ -98,6 +97,9 @@ body{
 @keyframes floaty{
   0%,100%{transform:translateY(0) rotate(-6deg)}
   50%{transform:translateY(-34px) rotate(8deg)}
+}
+@media (prefers-reduced-motion: reduce){
+  *{animation-duration:0.01ms!important;transition-duration:0.01ms!important}
 }
 
 /* ═══ LAYOUT ═══ */
@@ -147,6 +149,7 @@ nav{
 .lang-menu.open{display:flex}
 .lang-opt{background:none;border:none;color:var(--text);padding:9px 13px;border-radius:8px;cursor:pointer;text-align:start;font-size:0.85rem;font-family:inherit;display:flex;gap:9px;align-items:center}
 .lang-opt:hover{background:var(--surface3)}
+.lang-opt.on{background:rgba(139,92,246,0.15);color:var(--purple)}
 
 /* ═══ HERO ═══ */
 .hero{padding:90px 24px 60px;max-width:1200px;margin:0 auto;display:grid;grid-template-columns:1.05fr 0.95fr;gap:48px;align-items:center;min-height:82vh}
@@ -180,6 +183,8 @@ nav{
   box-shadow:0 30px 90px rgba(0,0,0,0.55),var(--glow-p);
 }
 .term-bar{display:flex;align-items:center;gap:10px;padding:15px 20px;border-bottom:1px solid var(--border2)}
+.term-dots{display:flex;gap:6px}
+.term-dots span{width:11px;height:11px;border-radius:50%}
 .term-title{font-family:'Space Mono',monospace;font-size:0.72rem;letter-spacing:2px;color:var(--dim)}
 .term-body{padding:24px 22px}
 .term-label{font-family:'Space Mono',monospace;font-size:0.7rem;letter-spacing:1.6px;margin-bottom:9px}
@@ -201,6 +206,12 @@ nav{
   letter-spacing:0.6px;flex-wrap:wrap;
 }
 .type-caret::after{content:'▋';animation:pulse 1s infinite}
+
+/* marquee */
+.marquee{overflow:hidden;border-block:1px solid var(--border2);padding:13px 0;position:relative;z-index:1;background:rgba(11,14,32,0.5)}
+.marquee-track{display:inline-flex;gap:52px;white-space:nowrap;animation:mq 28s linear infinite;font-family:'Space Mono',monospace;font-size:0.78rem;letter-spacing:2px;color:var(--dim)}
+.marquee-track b{color:var(--purple)}
+@keyframes mq{from{transform:translateX(0)}to{transform:translateX(50%)}}
 
 /* ═══ SECTIONS ═══ */
 section{padding:84px 24px;position:relative;z-index:1}
@@ -453,6 +464,9 @@ footer{border-top:1px solid var(--border2);padding:52px 24px 34px;position:relat
   </div>
 </div>
 
+<!-- MARQUEE -->
+<div class="marquee"><div class="marquee-track"><span>عُرب <b>URB</b> ★ BUILT FOR GAMES ★ TRAINED BY HUMANS ★ توطين بروح عربية ★ AI + HUMAN REVIEW ★ 12 LANGUAGES ★ SAUDI • EGYPTIAN • ALGERIAN DIALECTS ★&nbsp;</span><span>عُرب <b>URB</b> ★ BUILT FOR GAMES ★ TRAINED BY HUMANS ★ توطين بروح عربية ★ AI + HUMAN REVIEW ★ 12 LANGUAGES ★ SAUDI • EGYPTIAN • ALGERIAN DIALECTS ★&nbsp;</span></div></div>
+
 <!-- TECH / ENGINE -->
 <section id="tech">
   <div class="sec-in">
@@ -523,7 +537,7 @@ footer{border-top:1px solid var(--border2);padding:52px 24px 34px;position:relat
   </div>
 </section>
 
-<!-- FOOTER FULL -->
+<!-- FOOTER FULL (RESTORED ORIGINAL DESIGN) -->
 <footer>
   <div class="foot-in">
     <div class="foot-grid">
@@ -632,6 +646,7 @@ footer{border-top:1px solid var(--border2);padding:52px 24px 34px;position:relat
           <div class="dcard-body" id="cl-profile-body"></div>
         </div>
       </div>
+
     </div>
   </div>
 </div>
@@ -666,7 +681,7 @@ footer{border-top:1px solid var(--border2);padding:52px 24px 34px;position:relat
           <div class="dcard-body" id="ad-recent"></div>
         </div>
       </div>
-      <!-- Other admin pages are omitted in this UI shell for brevity but logic remains active in JS -->
+      <!-- Other admin pages are logically active in JS -->
     </div>
   </div>
 </div>
@@ -841,7 +856,25 @@ footer{border-top:1px solid var(--border2);padding:52px 24px 34px;position:relat
     <h3>🤖 URB bot</h3>
     <button class="close-btn" onclick="toggleChat()">✕</button>
   </div>
-  <div class="chat-messages" id="chatMessages"></div>
+  <div class="chat-messages" id="chatMessages">
+    <div class="lang-container" id="langContainer">
+      <div class="lang-title">اختر لغتك المفضلة / Choose Language</div>
+      <div class="lang-buttons">
+        <button class="lang-btn" onclick="setLanguage('Arabic', '🇸🇦 العربية')">🇸🇦 العربية</button>
+        <button class="lang-btn" onclick="setLanguage('English', '🇺🇸 English')">🇺🇸 English</button>
+        <button class="lang-btn" onclick="setLanguage('Chinese', '🇨🇳 中文')">🇨🇳 中文</button>
+        <button class="lang-btn" onclick="setLanguage('Japanese', '🇯🇵 日本語')">🇯🇵 日本語</button>
+        <button class="lang-btn" onclick="setLanguage('Korean', '🇰🇷 한국어')">🇰🇷 한국어</button>
+        <button class="lang-btn" onclick="setLanguage('Urdu', '🇵🇰 اردو')">🇵🇰 اردو</button>
+        <button class="lang-btn" onclick="setLanguage('French', '🇫🇷 Français')">🇫🇷 Français</button>
+        <button class="lang-btn" onclick="setLanguage('Italian', '🇮🇹 Italiano')">🇮🇹 Italiano</button>
+        <button class="lang-btn" onclick="setLanguage('Spanish', '🇪🇸 Español')">🇪🇸 Español</button>
+        <button class="lang-btn" onclick="setLanguage('Portuguese', '🇧🇷 Português')">🇧🇷 Português</button>
+        <button class="lang-btn" onclick="setLanguage('Russian', '🇷🇺 Русский')">🇷🇺 Русский</button>
+        <button class="lang-btn" onclick="setLanguage('German', '🇩🇪 Deutsch')">🇩🇪 Deutsch</button>
+      </div>
+    </div>
+  </div>
   <div class="chat-input-area">
     <input type="text" id="userInput" class="chat-input" placeholder="اكتب سؤالك هنا..." onkeypress="if(event.key==='Enter') sendMessage()">
     <button class="send-btn" id="sendBtn" onclick="sendMessage()" title="إرسال">➤</button>
@@ -863,30 +896,28 @@ let adminSecret = 'Urb@2026';
 let A = { pkgs:[], team:[], vendors:[], rfqs:[], quotes:[], pricing:[] };
 let C = { pkgs:[], gloss:[] };
 let lang = localStorage.getItem('gl_lang') || 'ar';
+let selectedLang = 'auto'; // For the URB Bot
 
 /* ═══ INTRO LOGIC (GLOBE ZOOM) ═══ */
 function startIntro() {
-  // تشغيل الصوت (يجب أن يتم بعد ضغطة العميل لكي يسمح المتصفح)
   const sfx = document.getElementById('intro-sfx');
   if(sfx) {
     sfx.volume = 0.5;
     sfx.play().catch(e => console.log('Audio play prevented', e));
   }
 
-  // إخفاء الزر وإظهار العداد
   document.getElementById('intro-btn').style.display = 'none';
   const counterBox = document.getElementById('intro-counter-box');
   counterBox.style.opacity = '1';
 
   const counterEl = document.getElementById('intro-count-val');
   const target = 21000000;
-  const duration = 1500; // 1.5 seconds
+  const duration = 1500; 
   const start = performance.now();
 
   function updateCounter(t) {
     const elapsed = t - start;
     const progress = Math.min(elapsed / duration, 1);
-    // Cubic Ease-out للسرعة
     const ease = 1 - Math.pow(1 - progress, 3);
     const current = Math.floor(ease * target);
     
@@ -895,19 +926,13 @@ function startIntro() {
     if (progress < 1) {
       requestAnimationFrame(updateCounter);
     } else {
-      // بعد انتهاء العداد، انتظر نصف ثانية واعمل زوم!
       setTimeout(() => {
         const splash = document.getElementById('intro-splash');
         splash.classList.add('zoomed');
-        
-        // إزالة شاشة الـ Splash بالكامل بعد انتهاء الأنيميشن لعدم التأثير على الأداء
-        setTimeout(() => {
-          splash.style.display = 'none';
-        }, 1200);
+        setTimeout(() => { splash.style.display = 'none'; }, 1200);
       }, 500);
     }
   }
-
   requestAnimationFrame(updateCounter);
 }
 
@@ -917,11 +942,11 @@ function startIntro() {
   const lbl = document.getElementById('demoLabel');
   const src = document.getElementById('demoSrc');
   if(!out || !lbl || !src) return;
-  const EN = 'Critical biological failure detected. Re-initiating neural link...';
+  const EN = 'Legendary loot acquired. Inventory updated.';
   const rounds = [
-    ['Saudi dialect',   'عطل حيوي حرج! جاري إعادة تهيئة الرابط العصبي...'],
-    ['Egyptian dialect','في عطل حيوي خطير! بنعيد تشغيل الرابط العصبي...'],
-    ['Standard Arabic', 'تم اكتشاف فشل حيوي حرج. جاري إعادة تهيئة الرابط العصبي...'],
+    ['Saudi dialect',   'ابشرك صار عندك غنيمة جباااارة… حدثنا لك المخزون'],
+    ['Egyptian dialect','غنيمة جامدة جدًا! اتضافت للشنطة بتاعتك'],
+    ['Algerian dialect','غنيمة خرافية! تزادت للساك تاعك'],
   ];
   let ri=0, ci=0, phase='type';
   function tick(){
@@ -938,7 +963,8 @@ function startIntro() {
       setTimeout(tick, 20);
     } else setTimeout(tick, 240);
   }
-  setTimeout(tick, 3000); // Wait for intro to finish
+  // Delay slightly more to ensure it happens after the intro might have finished, or let it run in the background.
+  setTimeout(tick, 2000); 
 })();
 
 /* ═══ i18n — 12 LANGS ═══ */
@@ -951,7 +977,6 @@ const LANGS = {
   ru:{n:'Русский',f:'🇷🇺',d:'ltr'}, de:{n:'Deutsch',f:'🇩🇪',d:'ltr'}
 };
 
-/* COMPREHENSIVE DICTIONARY FOR 12 LANGUAGES */
 const T = {
   intro_gamers: { ar:'لاعب عربي مسجل', en:'Registered Arab Gamers', zh:'注册阿拉伯玩家', ja:'登録されたアラブのゲーマー', ko:'등록된 아랍 게이머', ur:'رجسٹرڈ عرب گیمرز', fr:'Joueurs arabes inscrits', it:'Giocatori arabi registrati', es:'Jugadores árabes registrados', pt:'Jogadores árabes registrados', ru:'Зарегистрированные арабские игроки', de:'Registrierte arabische Gamer' },
   nav_engine: { ar:'التقنية', en:'Engine', zh:'技术引擎', ja:'エンジン', ko:'엔진', ur:'ٹیکنالوجی', fr:'Technologie', it:'Tecnologia', es:'Tecnología', pt:'Tecnologia', ru:'Технология', de:'Engine' },
@@ -990,7 +1015,7 @@ const T = {
   wf_title: { ar:'من الرفع إلى الإطلاق', en:'From Upload to Launch', zh:'从上传到发布', ja:'アップロードからリリースまで', ko:'업로드에서 출시까지', ur:'اپ لوڈ سے لانچ تک', fr:'Du dépôt au lancement', it:'Dal caricamento al lancio', es:'De la carga al lanzamiento', pt:'Do upload ao lançamento', ru:'От загрузки до запуска', de:'Vom Upload zum Launch' },
   wf_sub: { ar:'رحلة حزمتك عبر منظومة عُرب.', en:'Your package journey through the URB pipeline.', zh:'您的包在URB流程中的旅程。', ja:'URBパイプラインでのパッケージの旅。', ko:'URB 파이프라인을 통한 패키지 여정.', ur:'URB پائپ لائن میں آپ کے پیکج کا سفر۔', fr:'Le parcours de votre package dans URB.', it:'Il viaggio del tuo pacchetto in URB.', es:'El viaje de tu paquete por URB.', pt:'A jornada do seu pacote no URB.', ru:'Путь вашего пакета через URB.', de:'Die Reise Ihres Pakets durch URB.' },
   wf_1: { ar:'أرسل حزمتك', en:'Submit Package', zh:'提交您的包', ja:'パッケージを送信', ko:'패키지 제출', ur:'اپنا پیکج بھیجیں', fr:'Soumettez votre package', it:'Invia il pacchetto', es:'Envía tu paquete', pt:'Envie seu pacote', ru:'Отправьте пакет', de:'Paket einreichen' },
-  wf_1s: { ar:'ارفع رابط ملفات لعبتك وحدد اللغات والموعد.', en:'Share your game files link, target languages, and deadline.', zh:'共享游戏文件链接、目标语言和截止日期。', ja:'ファイルリンク、対象言語、希望納期を入力。', ko:'파일 링크, 대상 언어, 마감일을 공유하세요.', ur:'فائلوں کا لنک اور تفصیلات دیں۔', fr:'Partagez le lien de vos fichiers, langues et délai.', it:'Condividi il link ai file, lingue e scadenza.', es:'Comparte el enlace a tus archivos, idiomas y fecha.', pt:'Compartilhe o link dos arquivos, idiomas e prazo.', ru:'Укажите ссылку на файлы, языки и срок.', de:'Teilen Sie den Link zu den Dateien, Sprachen und Frist.' },
+  wf_1s: { ar:'ارفع ملفات لعبتك وحدد اللغات المستهدفة والموعد.', en:'Share your game files link, target languages, and deadline.', zh:'共享游戏文件链接、目标语言和截止日期。', ja:'ファイルリンク、対象言語、希望納期を入力。', ko:'파일 링크, 대상 언어, 마감일을 공유하세요.', ur:'فائلوں کا لنک اور تفصیلات دیں۔', fr:'Partagez le lien de vos fichiers, langues et délai.', it:'Condividi il link ai file, lingue e scadenza.', es:'Comparte el enlace a tus archivos, idiomas y fecha.', pt:'Compartilhe o link dos arquivos, idiomas e prazo.', ru:'Укажите ссылку на файлы, языки и срок.', de:'Teilen Sie den Link zu den Dateien, Sprachen und Frist.' },
   wf_2: { ar:'معالجة AI', en:'AI Processing', zh:'AI处理', ja:'AI処理', ko:'AI 처리', ur:'AI پروسیسنگ', fr:'Traitement IA', it:'Elaborazione IA', es:'Procesamiento IA', pt:'Processamento IA', ru:'ИИ-обработка', de:'KI-Verarbeitung' },
   wf_2s: { ar:'محرك URB يترجم مع الحفاظ على السياق والمصطلحات.', en:'URB engine translates while preserving context and terminology.', zh:'URB引擎在保留上下文的同时进行翻译。', ja:'URBエンジンが文脈と用語を保ちながら翻訳。', ko:'URB 엔진이 문맥과 용어를 보존하며 번역.', ur:'URB انجن سیاق و سباق کو برقرار رکھتا ہے۔', fr:'Le moteur URB traduit en préservant le contexte.', it:'Il motore URB traduce preservando il contesto.', es:'El motor URB traduce preservando el contexto.', pt:'O motor URB traduz preservando o contexto.', ru:'Движок URB переводит с сохранением контекста.', de:'Die URB-Engine übersetzt kontexttreu.' },
   wf_3: { ar:'مراجعة بشرية', en:'Human Review', zh:'人工审校', ja:'人間によるレビュー', ko:'휴먼 리뷰', ur:'انسانی جائزہ', fr:'Révision humaine', it:'Revisione umana', es:'Revisión humana', pt:'Revisão humana', ru:'Проверка человеком', de:'Menschliche Prüfung' },
@@ -1096,8 +1121,6 @@ function handleRoute() {
   
   if (h === '#dashboard' && me) {
     if(myRole === 'admin') document.getElementById('dash-admin').classList.add('active');
-    else if(myRole === 'team') document.getElementById('dash-team').classList.add('active');
-    else if(myRole === 'vendor') document.getElementById('dash-vendor').classList.add('active');
     else document.getElementById('dash-client').classList.add('active');
   } else {
     document.getElementById('view-landing').classList.add('active');
@@ -1143,34 +1166,15 @@ function dPage(dash, page, el) {
     el.classList.add('on');
   }
 
-  // Client Dashboard Loaders
   if (dash === 'client' && page === 'glossary') loadGlossary();
   if (dash === 'client' && page === 'profile') renderProfile();
   if (dash === 'client' && page === 'packages') loadClientPackages();
 
-  // Admin Dashboard Loaders
   if (dash === 'admin') {
     if(page==='pricing') adminLoadPricing();
-    if(page==='partners') adminLoadPartners();
-    if(page==='pillars') adminLoadPillars();
-    if(page==='news') adminLoadNews();
-    if(page==='portfolio') adminLoadPortfolio();
-    if(page==='showcase') adminLoadShowcase();
-    if(page==='social') fillSocialInputs();
-    if(page==='telegram') loadTelegram();
-    if(page==='vendors'){ adminLoadVendors(); adminLoadApplications(); }
-    if(page==='rfqs') adminLoadRfqs();
     if(page==='team') adminLoadTeam();
     if(page==='clients') adminLoadClients();
   }
-}
-function toggleSide(dash){
-  const s = document.getElementById(`side-${dash}`);
-  const o = document.getElementById(`sideov-${dash}`);
-  const opening = !s.classList.contains('open');
-  s.classList.toggle('open', opening);
-  o.classList.toggle('open', opening);
-  document.body.style.overflow = opening ? 'hidden' : '';
 }
 
 function closeM(id){ document.getElementById(id).classList.remove('open'); }
@@ -1428,9 +1432,7 @@ async function adminLoadAll(){
     document.getElementById('as-pkgs-s').textContent = A.pkgs.filter(p=>p.status==='done').length + ' مكتملة';
     document.getElementById('as-clients').textContent = new Set(A.pkgs.map(p=>p.user_id)).size;
     document.getElementById('as-pending').textContent = A.pkgs.filter(p=>['submitted','queue'].includes(p.status) && !p.assigned_to && !p.vendor_id).length;
-    document.getElementById('as-rfqs').textContent = A.rfqs.filter(r=>r.status==='open').length;
     document.getElementById('ad-recent').innerHTML = renderAdminPkgs(A.pkgs.slice(0,5));
-    document.getElementById('ad-pkgs').innerHTML = renderAdminPkgs(A.pkgs);
   }
 }
 
@@ -1490,6 +1492,15 @@ async function submitVendorApply(){
 }
 
 /* ═══ BOT FUNCTIONS ═══ */
+function setBotLanguage(langCode, langName) {
+  selectedLang = langCode;
+  document.getElementById('langContainer').style.display = 'none';
+  const welcomeText = `Welcome! Language set to: ${langName}. How can I assist you?`;
+  
+  const messagesDiv = document.getElementById('chatMessages');
+  messagesDiv.innerHTML += `<div class="message bot">${welcomeText}</div>`;
+}
+
 function toggleChat() {
   const box = document.getElementById('chatBox');
   box.style.display = (box.style.display === 'flex') ? 'none' : 'flex';
@@ -1504,7 +1515,7 @@ async function sendMessage() {
   try {
     const response = await fetch('/api/chat', {
       method: 'POST', headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ message: text, language: lang })
+      body: JSON.stringify({ message: text, language: selectedLang })
     });
     const data = await response.json();
     messagesDiv.innerHTML += `<div class="message bot">${data.reply || '...'}</div>`;
