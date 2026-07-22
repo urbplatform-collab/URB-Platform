@@ -696,7 +696,7 @@ h1,h2,h3,p,li,a,span,div{ overflow-wrap:anywhere; word-break:break-word; }
       <button class="side-item" onclick="dPage('client','packages',this)"><span data-i18n="dash_pkgs">📦 حزمي</span></button>
       <button class="side-item" onclick="openCreatePkg()"><span data-i18n="dash_new_pkg">➕ حزمة جديدة</span></button>
       <div class="side-lbl">TOOLS</div>
-      <button class="side-item" onclick="dPage('client','glossary',this)"><span data-i18n="dash_glossary">📖 المصطلحات</span></button>
+      <button class="side-item" onclick="dPage('client','glossary',this)"><span data-i18n="gloss_title">📖 قاموس مصطلحاتي</span></button>
       <button class="side-item" onclick="dPage('client','profile',this)"><span data-i18n="dash_profile">👤 ملفي</span></button>
     </div>
     <div class="dash-main">
@@ -723,13 +723,14 @@ h1,h2,h3,p,li,a,span,div{ overflow-wrap:anywhere; word-break:break-word; }
       </div>
       <div class="dpage" id="client-glossary">
         <div class="dcard">
-          <div class="dcard-head"><div class="dcard-title" data-i18n="dash_glossary">📖 مصطلحاتي المخصصة</div></div>
+          <div class="dcard-head"><div class="dcard-title" data-i18n="gloss_title">📖 قاموس مصطلحاتي</div></div>
           <div class="dcard-body">
+            <p style="color:var(--dim);font-size:0.83rem;line-height:1.7;margin-bottom:16px;" data-i18n="gloss_hint">سجّل ترجماتك المعتمدة ليلتزم بها المترجم والمدقق — يضمن اتساق المصطلحات في كل مشاريعك.</p>
             <div class="f2" style="margin-bottom:12px;">
-              <input class="fi" id="g-src" placeholder="المصطلح الأصلي" style="direction:auto;">
-              <input class="fi" id="g-tr" placeholder="الترجمة المعتمدة">
+              <input class="fi" id="g-src" data-i18n-ph="ph_src_term" placeholder="المصطلح الأصلي" style="direction:auto;">
+              <input class="fi" id="g-tr" data-i18n-ph="ph_tr_term" placeholder="الترجمة المعتمدة">
             </div>
-            <button class="mini-btn mm" style="width:100%;padding:11px;" onclick="addTerm()">+ إضافة مصطلح</button>
+            <button class="mini-btn mm" style="width:100%;padding:11px;" onclick="addTerm()" data-i18n="btn_add_term">+ إضافة مصطلح</button>
             <div id="g-list" style="margin-top:18px;"></div>
           </div>
         </div>
@@ -738,6 +739,108 @@ h1,h2,h3,p,li,a,span,div{ overflow-wrap:anywhere; word-break:break-word; }
         <div class="dcard">
           <div class="dcard-head"><div class="dcard-title" data-i18n="dash_profile">👤 ملفي</div></div>
           <div class="dcard-body" id="cl-profile-body"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════ INTERNAL TEAM DASHBOARD ═══════════ -->
+<div class="dash" id="dash-internal">
+  <div class="dash-top">
+    <div class="dash-title"><span>URB</span> <span class="role-chip" id="int-role-chip" style="background:rgba(34,211,238,0.15);color:var(--cyan);">TEAM</span></div>
+    <div style="display:flex;gap:9px;align-items:center;">
+      <span id="int-name" style="font-size:0.82rem;color:var(--dim);"></span>
+      <button class="mini-btn dg" onclick="doLogout()"><span data-i18n="btn_logout">خروج ↩</span></button>
+    </div>
+  </div>
+  <div class="dash-body">
+    <div class="dash-side">
+      <div class="side-lbl">MAIN</div>
+      <button class="side-item on" onclick="dPage('internal','inbox',this)"><span data-i18n="int_inbox">📥 الطلبات الواردة</span></button>
+      <button class="side-item" onclick="dPage('internal','mine',this)"><span data-i18n="int_mine">🗂️ مهامي</span></button>
+      <div class="side-lbl">TOOLS</div>
+      <button class="side-item" onclick="dPage('internal','glossary',this)"><span data-i18n="gloss_title">📖 قاموس مصطلحاتي</span></button>
+      <button class="side-item" onclick="dPage('internal','profile',this)"><span data-i18n="dash_profile">👤 ملفي</span></button>
+    </div>
+    <div class="dash-main">
+      <div class="dpage active" id="internal-inbox">
+        <div class="stats">
+          <div class="stat"><div class="sl" data-i18n="int_inbox">INBOX</div><div class="sv" style="color:var(--cyan);" id="is-new">0</div></div>
+          <div class="stat"><div class="sl" data-i18n="st_inprog">IN PROGRESS</div><div class="sv" style="color:var(--purple);" id="is-prog">0</div></div>
+          <div class="stat"><div class="sl" data-i18n="st_done">DONE</div><div class="sv" style="color:var(--green);" id="is-done">0</div></div>
+        </div>
+        <div class="dcard">
+          <div class="dcard-head">
+            <div class="dcard-title" data-i18n="int_inbox">📥 الطلبات الواردة</div>
+            <button class="mini-btn" onclick="loadInternalJobs()">↻</button>
+          </div>
+          <div class="dcard-body" id="int-inbox-list"></div>
+        </div>
+      </div>
+      <div class="dpage" id="internal-mine">
+        <div class="dcard">
+          <div class="dcard-head"><div class="dcard-title" data-i18n="int_mine">🗂️ مهامي</div><button class="mini-btn" onclick="loadInternalJobs()">↻</button></div>
+          <div class="dcard-body" id="int-mine-list"></div>
+        </div>
+      </div>
+      <div class="dpage" id="internal-glossary">
+        <div class="dcard">
+          <div class="dcard-head"><div class="dcard-title" data-i18n="gloss_title">📖 قاموس مصطلحاتي</div></div>
+          <div class="dcard-body" id="int-gloss-body"></div>
+        </div>
+      </div>
+      <div class="dpage" id="internal-profile">
+        <div class="dcard">
+          <div class="dcard-head"><div class="dcard-title" data-i18n="dash_profile">👤 ملفي</div></div>
+          <div class="dcard-body" id="int-profile-body"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════ VENDOR DASHBOARD ═══════════ -->
+<div class="dash" id="dash-vendor">
+  <div class="dash-top">
+    <div class="dash-title"><span>URB</span> <span class="role-chip" style="background:rgba(251,191,36,0.15);color:var(--gold);">VENDOR</span></div>
+    <div style="display:flex;gap:9px;align-items:center;">
+      <span id="vd-name" style="font-size:0.82rem;color:var(--dim);"></span>
+      <button class="mini-btn dg" onclick="doLogout()"><span data-i18n="btn_logout">خروج ↩</span></button>
+    </div>
+  </div>
+  <div class="dash-body">
+    <div class="dash-side">
+      <div class="side-lbl">MAIN</div>
+      <button class="side-item on" onclick="dPage('vendor','opps',this)"><span data-i18n="vd_opps">🎯 الفرص المتاحة</span></button>
+      <button class="side-item" onclick="dPage('vendor','invites',this)"><span data-i18n="vd_invites">✉️ دعوات مباشرة</span></button>
+      <button class="side-item" onclick="dPage('vendor','offers',this)"><span data-i18n="vd_myoffers">📤 عروضي</span></button>
+      <div class="side-lbl">TOOLS</div>
+      <button class="side-item" onclick="dPage('vendor','profile',this)"><span data-i18n="dash_profile">👤 ملفي</span></button>
+    </div>
+    <div class="dash-main">
+      <div class="dpage active" id="vendor-opps">
+        <div class="dcard">
+          <div class="dcard-head"><div class="dcard-title" data-i18n="vd_opps">🎯 الفرص المتاحة</div><button class="mini-btn" onclick="loadVendorOpps()">↻</button></div>
+          <div class="dcard-body" id="vd-opps-list"></div>
+        </div>
+      </div>
+      <div class="dpage" id="vendor-invites">
+        <div class="dcard">
+          <div class="dcard-head"><div class="dcard-title" data-i18n="vd_invites">✉️ دعوات مباشرة</div><button class="mini-btn" onclick="loadVendorOpps()">↻</button></div>
+          <div class="dcard-body" id="vd-inv-list"></div>
+        </div>
+      </div>
+      <div class="dpage" id="vendor-offers">
+        <div class="dcard">
+          <div class="dcard-head"><div class="dcard-title" data-i18n="vd_myoffers">📤 عروضي</div><button class="mini-btn" onclick="loadVendorOffers()">↻</button></div>
+          <div class="dcard-body" id="vd-off-list"></div>
+        </div>
+      </div>
+      <div class="dpage" id="vendor-profile">
+        <div class="dcard">
+          <div class="dcard-head"><div class="dcard-title" data-i18n="dash_profile">👤 ملفي</div></div>
+          <div class="dcard-body" id="vd-profile-body"></div>
         </div>
       </div>
     </div>
@@ -759,6 +862,7 @@ h1,h2,h3,p,li,a,span,div{ overflow-wrap:anywhere; word-break:break-word; }
       <button class="side-item on" onclick="dPage('admin','overview',this)">📊 <span>نظرة عامة</span></button>
       <button class="side-item" onclick="dPage('admin','packages',this)">📦 <span>الحزم</span></button>
       <button class="side-item" onclick="dPage('admin','clients',this)">👤 <span>العملاء</span></button>
+      <button class="side-item" onclick="dPage('admin','routing',this)">🧭 <span>توجيه الطلبات</span></button>
       <button class="side-item" onclick="dPage('admin','team',this)">👥 <span>الفريق</span></button>
       <button class="side-item" onclick="dPage('admin','vendors',this)">🤝 <span>المتعهدون</span></button>
       <div class="side-lbl">SITE CONTENT</div>
@@ -784,17 +888,43 @@ h1,h2,h3,p,li,a,span,div{ overflow-wrap:anywhere; word-break:break-word; }
         <div class="dcard"><div class="dcard-head"><div class="dcard-title">📦 كل الحزم</div><button class="mini-btn" onclick="adminLoadAll()">↻</button></div><div class="dcard-body" id="ad-pkgs"></div></div>
       </div>
 
+      <div class="dpage" id="admin-routing">
+        <div class="dcard">
+          <div class="dcard-head"><div class="dcard-title">🧭 طلبات العملاء — التوجيه</div><button class="mini-btn" onclick="adminLoadRouting()">↻</button></div>
+          <div class="dcard-body" id="ad-routing-list"></div>
+        </div>
+      </div>
+
       <div class="dpage" id="admin-clients">
         <div class="dcard"><div class="dcard-head"><div class="dcard-title">👤 العملاء</div></div><div class="dcard-body" id="ad-clients"></div></div>
       </div>
 
       <div class="dpage" id="admin-team">
-        <div class="dcard"><div class="dcard-head"><div class="dcard-title">👥 الفريق الداخلي</div><button class="mini-btn" onclick="adminLoadTeam()">↻</button></div><div class="dcard-body" id="ad-team"></div></div>
+        <div class="dcard">
+          <div class="dcard-head"><div class="dcard-title">👥 حسابات الفريق الداخلي</div>
+            <div style="display:flex;gap:7px;">
+              <button class="mini-btn" onclick="loadJobRoles();openM('rolesModal')">🏷️ المسميات</button>
+              <button class="mini-btn mm" onclick="openUserModal('internal')">➕ حساب جديد</button>
+              <button class="mini-btn" onclick="adminLoadUsers()">↻</button>
+            </div>
+          </div>
+          <div class="dcard-body" id="ad-internal-list"></div>
+        </div>
+        <div class="dcard"><div class="dcard-head"><div class="dcard-title">🖼️ عرض الفريق في الموقع</div><button class="mini-btn" onclick="adminLoadTeam()">↻</button></div><div class="dcard-body" id="ad-team"></div></div>
       </div>
 
       <div class="dpage" id="admin-vendors">
-        <div class="dcard"><div class="dcard-head"><div class="dcard-title">📥 طلبات التقديم الجديدة</div></div><div class="dcard-body" id="ad-vendor-apps"></div></div>
-        <div class="dcard"><div class="dcard-head"><div class="dcard-title">🤝 المتعهدون المؤهلون</div></div><div class="dcard-body" id="ad-vendors"></div></div>
+        <div class="dcard"><div class="dcard-head"><div class="dcard-title">📥 طلبات الانضمام</div><button class="mini-btn" onclick="adminLoadVendorApps()">↻</button></div><div class="dcard-body" id="ad-vendor-apps"></div></div>
+        <div class="dcard">
+          <div class="dcard-head"><div class="dcard-title">🤝 حسابات المتعهدين</div>
+            <div style="display:flex;gap:7px;">
+              <button class="mini-btn mm" onclick="openUserModal('vendor')">➕ حساب جديد</button>
+              <button class="mini-btn" onclick="adminLoadUsers()">↻</button>
+            </div>
+          </div>
+          <div class="dcard-body" id="ad-vendors-list"></div>
+        </div>
+        <div class="dcard"><div class="dcard-head"><div class="dcard-title">🖼️ عرض المتعهدين في الموقع</div></div><div class="dcard-body" id="ad-vendors"></div></div>
       </div>
 
       <div class="dpage" id="admin-pricing">
@@ -863,12 +993,204 @@ h1,h2,h3,p,li,a,span,div{ overflow-wrap:anywhere; word-break:break-word; }
 
 <!-- ═══════════ MODALS ═══════════ -->
 
+<!-- ═══ ROUTING MODAL (Admin) ═══ -->
+<div class="overlay" id="routeModal">
+  <div class="panel" style="width:640px;">
+    <div class="panel-head">
+      <div class="panel-title">🧭 توجيه الطلب</div>
+      <button class="x-btn" onclick="closeM('routeModal')">✕</button>
+    </div>
+    <div class="panel-body">
+      <div id="rt-summary" style="background:var(--surface2);border:1px solid var(--border2);border-radius:12px;padding:14px;margin-bottom:18px;font-size:0.86rem;"></div>
+      <div class="atabs">
+        <button class="atab on" onclick="rtTab('internal',this)">👥 الفريق الداخلي</button>
+        <button class="atab" onclick="rtTab('direct',this)">✉️ متعهدون محددون</button>
+        <button class="atab" onclick="rtTab('rfq',this)">📢 نشر RFQ</button>
+      </div>
+
+      <div id="rt-internal">
+        <div class="fg"><label class="fl">اختر أعضاء الفريق</label><div id="rt-team-list" style="max-height:230px;overflow-y:auto;"></div></div>
+        <div class="fg"><label class="fl">ملاحظة للفريق</label><textarea class="fi" id="rt-int-note" rows="2"></textarea></div>
+        <button class="btn btn-grad" style="width:100%;padding:12px;" onclick="routeInternal()">إرسال للفريق الداخلي</button>
+      </div>
+
+      <div id="rt-direct" style="display:none;">
+        <div class="fg"><label class="fl">اختر المتعهدين (واحد أو أكثر)</label><div id="rt-vendor-list" style="max-height:230px;overflow-y:auto;"></div></div>
+        <div class="fg"><label class="fl">رسالة طلب التسعيرة</label><textarea class="fi" id="rt-dir-note" rows="2"></textarea></div>
+        <button class="btn btn-grad" style="width:100%;padding:12px;" onclick="routeDirect()">طلب تسعيرة منهم</button>
+      </div>
+
+      <div id="rt-rfq" style="display:none;">
+        <div class="f2">
+          <div class="fg"><label class="fl">نوع اللعبة</label><input class="fi" id="rt-game"></div>
+          <div class="fg"><label class="fl">عدد الكلمات</label><input class="fi" id="rt-words" type="number"></div>
+        </div>
+        <div class="fg"><label class="fl">آخر موعد لاستقبال العروض</label><input class="fi" id="rt-deadline" type="date"></div>
+        <div class="fg"><label class="fl">وصف يظهر للمتعهدين</label><textarea class="fi" id="rt-rfq-desc" rows="3"></textarea></div>
+        <button class="btn btn-grad" style="width:100%;padding:12px;" onclick="routeRFQ()">📢 نشر في صفحة الفرص</button>
+      </div>
+      <div class="fmsg" id="rt-msg"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ OFFERS REVIEW MODAL (Admin) ═══ -->
+<div class="overlay" id="offersModal">
+  <div class="panel" style="width:700px;">
+    <div class="panel-head">
+      <div class="panel-title">💼 العروض المستلمة</div>
+      <button class="x-btn" onclick="closeM('offersModal')">✕</button>
+    </div>
+    <div class="panel-body">
+      <div id="of-list"></div>
+      <div id="of-margin-box" style="display:none;margin-top:20px;padding-top:18px;border-top:1px solid var(--border2);">
+        <div class="fg"><label class="fl">طريقة هامش الربح</label>
+          <select class="fi" id="of-margin-type" onchange="calcClientPrice()">
+            <option value="percent">نسبة مئوية %</option>
+            <option value="fixed">مبلغ ثابت (ريال)</option>
+            <option value="manual">سعر نهائي يدوي</option>
+          </select>
+        </div>
+        <div class="fg"><label class="fl" id="of-margin-lbl">قيمة الهامش</label><input class="fi" id="of-margin-val" type="number" step="0.01" oninput="calcClientPrice()"></div>
+        <div style="background:var(--surface2);border:1px solid var(--border);border-radius:12px;padding:14px;margin-bottom:14px;">
+          <div style="display:flex;justify-content:space-between;font-size:0.84rem;margin-bottom:6px;"><span style="color:var(--dim);">تكلفة المتعهد</span><b id="of-cost">0.00</b></div>
+          <div style="display:flex;justify-content:space-between;font-size:0.84rem;margin-bottom:6px;"><span style="color:var(--dim);">الربح</span><b style="color:var(--green);" id="of-profit">0.00</b></div>
+          <div style="display:flex;justify-content:space-between;font-size:1rem;padding-top:8px;border-top:1px solid var(--border2);"><span>سعر العميل</span><b style="color:var(--cyan);" id="of-final">0.00</b></div>
+        </div>
+        <div class="fg"><label class="fl">ملاحظات تظهر للعميل</label><textarea class="fi" id="of-client-note" rows="2"></textarea></div>
+        <button class="btn btn-grad" style="width:100%;padding:12px;" onclick="sendOfferToClient()">📨 إرسال العرض للعميل</button>
+      </div>
+      <div class="fmsg" id="of-msg"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ CLIENT OFFER PREVIEW ═══ -->
+<div class="overlay" id="clientOfferModal">
+  <div class="panel" style="width:560px;">
+    <div class="panel-head">
+      <div class="panel-title" data-i18n="offer_title">📄 العرض المقدّم</div>
+      <button class="x-btn" onclick="closeM('clientOfferModal')">✕</button>
+    </div>
+    <div class="panel-body" id="co-body"></div>
+  </div>
+</div>
+
+<!-- ═══ VENDOR SUBMIT QUOTE ═══ -->
+<div class="overlay" id="quoteModal">
+  <div class="panel" style="width:520px;">
+    <div class="panel-head">
+      <div class="panel-title" data-i18n="vd_submit">قدّم عرضك</div>
+      <button class="x-btn" onclick="closeM('quoteModal')">✕</button>
+    </div>
+    <div class="panel-body">
+      <div id="q-summary" style="background:var(--surface2);border:1px solid var(--border2);border-radius:12px;padding:13px;margin-bottom:16px;font-size:0.85rem;"></div>
+      <div class="f2">
+        <div class="fg"><label class="fl" data-i18n="vd_your_price">سعرك (ريال)</label><input class="fi" id="q-price" type="number" step="0.01"></div>
+        <div class="fg"><label class="fl" data-i18n="vd_days">أيام التسليم</label><input class="fi" id="q-days" type="number"></div>
+      </div>
+      <div class="fg"><label class="fl" data-i18n="offer_notes">ملاحظات</label><textarea class="fi" id="q-notes" rows="3"></textarea></div>
+      <button class="btn btn-grad" style="width:100%;padding:12px;" onclick="submitQuote()" data-i18n="vd_submit">قدّم عرضك</button>
+      <div class="fmsg" id="q-msg"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ INTERNAL DECLINE ═══ -->
+<div class="overlay" id="declineModal">
+  <div class="panel" style="width:460px;">
+    <div class="panel-head">
+      <div class="panel-title" data-i18n="int_decline_r">سبب الاعتذار</div>
+      <button class="x-btn" onclick="closeM('declineModal')">✕</button>
+    </div>
+    <div class="panel-body">
+      <div class="fg"><label class="fl" data-i18n="int_decline_r">سبب الاعتذار</label>
+        <select class="fi" id="dc-reason">
+          <option value="busy" data-i18n="r_busy">مشغول حالياً</option>
+          <option value="scope" data-i18n="r_scope">خارج تخصصي</option>
+          <option value="deadline" data-i18n="r_deadline">المدة غير كافية</option>
+        </select>
+      </div>
+      <div class="fg"><label class="fl" data-i18n="offer_notes">ملاحظات</label><textarea class="fi" id="dc-note" rows="3"></textarea></div>
+      <button class="btn btn-grad" style="width:100%;padding:12px;" onclick="confirmDecline()" data-i18n="btn_decline">اعتذار</button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ CREATE USER (Admin) ═══ -->
+<div class="overlay" id="userModal">
+  <div class="panel" style="width:600px;">
+    <div class="panel-head">
+      <div class="panel-title" id="um-title">➕ إنشاء حساب</div>
+      <button class="x-btn" onclick="closeM('userModal')">✕</button>
+    </div>
+    <div class="panel-body">
+      <div class="atabs" id="um-type-tabs">
+        <button class="atab on" onclick="umType('internal',this)">👥 فريق داخلي</button>
+        <button class="atab" onclick="umType('vendor',this)">🤝 متعهد</button>
+      </div>
+      <div class="f2">
+        <div class="fg"><label class="fl">الاسم الكامل *</label><input class="fi" id="um-name"></div>
+        <div class="fg"><label class="fl">اسم المستخدم *</label><input class="fi" id="um-username" dir="ltr"></div>
+      </div>
+      <div class="fg"><label class="fl">البريد الإلكتروني *</label><input class="fi" id="um-email" type="email" dir="ltr"></div>
+      <div class="fg" id="um-role-wrap"><label class="fl">المسمى الوظيفي *</label><select class="fi" id="um-role"></select></div>
+      <div class="fg"><label class="fl">كلمة المرور المؤقتة *</label>
+        <div style="display:flex;gap:8px;">
+          <input class="fi" id="um-pass" dir="ltr" style="flex:1;">
+          <button class="mini-btn" onclick="genPass()" type="button">🎲 توليد</button>
+        </div>
+        <div style="font-size:0.72rem;color:var(--dim);margin-top:6px;">سيُطلب منه تغييرها عند أول دخول.</div>
+      </div>
+      <div class="f2">
+        <div class="fg"><label class="fl">الجوال</label><input class="fi" id="um-phone" dir="ltr"></div>
+        <div class="fg"><label class="fl">نسبة التفرغ %</label><input class="fi" id="um-capacity" type="number" value="100"></div>
+      </div>
+      <div class="fg"><label class="fl">التخصصات (افصل بفاصلة)</label><input class="fi" id="um-spec" placeholder="RPG, FPS, Mobile"></div>
+      <div class="fg"><label class="fl">ملاحظات</label><textarea class="fi" id="um-notes" rows="2"></textarea></div>
+      <button class="btn btn-grad" style="width:100%;padding:12px;" onclick="createUserAccount()">✅ إنشاء الحساب</button>
+      <div class="fmsg" id="um-msg"></div>
+      <div id="um-creds" style="display:none;margin-top:14px;padding:14px;background:rgba(52,211,153,0.08);border:1px solid rgba(52,211,153,0.3);border-radius:12px;">
+        <div style="font-size:0.78rem;color:var(--dim);margin-bottom:8px;">✅ تم — سلّم هذه البيانات للموظف:</div>
+        <div id="um-creds-body" style="font-family:'Space Mono',monospace;font-size:0.82rem;line-height:1.9;" dir="ltr"></div>
+        <button class="mini-btn mm" style="margin-top:10px;" onclick="copyCreds()">📋 نسخ</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ JOB ROLES MANAGER (Admin) ═══ -->
+<div class="overlay" id="rolesModal">
+  <div class="panel" style="width:620px;">
+    <div class="panel-head">
+      <div class="panel-title">🏷️ المسميات الوظيفية</div>
+      <button class="x-btn" onclick="closeM('rolesModal')">✕</button>
+    </div>
+    <div class="panel-body">
+      <div id="jr-list" style="margin-bottom:18px;"></div>
+      <div style="border-top:1px solid var(--border2);padding-top:16px;">
+        <div class="f2">
+          <div class="fg"><label class="fl">المسمى (عربي)</label><input class="fi" id="jr-ar"></div>
+          <div class="fg"><label class="fl">Title (English)</label><input class="fi" id="jr-en" dir="ltr"></div>
+        </div>
+        <div class="fg"><label class="fl">المفتاح (إنجليزي بدون مسافات)</label><input class="fi" id="jr-key" dir="ltr" placeholder="senior_translator"></div>
+        <div class="fg"><label class="fl">الصلاحيات (Scope)</label>
+          <div id="jr-scope" style="display:flex;flex-wrap:wrap;gap:8px;"></div>
+        </div>
+        <button class="btn btn-grad" style="width:100%;padding:11px;" onclick="saveJobRole()">حفظ المسمى</button>
+        <div class="fmsg" id="jr-msg"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
 <div class="overlay" id="resetModal">
   <div class="panel" style="width:400px;">
     <div class="panel-head">
       <div class="panel-title">🔑 تعيين كلمة مرور جديدة</div>
     </div>
     <div class="panel-body">
+      <p style="color:var(--dim);font-size:0.8rem;line-height:1.7;margin-bottom:14px;" data-i18n="must_change_pw">لأمانك: غيّر كلمة المرور المؤقتة</p>
       <div class="fg"><label class="fl">NEW PASSWORD</label><input class="fi" type="password" id="new-pwd" placeholder="6+ characters"></div>
       <div class="fg"><label class="fl">CONFIRM PASSWORD</label><input class="fi" type="password" id="conf-pwd"></div>
       <button class="btn btn-grad" style="width:100%;padding:13px;" onclick="updatePassword()">💾 حفظ والتسجيل</button>
@@ -1039,7 +1361,8 @@ const SUPA_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsI
 const sb = supabase.createClient(SUPA_URL, SUPA_KEY);
 
 let me = null;          
-let myRole = 'guest';   
+let myRole = 'guest';
+let myProfile = null;   
 let adminSecret = 'Urb@2026';
 let siteCfg = {};
 let A = { pkgs:[], team:[], vendors:[], pricing:[] };
@@ -1234,6 +1557,64 @@ const T = {
   auth_title: { ar:'الدخول إلى عُرب URB', en:'Sign in to URB', zh:'登录 URB', ja:'URBにサインイン', ko:'URB 로그인', ur:'URB میں لاگ ان کریں', fr:'Connexion à URB', it:'Accedi a URB', es:'Iniciar sesión en URB', pt:'Entrar no URB', ru:'Вход в URB', de:'Bei URB anmelden' },
   tab_login: { ar:'دخول', en:'Login', zh:'登录', ja:'ログイン', ko:'로그인', ur:'لاگ ان', fr:'Connexion', it:'Accedi', es:'Entrar', pt:'Entrar', ru:'Войти', de:'Anmelden' },
   tab_signup: { ar:'حساب جديد', en:'Sign Up', zh:'注册', ja:'登録', ko:'가입', ur:'رجسٹر', fr:'Inscription', it:'Registrati', es:'Registro', pt:'Cadastro', ru:'Регистрация', de:'Registrieren' },
+  reset_sent: { ar:"تم إرسال رابط الاستعادة إلى بريدك.", en:"Reset link sent to your email.", zh:"重置链接已发送至您的邮箱。", ja:"リセットリンクをメールに送信しました。", ko:"재설정 링크를 이메일로 보냈습니다.", ur:"ری سیٹ لنک آپ کے ای میل پر بھیج دیا گیا۔", fr:"Lien de réinitialisation envoyé par e-mail.", it:"Link di reimpostazione inviato via email.", es:"Enlace de restablecimiento enviado a tu correo.", pt:"Link de redefinição enviado para seu e-mail.", ru:"Ссылка для сброса отправлена на почту.", de:"Reset-Link an Ihre E-Mail gesendet." },
+  reset_expired: { ar:"انتهت صلاحية الرابط. اطلب رابطاً جديداً.", en:"Link expired. Please request a new one.", zh:"链接已过期，请重新申请。", ja:"リンクの有効期限が切れました。", ko:"링크가 만료되었습니다.", ur:"لنک کی میعاد ختم ہوگئی۔", fr:"Lien expiré. Demandez-en un nouveau.", it:"Link scaduto. Richiedine uno nuovo.", es:"Enlace caducado. Solicita uno nuevo.", pt:"Link expirado. Solicite um novo.", ru:"Срок ссылки истёк. Запросите новую.", de:"Link abgelaufen. Neuen anfordern." },
+  enter_email: { ar:"أدخل بريدك الإلكتروني.", en:"Please enter your email.", zh:"请输入您的邮箱。", ja:"メールアドレスを入力してください。", ko:"이메일을 입력하세요.", ur:"براہ کرم ای میل درج کریں۔", fr:"Veuillez saisir votre e-mail.", it:"Inserisci la tua email.", es:"Introduce tu correo.", pt:"Digite seu e-mail.", ru:"Введите вашу почту.", de:"Bitte E-Mail eingeben." },
+  pw_min: { ar:"كلمة المرور 8 أحرف على الأقل", en:"Password must be 8+ characters", zh:"密码至少8位", ja:"パスワードは8文字以上", ko:"비밀번호는 8자 이상", ur:"پاس ورڈ کم از کم 8 حروف", fr:"Mot de passe : 8 caractères min.", it:"Password: minimo 8 caratteri", es:"Contraseña: mínimo 8 caracteres", pt:"Senha: mínimo 8 caracteres", ru:"Пароль минимум 8 символов", de:"Passwort: mind. 8 Zeichen" },
+  pw_mismatch: { ar:"كلمتا المرور غير متطابقتين", en:"Passwords do not match", zh:"两次密码不一致", ja:"パスワードが一致しません", ko:"비밀번호가 일치하지 않습니다", ur:"پاس ورڈ مماثل نہیں", fr:"Les mots de passe ne correspondent pas", it:"Le password non coincidono", es:"Las contraseñas no coinciden", pt:"As senhas não coincidem", ru:"Пароли не совпадают", de:"Passwörter stimmen nicht überein" },
+  pw_changed_ok: { ar:"تم تغيير كلمة المرور بنجاح!", en:"Password changed successfully!", zh:"密码修改成功！", ja:"パスワードを変更しました！", ko:"비밀번호가 변경되었습니다!", ur:"پاس ورڈ کامیابی سے تبدیل ہوگیا!", fr:"Mot de passe modifié !", it:"Password modificata!", es:"¡Contraseña cambiada!", pt:"Senha alterada com sucesso!", ru:"Пароль успешно изменён!", de:"Passwort erfolgreich geändert!" },
+  must_change_pw: { ar:"لأمانك: غيّر كلمة المرور المؤقتة", en:"For your security: change your temporary password", zh:"为了安全，请修改临时密码", ja:"セキュリティのため仮パスワードを変更してください", ko:"보안을 위해 임시 비밀번호를 변경하세요", ur:"سیکیورٹی کے لیے عارضی پاس ورڈ تبدیل کریں", fr:"Sécurité : changez votre mot de passe temporaire", it:"Sicurezza: cambia la password temporanea", es:"Seguridad: cambia tu contraseña temporal", pt:"Segurança: altere sua senha temporária", ru:"Для безопасности смените временный пароль", de:"Sicherheit: Temporäres Passwort ändern" },
+  gloss_title: { ar:"📖 قاموس مصطلحاتي", en:"📖 My Glossary", zh:"📖 我的术语表", ja:"📖 マイ用語集", ko:"📖 내 용어집", ur:"📖 میری اصطلاحات", fr:"📖 Mon glossaire", it:"📖 Il mio glossario", es:"📖 Mi glosario", pt:"📖 Meu glossário", ru:"📖 Мой глоссарий", de:"📖 Mein Glossar" },
+  gloss_hint: { ar:"سجّل ترجماتك المعتمدة ليلتزم بها المترجم والمدقق — يضمن اتساق المصطلحات في كل مشاريعك.", en:"Save your approved translations so translators and reviewers follow them — keeps terminology consistent across projects.", zh:"保存您认可的译法，译者和审校将遵循，确保术语一致。", ja:"承認済みの訳語を保存し、翻訳者と校閲者が従います。", ko:"승인된 번역을 저장하면 번역가와 검수자가 이를 따릅니다.", ur:"منظور شدہ تراجم محفوظ کریں تاکہ مترجم ان کی پیروی کریں۔", fr:"Enregistrez vos traductions validées pour garantir la cohérence.", it:"Salva le traduzioni approvate per garantire coerenza.", es:"Guarda tus traducciones aprobadas para mantener coherencia.", pt:"Salve suas traduções aprovadas para manter consistência.", ru:"Сохраняйте утверждённые переводы для единообразия.", de:"Speichern Sie genehmigte Übersetzungen für Konsistenz." },
+  ph_src_term: { ar:"المصطلح الأصلي", en:"Source term", zh:"原文术语", ja:"原語", ko:"원본 용어", ur:"اصل اصطلاح", fr:"Terme source", it:"Termine originale", es:"Término origen", pt:"Termo de origem", ru:"Исходный термин", de:"Ausgangsbegriff" },
+  ph_tr_term: { ar:"الترجمة المعتمدة", en:"Approved translation", zh:"认可译法", ja:"承認済みの訳", ko:"승인된 번역", ur:"منظور شدہ ترجمہ", fr:"Traduction validée", it:"Traduzione approvata", es:"Traducción aprobada", pt:"Tradução aprovada", ru:"Утверждённый перевод", de:"Genehmigte Übersetzung" },
+  btn_add_term: { ar:"+ إضافة مصطلح", en:"+ Add term", zh:"+ 添加术语", ja:"+ 用語を追加", ko:"+ 용어 추가", ur:"+ اصطلاح شامل کریں", fr:"+ Ajouter un terme", it:"+ Aggiungi termine", es:"+ Añadir término", pt:"+ Adicionar termo", ru:"+ Добавить термин", de:"+ Begriff hinzufügen" },
+  no_terms: { ar:"لا توجد مصطلحات بعد", en:"No terms yet", zh:"暂无术语", ja:"用語がありません", ko:"용어가 없습니다", ur:"ابھی کوئی اصطلاح نہیں", fr:"Aucun terme", it:"Nessun termine", es:"Sin términos", pt:"Sem termos", ru:"Нет терминов", de:"Keine Begriffe" },
+  btn_delete: { ar:"حذف", en:"Delete", zh:"删除", ja:"削除", ko:"삭제", ur:"حذف", fr:"Supprimer", it:"Elimina", es:"Eliminar", pt:"Excluir", ru:"Удалить", de:"Löschen" },
+  btn_view: { ar:"معاينة", en:"View", zh:"查看", ja:"表示", ko:"보기", ur:"دیکھیں", fr:"Voir", it:"Vedi", es:"Ver", pt:"Ver", ru:"Просмотр", de:"Ansehen" },
+  btn_refresh: { ar:"تحديث", en:"Refresh", zh:"刷新", ja:"更新", ko:"새로고침", ur:"تازہ کریں", fr:"Actualiser", it:"Aggiorna", es:"Actualizar", pt:"Atualizar", ru:"Обновить", de:"Aktualisieren" },
+  btn_save: { ar:"حفظ", en:"Save", zh:"保存", ja:"保存", ko:"저장", ur:"محفوظ کریں", fr:"Enregistrer", it:"Salva", es:"Guardar", pt:"Salvar", ru:"Сохранить", de:"Speichern" },
+  btn_cancel: { ar:"إلغاء", en:"Cancel", zh:"取消", ja:"キャンセル", ko:"취소", ur:"منسوخ", fr:"Annuler", it:"Annulla", es:"Cancelar", pt:"Cancelar", ru:"Отмена", de:"Abbrechen" },
+  btn_accept: { ar:"قبول", en:"Accept", zh:"接受", ja:"承諾", ko:"수락", ur:"قبول", fr:"Accepter", it:"Accetta", es:"Aceptar", pt:"Aceitar", ru:"Принять", de:"Annehmen" },
+  btn_decline: { ar:"اعتذار", en:"Decline", zh:"婉拒", ja:"辞退", ko:"거절", ur:"معذرت", fr:"Refuser", it:"Rifiuta", es:"Rechazar", pt:"Recusar", ru:"Отклонить", de:"Ablehnen" },
+  no_packages: { ar:"لا توجد حزم بعد", en:"No packages yet", zh:"暂无套餐", ja:"パッケージがありません", ko:"패키지가 없습니다", ur:"ابھی کوئی پیکج نہیں", fr:"Aucun package", it:"Nessun pacchetto", es:"Sin paquetes", pt:"Sem pacotes", ru:"Нет пакетов", de:"Keine Pakete" },
+  loading: { ar:"جارٍ التحميل...", en:"Loading...", zh:"加载中...", ja:"読み込み中...", ko:"불러오는 중...", ur:"لوڈ ہو رہا ہے...", fr:"Chargement...", it:"Caricamento...", es:"Cargando...", pt:"Carregando...", ru:"Загрузка...", de:"Wird geladen..." },
+  st_new: { ar:"طلب جديد", en:"New request", zh:"新请求", ja:"新規リクエスト", ko:"새 요청", ur:"نئی درخواست", fr:"Nouvelle demande", it:"Nuova richiesta", es:"Nueva solicitud", pt:"Nova solicitação", ru:"Новый запрос", de:"Neue Anfrage" },
+  st_review: { ar:"قيد المراجعة", en:"Under review", zh:"审核中", ja:"審査中", ko:"검토 중", ur:"زیر جائزہ", fr:"En cours d'examen", it:"In revisione", es:"En revisión", pt:"Em análise", ru:"На рассмотрении", de:"In Prüfung" },
+  st_quoting: { ar:"جارٍ التسعير", en:"Getting quotes", zh:"询价中", ja:"見積取得中", ko:"견적 진행 중", ur:"قیمت لی جا رہی ہے", fr:"Obtention de devis", it:"Richiesta preventivi", es:"Solicitando ofertas", pt:"Obtendo orçamentos", ru:"Сбор предложений", de:"Angebote werden eingeholt" },
+  st_offer_sent: { ar:"تم تقديم عرض", en:"Offer submitted", zh:"已提交报价", ja:"見積提示済み", ko:"견적 제출됨", ur:"پیشکش جمع", fr:"Offre soumise", it:"Offerta inviata", es:"Oferta enviada", pt:"Proposta enviada", ru:"Предложение отправлено", de:"Angebot eingereicht" },
+  st_approved: { ar:"تمت الموافقة", en:"Approved", zh:"已批准", ja:"承認済み", ko:"승인됨", ur:"منظور شدہ", fr:"Approuvé", it:"Approvato", es:"Aprobado", pt:"Aprovado", ru:"Одобрено", de:"Genehmigt" },
+  st_inprog: { ar:"قيد التنفيذ", en:"In progress", zh:"进行中", ja:"進行中", ko:"진행 중", ur:"جاری", fr:"En cours", it:"In corso", es:"En curso", pt:"Em andamento", ru:"В работе", de:"In Bearbeitung" },
+  st_done: { ar:"مكتمل", en:"Completed", zh:"已完成", ja:"完了", ko:"완료", ur:"مکمل", fr:"Terminé", it:"Completato", es:"Completado", pt:"Concluído", ru:"Завершено", de:"Abgeschlossen" },
+  st_rejected: { ar:"مرفوض", en:"Rejected", zh:"已拒绝", ja:"却下", ko:"거부됨", ur:"مسترد", fr:"Rejeté", it:"Rifiutato", es:"Rechazado", pt:"Rejeitado", ru:"Отклонено", de:"Abgelehnt" },
+  offer_title: { ar:"📄 العرض المقدّم", en:"📄 Your Offer", zh:"📄 您的报价", ja:"📄 見積書", ko:"📄 견적서", ur:"📄 آپ کی پیشکش", fr:"📄 Votre offre", it:"📄 La tua offerta", es:"📄 Tu oferta", pt:"📄 Sua proposta", ru:"📄 Ваше предложение", de:"📄 Ihr Angebot" },
+  offer_price: { ar:"السعر الإجمالي", en:"Total price", zh:"总价", ja:"合計金額", ko:"총 가격", ur:"کل قیمت", fr:"Prix total", it:"Prezzo totale", es:"Precio total", pt:"Preço total", ru:"Итоговая цена", de:"Gesamtpreis" },
+  offer_delivery: { ar:"مدة التسليم", en:"Delivery time", zh:"交付时间", ja:"納期", ko:"납기", ur:"ترسیل کا وقت", fr:"Délai de livraison", it:"Tempi di consegna", es:"Tiempo de entrega", pt:"Prazo de entrega", ru:"Срок сдачи", de:"Lieferzeit" },
+  offer_notes: { ar:"ملاحظات", en:"Notes", zh:"备注", ja:"備考", ko:"비고", ur:"نوٹس", fr:"Notes", it:"Note", es:"Notas", pt:"Notas", ru:"Примечания", de:"Anmerkungen" },
+  offer_accept: { ar:"✅ قبول العرض", en:"✅ Accept offer", zh:"✅ 接受报价", ja:"✅ 見積を承諾", ko:"✅ 견적 수락", ur:"✅ پیشکش قبول کریں", fr:"✅ Accepter l'offre", it:"✅ Accetta offerta", es:"✅ Aceptar oferta", pt:"✅ Aceitar proposta", ru:"✅ Принять предложение", de:"✅ Angebot annehmen" },
+  offer_reject: { ar:"✕ رفض", en:"✕ Reject", zh:"✕ 拒绝", ja:"✕ 却下", ko:"✕ 거절", ur:"✕ مسترد", fr:"✕ Refuser", it:"✕ Rifiuta", es:"✕ Rechazar", pt:"✕ Rejeitar", ru:"✕ Отклонить", de:"✕ Ablehnen" },
+  days: { ar:"يوم", en:"days", zh:"天", ja:"日", ko:"일", ur:"دن", fr:"jours", it:"giorni", es:"días", pt:"dias", ru:"дней", de:"Tage" },
+  int_dash: { ar:"لوحة الفريق", en:"Team Dashboard", zh:"团队面板", ja:"チームダッシュボード", ko:"팀 대시보드", ur:"ٹیم ڈیش بورڈ", fr:"Tableau de bord équipe", it:"Dashboard team", es:"Panel del equipo", pt:"Painel da equipe", ru:"Панель команды", de:"Team-Dashboard" },
+  int_inbox: { ar:"📥 الطلبات الواردة", en:"📥 Incoming requests", zh:"📥 待处理请求", ja:"📥 受信リクエスト", ko:"📥 수신 요청", ur:"📥 آنے والی درخواستیں", fr:"📥 Demandes entrantes", it:"📥 Richieste in arrivo", es:"📥 Solicitudes entrantes", pt:"📥 Solicitações recebidas", ru:"📥 Входящие запросы", de:"📥 Eingehende Anfragen" },
+  int_mine: { ar:"🗂️ مهامي", en:"🗂️ My tasks", zh:"🗂️ 我的任务", ja:"🗂️ マイタスク", ko:"🗂️ 내 작업", ur:"🗂️ میرے کام", fr:"🗂️ Mes tâches", it:"🗂️ I miei compiti", es:"🗂️ Mis tareas", pt:"🗂️ Minhas tarefas", ru:"🗂️ Мои задачи", de:"🗂️ Meine Aufgaben" },
+  int_accept_q: { ar:"هل تقدر تنفذ هذا الطلب؟", en:"Can your team handle this?", zh:"团队能处理吗？", ja:"対応可能ですか？", ko:"처리 가능한가요?", ur:"کیا آپ یہ کر سکتے ہیں؟", fr:"Pouvez-vous traiter cela ?", it:"Potete gestirlo?", es:"¿Pueden gestionarlo?", pt:"Podem tratar disso?", ru:"Сможете выполнить?", de:"Können Sie das übernehmen?" },
+  int_decline_r: { ar:"سبب الاعتذار", en:"Reason for declining", zh:"婉拒原因", ja:"辞退の理由", ko:"거절 사유", ur:"معذرت کی وجہ", fr:"Motif du refus", it:"Motivo del rifiuto", es:"Motivo del rechazo", pt:"Motivo da recusa", ru:"Причина отказа", de:"Ablehnungsgrund" },
+  r_busy: { ar:"مشغول حالياً", en:"Currently at capacity", zh:"当前满负荷", ja:"現在手一杯", ko:"현재 여력 없음", ur:"فی الحال مصروف", fr:"Capacité atteinte", it:"Al completo", es:"Sin capacidad", pt:"Sem capacidade", ru:"Нет ресурсов", de:"Ausgelastet" },
+  r_scope: { ar:"خارج تخصصي", en:"Outside my expertise", zh:"超出专长", ja:"専門外", ko:"전문 분야 밖", ur:"میری مہارت سے باہر", fr:"Hors de mon expertise", it:"Fuori competenza", es:"Fuera de mi área", pt:"Fora da minha área", ru:"Вне моей специализации", de:"Außerhalb meiner Expertise" },
+  r_deadline: { ar:"المدة غير كافية", en:"Deadline too tight", zh:"工期太紧", ja:"納期が厳しい", ko:"기한이 촉박함", ur:"ڈیڈ لائن سخت ہے", fr:"Délai trop court", it:"Scadenza troppo stretta", es:"Plazo muy ajustado", pt:"Prazo muito curto", ru:"Слишком сжатый срок", de:"Frist zu knapp" },
+  vd_dash: { ar:"لوحة المتعهد", en:"Vendor Dashboard", zh:"供应商面板", ja:"ベンダーダッシュボード", ko:"벤더 대시보드", ur:"وینڈر ڈیش بورڈ", fr:"Tableau prestataire", it:"Dashboard fornitore", es:"Panel proveedor", pt:"Painel do fornecedor", ru:"Панель подрядчика", de:"Anbieter-Dashboard" },
+  vd_opps: { ar:"🎯 الفرص المتاحة", en:"🎯 Open opportunities", zh:"🎯 开放机会", ja:"🎯 公開案件", ko:"🎯 공개 기회", ur:"🎯 دستیاب مواقع", fr:"🎯 Opportunités", it:"🎯 Opportunità", es:"🎯 Oportunidades", pt:"🎯 Oportunidades", ru:"🎯 Возможности", de:"🎯 Ausschreibungen" },
+  vd_invites: { ar:"✉️ دعوات مباشرة", en:"✉️ Direct invites", zh:"✉️ 直接邀请", ja:"✉️ 直接招待", ko:"✉️ 직접 초대", ur:"✉️ براہ راست دعوت", fr:"✉️ Invitations directes", it:"✉️ Inviti diretti", es:"✉️ Invitaciones directas", pt:"✉️ Convites diretos", ru:"✉️ Прямые приглашения", de:"✉️ Direkte Einladungen" },
+  vd_myoffers: { ar:"📤 عروضي", en:"📤 My offers", zh:"📤 我的报价", ja:"📤 マイ見積", ko:"📤 내 견적", ur:"📤 میری پیشکشیں", fr:"📤 Mes offres", it:"📤 Le mie offerte", es:"📤 Mis ofertas", pt:"📤 Minhas propostas", ru:"📤 Мои предложения", de:"📤 Meine Angebote" },
+  vd_submit: { ar:"قدّم عرضك", en:"Submit your quote", zh:"提交报价", ja:"見積を提出", ko:"견적 제출", ur:"اپنی پیشکش دیں", fr:"Soumettre votre devis", it:"Invia preventivo", es:"Enviar oferta", pt:"Enviar proposta", ru:"Отправить предложение", de:"Angebot abgeben" },
+  vd_your_price: { ar:"سعرك (ريال)", en:"Your price (SAR)", zh:"您的报价 (SAR)", ja:"あなたの価格 (SAR)", ko:"견적가 (SAR)", ur:"آپ کی قیمت (SAR)", fr:"Votre prix (SAR)", it:"Il tuo prezzo (SAR)", es:"Tu precio (SAR)", pt:"Seu preço (SAR)", ru:"Ваша цена (SAR)", de:"Ihr Preis (SAR)" },
+  vd_days: { ar:"أيام التسليم", en:"Delivery days", zh:"交付天数", ja:"納品日数", ko:"납기 일수", ur:"ترسیل کے دن", fr:"Jours de livraison", it:"Giorni consegna", es:"Días de entrega", pt:"Dias de entrega", ru:"Дней на сдачу", de:"Liefertage" },
+  no_opps: { ar:"لا توجد فرص حالياً", en:"No open opportunities", zh:"暂无机会", ja:"案件がありません", ko:"기회가 없습니다", ur:"کوئی موقع نہیں", fr:"Aucune opportunité", it:"Nessuna opportunità", es:"Sin oportunidades", pt:"Sem oportunidades", ru:"Нет возможностей", de:"Keine Ausschreibungen" },
+  offer_submitted: { ar:"تم إرسال عرضك بنجاح", en:"Your offer was submitted", zh:"报价已提交", ja:"見積を送信しました", ko:"견적이 제출되었습니다", ur:"آپ کی پیشکش بھیج دی گئی", fr:"Offre envoyée", it:"Offerta inviata", es:"Oferta enviada", pt:"Proposta enviada", ru:"Предложение отправлено", de:"Angebot gesendet" },
+  already_quoted: { ar:"قدّمت عرضاً على هذا الطلب", en:"You already quoted this", zh:"您已报价", ja:"既に見積済み", ko:"이미 견적을 제출했습니다", ur:"آپ پہلے پیشکش دے چکے", fr:"Déjà proposé", it:"Già offerto", es:"Ya ofertaste", pt:"Já enviou proposta", ru:"Вы уже подали", de:"Bereits angeboten" },
+  game_type: { ar:"نوع اللعبة", en:"Game type", zh:"游戏类型", ja:"ゲームの種類", ko:"게임 장르", ur:"گیم کی قسم", fr:"Type de jeu", it:"Tipo di gioco", es:"Tipo de juego", pt:"Tipo de jogo", ru:"Тип игры", de:"Spieltyp" },
+  word_count: { ar:"عدد الكلمات", en:"Word count", zh:"字数", ja:"語数", ko:"단어 수", ur:"الفاظ کی تعداد", fr:"Nombre de mots", it:"Numero di parole", es:"Nº de palabras", pt:"Contagem de palavras", ru:"Кол-во слов", de:"Wortanzahl" },
+  deadline: { ar:"الموعد النهائي", en:"Deadline", zh:"截止日期", ja:"締切", ko:"마감일", ur:"آخری تاریخ", fr:"Date limite", it:"Scadenza", es:"Fecha límite", pt:"Prazo final", ru:"Крайний срок", de:"Frist" },
   forgot_pass: { ar:'نسيت كلمة المرور؟', en:'Forgot password?', zh:'忘记密码？', ja:'パスワードを忘れた場合', ko:'비밀번호를 잊으셨나요?', ur:'پاس ورڈ بھول گئے؟', fr:'Mot de passe oublié?', it:'Password dimenticata?', es:'¿Olvidaste tu contraseña?', pt:'Esqueceu a senha?', ru:'Забыли пароль?', de:'Passwort vergessen?' },
   send_reset: { ar:'إرسال رابط الاستعادة', en:'Send Reset Link', zh:'发送重置链接', ja:'リセットリンクを送信', ko:'재설정 링크 보내기', ur:'ری سیٹ لنک بھیجیں', fr:'Envoyer le lien', it:'Invia link di ripristino', es:'Enviar enlace', pt:'Enviar link de redefinição', ru:'Отправить ссылку', de:'Link senden' },
   back_login: { ar:'العودة لتسجيل الدخول', en:'Back to Login', zh:'返回登录', ja:'ログインに戻る', ko:'로그인으로 돌아가기', ur:'لاگ ان پر واپس جائیں', fr:'Retour à la connexion', it:'Torna al login', es:'Volver a iniciar sesión', pt:'Voltar ao login', ru:'Назад к входу', de:'Zurück zum Login' },
@@ -1253,6 +1634,8 @@ const T = {
   btn_submit_pkg: { ar:'🚀 إرسال الحزمة', en:'🚀 Submit Package', zh:'🚀 提交包', ja:'🚀 パッケージを送信', ko:'🚀 패키지 제출', ur:'🚀 پیکج جمع کریں', fr:'🚀 Soumettre le package', it:'🚀 Invia pacchetto', es:'🚀 Enviar paquete', pt:'🚀 Enviar pacote', ru:'🚀 Отправить пакет', de:'🚀 Paket einreichen' }
 };
 
+function esc(x){ return String(x??'').replace(/[&<>"']/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+function fmtMoney(n){ return Number(n||0).toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2}); }
 function t(k){ return T[k]?.[lang] || T[k]?.en || T[k]?.ar || ''; }
 
 function applyLang() {
@@ -1267,10 +1650,26 @@ function applyLang() {
     const key = el.getAttribute('data-i18n');
     if (t(key)) el.innerHTML = t(key);
   });
+  // placeholders / titles / aria — كانت غير مترجمة
+  document.querySelectorAll('[data-i18n-ph]').forEach(el => {
+    const v = t(el.getAttribute('data-i18n-ph')); if (v) el.placeholder = v;
+  });
+  document.querySelectorAll('[data-i18n-title]').forEach(el => {
+    const v = t(el.getAttribute('data-i18n-title')); if (v) el.title = v;
+  });
   
   buildLangMenus();
+  // أعِد رسم كل ما يُبنى بالـ JS بعد تبديل اللغة
+  try { rerenderDynamic(); } catch(e){}
   loadPublicPricing();
   if (me && myRole==='client') loadClientPackages();
+}
+
+function rerenderDynamic(){
+  if (myRole==='client'){ if(typeof loadGlossary==='function') loadGlossary(); if(typeof loadClientPackages==='function') loadClientPackages(); }
+  if (myRole==='internal' && typeof loadInternalJobs==='function') loadInternalJobs();
+  if (myRole==='vendor'){ if(typeof loadVendorOpps==='function') loadVendorOpps(); if(typeof loadVendorOffers==='function') loadVendorOffers(); }
+  if (myRole==='admin' && typeof adminLoadAll==='function') adminLoadAll();
 }
 
 function buildLangMenus() {
@@ -1314,8 +1713,11 @@ function handleRoute() {
   document.querySelectorAll('.view,.dash').forEach(v => v.classList.remove('active'));
   
   if (h === '#dashboard' && (me || myRole === 'admin')) {
-    if(myRole === 'admin') document.getElementById('dash-admin').classList.add('active');
-    else document.getElementById('dash-client').classList.add('active');
+    const map = { admin:'dash-admin', internal:'dash-internal', vendor:'dash-vendor', client:'dash-client' };
+    const el = document.getElementById(map[myRole] || 'dash-client');
+    if (el) el.classList.add('active');
+    if (myRole === 'internal') { loadJobRoles().then(loadInternalJobs); }
+    if (myRole === 'vendor')   { loadVendorOpps(); loadVendorOffers(); }
   } else {
     document.getElementById('view-landing').classList.add('active');
     if (h !== '#home' && h !== '#dashboard') {
@@ -1365,6 +1767,11 @@ function dPage(dash, page, el) {
   if (dash === 'client' && page === 'profile') renderProfile();
   if (dash === 'client' && page === 'packages') loadClientPackages();
 
+  if (dash === 'internal') { loadInternalJobs(); if(page==='glossary') loadInternalGloss(); if(page==='profile') renderStaffProfile('int-profile-body'); }
+  if (dash === 'vendor')   { if(page==='opps'||page==='invites') loadVendorOpps(); if(page==='offers') loadVendorOffers(); if(page==='profile') renderStaffProfile('vd-profile-body'); }
+  if (dash === 'admin' && page === 'routing') adminLoadRouting();
+  if (dash === 'admin' && page === 'team')    { loadJobRoles(); adminLoadUsers(); }
+  if (dash === 'admin' && page === 'vendors') { adminLoadUsers(); adminLoadVendorApps(); }
   if (dash === 'admin') {
     if(page==='pricing') adminLoadPricing();
     if(page==='partners') adminLoadPartners();
@@ -1428,20 +1835,56 @@ async function doLogin(){
 async function doForgot(){
   const email = document.getElementById('fg-email').value.trim();
   const msgEl = document.getElementById('auth-msg');
-  if(!email){ msgEl.className = 'fmsg err'; msgEl.textContent = 'Please enter your email.'; return; }
+  if(!email){ msgEl.className = 'fmsg err'; msgEl.textContent = t('enter_email'); return; }
   const { error } = await sb.auth.resetPasswordForEmail(email, { redirectTo: location.origin + location.pathname });
   if(error){ msgEl.className = 'fmsg err'; msgEl.textContent = error.message; } 
-  else { msgEl.className = 'fmsg ok'; msgEl.textContent = 'تم إرسال رابط الاستعادة إلى بريدك.'; }
+  else { msgEl.className = 'fmsg ok'; msgEl.textContent = t('reset_sent'); }
 }
 
 async function doLogout(){ await sb.auth.signOut(); me = null; myRole = 'guest'; navTo('#home'); }
 
+/* ═══ PASSWORD RECOVERY (fixed workflow) ═══ */
+let __isRecovery = false;
+function __detectRecovery(){
+  const h = location.hash || '';
+  const q = location.search || '';
+  if (h.includes('type=recovery') || q.includes('type=recovery')) return true;
+  if (h.includes('error_code=') && h.includes('otp_expired')) return 'expired';
+  return false;
+}
+function __enterRecoveryUI(){
+  __isRecovery = true;
+  // اقفل شاشة الانترو عشان لا تغطي المودال
+  const sp = document.getElementById('intro-splash');
+  if (sp) { sp.style.display = 'none'; sp.classList.add('zoomed'); }
+  try { localStorage.setItem('urb_intro_seen','1'); } catch(e){}
+  document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));
+  const lv = document.getElementById('view-landing');
+  if (lv) lv.classList.add('active');
+  openM('resetModal');
+}
+(function(){
+  const st = __detectRecovery();
+  if (st === 'expired') {
+    setTimeout(()=>{
+      const sp = document.getElementById('intro-splash');
+      if (sp) sp.style.display='none';
+      openAuth('login');
+      const m = document.getElementById('auth-msg');
+      if(m){ m.className='fmsg err'; m.textContent = t('reset_expired'); }
+    }, 400);
+  } else if (st === true) {
+    __enterRecoveryUI();
+  }
+})();
+
 sb.auth.onAuthStateChange((ev, session)=>{
-  if (ev === 'PASSWORD_RECOVERY') openM('resetModal');
+  if (ev === 'PASSWORD_RECOVERY') __enterRecoveryUI();
   if(session?.user) {
     me = session.user;
     if(document.getElementById('cl-name')) document.getElementById('cl-name').textContent = me.user_metadata?.full_name || me.email;
-    applyLang(); handleRoute();
+    if (!__isRecovery) { resolveMyRole().then(()=>{ applyLang(); handleRoute(); }); }
+    else { applyLang(); }
   }
 });
 
@@ -1449,11 +1892,41 @@ async function updatePassword() {
   const newPass = document.getElementById('new-pwd').value;
   const confPass = document.getElementById('conf-pwd').value;
   const msgEl = document.getElementById('reset-msg');
-  if(!newPass || newPass.length < 6) { msgEl.className = 'fmsg err'; msgEl.textContent = 'كلمة المرور 6 أحرف على الأقل'; return; }
-  if(newPass !== confPass) { msgEl.className = 'fmsg err'; msgEl.textContent = 'كلمتا المرور غير متطابقتين'; return; }
+  if(!newPass || newPass.length < 6) { msgEl.className = 'fmsg err'; msgEl.textContent = t('pw_min'); return; }
+  if(newPass !== confPass) { msgEl.className = 'fmsg err'; msgEl.textContent = t('pw_mismatch'); return; }
   const { error } = await sb.auth.updateUser({ password: newPass });
   if (error) { msgEl.className = 'fmsg err'; msgEl.textContent = error.message; } 
-  else { msgEl.className = 'fmsg ok'; msgEl.textContent = 'تم تغيير كلمة المرور بنجاح!'; setTimeout(() => { closeM('resetModal'); navTo('#dashboard'); }, 1500); }
+  else {
+    msgEl.className = 'fmsg ok'; msgEl.textContent = t('pw_changed_ok');
+    try { await sb.from('app_users').update({ must_change_pw:false }).eq('id', (await sb.auth.getUser()).data.user.id); } catch(e){}
+    history.replaceState(null,'',location.pathname);
+    __isRecovery = false;
+    setTimeout(async () => {
+      closeM('resetModal');
+      await resolveMyRole();
+      navTo('#dashboard'); handleRoute();
+    }, 1400);
+  }
+}
+
+/* يحدد الدور الحقيقي من app_users بعد الدخول */
+async function resolveMyRole(){
+  const { data:{ user } } = await sb.auth.getUser();
+  if(!user){ myRole='guest'; return 'guest'; }
+  me = user;
+  try {
+    const { data } = await sb.from('app_users').select('*').eq('id', user.id).maybeSingle();
+    if (data) {
+      myProfile = data;
+      myRole = data.user_type === 'internal' ? 'internal'
+             : data.user_type === 'vendor'   ? 'vendor'
+             : data.user_type === 'admin'    ? 'admin' : 'client';
+      if (data.must_change_pw) setTimeout(()=>openM('resetModal'), 600);
+      return myRole;
+    }
+  } catch(e){}
+  myRole = 'client';
+  return myRole;
 }
 
 /* ═══ PUBLIC FETCHERS (Dynamic Content) ═══ */
@@ -1554,7 +2027,21 @@ async function loadClientPackages() {
   if(document.getElementById('cs-done')) document.getElementById('cs-done').textContent = pkgs.filter(p => p.status === 'done').length;
   if(document.getElementById('cs-words')) document.getElementById('cs-words').textContent = pkgs.reduce((s, p) => s + (p.est_words || 0), 0).toLocaleString();
 
-  const renderItem = p => `<div class="row-item"><div><b>${p.game_name}</b><div style="font-size:0.75rem;color:var(--dim);margin-top:2px;">${p.plan || '—'}</div></div><span class="mini-btn mm">${p.status}</span></div>`;
+  const renderItem = p => {
+    const st = p.routing_stage || 'new';
+    const hasOffer = st === 'offer_sent_client';
+    return `<div class="row-item" style="flex-direction:column;align-items:stretch;gap:9px;">
+      <div style="display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;align-items:center;">
+        <div><b>${esc(p.game_name||p.title||'')}</b>
+          <div style="font-size:0.75rem;color:var(--dim);margin-top:2px;">${esc(p.plan || '—')}</div></div>
+        ${stageBadge(st)}
+      </div>
+      ${hasOffer ? `<div style="background:rgba(251,191,36,0.08);border:1px solid rgba(251,191,36,0.3);border-radius:11px;padding:11px 13px;display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;">
+          <span style="font-size:0.82rem;">${t('st_offer_sent')} — <b style="color:var(--cyan);">${fmtMoney(p.client_price)} SAR</b></span>
+          <button class="mini-btn mm" onclick="viewClientOffer('${p.id}')">👁 ${t('btn_view')}</button>
+        </div>` : ''}
+    </div>`;
+  };
   const recentEl = document.getElementById('cl-recent');
   const fullListEl = document.getElementById('cl-pkg-list');
   if (!pkgs.length) {
@@ -1572,7 +2059,7 @@ async function loadGlossary(){
   C.gloss = data||[];
   const listEl = document.getElementById('g-list');
   if(!listEl) return;
-  listEl.innerHTML = C.gloss.length ? C.gloss.map(g=>`<div class="row-item"><div style="display:flex;gap:12px;align-items:center;"><b>${g.source_term}</b><span style="color:var(--cyan);">← ${g.translated_term}</span></div><button class="mini-btn dg" onclick="delTerm('${g.id}')">حذف</button></div>`).join('') : '<div class="empty">لا توجد مصطلحات</div>';
+  listEl.innerHTML = C.gloss.length ? C.gloss.map(g=>`<div class="row-item"><div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap;"><b>${esc(g.source_term)}</b><span style="color:var(--cyan);">← ${esc(g.translated_term)}</span></div><button class="mini-btn dg" onclick="delTerm('${g.id}')">${t('btn_delete')}</button></div>`).join('') : `<div class="empty">${t('no_terms')}</div>`;
 }
 async function addTerm(){
   const s = document.getElementById('g-src').value.trim(); const tr = document.getElementById('g-tr').value.trim();
@@ -1707,6 +2194,530 @@ async function addShowcase(){
 }
 
 async function delRow(table, id){ if(confirm('تأكيد الحذف؟')) try { await sb.from(table).delete().eq('id',id); } catch(e){} }
+
+
+/* ═══════════════════════════════════════════════════════════
+   URB ROUTING ENGINE — الفريق الداخلي / المتعهدون / العروض
+   ═══════════════════════════════════════════════════════════ */
+const EDGE_URL = SUPA_URL + '/functions/v1/admin-users';
+let JOB_ROLES = [];
+let RT = { pkg:null, mode:'internal' };
+let OF = { pkg:null, offers:[], selected:null };
+const SCOPES = ['view_assigned','view_all_jobs','translate','review','qa_check','assign_internal','accept_job','decline_job','escalate','glossary_read','glossary_write','view_clients','comment','reopen_job'];
+
+const STAGE_MAP = {
+  new:              {k:'st_new',      c:'b-dim'},
+  internal_review:  {k:'st_review',   c:'b-cyan'},
+  internal_accepted:{k:'st_inprog',   c:'b-purple'},
+  internal_declined:{k:'st_review',   c:'b-gold'},
+  direct_invite:    {k:'st_quoting',  c:'b-cyan'},
+  rfq_open:         {k:'st_quoting',  c:'b-cyan'},
+  offers_received:  {k:'st_quoting',  c:'b-purple'},
+  offer_sent_client:{k:'st_offer_sent',c:'b-gold'},
+  client_approved:  {k:'st_approved', c:'b-green'},
+  client_rejected:  {k:'st_rejected', c:'b-dim'},
+  in_progress:      {k:'st_inprog',   c:'b-purple'},
+  done:             {k:'st_done',     c:'b-green'},
+  cancelled:        {k:'st_rejected', c:'b-dim'}
+};
+function stageBadge(st){
+  const m = STAGE_MAP[st] || STAGE_MAP.new;
+  return `<span class="badge ${m.c}">${t(m.k)}</span>`;
+}
+
+async function edgeCall(payload){
+  const r = await fetch(EDGE_URL, {
+    method:'POST',
+    headers:{ 'Content-Type':'application/json', 'Authorization':'Bearer '+SUPA_KEY },
+    body: JSON.stringify({ ...payload, adminSecret })
+  });
+  return await r.json();
+}
+
+async function logEvent(pkgId, event, detail){
+  try { await sb.from('package_events').insert([{ package_id:pkgId, actor_id: me?.id||null, actor_role: myRole, event, detail: detail||{} }]); } catch(e){}
+}
+
+/* ═══ JOB ROLES ═══ */
+async function loadJobRoles(){
+  try { const { data } = await sb.from('job_roles').select('*').eq('active',true).order('sort_order'); JOB_ROLES = data||[]; } catch(e){ JOB_ROLES=[]; }
+  const sel = document.getElementById('um-role');
+  if (sel) sel.innerHTML = JOB_ROLES.map(r=>`<option value="${r.key}">${esc(lang==='ar'?r.name_ar:r.name_en)}</option>`).join('');
+  renderRolesList();
+}
+function renderRolesList(){
+  const el = document.getElementById('jr-list'); if(!el) return;
+  el.innerHTML = JOB_ROLES.length ? JOB_ROLES.map(r=>`
+    <div class="row-item">
+      <div><b style="color:${r.color}">${esc(r.name_ar)}</b> <span style="color:var(--dim);font-size:0.76rem;">${esc(r.name_en)}</span>
+        <div style="font-size:0.68rem;color:var(--dim);margin-top:4px;font-family:'Space Mono',monospace;">${(r.scope||[]).join(' · ')||'—'}</div></div>
+      <div style="display:flex;gap:6px;">
+        <button class="mini-btn" onclick="editJobRole('${r.key}')">✏️</button>
+        <button class="mini-btn dg" onclick="delJobRole('${r.key}')">🗑</button>
+      </div>
+    </div>`).join('') : '<div class="empty">لا توجد مسميات</div>';
+  const sc = document.getElementById('jr-scope');
+  if (sc && !sc.dataset.built){
+    sc.innerHTML = SCOPES.map(x=>`<label style="display:flex;gap:5px;align-items:center;font-size:0.74rem;background:var(--surface2);padding:6px 10px;border-radius:8px;cursor:pointer;"><input type="checkbox" value="${x}"> ${x}</label>`).join('');
+    sc.dataset.built='1';
+  }
+}
+function editJobRole(key){
+  const r = JOB_ROLES.find(x=>x.key===key); if(!r) return;
+  document.getElementById('jr-ar').value = r.name_ar;
+  document.getElementById('jr-en').value = r.name_en;
+  document.getElementById('jr-key').value = r.key;
+  document.querySelectorAll('#jr-scope input').forEach(i=> i.checked = (r.scope||[]).includes(i.value));
+}
+async function saveJobRole(){
+  const key = document.getElementById('jr-key').value.trim();
+  const ar  = document.getElementById('jr-ar').value.trim();
+  const en  = document.getElementById('jr-en').value.trim();
+  const msg = document.getElementById('jr-msg');
+  if(!key||!ar||!en){ msg.className='fmsg err'; msg.textContent='املأ الحقول المطلوبة'; return; }
+  const scope = [...document.querySelectorAll('#jr-scope input:checked')].map(i=>i.value);
+  const { error } = await sb.from('job_roles').upsert([{ key, name_ar:ar, name_en:en, scope, active:true }], { onConflict:'key' });
+  if(error){ msg.className='fmsg err'; msg.textContent=error.message; return; }
+  msg.className='fmsg ok'; msg.textContent='✅ تم الحفظ';
+  document.getElementById('jr-key').value=''; document.getElementById('jr-ar').value=''; document.getElementById('jr-en').value='';
+  document.querySelectorAll('#jr-scope input').forEach(i=>i.checked=false);
+  loadJobRoles();
+}
+async function delJobRole(key){
+  if(!confirm('حذف هذا المسمى؟')) return;
+  await sb.from('job_roles').update({active:false}).eq('key',key);
+  loadJobRoles();
+}
+
+/* ═══ ADMIN: CREATE ACCOUNTS ═══ */
+let UM_TYPE = 'internal';
+function openUserModal(type){ UM_TYPE = type||'internal'; document.getElementById('um-creds').style.display='none';
+  document.getElementById('um-msg').className='fmsg';
+  ['um-name','um-username','um-email','um-pass','um-phone','um-spec','um-notes'].forEach(i=>{const e=document.getElementById(i); if(e) e.value='';});
+  document.querySelectorAll('#um-type-tabs .atab').forEach((b,i)=>b.classList.toggle('on', (i===0)===(UM_TYPE==='internal')));
+  document.getElementById('um-role-wrap').style.display = UM_TYPE==='internal'?'block':'none';
+  genPass(); loadJobRoles(); openM('userModal');
+}
+function umType(tp, el){ UM_TYPE=tp; document.querySelectorAll('#um-type-tabs .atab').forEach(b=>b.classList.remove('on')); el.classList.add('on');
+  document.getElementById('um-role-wrap').style.display = tp==='internal'?'block':'none'; }
+function genPass(){
+  const c='ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz23456789!@#';
+  let p=''; const a=new Uint32Array(14); crypto.getRandomValues(a);
+  for(let i=0;i<14;i++) p+=c[a[i]%c.length];
+  document.getElementById('um-pass').value=p;
+}
+async function createUserAccount(){
+  const msg = document.getElementById('um-msg');
+  const payload = {
+    action:'create_user', user_type: UM_TYPE,
+    full_name: document.getElementById('um-name').value.trim(),
+    username:  document.getElementById('um-username').value.trim(),
+    email:     document.getElementById('um-email').value.trim(),
+    password:  document.getElementById('um-pass').value,
+    job_role_key: UM_TYPE==='internal' ? document.getElementById('um-role').value : null,
+    phone:     document.getElementById('um-phone').value.trim(),
+    capacity:  parseInt(document.getElementById('um-capacity').value)||100,
+    specialties: document.getElementById('um-spec').value.split(',').map(x=>x.trim()).filter(Boolean),
+    notes:     document.getElementById('um-notes').value.trim()
+  };
+  if(!payload.full_name||!payload.email||!payload.password){ msg.className='fmsg err'; msg.textContent='املأ الحقول المطلوبة (*)'; return; }
+  msg.className='fmsg'; msg.style.display='block'; msg.textContent='جارٍ الإنشاء...';
+  const res = await edgeCall(payload);
+  if(res.error){ msg.className='fmsg err'; msg.textContent='✕ '+res.error; return; }
+  msg.className='fmsg ok'; msg.textContent='✅ تم إنشاء الحساب';
+  const box=document.getElementById('um-creds'); box.style.display='block';
+  document.getElementById('um-creds-body').innerHTML =
+    `Email: ${esc(payload.email)}<br>Username: ${esc(payload.username)}<br>Password: ${esc(payload.password)}`;
+  adminLoadUsers();
+}
+function copyCreds(){
+  const txt = document.getElementById('um-creds-body').innerText;
+  navigator.clipboard.writeText(txt).then(()=>toast('📋 تم النسخ'));
+}
+async function adminLoadUsers(){
+  const res = await edgeCall({ action:'list_users' });
+  if(res.error) return;
+  const users = res.users||[];
+  const int = users.filter(u=>u.user_type==='internal');
+  const ven = users.filter(u=>u.user_type==='vendor');
+  const rn = k => { const r=JOB_ROLES.find(x=>x.key===k); return r? (lang==='ar'?r.name_ar:r.name_en) : '—'; };
+  const row = u => `<div class="row-item">
+      <div><b>${esc(u.full_name||u.email)}</b> ${u.active?'':'<span class="badge b-dim">معطّل</span>'}
+        <div style="font-size:0.72rem;color:var(--dim);margin-top:3px;">${esc(u.email)} · ${esc(u.username||'')}</div>
+        ${u.user_type==='internal'?`<div style="font-size:0.72rem;color:var(--cyan);margin-top:3px;">${esc(rn(u.job_role_key))}</div>`:''}</div>
+      <div style="display:flex;gap:6px;flex-wrap:wrap;">
+        <button class="mini-btn" onclick="adminResetPw('${u.id}')">🔑</button>
+        <button class="mini-btn" onclick="adminToggleActive('${u.id}',${!u.active})">${u.active?'⏸':'▶'}</button>
+        <button class="mini-btn dg" onclick="adminDelUser('${u.id}')">🗑</button>
+      </div></div>`;
+  const a=document.getElementById('ad-internal-list'); if(a) a.innerHTML = int.length?int.map(row).join(''):'<div class="empty">لا يوجد أعضاء</div>';
+  const b=document.getElementById('ad-vendors-list'); if(b) b.innerHTML = ven.length?ven.map(row).join(''):'<div class="empty">لا يوجد متعهدون</div>';
+}
+async function adminResetPw(id){
+  const p = prompt('كلمة المرور الجديدة (8 أحرف على الأقل):');
+  if(!p||p.length<8) return;
+  const r = await edgeCall({ action:'reset_password', user_id:id, new_password:p });
+  toast(r.error? '✕ '+r.error : '✅ تم التغيير');
+}
+async function adminToggleActive(id, active){ await edgeCall({action:'set_active', user_id:id, active}); adminLoadUsers(); }
+async function adminDelUser(id){ if(!confirm('حذف هذا الحساب نهائياً؟')) return; await edgeCall({action:'delete_user', user_id:id}); adminLoadUsers(); }
+
+/* ═══ ADMIN: ROUTING ═══ */
+async function openRoute(pkgId){
+  const { data } = await sb.from('packages').select('*').eq('id',pkgId).maybeSingle();
+  if(!data) return;
+  RT.pkg = data;
+  document.getElementById('rt-summary').innerHTML =
+    `<b>${esc(data.title||data.game_name||'طلب')}</b><br>
+     <span style="color:var(--dim);font-size:0.78rem;">${t('word_count')}: ${data.word_count||'—'} · ${t('game_type')}: ${esc(data.game_type||'—')}</span><br>
+     ${stageBadge(data.routing_stage||'new')}`;
+  document.getElementById('rt-game').value = data.game_type||'';
+  document.getElementById('rt-words').value = data.word_count||'';
+  const res = await edgeCall({ action:'list_users' });
+  const users = res.users||[];
+  const rn = k => { const r=JOB_ROLES.find(x=>x.key===k); return r? (lang==='ar'?r.name_ar:r.name_en):''; };
+  document.getElementById('rt-team-list').innerHTML = users.filter(u=>u.user_type==='internal'&&u.active).map(u=>
+    `<label class="row-item" style="cursor:pointer;"><span><b>${esc(u.full_name)}</b><div style="font-size:0.72rem;color:var(--cyan);">${esc(rn(u.job_role_key))}</div></span>
+     <input type="checkbox" class="rt-team-cb" value="${u.id}" data-role="${u.job_role_key}"></label>`).join('') || '<div class="empty">لا يوجد أعضاء</div>';
+  document.getElementById('rt-vendor-list').innerHTML = users.filter(u=>u.user_type==='vendor'&&u.active).map(u=>
+    `<label class="row-item" style="cursor:pointer;"><span><b>${esc(u.full_name)}</b><div style="font-size:0.72rem;color:var(--dim);">${(u.specialties||[]).join(', ')}</div></span>
+     <input type="checkbox" class="rt-vend-cb" value="${u.id}"></label>`).join('') || '<div class="empty">لا يوجد متعهدون</div>';
+  openM('routeModal');
+}
+function rtTab(mode, el){
+  RT.mode = mode;
+  document.querySelectorAll('#routeModal .atab').forEach(b=>b.classList.remove('on')); el.classList.add('on');
+  document.getElementById('rt-internal').style.display = mode==='internal'?'block':'none';
+  document.getElementById('rt-direct').style.display   = mode==='direct'?'block':'none';
+  document.getElementById('rt-rfq').style.display      = mode==='rfq'?'block':'none';
+}
+async function routeInternal(){
+  const cbs=[...document.querySelectorAll('.rt-team-cb:checked')];
+  const msg=document.getElementById('rt-msg');
+  if(!cbs.length){ msg.className='fmsg err'; msg.textContent='اختر عضواً واحداً على الأقل'; return; }
+  const team = cbs.map(c=>({user_id:c.value, role_key:c.dataset.role, status:'pending'}));
+  const { error } = await sb.from('packages').update({
+    routing_stage:'internal_review', assigned_team:team,
+    internal_note: document.getElementById('rt-int-note').value.trim()
+  }).eq('id', RT.pkg.id);
+  if(error){ msg.className='fmsg err'; msg.textContent=error.message; return; }
+  await logEvent(RT.pkg.id,'routed_internal',{count:team.length});
+  msg.className='fmsg ok'; msg.textContent='✅ أُرسل للفريق الداخلي';
+  setTimeout(()=>{closeM('routeModal'); adminLoadAll();},1000);
+}
+async function routeDirect(){
+  const cbs=[...document.querySelectorAll('.rt-vend-cb:checked')];
+  const msg=document.getElementById('rt-msg');
+  if(!cbs.length){ msg.className='fmsg err'; msg.textContent='اختر متعهداً واحداً على الأقل'; return; }
+  const note=document.getElementById('rt-dir-note').value.trim();
+  const rows = cbs.map(c=>({package_id:RT.pkg.id, vendor_id:c.value, invited_by:me?.id||null, message:note, status:'invited'}));
+  const { error } = await sb.from('quote_invites').insert(rows);
+  if(error){ msg.className='fmsg err'; msg.textContent=error.message; return; }
+  await sb.from('packages').update({routing_stage:'direct_invite'}).eq('id',RT.pkg.id);
+  await logEvent(RT.pkg.id,'invited_vendors',{count:rows.length});
+  msg.className='fmsg ok'; msg.textContent=`✅ أُرسل طلب التسعيرة لـ ${rows.length} متعهد`;
+  setTimeout(()=>{closeM('routeModal'); adminLoadAll();},1000);
+}
+async function routeRFQ(){
+  const msg=document.getElementById('rt-msg');
+  const upd = {
+    routing_stage:'rfq_open',
+    rfq_published_at:new Date().toISOString(),
+    rfq_deadline: document.getElementById('rt-deadline').value||null,
+    game_type: document.getElementById('rt-game').value.trim(),
+    word_count: parseInt(document.getElementById('rt-words').value)||0,
+    internal_note: document.getElementById('rt-rfq-desc').value.trim()
+  };
+  const { error } = await sb.from('packages').update(upd).eq('id',RT.pkg.id);
+  if(error){ msg.className='fmsg err'; msg.textContent=error.message; return; }
+  await logEvent(RT.pkg.id,'rfq_published',{});
+  msg.className='fmsg ok'; msg.textContent='📢 تم النشر في صفحة الفرص';
+  setTimeout(()=>{closeM('routeModal'); adminLoadAll();},1000);
+}
+
+/* ═══ ADMIN: OFFERS + MARGIN ═══ */
+async function openOffers(pkgId){
+  const { data:pkg } = await sb.from('packages').select('*').eq('id',pkgId).maybeSingle();
+  const { data:offers } = await sb.from('offers').select('*').eq('package_id',pkgId).order('price');
+  OF = { pkg, offers: offers||[], selected:null };
+  const res = await edgeCall({ action:'list_users' });
+  const vmap = {}; (res.users||[]).forEach(u=>vmap[u.id]=u.full_name||u.email);
+  const el=document.getElementById('of-list');
+  el.innerHTML = OF.offers.length ? OF.offers.map(o=>`
+    <label class="row-item" style="cursor:pointer;">
+      <span><b>${esc(vmap[o.vendor_id]||'متعهد')}</b>
+        <div style="font-size:0.78rem;color:var(--cyan);margin-top:4px;">${fmtMoney(o.price)} SAR · ${o.delivery_days||'—'} ${t('days')}</div>
+        ${o.notes?`<div style="font-size:0.72rem;color:var(--dim);margin-top:4px;">${esc(o.notes)}</div>`:''}
+        <span class="badge ${o.source==='invite'?'b-purple':'b-cyan'}" style="margin-top:6px;">${o.source==='invite'?'دعوة مباشرة':'RFQ'}</span></span>
+      <input type="radio" name="of-pick" value="${o.id}" onchange="pickOffer('${o.id}')">
+    </label>`).join('') : '<div class="empty">لم تصل عروض بعد</div>';
+  document.getElementById('of-margin-box').style.display='none';
+  try{ const {data:st}=await sb.from('site_settings').select('value').eq('key','default_margin_percent').maybeSingle();
+       document.getElementById('of-margin-val').value = st?.value||25; }catch(e){ document.getElementById('of-margin-val').value=25; }
+  openM('offersModal');
+}
+function pickOffer(id){
+  OF.selected = OF.offers.find(o=>o.id===id);
+  document.getElementById('of-margin-box').style.display='block';
+  calcClientPrice();
+}
+function calcClientPrice(){
+  if(!OF.selected) return;
+  const cost=Number(OF.selected.price)||0;
+  const type=document.getElementById('of-margin-type').value;
+  const val=Number(document.getElementById('of-margin-val').value)||0;
+  const lbl=document.getElementById('of-margin-lbl');
+  lbl.textContent = type==='percent'?'نسبة الربح %': type==='fixed'?'مبلغ الربح (ريال)':'السعر النهائي للعميل';
+  let final = type==='percent'? cost*(1+val/100) : type==='fixed'? cost+val : val;
+  document.getElementById('of-cost').textContent=fmtMoney(cost);
+  document.getElementById('of-profit').textContent=fmtMoney(final-cost);
+  document.getElementById('of-final').textContent=fmtMoney(final);
+}
+async function sendOfferToClient(){
+  const msg=document.getElementById('of-msg');
+  if(!OF.selected){ msg.className='fmsg err'; msg.textContent='اختر عرضاً أولاً'; return; }
+  const type=document.getElementById('of-margin-type').value;
+  const val=Number(document.getElementById('of-margin-val').value)||0;
+  const cost=Number(OF.selected.price)||0;
+  const final = type==='percent'? cost*(1+val/100) : type==='fixed'? cost+val : val;
+  await sb.from('offers').update({status:'selected'}).eq('id',OF.selected.id);
+  await sb.from('offers').update({status:'rejected'}).eq('package_id',OF.pkg.id).neq('id',OF.selected.id);
+  const { error } = await sb.from('packages').update({
+    routing_stage:'offer_sent_client', selected_offer_id:OF.selected.id,
+    client_price: final, margin_type:type, margin_value:val,
+    internal_note: document.getElementById('of-client-note').value.trim()
+  }).eq('id',OF.pkg.id);
+  if(error){ msg.className='fmsg err'; msg.textContent=error.message; return; }
+  await logEvent(OF.pkg.id,'offer_sent_client',{price:final});
+  msg.className='fmsg ok'; msg.textContent='📨 أُرسل العرض للعميل';
+  setTimeout(()=>{closeM('offersModal'); adminLoadAll();},1000);
+}
+
+/* ═══ INTERNAL TEAM ═══ */
+let DC = { pkgId:null };
+async function loadInternalJobs(){
+  if(!me) return;
+  const { data } = await sb.from('packages').select('*').order('created_at',{ascending:false});
+  const all = data||[];
+  const mine = all.filter(p => (p.assigned_team||[]).some(x=>x.user_id===me.id));
+  const inbox = mine.filter(p => p.routing_stage==='internal_review');
+  const active= mine.filter(p => ['internal_accepted','in_progress'].includes(p.routing_stage));
+  const done  = mine.filter(p => p.routing_stage==='done');
+  const set=(id,v)=>{const e=document.getElementById(id); if(e) e.textContent=v;};
+  set('is-new',inbox.length); set('is-prog',active.length); set('is-done',done.length);
+  const nameEl=document.getElementById('int-name');
+  if(nameEl&&myProfile) nameEl.textContent = myProfile.full_name||'';
+  const chip=document.getElementById('int-role-chip');
+  if(chip&&myProfile){ const r=JOB_ROLES.find(x=>x.key===myProfile.job_role_key); if(r) chip.textContent = (lang==='ar'?r.name_ar:r.name_en); }
+
+  const card = (p, showActions) => `<div class="row-item" style="flex-direction:column;align-items:stretch;gap:10px;">
+      <div style="display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;">
+        <b>${esc(p.title||p.game_name||'طلب')}</b>${stageBadge(p.routing_stage)}</div>
+      <div style="font-size:0.76rem;color:var(--dim);">${t('game_type')}: ${esc(p.game_type||'—')} · ${t('word_count')}: ${p.word_count||'—'}</div>
+      ${p.internal_note?`<div style="font-size:0.76rem;color:#c3c9e3;background:var(--surface2);padding:9px 11px;border-radius:9px;">${esc(p.internal_note)}</div>`:''}
+      ${showActions?`<div style="display:flex;gap:8px;flex-wrap:wrap;">
+        <button class="mini-btn mm" onclick="acceptJob('${p.id}')">✅ ${t('btn_accept')}</button>
+        <button class="mini-btn dg" onclick="openDecline('${p.id}')">✕ ${t('btn_decline')}</button></div>`:''}
+    </div>`;
+  const ib=document.getElementById('int-inbox-list');
+  if(ib) ib.innerHTML = inbox.length? inbox.map(p=>card(p,true)).join('') : `<div class="empty">${t('no_packages')}</div>`;
+  const ml=document.getElementById('int-mine-list');
+  if(ml) ml.innerHTML = active.length? active.map(p=>card(p,false)).join('') : `<div class="empty">${t('no_packages')}</div>`;
+}
+async function acceptJob(id){
+  const { data:p } = await sb.from('packages').select('assigned_team').eq('id',id).maybeSingle();
+  const team=(p?.assigned_team||[]).map(x=> x.user_id===me.id? {...x,status:'accepted'} : x);
+  await sb.from('packages').update({routing_stage:'internal_accepted', assigned_team:team}).eq('id',id);
+  await logEvent(id,'internal_accepted',{});
+  toast('✅ تم قبول المهمة'); loadInternalJobs();
+}
+function openDecline(id){ DC.pkgId=id; openM('declineModal'); }
+async function confirmDecline(){
+  const reason=document.getElementById('dc-reason').value;
+  const note=document.getElementById('dc-note').value.trim();
+  const { data:p } = await sb.from('packages').select('assigned_team').eq('id',DC.pkgId).maybeSingle();
+  const team=(p?.assigned_team||[]).map(x=> x.user_id===me.id? {...x,status:'declined'} : x);
+  await sb.from('packages').update({ routing_stage:'internal_declined', assigned_team:team,
+    decline_reason: reason+(note?(' — '+note):'') }).eq('id',DC.pkgId);
+  await logEvent(DC.pkgId,'internal_declined',{reason,note});
+  closeM('declineModal'); toast('تم إبلاغ الإدارة'); loadInternalJobs();
+}
+
+/* ═══ VENDOR ═══ */
+let QT = { pkg:null, source:'rfq' };
+async function loadVendorOpps(){
+  if(!me) return;
+  const nm=document.getElementById('vd-name'); if(nm&&myProfile) nm.textContent=myProfile.full_name||'';
+  const { data:rfq } = await sb.from('packages').select('*').eq('routing_stage','rfq_open').order('rfq_published_at',{ascending:false});
+  const { data:inv } = await sb.from('quote_invites').select('*').eq('vendor_id',me.id).in('status',['invited','viewed']);
+  const { data:myOffers } = await sb.from('offers').select('package_id').eq('vendor_id',me.id);
+  const quoted = new Set((myOffers||[]).map(o=>o.package_id));
+
+  const card=(p,src)=>`<div class="row-item" style="flex-direction:column;align-items:stretch;gap:10px;">
+      <div style="display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;">
+        <b>${esc(p.title||p.game_name||'طلب ترجمة')}</b>
+        <span class="badge ${src==='invite'?'b-purple':'b-cyan'}">${src==='invite'?t('vd_invites'):'RFQ'}</span></div>
+      <div style="font-size:0.76rem;color:var(--dim);">${t('game_type')}: ${esc(p.game_type||'—')} · ${t('word_count')}: ${p.word_count||'—'}${p.rfq_deadline?` · ${t('deadline')}: ${esc(String(p.rfq_deadline).slice(0,10))}`:''}</div>
+      ${p.internal_note?`<div style="font-size:0.76rem;color:#c3c9e3;background:var(--surface2);padding:9px 11px;border-radius:9px;">${esc(p.internal_note)}</div>`:''}
+      ${quoted.has(p.id)? `<span class="badge b-green">${t('already_quoted')}</span>`
+        : `<button class="mini-btn mm" onclick="openQuote('${p.id}','${src}')">💰 ${t('vd_submit')}</button>`}
+    </div>`;
+  const oe=document.getElementById('vd-opps-list');
+  if(oe) oe.innerHTML = (rfq||[]).length? rfq.map(p=>card(p,'rfq')).join('') : `<div class="empty">${t('no_opps')}</div>`;
+
+  const ids=(inv||[]).map(i=>i.package_id);
+  let invPkgs=[];
+  if(ids.length){ const { data } = await sb.from('packages').select('*').in('id',ids); invPkgs=data||[]; }
+  const ie=document.getElementById('vd-inv-list');
+  if(ie) ie.innerHTML = invPkgs.length? invPkgs.map(p=>card(p,'invite')).join('') : `<div class="empty">${t('no_opps')}</div>`;
+}
+async function openQuote(pkgId, src){
+  const { data:p } = await sb.from('packages').select('*').eq('id',pkgId).maybeSingle();
+  QT={pkg:p, source:src};
+  document.getElementById('q-summary').innerHTML =
+    `<b>${esc(p.title||p.game_name||'طلب')}</b><br><span style="color:var(--dim);font-size:0.78rem;">${t('game_type')}: ${esc(p.game_type||'—')} · ${t('word_count')}: ${p.word_count||'—'}</span>`;
+  ['q-price','q-days','q-notes'].forEach(i=>document.getElementById(i).value='');
+  document.getElementById('q-msg').className='fmsg';
+  if(src==='invite') await sb.from('quote_invites').update({status:'viewed'}).eq('package_id',pkgId).eq('vendor_id',me.id);
+  openM('quoteModal');
+}
+async function submitQuote(){
+  const msg=document.getElementById('q-msg');
+  const price=parseFloat(document.getElementById('q-price').value);
+  if(!price||price<=0){ msg.className='fmsg err'; msg.textContent='أدخل سعراً صحيحاً'; return; }
+  const { error } = await sb.from('offers').insert([{
+    package_id:QT.pkg.id, vendor_id:me.id, source:QT.source, price,
+    delivery_days: parseInt(document.getElementById('q-days').value)||null,
+    notes: document.getElementById('q-notes').value.trim(), status:'submitted'
+  }]);
+  if(error){ msg.className='fmsg err'; msg.textContent=error.message; return; }
+  if(QT.source==='invite') await sb.from('quote_invites').update({status:'quoted'}).eq('package_id',QT.pkg.id).eq('vendor_id',me.id);
+  if(QT.pkg.routing_stage!=='offers_received') await sb.from('packages').update({routing_stage:'offers_received'}).eq('id',QT.pkg.id);
+  await logEvent(QT.pkg.id,'offer_submitted',{price});
+  msg.className='fmsg ok'; msg.textContent='✅ '+t('offer_submitted');
+  setTimeout(()=>{closeM('quoteModal'); loadVendorOpps(); loadVendorOffers();},1100);
+}
+async function loadVendorOffers(){
+  if(!me) return;
+  const { data } = await sb.from('offers').select('*').eq('vendor_id',me.id).order('created_at',{ascending:false});
+  const el=document.getElementById('vd-off-list'); if(!el) return;
+  const badge={submitted:['b-cyan','st_quoting'],selected:['b-green','st_approved'],rejected:['b-dim','st_rejected'],shortlisted:['b-gold','st_review']};
+  el.innerHTML=(data||[]).length? data.map(o=>{const b=badge[o.status]||badge.submitted;
+    return `<div class="row-item"><div><b>${fmtMoney(o.price)} SAR</b>
+      <div style="font-size:0.72rem;color:var(--dim);margin-top:3px;">${o.delivery_days||'—'} ${t('days')} · ${esc(String(o.created_at).slice(0,10))}</div></div>
+      <span class="badge ${b[0]}">${t(b[1])}</span></div>`;}).join('')
+    : `<div class="empty">${t('no_packages')}</div>`;
+}
+
+/* ═══ CLIENT: OFFER PREVIEW ═══ */
+async function viewClientOffer(pkgId){
+  const { data:p } = await sb.from('packages').select('*').eq('id',pkgId).maybeSingle();
+  if(!p) return;
+  let off=null;
+  if(p.selected_offer_id){ const {data}=await sb.from('offers').select('*').eq('id',p.selected_offer_id).maybeSingle(); off=data; }
+  document.getElementById('co-body').innerHTML = `
+    <div style="background:var(--surface2);border:1px solid var(--border2);border-radius:13px;padding:16px;margin-bottom:16px;">
+      <b style="font-size:1.02rem;">${esc(p.title||p.game_name||'')}</b>
+      <div style="font-size:0.78rem;color:var(--dim);margin-top:6px;">${t('game_type')}: ${esc(p.game_type||'—')} · ${t('word_count')}: ${p.word_count||'—'}</div>
+    </div>
+    <div class="row-item"><span>${t('offer_price')}</span><b style="color:var(--cyan);font-size:1.15rem;">${fmtMoney(p.client_price)} SAR</b></div>
+    ${off?.delivery_days?`<div class="row-item"><span>${t('offer_delivery')}</span><b>${off.delivery_days} ${t('days')}</b></div>`:''}
+    ${p.internal_note?`<div style="margin-top:14px;"><div class="fl">${t('offer_notes')}</div>
+      <div style="background:var(--surface2);border:1px solid var(--border2);border-radius:11px;padding:13px;font-size:0.85rem;line-height:1.7;">${esc(p.internal_note)}</div></div>`:''}
+    <div style="display:flex;gap:10px;margin-top:20px;">
+      <button class="btn btn-grad" style="flex:1;padding:12px;" onclick="respondOffer('${p.id}',true)">${t('offer_accept')}</button>
+      <button class="btn btn-ghost" style="flex:1;padding:12px;" onclick="respondOffer('${p.id}',false)">${t('offer_reject')}</button>
+    </div>`;
+  await sb.from('packages').update({client_viewed_at:new Date().toISOString()}).eq('id',pkgId);
+  openM('clientOfferModal');
+}
+async function respondOffer(pkgId, accept){
+  await sb.from('packages').update({ routing_stage: accept?'client_approved':'client_rejected' }).eq('id',pkgId);
+  await logEvent(pkgId, accept?'client_approved':'client_rejected',{});
+  closeM('clientOfferModal');
+  toast(accept? '✅ '+t('st_approved') : t('st_rejected'));
+  loadClientPackages();
+}
+
+
+/* ═══ ADMIN: ROUTING LIST ═══ */
+async function adminLoadRouting(){
+  const { data } = await sb.from('packages').select('*').order('created_at',{ascending:false});
+  const pkgs = data||[];
+  const el = document.getElementById('ad-routing-list'); if(!el) return;
+  const ids = pkgs.map(p=>p.id);
+  let counts = {};
+  if(ids.length){
+    const { data:offs } = await sb.from('offers').select('package_id').in('package_id', ids);
+    (offs||[]).forEach(o=> counts[o.package_id]=(counts[o.package_id]||0)+1);
+  }
+  el.innerHTML = pkgs.length ? pkgs.map(p=>{
+    const st=p.routing_stage||'new';
+    const n=counts[p.id]||0;
+    let actions = `<button class="mini-btn mm" onclick="openRoute('${p.id}')">🧭 توجيه</button>`;
+    if(n>0) actions += ` <button class="mini-btn" onclick="openOffers('${p.id}')">💼 العروض (${n})</button>`;
+    if(st==='internal_declined') actions = `<span class="badge b-gold">اعتذر الفريق</span> ` + actions;
+    return `<div class="row-item" style="flex-direction:column;align-items:stretch;gap:9px;">
+      <div style="display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;align-items:center;">
+        <b>${esc(p.title||p.game_name||'طلب')}</b>${stageBadge(st)}</div>
+      <div style="font-size:0.74rem;color:var(--dim);">${esc(String(p.created_at||'').slice(0,10))} · ${t('word_count')}: ${p.word_count||'—'}${p.client_price?` · سعر العميل: ${fmtMoney(p.client_price)} SAR`:''}</div>
+      ${p.decline_reason?`<div style="font-size:0.74rem;color:var(--gold);">سبب الاعتذار: ${esc(p.decline_reason)}</div>`:''}
+      <div style="display:flex;gap:7px;flex-wrap:wrap;">${actions}</div>
+    </div>`;}).join('') : '<div class="empty">لا توجد طلبات</div>';
+}
+
+async function adminLoadVendorApps(){
+  try{
+    const { data } = await sb.from('vendor_applications').select('*').order('created_at',{ascending:false});
+    const el=document.getElementById('ad-vendor-apps'); if(!el) return;
+    const apps=(data||[]).filter(a=>a.status!=='account_created');
+    el.innerHTML = apps.length ? apps.map(a=>`
+      <div class="row-item" style="flex-direction:column;align-items:stretch;gap:9px;">
+        <div style="display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;">
+          <b>${esc(a.name)}</b><span class="badge ${a.status==='qualified'?'b-green':a.status==='contacted'?'b-cyan':'b-dim'}">${esc(a.status||'pending')}</span></div>
+        <div style="font-size:0.74rem;color:var(--dim);">${esc(a.email)}${a.phone?' · '+esc(a.phone):''}</div>
+        ${a.portfolio_url?`<a href="${esc(a.portfolio_url)}" target="_blank" style="font-size:0.74rem;color:var(--cyan);">🔗 أعماله</a>`:''}
+        <div style="display:flex;gap:7px;flex-wrap:wrap;">
+          <button class="mini-btn" onclick="setAppStatus('${a.id}','contacted')">📞 تم التواصل</button>
+          <button class="mini-btn" onclick="setAppStatus('${a.id}','qualified')">✅ مؤهل</button>
+          <button class="mini-btn mm" onclick="approveVendorAccount('${a.id}','${esc(a.email)}','${esc(a.name)}')">🔑 إنشاء حساب</button>
+          <button class="mini-btn dg" onclick="setAppStatus('${a.id}','rejected')">✕ رفض</button>
+        </div>
+      </div>`).join('') : '<div class="empty">لا توجد طلبات جديدة</div>';
+  }catch(e){}
+}
+async function setAppStatus(id, st){
+  await sb.from('vendor_applications').update({status:st, reviewed_at:new Date().toISOString()}).eq('id',id);
+  adminLoadVendorApps();
+}
+async function approveVendorAccount(appId, email, name){
+  const username = prompt('اسم المستخدم للمتعهد:', (email||'').split('@')[0]); if(!username) return;
+  const c='ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz23456789!@#';
+  let pw=''; const a=new Uint32Array(14); crypto.getRandomValues(a);
+  for(let i=0;i<14;i++) pw+=c[a[i]%c.length];
+  const res = await edgeCall({ action:'approve_vendor', application_id:appId, email, username, password:pw, full_name:name });
+  if(res.error){ toast('✕ '+res.error); return; }
+  alert('✅ تم إنشاء الحساب\n\nEmail: '+email+'\nUsername: '+username+'\nPassword: '+pw+'\n\nسلّم هذه البيانات للمتعهد.');
+  adminLoadVendorApps(); adminLoadUsers();
+}
+
+
+async function loadInternalGloss(){
+  const el=document.getElementById('int-gloss-body'); if(!el) return;
+  const { data } = await sb.from('glossary').select('*').order('created_at',{ascending:false}).limit(200);
+  el.innerHTML = (data||[]).length ? (data||[]).map(g=>`<div class="row-item"><div style="display:flex;gap:12px;flex-wrap:wrap;align-items:center;"><b>${esc(g.source_term)}</b><span style="color:var(--cyan);">← ${esc(g.translated_term)}</span></div></div>`).join('') : `<div class="empty">${t('no_terms')}</div>`;
+}
+function renderStaffProfile(id){
+  const el=document.getElementById(id); if(!el||!myProfile) return;
+  const r=JOB_ROLES.find(x=>x.key===myProfile.job_role_key);
+  el.innerHTML=`
+    <div class="row-item"><span style="color:var(--dim);">الاسم</span><b>${esc(myProfile.full_name||'')}</b></div>
+    <div class="row-item"><span style="color:var(--dim);">اسم المستخدم</span><b dir="ltr">${esc(myProfile.username||'—')}</b></div>
+    <div class="row-item"><span style="color:var(--dim);">البريد</span><b dir="ltr">${esc(myProfile.email||'')}</b></div>
+    ${r?`<div class="row-item"><span style="color:var(--dim);">المسمى الوظيفي</span><b style="color:${r.color}">${esc(lang==='ar'?r.name_ar:r.name_en)}</b></div>`:''}
+    ${r?`<div style="margin-top:12px;"><div class="fl">الصلاحيات (Scope)</div><div style="display:flex;flex-wrap:wrap;gap:6px;">${(r.scope||[]).map(x=>`<span class="badge b-purple">${esc(x)}</span>`).join('')}</div></div>`:''}
+    <button class="btn btn-grad" style="width:100%;margin-top:18px;padding:11px;" onclick="openM('resetModal')">🔑 تغيير كلمة المرور</button>`;
+}
 
 function toast(m){ const el = document.getElementById('toast'); el.textContent = m; el.classList.add('show'); setTimeout(()=>el.classList.remove('show'), 3000); }
 
