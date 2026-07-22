@@ -296,6 +296,26 @@ footer{border-top:1px solid var(--border2);padding:52px 24px 34px;position:relat
 .send-btn{background:linear-gradient(135deg,#6366f1,#a855f7);color:white;border:none;border-radius:8px;width:42px;cursor:pointer;}
 
 
+
+/* ═══ PRICING CARDS ═══ */
+.price-num{font-family:'Space Mono',monospace;font-size:2.1rem;font-weight:700;background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent;}
+.price-request{font-size:1.25rem;font-weight:700;color:var(--cyan);}
+.price-desc{color:var(--dim);font-size:0.83rem;line-height:1.7;margin-bottom:16px;position:relative;z-index:2;}
+.price-card.glow{position:relative;border:1.5px solid var(--purple);animation:cardGlow 2.6s ease-in-out infinite;}
+@keyframes cardGlow{
+  0%,100%{box-shadow:0 0 22px rgba(139,92,246,0.28), inset 0 0 0 rgba(0,0,0,0);}
+  50%    {box-shadow:0 0 46px rgba(34,211,238,0.5), 0 0 18px rgba(139,92,246,0.4);}
+}
+.price-card.glow::after{
+  content:'';position:absolute;inset:-2px;border-radius:22px;pointer-events:none;z-index:0;
+  background:linear-gradient(120deg,transparent 30%,rgba(34,211,238,0.16),transparent 70%);
+  background-size:220% 100%;animation:shimmer 3.2s linear infinite;
+}
+@keyframes shimmer{0%{background-position:200% 0}100%{background-position:-100% 0}}
+.soon-badge{animation:soonPulse 1.8s ease-in-out infinite;}
+@keyframes soonPulse{0%,100%{transform:translate(-50%,-50%) rotate(-10deg) scale(1);opacity:1}50%{transform:translate(-50%,-50%) rotate(-10deg) scale(1.07);opacity:0.85}}
+@media(prefers-reduced-motion:reduce){.price-card.glow,.price-card.glow::after,.soon-badge{animation:none}}
+
 /* ═══════════ RESPONSIVE SYSTEM ═══════════ */
 *,*::before,*::after{ box-sizing:border-box; }
 html,body{ max-width:100%; overflow-x:hidden; }
@@ -890,7 +910,12 @@ h1,h2,h3,p,li,a,span,div{ overflow-wrap:anywhere; word-break:break-word; }
 
       <div class="dpage" id="admin-routing">
         <div class="dcard">
-          <div class="dcard-head"><div class="dcard-title">🧭 طلبات العملاء — التوجيه</div><button class="mini-btn" onclick="adminLoadRouting()">↻</button></div>
+          <div class="dcard-head"><div class="dcard-title">🧭 الطلبات — التوجيه</div>
+            <div style="display:flex;gap:7px;">
+              <button class="mini-btn mm" onclick="openNewRFQ()">➕ إنشاء RFQ</button>
+              <button class="mini-btn" onclick="adminLoadRouting()">↻</button>
+            </div>
+          </div>
           <div class="dcard-body" id="ad-routing-list"></div>
         </div>
       </div>
@@ -961,7 +986,11 @@ h1,h2,h3,p,li,a,span,div{ overflow-wrap:anywhere; word-break:break-word; }
           <div class="dcard-body">
             <div class="f2">
               <div class="fg"><label class="fl">اسم الشريك</label><input class="fi" id="pt-name"></div>
-              <div class="fg"><label class="fl">رابط الشعار (اختياري)</label><input class="fi" id="pt-logo" style="direction:ltr;"></div>
+              <div class="fg"><label class="fl">شعار الشريك (رفع من الجهاز)</label>
+                <input type="file" accept="image/*" id="pt-file" class="fi" style="padding:9px;" onchange="previewImg(this,'pt-prev')">
+                <img id="pt-prev" style="display:none;height:44px;margin-top:9px;border-radius:8px;">
+                <input type="hidden" id="pt-logo">
+              </div>
             </div>
             <button class="mini-btn mm" style="width:100%;padding:10px;" onclick="addPartner()">➕ إضافة</button>
             <div id="ad-partners" style="margin-top:16px;"></div>
@@ -979,7 +1008,11 @@ h1,h2,h3,p,li,a,span,div{ overflow-wrap:anywhere; word-break:break-word; }
             <div class="f2">
               <div class="fg"><label class="fl">الاسم</label><input class="fi" id="sh-name"></div>
               <div class="fg"><label class="fl">الدور (مثال: مترجم ياباني)</label><input class="fi" id="sh-role"></div>
-              <div class="fg" style="grid-column:span 2;"><label class="fl">رابط الصورة (اختياري)</label><input class="fi" id="sh-img" style="direction:ltr;"></div>
+              <div class="fg" style="grid-column:span 2;"><label class="fl">الصورة الشخصية (رفع من الجهاز)</label>
+                <input type="file" accept="image/*" id="sh-file" class="fi" style="padding:9px;" onchange="previewImg(this,'sh-prev')">
+                <img id="sh-prev" style="display:none;width:64px;height:64px;object-fit:cover;margin-top:9px;border-radius:50%;">
+                <input type="hidden" id="sh-img">
+              </div>
             </div>
             <button class="mini-btn mm" style="width:100%;padding:10px;" onclick="addShowcase()">➕ إضافة</button>
             <div id="ad-showcase" style="margin-top:16px;"></div>
@@ -992,6 +1025,41 @@ h1,h2,h3,p,li,a,span,div{ overflow-wrap:anywhere; word-break:break-word; }
 </div>
 
 <!-- ═══════════ MODALS ═══════════ -->
+
+
+<!-- ═══ CREATE RFQ (standalone) ═══ -->
+<div class="overlay" id="newRfqModal">
+  <div class="panel" style="width:600px;">
+    <div class="panel-head">
+      <div class="panel-title">📢 إنشاء طلب / RFQ جديد</div>
+      <button class="x-btn" onclick="closeM('newRfqModal')">✕</button>
+    </div>
+    <div class="panel-body">
+      <p style="color:var(--dim);font-size:0.8rem;line-height:1.7;margin-bottom:16px;">
+        أنشئ طلباً داخلياً بدون الحاجة لطلب عميل — مفيد للمشاريع الداخلية أو الاستطلاعية.
+      </p>
+      <div class="fg"><label class="fl">عنوان الطلب *</label><input class="fi" id="nr-title" placeholder="توطين لعبة RPG"></div>
+      <div class="f2">
+        <div class="fg"><label class="fl">نوع اللعبة</label><input class="fi" id="nr-game" placeholder="RPG / FPS / Mobile"></div>
+        <div class="fg"><label class="fl">عدد الكلمات</label><input class="fi" id="nr-words" type="number"></div>
+      </div>
+      <div class="f2">
+        <div class="fg"><label class="fl">لغة المصدر</label><input class="fi" id="nr-src" value="en" dir="ltr"></div>
+        <div class="fg"><label class="fl">آخر موعد للعروض</label><input class="fi" id="nr-deadline" type="date"></div>
+      </div>
+      <div class="fg"><label class="fl">الوصف (يظهر للمتعهدين)</label><textarea class="fi" id="nr-desc" rows="3"></textarea></div>
+      <div class="fg"><label class="fl">أين يذهب الطلب؟</label>
+        <select class="fi" id="nr-dest">
+          <option value="draft">مسودة — أوجّهه لاحقاً</option>
+          <option value="rfq_open">📢 نشر مباشرة في صفحة الفرص</option>
+          <option value="internal_review">👥 إرسال للفريق الداخلي</option>
+        </select>
+      </div>
+      <button class="btn btn-grad" style="width:100%;padding:12px;" onclick="createRFQ()">✅ إنشاء</button>
+      <div class="fmsg" id="nr-msg"></div>
+    </div>
+  </div>
+</div>
 
 <!-- ═══ ROUTING MODAL (Admin) ═══ -->
 <div class="overlay" id="routeModal">
@@ -1131,10 +1199,14 @@ h1,h2,h3,p,li,a,span,div{ overflow-wrap:anywhere; word-break:break-word; }
       </div>
       <div class="f2">
         <div class="fg"><label class="fl">الاسم الكامل *</label><input class="fi" id="um-name"></div>
-        <div class="fg"><label class="fl">اسم المستخدم *</label><input class="fi" id="um-username" dir="ltr"></div>
+        <div class="fg"><label class="fl">اسم المستخدم *</label><input class="fi" id="um-username" dir="ltr" oninput="autoEmail()"></div>
       </div>
-      <div class="fg"><label class="fl">البريد الإلكتروني *</label><input class="fi" id="um-email" type="email" dir="ltr"></div>
-      <div class="fg" id="um-role-wrap"><label class="fl">المسمى الوظيفي *</label><select class="fi" id="um-role"></select></div>
+      <div class="fg"><label class="fl">الصورة الشخصية (اختياري)</label>
+        <input type="file" accept="image/*" id="um-file" class="fi" style="padding:9px;" onchange="previewImg(this,'um-prev')">
+        <img id="um-prev" style="display:none;width:64px;height:64px;object-fit:cover;margin-top:9px;border-radius:50%;">
+      </div>
+      <div class="fg"><label class="fl">البريد الإلكتروني <span style="color:var(--dim);font-weight:400;">(اختياري — يُولَّد تلقائياً)</span></label><input class="fi" id="um-email" type="email" dir="ltr" placeholder="سيُملأ تلقائياً من اسم المستخدم"></div>
+      <div class="fg" id="um-role-wrap"><label class="fl">المسمى الوظيفي <span style="color:var(--dim);font-weight:400;">(اختياري)</span></label><select class="fi" id="um-role"></select></div>
       <div class="fg"><label class="fl">كلمة المرور المؤقتة *</label>
         <div style="display:flex;gap:8px;">
           <input class="fi" id="um-pass" dir="ltr" style="flex:1;">
@@ -1143,10 +1215,10 @@ h1,h2,h3,p,li,a,span,div{ overflow-wrap:anywhere; word-break:break-word; }
         <div style="font-size:0.72rem;color:var(--dim);margin-top:6px;">سيُطلب منه تغييرها عند أول دخول.</div>
       </div>
       <div class="f2">
-        <div class="fg"><label class="fl">الجوال</label><input class="fi" id="um-phone" dir="ltr"></div>
-        <div class="fg"><label class="fl">نسبة التفرغ %</label><input class="fi" id="um-capacity" type="number" value="100"></div>
+        <div class="fg"><label class="fl">الجوال <span style="color:var(--dim);font-weight:400;">(اختياري)</span></label><input class="fi" id="um-phone" dir="ltr"></div>
+        <div class="fg"><label class="fl">نسبة التفرغ % <span style="color:var(--dim);font-weight:400;">(اختياري)</span></label><input class="fi" id="um-capacity" type="number" value="100"></div>
       </div>
-      <div class="fg"><label class="fl">التخصصات (افصل بفاصلة)</label><input class="fi" id="um-spec" placeholder="RPG, FPS, Mobile"></div>
+      <div class="fg"><label class="fl">التخصصات <span style="color:var(--dim);font-weight:400;">(اختياري)</span></label><input class="fi" id="um-spec" placeholder="RPG, FPS, Mobile"></div>
       <div class="fg"><label class="fl">ملاحظات</label><textarea class="fi" id="um-notes" rows="2"></textarea></div>
       <button class="btn btn-grad" style="width:100%;padding:12px;" onclick="createUserAccount()">✅ إنشاء الحساب</button>
       <div class="fmsg" id="um-msg"></div>
@@ -1431,6 +1503,7 @@ function startIntro() {
       setTimeout(() => {
         const splash = document.getElementById('intro-splash');
         splash.classList.add('zoomed');
+        try { sessionStorage.setItem('urb_intro_seen','1'); } catch(e){}
         setTimeout(() => { splash.style.display = 'none'; }, 1600);
       }, 300);
     }
@@ -1843,6 +1916,18 @@ async function doForgot(){
 
 async function doLogout(){ await sb.auth.signOut(); me = null; myRole = 'guest'; navTo('#home'); }
 
+
+/* ═══ INTRO: يظهر مرة واحدة لكل جلسة ═══ */
+(function(){
+  let seen = false, savedLang = null;
+  try { seen = sessionStorage.getItem('urb_intro_seen') === '1'; savedLang = localStorage.getItem('gl_lang'); } catch(e){}
+  if (seen) {
+    const sp = document.getElementById('intro-splash');
+    if (sp) { sp.style.display = 'none'; sp.classList.add('zoomed'); }
+    if (savedLang) { try { lang = savedLang; } catch(e){} }
+  }
+})();
+
 /* ═══ PASSWORD RECOVERY (fixed workflow) ═══ */
 let __isRecovery = false;
 function __detectRecovery(){
@@ -1930,6 +2015,53 @@ async function resolveMyRole(){
 }
 
 /* ═══ PUBLIC FETCHERS (Dynamic Content) ═══ */
+
+/* ═══ DYNAMIC TRANSLATION (admin-entered Arabic content) ═══
+   يترجم النصوص اللي يدخلها الأدمن (باقات/أخبار) عند تبديل اللغة.
+   يستخدم قاموساً محلياً للعبارات الشائعة، ومع Google Translate كخيار احتياطي. */
+const DYN_DICT = {
+  'اطلب عرض سعر':{en:'Request a Quote',zh:'索取报价',ja:'見積依頼',ko:'견적 요청',ur:'قیمت طلب کریں',fr:'Demander un devis',it:'Richiedi preventivo',es:'Solicitar cotización',pt:'Solicitar orçamento',ru:'Запросить цену',de:'Angebot anfordern'},
+  'الأكثر طلباً':{en:'Most Popular',zh:'最受欢迎',ja:'人気No.1',ko:'가장 인기',ur:'سب سے مقبول',fr:'Le plus populaire',it:'Più popolare',es:'Más popular',pt:'Mais popular',ru:'Популярный',de:'Beliebteste'},
+  'قريباً':{en:'Coming Soon',zh:'即将推出',ja:'近日公開',ko:'출시 예정',ur:'جلد آ رہا ہے',fr:'Bientôt',it:'Prossimamente',es:'Próximamente',pt:'Em breve',ru:'Скоро',de:'Demnächst'},
+  'شهرياً':{en:'monthly',zh:'每月',ja:'月額',ko:'월간',ur:'ماہانہ',fr:'par mois',it:'al mese',es:'al mes',pt:'por mês',ru:'в месяц',de:'monatlich'},
+  'سنوياً':{en:'yearly',zh:'每年',ja:'年額',ko:'연간',ur:'سالانہ',fr:'par an',it:"all'anno",es:'al año',pt:'por ano',ru:'в год',de:'jährlich'},
+  'لكل مشروع':{en:'per project',zh:'每个项目',ja:'プロジェクトごと',ko:'프로젝트당',ur:'فی پروجیکٹ',fr:'par projet',it:'per progetto',es:'por proyecto',pt:'por projeto',ru:'за проект',de:'pro Projekt'}
+};
+const __dynCache = {};
+function translateText(txt){
+  if(!txt) return '';
+  const str = String(txt);
+  if(lang === 'ar') return str;
+  const hit = DYN_DICT[str.trim()];
+  if(hit && hit[lang]) return hit[lang];
+  const ck = lang+'|'+str;
+  if(__dynCache[ck]) return __dynCache[ck];
+  queueAutoTranslate(str, lang);
+  return str;
+}
+const __pendingTr = new Set();
+function queueAutoTranslate(str, target){
+  const ck = target+'|'+str;
+  if(__pendingTr.has(ck) || __dynCache[ck]) return;
+  __pendingTr.add(ck);
+  fetch('https://translate.googleapis.com/translate_a/single?client=gtx&sl=ar&tl='+encodeURIComponent(target)+'&dt=t&q='+encodeURIComponent(str))
+    .then(r=>r.json())
+    .then(d=>{
+      const out = (d?.[0]||[]).map(x=>x[0]).join('');
+      if(out){ __dynCache[ck] = out; scheduleDynRefresh(); }
+    })
+    .catch(()=>{})
+    .finally(()=>__pendingTr.delete(ck));
+}
+let __dynTimer = null;
+function scheduleDynRefresh(){
+  clearTimeout(__dynTimer);
+  __dynTimer = setTimeout(()=>{
+    if(typeof loadPublicPricing==='function') loadPublicPricing();
+    if(typeof loadPublicNews==='function') loadPublicNews();
+  }, 450);
+}
+
 async function loadPublicPricing() {
   let plans = [];
   try { const { data } = await sb.from('pricing').select('*').order('sort_order'); plans = data || []; } catch (e) {}
@@ -1940,21 +2072,28 @@ async function loadPublicPricing() {
   g.innerHTML = plans.map(p => {
     const feats = Array.isArray(p.features) ? p.features : JSON.parse(p.features || '[]');
     const isSoon = p.is_soon === true;
-    const translatedFeats = feats.map(f => translateText(f));
-    const translatedPeriod = translateText(p.period);
-    const translatedBtn = translateText('اطلب عرض سعر');
-    
-    return `<div class="price-card ${p.is_featured ? 'feat' : ''} ${isSoon ? 'soon' : ''}">
-      ${p.is_featured ? `<div class="price-badge">⭐ ${translateText('الأكثر طلباً')}</div>` : ''}
-      ${isSoon ? `<div class="soon-badge">قريباً / SOON</div>` : ''}
-      <div class="price-plan">${p.name}</div>
-      <div class="price-amt"><span style="font-size:1.4rem;">${translatedBtn}</span></div>
-      <div class="price-per">${translatedPeriod}</div>
+    const isFeat = p.is_featured === true;
+    const mode   = p.price_mode || (p.price ? 'fixed' : 'request');
+    const tFeats = feats.map(f => translateText(f));
+    const askBtn = translateText('اطلب عرض سعر');
+    const badge  = p.badge_text ? translateText(p.badge_text) : translateText('الأكثر طلباً');
+
+    const priceHTML = mode === 'request'
+      ? `<span class="price-request">${askBtn}</span>`
+      : `<span class="price-num">${escapeHTML(p.price||'')}</span>`;
+
+    return `<div class="price-card ${isFeat ? 'feat glow' : ''} ${isSoon ? 'soon' : ''}">
+      ${isFeat ? `<div class="price-badge">⭐ ${badge}</div>` : ''}
+      ${isSoon ? `<div class="soon-badge">${translateText('قريباً')} / SOON</div>` : ''}
+      <div class="price-plan">${escapeHTML(p.name)}</div>
+      <div class="price-amt">${priceHTML}</div>
+      ${p.period ? `<div class="price-per">${translateText(p.period)}</div>` : '<div class="price-per"></div>'}
+      ${p.description ? `<div class="price-desc">${translateText(p.description)}</div>` : ''}
       <ul class="price-feats">
-        ${translatedFeats.map(f => `<li><span class="ck">✓</span> ${f}</li>`).join('')}
+        ${tFeats.map(f => `<li><span class="ck">✓</span> ${f}</li>`).join('')}
       </ul>
-      <button class="btn ${p.is_featured ? 'btn-grad' : 'btn-ghost'}" style="padding:13px; ${isSoon ? 'opacity:0.5; cursor:not-allowed;' : ''}" ${isSoon ? 'disabled' : `onclick="openAuth('signup')"`}>
-        ${isSoon ? 'SOON' : translatedBtn}
+      <button class="btn ${isFeat ? 'btn-grad' : 'btn-ghost'}" style="padding:13px; ${isSoon ? 'opacity:0.5; cursor:not-allowed;' : ''}" ${isSoon ? 'disabled' : `onclick="openAuth('signup')"`}>
+        ${isSoon ? translateText('قريباً') : askBtn}
       </button>
     </div>`;
   }).join('');
@@ -1966,7 +2105,7 @@ async function loadPublicNews() {
     const bar = document.getElementById('newsBar');
     if (!data?.length) { bar.style.display = 'none'; return; }
     bar.style.display = 'block';
-    const items = data.map(n => `<span class="${n.is_highlighted ? 'hl-news' : ''}">📢 ${escapeHTML(n.text)}</span>`).join(' &nbsp;★&nbsp; ') + ' &nbsp;★&nbsp; ';
+    const items = data.map(n => `<span class="${n.is_highlighted ? 'hl-news' : ''}">📢 ${escapeHTML(translateText(n.text))}</span>`).join(' &nbsp;★&nbsp; ') + ' &nbsp;★&nbsp; ';
     document.getElementById('newsTrack').innerHTML = `<span>${items}</span><span>${items}</span>`;
   } catch (e) {}
 }
@@ -2131,21 +2270,58 @@ async function adminLoadVendors(){
 
 /* Admin Pricing */
 function editPlan(id){
-  const p = id ? A.pricing.find(x=>x.id===id) : {name:'',price:'',period:'',features:'[]', is_soon:false};
+  const p = id ? A.pricing.find(x=>x.id===id) : {name:'',price:'',period:'',description:'',features:'[]', is_soon:false, is_featured:false, price_mode:'fixed', badge_text:''};
   const feats = Array.isArray(p.features)?p.features:JSON.parse(p.features||'[]');
+  const mode = p.price_mode || 'fixed';
   document.getElementById('dm-title').textContent = id ? '✏️ تعديل باقة' : '➕ باقة جديدة';
   document.getElementById('dm-body').innerHTML = `
-    <div class="f2"><div class="fg"><label class="fl">الاسم</label><input class="fi" id="ep-name" value="${escapeHTML(p.name)}"></div><div class="fg"><label class="fl">السعر</label><input class="fi" id="ep-price" value="${escapeHTML(p.price)}" style="direction:ltr;"></div></div>
-    <div class="f2"><div class="fg"><label class="fl">المدة</label><input class="fi" id="ep-period" value="${escapeHTML(p.period)}"></div><div class="fg" style="display:flex;align-items:center;gap:10px;padding-top:20px;"><input type="checkbox" id="ep-soon" ${p.is_soon?'checked':''} style="width:18px;height:18px;"> <label>قريباً (Soon)</label></div></div>
+    <div class="fg"><label class="fl">اسم الباقة *</label><input class="fi" id="ep-name" value="${escapeHTML(p.name)}"></div>
+    <div class="fg"><label class="fl">وصف مختصر</label><textarea class="fi" id="ep-desc" rows="2">${escapeHTML(p.description)}</textarea></div>
+    <div class="fg"><label class="fl">نوع السعر</label>
+      <select class="fi" id="ep-mode" onchange="togglePriceField()">
+        <option value="fixed"   ${mode==='fixed'?'selected':''}>سعر ثابت</option>
+        <option value="request" ${mode==='request'?'selected':''}>اطلب عرض سعر (Request)</option>
+      </select>
+    </div>
+    <div class="f2">
+      <div class="fg" id="ep-price-wrap"><label class="fl">السعر</label><input class="fi" id="ep-price" value="${escapeHTML(p.price)}" style="direction:ltr;" placeholder="4,500 SAR"></div>
+      <div class="fg"><label class="fl">المدة / الوحدة</label><input class="fi" id="ep-period" value="${escapeHTML(p.period)}" placeholder="شهرياً"></div>
+    </div>
+    <div class="fg"><label class="fl">نص الشارة (اتركه فارغاً للنص الافتراضي)</label><input class="fi" id="ep-badge" value="${escapeHTML(p.badge_text)}" placeholder="الأكثر طلباً"></div>
+    <div class="f2">
+      <div class="fg" style="display:flex;align-items:center;gap:10px;"><input type="checkbox" id="ep-feat" ${p.is_featured?'checked':''} style="width:18px;height:18px;"> <label>⭐ مميّزة (وميض متحرك)</label></div>
+      <div class="fg" style="display:flex;align-items:center;gap:10px;"><input type="checkbox" id="ep-soon" ${p.is_soon?'checked':''} style="width:18px;height:18px;"> <label>🔜 قريباً</label></div>
+    </div>
     <div class="fg"><label class="fl">المميزات (سطر لكل ميزة)</label><textarea class="fi" id="ep-feats" rows="5">${feats.map(escapeHTML).join('\n')}</textarea></div>
     <button class="btn btn-grad" style="width:100%;padding:13px;" onclick="savePlan('${id||''}')">💾 حفظ الباقة</button><div class="fmsg" id="ep-msg"></div>`;
+  togglePriceField();
   openM('detailModal');
 }
+function togglePriceField(){
+  const m = document.getElementById('ep-mode'); const w = document.getElementById('ep-price-wrap');
+  if(m && w) w.style.display = m.value === 'request' ? 'none' : 'block';
+}
 async function savePlan(id){
-  const payload = { name: document.getElementById('ep-name').value.trim(), price: document.getElementById('ep-price').value.trim(), period: document.getElementById('ep-period').value.trim(), is_soon: document.getElementById('ep-soon').checked, features: JSON.stringify(document.getElementById('ep-feats').value.split('\n').map(f=>f.trim()).filter(Boolean)) };
-  if(!payload.name) return;
-  try{ if(id) await sb.from('pricing').update(payload).eq('id',id); else await sb.from('pricing').insert([{...payload, sort_order: A.pricing.length+1}]); }catch(e){}
-  closeM('detailModal'); adminLoadPricing(); loadPublicPricing();
+  const msg = document.getElementById('ep-msg');
+  const payload = {
+    name:   document.getElementById('ep-name').value.trim(),
+    price:  document.getElementById('ep-price').value.trim(),
+    period: document.getElementById('ep-period').value.trim(),
+    description: document.getElementById('ep-desc').value.trim(),
+    price_mode: document.getElementById('ep-mode').value,
+    badge_text: document.getElementById('ep-badge').value.trim(),
+    is_soon:     document.getElementById('ep-soon').checked,
+    is_featured: document.getElementById('ep-feat').checked,
+    features: JSON.stringify(document.getElementById('ep-feats').value.split('\n').map(f=>f.trim()).filter(Boolean))
+  };
+  if(!payload.name){ msg.className='fmsg err'; msg.textContent='اسم الباقة مطلوب'; return; }
+  msg.className='fmsg'; msg.style.display='block'; msg.textContent='جارٍ الحفظ...';
+  let error;
+  if(id){ ({ error } = await sb.from('pricing').update(payload).eq('id',id)); }
+  else  { ({ error } = await sb.from('pricing').insert([{...payload, sort_order: (A.pricing?.length||0)+1}])); }
+  if(error){ msg.className='fmsg err'; msg.textContent='✕ '+error.message; return; }
+  msg.className='fmsg ok'; msg.textContent='✅ تم الحفظ';
+  setTimeout(()=>{ closeM('detailModal'); adminLoadPricing(); loadPublicPricing(); }, 700);
 }
 async function adminLoadPricing(){
   let data = [];
@@ -2159,12 +2335,22 @@ async function adminLoadPricing(){
 async function adminLoadNews(){
   let data = []; try { const res = await sb.from('announcements').select('*').order('created_at',{ascending:false}); data = res.data||[]; } catch(e){}
   const cont = document.getElementById('ad-news'); if(!cont) return;
-  cont.innerHTML = data.length ? data.map(n=>`<div class="row-item" style="padding:11px 15px;"><div style="min-width:0;font-size:0.85rem;" class="${n.is_highlighted?'hl-news':''}">${n.text}</div><div style="display:flex;gap:6px;align-items:center;"><span class="badge ${n.is_active?'b-green':'b-dim'}">${n.is_active?'ظاهر':'مخفي'}</span><button class="mini-btn dg" onclick="delRow('announcements','${n.id}');setTimeout(adminLoadNews,400);setTimeout(loadPublicNews,600)">🗑</button></div></div>`).join('') : '<div class="empty">ما فيه إعلانات للحين</div>';
+  cont.innerHTML = data.length ? data.map(n=>`<div class="row-item" style="padding:11px 15px;"><div style="min-width:0;font-size:0.85rem;" class="${n.is_highlighted?'hl-news':''}">${n.text}</div><div style="display:flex;gap:6px;align-items:center;"><button class="mini-btn" onclick="toggleNews('${n.id}',${!!n.is_active})"><span class="badge ${n.is_active?'b-green':'b-dim'}">${n.is_active?'ظاهر':'مخفي'}</span></button><button class="mini-btn dg" onclick="delRow('announcements','${n.id}');setTimeout(adminLoadNews,400);setTimeout(loadPublicNews,600)">🗑</button></div></div>`).join('') : '<div class="empty">ما فيه إعلانات للحين</div>';
 }
 async function addNews(){
-  const txt = document.getElementById('nw-text').value.trim(); const hl = document.getElementById('nw-hl').checked;
-  if(!txt) return; try { await sb.from('announcements').insert([{text:txt, is_highlighted:hl}]); } catch(e){}
-  document.getElementById('nw-text').value=''; document.getElementById('nw-hl').checked=false; adminLoadNews(); loadPublicNews();
+  const el = document.getElementById('nw-text');
+  const txt = el.value.trim(); const hl = document.getElementById('nw-hl').checked;
+  if(!txt){ toast('اكتب نص الخبر أولاً'); return; }
+  const { error } = await sb.from('announcements').insert([{text:txt, is_highlighted:hl, is_active:true}]);
+  if(error){ toast('✕ '+error.message); return; }
+  el.value=''; document.getElementById('nw-hl').checked=false;
+  toast('✅ تم نشر الخبر');
+  adminLoadNews(); loadPublicNews();
+}
+async function toggleNews(id, cur){
+  const { error } = await sb.from('announcements').update({is_active: !cur}).eq('id', id);
+  if(error){ toast('✕ '+error.message); return; }
+  adminLoadNews(); loadPublicNews();
 }
 
 /* Admin Partners */
@@ -2174,10 +2360,39 @@ async function adminLoadPartners(){
   const cont = document.getElementById('ad-partners'); if(!cont) return;
   cont.innerHTML = data.length ? data.map(p=>`<div class="row-item" style="padding:11px 15px;"><div style="display:flex;gap:10px;align-items:center;">${p.logo_url?`<img src="${p.logo_url}" style="height:28px;">`:''}<b>${p.name}</b></div><button class="mini-btn dg" onclick="delRow('partners','${p.id}');setTimeout(adminLoadPartners,400);setTimeout(loadPublicPartners,600)">🗑</button></div>`).join('') : '<div class="empty">لا يوجد شركاء</div>';
 }
+
+/* ═══ IMAGE UPLOAD (Supabase Storage) ═══ */
+const MEDIA_BUCKET = 'media';
+function previewImg(input, previewId){
+  const f = input.files?.[0]; const img = document.getElementById(previewId);
+  if(!f || !img) return;
+  if(f.size > 5*1024*1024){ toast('✕ الصورة أكبر من 5MB'); input.value=''; return; }
+  img.src = URL.createObjectURL(f); img.style.display='block';
+}
+async function uploadImage(fileInputId){
+  const inp = document.getElementById(fileInputId);
+  const f = inp?.files?.[0];
+  if(!f) return null;
+  const ext = (f.name.split('.').pop()||'png').toLowerCase();
+  const path = `${Date.now()}_${Math.random().toString(36).slice(2,8)}.${ext}`;
+  const { error } = await sb.storage.from(MEDIA_BUCKET).upload(path, f, { cacheControl:'3600', upsert:false });
+  if(error){ toast('✕ فشل الرفع: '+error.message); return null; }
+  const { data } = sb.storage.from(MEDIA_BUCKET).getPublicUrl(path);
+  return data.publicUrl;
+}
+
 async function addPartner(){
-  const name = document.getElementById('pt-name').value.trim(); const logo = document.getElementById('pt-logo').value.trim();
-  if(!name) return; try { await sb.from('partners').insert([{name, logo_url:logo||null}]); } catch(e){}
-  document.getElementById('pt-name').value=''; document.getElementById('pt-logo').value=''; adminLoadPartners(); loadPublicPartners();
+  const name = document.getElementById('pt-name').value.trim();
+  if(!name){ toast('اسم الشريك مطلوب'); return; }
+  toast('جارٍ الرفع...');
+  const logo = await uploadImage('pt-file');
+  const { error } = await sb.from('partners').insert([{name, logo_url:logo||null}]);
+  if(error){ toast('✕ '+error.message); return; }
+  toast('✅ تمت الإضافة');
+  document.getElementById('pt-name').value='';
+  document.getElementById('pt-file').value='';
+  const pv=document.getElementById('pt-prev'); if(pv) pv.style.display='none';
+  adminLoadPartners(); loadPublicPartners();
 }
 
 /* Admin Showcase */
@@ -2188,12 +2403,25 @@ async function adminLoadShowcase(){
   cont.innerHTML = data.length ? data.map(m=>`<div class="row-item" style="padding:11px 15px;"><div style="display:flex;gap:10px;align-items:center;">${m.photo_url?`<img src="${m.photo_url}" style="width:32px;border-radius:50%;">`:''}<div><b>${m.name}</b> <span style="font-size:0.7rem;color:var(--dim);">— ${m.role}</span></div></div><button class="mini-btn dg" onclick="delRow('team_showcase','${m.id}');setTimeout(adminLoadShowcase,400);setTimeout(loadPublicShowcase,600)">🗑</button></div>`).join('') : '<div class="empty">لا توجد كوادر مسجلة</div>';
 }
 async function addShowcase(){
-  const name = document.getElementById('sh-name').value.trim(); const role = document.getElementById('sh-role').value.trim(); const img = document.getElementById('sh-img').value.trim();
-  if(!name) return; try { await sb.from('team_showcase').insert([{name, role:role||null, photo_url:img||null}]); } catch(e){}
-  document.getElementById('sh-name').value=''; document.getElementById('sh-role').value=''; document.getElementById('sh-img').value=''; adminLoadShowcase(); loadPublicShowcase();
+  const name = document.getElementById('sh-name').value.trim();
+  const role = document.getElementById('sh-role').value.trim();
+  if(!name){ toast('الاسم مطلوب'); return; }
+  toast('جارٍ الرفع...');
+  const img = await uploadImage('sh-file');
+  const { error } = await sb.from('team_showcase').insert([{name, role:role||null, photo_url:img||null}]);
+  if(error){ toast('✕ '+error.message); return; }
+  toast('✅ تمت الإضافة');
+  document.getElementById('sh-name').value=''; document.getElementById('sh-role').value='';
+  document.getElementById('sh-file').value='';
+  const pv=document.getElementById('sh-prev'); if(pv) pv.style.display='none';
+  adminLoadShowcase(); loadPublicShowcase();
 }
 
-async function delRow(table, id){ if(confirm('تأكيد الحذف؟')) try { await sb.from(table).delete().eq('id',id); } catch(e){} }
+async function delRow(table, id){
+  if(!confirm('تأكيد الحذف؟')) return;
+  const { error } = await sb.from(table).delete().eq('id',id);
+  if(error) toast('✕ '+error.message); else toast('🗑 تم الحذف');
+}
 
 
 /* ═══════════════════════════════════════════════════════════
@@ -2293,7 +2521,8 @@ async function delJobRole(key){
 let UM_TYPE = 'internal';
 function openUserModal(type){ UM_TYPE = type||'internal'; document.getElementById('um-creds').style.display='none';
   document.getElementById('um-msg').className='fmsg';
-  ['um-name','um-username','um-email','um-pass','um-phone','um-spec','um-notes'].forEach(i=>{const e=document.getElementById(i); if(e) e.value='';});
+  ['um-name','um-username','um-email','um-pass','um-phone','um-spec','um-notes','um-file'].forEach(i=>{const e=document.getElementById(i); if(e) e.value='';});
+  const pv=document.getElementById('um-prev'); if(pv) pv.style.display='none';
   document.querySelectorAll('#um-type-tabs .atab').forEach((b,i)=>b.classList.toggle('on', (i===0)===(UM_TYPE==='internal')));
   document.getElementById('um-role-wrap').style.display = UM_TYPE==='internal'?'block':'none';
   genPass(); loadJobRoles(); openM('userModal');
@@ -2306,21 +2535,30 @@ function genPass(){
   for(let i=0;i<14;i++) p+=c[a[i]%c.length];
   document.getElementById('um-pass').value=p;
 }
+function autoEmail(){
+  const u = document.getElementById('um-username').value.trim();
+  const e = document.getElementById('um-email');
+  if(e && !e.dataset.touched && u) e.placeholder = u.toLowerCase()+'@urbteam.local';
+}
 async function createUserAccount(){
   const msg = document.getElementById('um-msg');
+  const username = document.getElementById('um-username').value.trim();
+  let email = document.getElementById('um-email').value.trim();
+  if(!email && username) email = username.toLowerCase().replace(/[^a-z0-9._-]/g,'') + '@urbteam.local';
+  const photo = await uploadImage('um-file');
   const payload = {
     action:'create_user', user_type: UM_TYPE,
     full_name: document.getElementById('um-name').value.trim(),
-    username:  document.getElementById('um-username').value.trim(),
-    email:     document.getElementById('um-email').value.trim(),
+    username, email,
     password:  document.getElementById('um-pass').value,
-    job_role_key: UM_TYPE==='internal' ? document.getElementById('um-role').value : null,
-    phone:     document.getElementById('um-phone').value.trim(),
+    job_role_key: UM_TYPE==='internal' ? (document.getElementById('um-role').value||null) : null,
+    phone:     document.getElementById('um-phone').value.trim() || null,
     capacity:  parseInt(document.getElementById('um-capacity').value)||100,
     specialties: document.getElementById('um-spec').value.split(',').map(x=>x.trim()).filter(Boolean),
-    notes:     document.getElementById('um-notes').value.trim()
+    notes:     document.getElementById('um-notes').value.trim() || null,
+    avatar_url: photo
   };
-  if(!payload.full_name||!payload.email||!payload.password){ msg.className='fmsg err'; msg.textContent='املأ الحقول المطلوبة (*)'; return; }
+  if(!payload.full_name || !username || !payload.password){ msg.className='fmsg err'; msg.textContent='المطلوب: الاسم الكامل + اسم المستخدم + كلمة المرور'; return; }
   msg.className='fmsg'; msg.style.display='block'; msg.textContent='جارٍ الإنشاء...';
   const res = await edgeCall(payload);
   if(res.error){ msg.className='fmsg err'; msg.textContent='✕ '+res.error; return; }
@@ -2639,6 +2877,43 @@ async function respondOffer(pkgId, accept){
   loadClientPackages();
 }
 
+
+
+/* ═══ STANDALONE RFQ ═══ */
+function openNewRFQ(){
+  ['nr-title','nr-game','nr-words','nr-desc','nr-deadline'].forEach(i=>{const e=document.getElementById(i); if(e) e.value='';});
+  document.getElementById('nr-src').value='en';
+  document.getElementById('nr-msg').className='fmsg';
+  openM('newRfqModal');
+}
+async function createRFQ(){
+  const msg = document.getElementById('nr-msg');
+  const title = document.getElementById('nr-title').value.trim();
+  if(!title){ msg.className='fmsg err'; msg.textContent='العنوان مطلوب'; return; }
+  const dest = document.getElementById('nr-dest').value;
+  const stage = dest === 'draft' ? 'new' : dest;
+  const row = {
+    game_name: title, title,
+    game_type: document.getElementById('nr-game').value.trim() || null,
+    word_count: parseInt(document.getElementById('nr-words').value) || 0,
+    source_lang: document.getElementById('nr-src').value.trim() || 'en',
+    internal_note: document.getElementById('nr-desc').value.trim() || null,
+    rfq_deadline: document.getElementById('nr-deadline').value || null,
+    routing_stage: stage,
+    status: 'submitted',
+    created_by_admin: true
+  };
+  if(stage === 'rfq_open') row.rfq_published_at = new Date().toISOString();
+  msg.className='fmsg'; msg.style.display='block'; msg.textContent='جارٍ الإنشاء...';
+  const { data, error } = await sb.from('packages').insert([row]).select().maybeSingle();
+  if(error){ msg.className='fmsg err'; msg.textContent='✕ '+error.message; return; }
+  if(data?.id) await logEvent(data.id, 'admin_created_rfq', {stage});
+  msg.className='fmsg ok'; msg.textContent='✅ تم الإنشاء';
+  setTimeout(()=>{
+    closeM('newRfqModal'); adminLoadRouting();
+    if(dest==='internal_review' && data?.id) openRoute(data.id);
+  }, 800);
+}
 
 /* ═══ ADMIN: ROUTING LIST ═══ */
 async function adminLoadRouting(){
